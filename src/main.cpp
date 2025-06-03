@@ -5,10 +5,10 @@ using namespace geode::prelude;
 
 class $modify(EchoTest, MenuLayer) {
     bool init() {
-        if (!EchoTest::init()) {
+        if (!MenuLayer::init()) {
             return false;
         }
-    
+
         auto bottomMenu = this->getChildByID("bottom-menu");
         if (bottomMenu) {
             auto newgroundsButton = bottomMenu->getChildByID("newgrounds-button");
@@ -16,5 +16,6 @@ class $modify(EchoTest, MenuLayer) {
                 newgroundsButton->setScale(1.5f);
             }
         }
+        return true;
     }
 };
