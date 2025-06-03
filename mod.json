@@ -3,9 +3,9 @@
 	"gd": {
 		"win": "2.2074"
 	},
-	"id": "argx.echo.port",
+	"id": "echo.port",
 	"name": "Echo v2.0",
 	"version": "1.0.0",
-	"developer": "Argxment",
+	"developers": "Argxment", "GWDoSS", "LoliGD", "slideglide",
 	"description": "Lazy attempt to port echo to 2.2"
 }
