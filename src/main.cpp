@@ -1,18 +1,20 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
 
-bool init() {
-    if (!MenuLayer::init())
-    return false;
+using namespace geode::prelude;
 
-    auto alert = FLAlertLayer::create(
-        "Hello",
-        "The mod built, Now we can rethink our life choices!",
-        "YAY"
-    );
-       alert->m_scene = this;
-       alert->show();
-
-       return true;
+class $modify(EchoTest, MenuLayer) {
+    bool init() {
+        if (!MenuLayer::init()) {
+            return false;
+        }
+    
+        auto bottomMenu = this->getChildByID("bottom-menu");
+        if (bottomMenu) {
+            auto newgroundsButton = bottomMenu->getChildByID("newgrounds-button");
+            if (newgroundsButton) {
+                newgroundsButton->setScale(1.5f)
+            }
+        }
     }
-};
+}
