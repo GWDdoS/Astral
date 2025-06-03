@@ -4,7 +4,7 @@
 		"win": "2.2074",
 		"mac": "2.2074"
 	},
-	"id": "argxment.echo_2.2_port",
+	"id": "echobot_port",
 	"name": "Echo 2.2 Port",
 	"version": "v1.0.0",
 	"developers": ["Argxment", "GWDdoS", "LoliGD", "slideglide"],
