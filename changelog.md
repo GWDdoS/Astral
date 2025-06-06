@@ -5,4 +5,5 @@
 
 # 1.0.0
 - Creation of Mod Files
-    - IDK what else to say lmfao
+    -     - Starting the descense into madness to get this working using another replay bots as example/base
+
