@@ -1,1 +1,5 @@
-Edit this file to change your mod's support info, or delete it if you don't need it.
+# Contact Us for any problem!
+* Discord: 
+    - https://discord.gg/(link)
+
+soon more platforms (lmao)
