@@ -7,6 +7,6 @@
 	"id": "echo.port",
 	"name": "Echo v2.0",
 	"version": "1.0.0",
-	"developers": ["CORE Team, Argxment, GWDdoS, LoliGD, slideglide"],
+	"developers": ["CORE Team"],
 	"description": "Lazy attempt to port echo to 2.2."
 }
