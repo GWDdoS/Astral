@@ -17,7 +17,7 @@
 
 # How to use
 
-* Click ALT to open the menu (Not Implemented)
+* Click ALT or TAB to open the menu (Not Implemented)
 
 # Special Thanks
 
