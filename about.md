@@ -6,7 +6,7 @@
 
  * Basic Replay Features (Not Implemented)
  * Internal Renderer (Not Implemented)
- * Ingame Macro Editor
+ * Ingame Macro Editor (Not Implemented)
 
 # Future Features
  * Customization
