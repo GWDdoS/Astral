@@ -1,6 +1,6 @@
-# CORE/Echo Port
+# Echo v2.0
 
-<cl>CORE</c> is a attempt to create a port/fork of the 2.1 bot <cg>Echo</c>, created by Argxment, GWDdoS, and LoliGD.
+ This mod is a lazy attempt to make a functional port of echo, the "best 2.11 freebot", being developed by Argxment, GWDdoS, and LoliGD
 
 # Features
 
@@ -21,5 +21,5 @@
 
 # Special Thanks
 
-* Thank you Slideglide for help creating this mod, and teaching us how to not blow everything up!
-* Argxment for the idea (bc we aint making a mod from scratch :Clueless:)
+* Thank you Slideglide for helping us with this, also teaching us how to do not blow up this!
+* Argxment for the idea (bc we aint making a mod from scratch :clueless:)
