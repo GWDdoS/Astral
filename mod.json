@@ -7,6 +7,6 @@
 	"id": "echo.port",
 	"name": "Echo v2.0",
 	"version": "1.0.1",
-	"developers": ["CORE Team"],
+	"developers": ["Team Core"],
 	"description": "Lazy attempt to port echo to 2.2."
 }
