@@ -9,4 +9,7 @@
 	"version": "1.0.1",
 	"developers": ["Team Core"],
 	"description": "Lazy attempt to port echo to 2.2."
+	
+	"links": { "source": "https://github.com/GWDdoS/EchoPort", "community": "N/a" },
+	"tags": ["gameplay", "utility"] 
 }
