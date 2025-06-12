@@ -8,8 +8,10 @@
 	"name": "Echo v2.0",
 	"version": "1.0.1",
 	"developers": ["Team CORE"],
-	"description": "Lazy attempt to port echo to 2.2."
-	
-	"links": { "source": "https://github.com/GWDdoS/EchoPort", "community": "https://discord.gg/2J5FpMP" },
+	"description": "Lazy attempt to port echo to 2.2.",
+	"links": {
+		"source": "https://github.com/GWDdoS/EchoPort",
+		"community": "https://discord.gg/XbBVg2mCUD"
+	},
 	"tags": ["gameplay", "utility"] 
 }
