@@ -1,5 +1,5 @@
 #include "../gui.hpp"
 
-namespace Echo2::GUI::Theme {
+namespace CORE::GUI::Theme {
     void getTheme();
 }
