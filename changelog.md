@@ -1,5 +1,6 @@
 # 1.0.2
 - Added "Bot", "Logic" and "UI" Folder to keep things organized
+- Replanned some things.
 
 # 1.0.1 
 - Updated about.md
