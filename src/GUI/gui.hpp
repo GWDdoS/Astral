@@ -1,5 +1,5 @@
 #include "components/components.hpp"
 
-namespace Echo2::GUI {
-// I need to put some shit in here
+namespace CORE::GUI {
+// If you see this, something is either really good or really bad.
 }
