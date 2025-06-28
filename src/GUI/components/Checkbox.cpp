@@ -6,7 +6,8 @@ bool Echo2::Components::Checkbox(const char* label, bool* v, const char* descrip
 	checkbox = ImGui::Checkbox(label, v);
 	
     if (ImGui::IsItemHovered(ImGuiHoveredFlags_AllowWhenDisabled)) {
-        ImGui::SetTooltip(description); }
+        ImGui::SetTooltip("%s", description);
+    }
 
     return checkbox;
 }
