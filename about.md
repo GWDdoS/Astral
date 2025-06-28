@@ -1,6 +1,6 @@
-# Echo v2.0
+# CORE
 
- This mod is a lazy attempt to make a functional port of echo, the "best 2.11 freebot", being developed by Argxment, GWDdoS, GMDPLUTONIC/GMP, and LoliGD
+ CORE: A bot made by botters, designed for botters. Currently being developed by Argxment, GWDdoS, GMDPLUTONIC/GMP, and LoliGD
 
 # Features
 
@@ -22,4 +22,3 @@
 # Special Thanks
 
 * Thank you Slideglide for helping us with this, also teaching us how to do not blow up this!
-* Argxment for the idea (bc we aint making a mod from scratch :clueless:)
