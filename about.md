@@ -1,6 +1,6 @@
 # Echo v2.0
 
- This mod is a lazy attempt to make a functional port of echo, the "best 2.11 freebot", being developed by Argxment, GWDdoS, and LoliGD
+ This mod is a lazy attempt to make a functional port of echo, the "best 2.11 freebot", being developed by Argxment, GWDdoS, GMDPLUTONIC/GMP, and LoliGD
 
 # Features
 
