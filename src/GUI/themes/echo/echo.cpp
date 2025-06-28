@@ -1,5 +1,5 @@
 #include "echo.hpp"
 
-/*void Echo2::GUI::Themes::Echo() {
+/*void CORE::GUI::Themes::CORE() {
 // GWDdoS, put all of the theme shit in here (i'm gonna add more themes later)
 }*/
