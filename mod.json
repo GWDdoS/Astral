@@ -6,7 +6,7 @@
 	},
 	"id": "core.core-bot",
 	"name": "Core Bot",
-	"version": "1.0.0",
+	"version": "1.0.0-alpha.2",
 	"developers": ["Team CORE"],
 	"description": "An attempt to make a good bot and render.",
 	"links": {
