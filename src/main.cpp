@@ -4,6 +4,7 @@
 using namespace geode::prelude;
 
 void setup() {
+<<<<<<< HEAD
     //Echo2::GUI::GetTheme();
 }
 
@@ -17,4 +18,5 @@ void render() {
 
 $on_mod(Loaded) {
     ImGuiCocos::get().setup(setup).draw(render);
+    //CORE::GUI::GetTheme();
 }

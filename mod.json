@@ -8,7 +8,7 @@
 	"name": "Core Bot",
 	"version": "1.0.0",
 	"developers": ["Team CORE"],
-	"description": "Lazy attempt to port echo to 2.2.",
+	"description": "An attempt to make a good bot and render.",
 	"links": {
 		"source": "https://github.com/GWDdoS/EchoPort",
 		"community": "https://discord.gg/XbBVg2mCUD"

@@ -1,7 +1,7 @@
 #include "theme.hpp"
 
-/*void Echo2::GUI::Theme::GetTheme() {
+/*void CORE::GUI::Theme::GetTheme() {
     if theme = 0 {
-        Echo2::GUI::Theme::Echo();
+        CORE::GUI::Theme::CORE();
     }
 }*/

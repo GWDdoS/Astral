@@ -1,5 +1,4 @@
-# Echo 2.2 Port
-A stupid project by stupid people; hope it works.
+# CORE: A bot made by botters, designed for botters.
+A pretty dumb project, but one that hopes to bare fruit. An attempt at creating a good bot while also porting Echo's great renderer to 2.2.
 
 <img src="logo.png" width="150" alt="the mod's logo" />
-*Mod Icon, Loli or Argx update this later*
