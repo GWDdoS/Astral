@@ -2,12 +2,11 @@
 	"geode": "4.6.2",
 	"gd": {
 		"win": "2.2074",
-		"mac": "2.2074",
-		"android": "2.2074"
+		"mac": "2.2074"
 	},
-	"id": "echo.port",
-	"name": "Echo v2.0",
-	"version": "1.0.1",
+	"id": "core.core-bot",
+	"name": "Core Bot",
+	"version": "1.0.0",
 	"developers": ["Team CORE"],
 	"description": "Lazy attempt to port echo to 2.2.",
 	"links": {
