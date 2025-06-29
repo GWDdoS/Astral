@@ -3,16 +3,34 @@
 
 using namespace geode::prelude;
 
+bool rendering = false;
+
 void setup() {
-    //Echo2::GUI::GetTheme();
+    //Core::GUI::GetTheme();
+    
+    if (!std::filesystem::exists(CorePath()))
+        std::filesystem::create_directories(CorePath());
+    
+    if (!std::filesystem::exists(FFmpegDir()))
+        std::filesystem::create_directories(FFmpegDir());
 }
 
 void render() {
-	Echo2::Components::Begin(80, 120, 520, 430, "Echo v2");
+	Core::Components::Begin(80, 120, 520, 430, "Core");
 
-    Echo2::Components::Button("Hi");
+    if (Core::Components::Button("Test")) {
+        Core::Renderer::InstallFFmpeg();
+    }
 
-    Echo2::Components::End();
+    if (Core::Components::Button("Render")) {
+        if(!rendering) {
+            rendering = true;
+        } else {
+            rendering = false;
+        }
+    }
+
+    Core::Components::End();
 }
 
 $on_mod(Loaded) {

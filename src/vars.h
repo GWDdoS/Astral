@@ -1,5 +1,6 @@
 #pragma once
 
-bool recording;
-bool replaying;
-int theme = 0;
+extern bool recording;
+extern bool replaying;
+extern bool rendering;
+extern int theme;

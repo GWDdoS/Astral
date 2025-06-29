@@ -13,5 +13,24 @@
 		"source": "https://github.com/GWDdoS/EchoPort",
 		"community": "https://discord.gg/XbBVg2mCUD"
 	},
-	"tags": ["gameplay", "utility"] 
+	"tags": ["gameplay", "utility"],
+	"settings": {
+		"ffmpeg-path": {
+			"type": "file",
+			"name": "FFmpeg Path",
+			"default": {
+				"win": "{gd_dir}/core/ffmpeg/",
+				"mac": "{gd_dir}/core/ffmpeg/"
+			},
+			"control": {
+				"dialog": "open",
+				"filters": [
+					{
+						"files": ["*.exe"],
+						"description": "ffmpeg.exe"
+					}
+				]
+			}
+		}
+	}
 }

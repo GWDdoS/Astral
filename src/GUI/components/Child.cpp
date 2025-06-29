@@ -1,6 +1,6 @@
 #include "components.hpp"
 
-bool Echo2::Components::BeginChild(const char* text, int width, int height, bool* open) {
+bool Core::Components::BeginChild(const char* text, int width, int height, bool* open) {
     bool beginChild = false;
 
     beginChild = ImGui::BeginChild(text, ImVec2(width, height), true);
@@ -8,6 +8,6 @@ bool Echo2::Components::BeginChild(const char* text, int width, int height, bool
     return beginChild;
 }
 
-void Echo2::Components::EndChild() {
+void Core::Components::EndChild() {
     ImGui::EndChild();
 }

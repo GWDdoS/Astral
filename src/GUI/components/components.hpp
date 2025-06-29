@@ -1,6 +1,6 @@
 #include <imgui-cocos.hpp>
 
-namespace Echo2::Components {
+namespace Core::Components {
     // Tab
     void Begin(int xpos, int ypos, int width, int height, const char* text, bool *open = (bool*)false);
     void End();

@@ -1,9 +1,9 @@
 #include "components.hpp"
 
-void Echo2::Components::LineGap() {
+void Core::Components::LineGap() {
     ImGui::Text("");
 }
 
-void Echo2::Components::SameLine() {
+void Core::Components::SameLine() {
     ImGui::SameLine();
 }

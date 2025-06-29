@@ -1,6 +1,6 @@
 #include "components.hpp"
 
-bool Echo2::Components::Checkbox(const char* label, bool* v, const char* description) {
+bool Core::Components::Checkbox(const char* label, bool* v, const char* description) {
 	bool checkbox = false;
     
     char buf[128];
