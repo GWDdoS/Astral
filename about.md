@@ -7,7 +7,6 @@
  * Basic Replay Features (Not Implemented)
  * Internal Renderer (Not Implemented)
  * Ingame Macro Editor (Not Implemented)
- * Basic Hacks/Cheat options (Not Implemented)
  * Advanced and Customizable Auto clicker (Not Implemented)
 
 # Future Features
