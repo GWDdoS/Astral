@@ -19,7 +19,7 @@
 
 # How to use
 
-* Click ALT or TAB to open the menu (Not Implemented)
+* Click ALT or your custom keybind (Not Implemented)
 
 # Special Thanks
 
