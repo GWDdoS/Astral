@@ -1,14 +1,16 @@
 # CORE
 
- CORE: A bot made by botters, designed for botters. Currently being developed by Argxment, GWDdoS, GMDPLUTONIC/GMP, and LoliGD
+ CORE: A bot made by botters, designed for botters. This project was started by Argxment, GWDdoS, and LoliGD. It is currently being developed by them with great help from GMDPLUTONIC/GMP, teaching them how to actually do things, and a few other people.
 
 # Features
 
  * Basic Replay Features (Not Implemented)
  * Internal Renderer (Not Implemented)
  * Ingame Macro Editor (Not Implemented)
+ * Advanced and Customizable Auto clicker (Not Implemented)
 
 # Future Features
+
  * Customization
  * Another type of features as:
     - Hitbox Trail
@@ -17,8 +19,10 @@
 
 # How to use
 
-* Click ALT or TAB to open the menu (Not Implemented)
+* Click ALT or your custom keybind (Not Implemented)
 
 # Special Thanks
 
 * Thank you Slideglide for helping us with this, also teaching us how to do not blow up this!
+* Thanks to Chagh (developer of TCBot) and Nat! (developer of Silicate) for giving us helpful tidbits on what to do and suggestions on how to do them.
+* Thanks to Snopphin for just being there and talking.
