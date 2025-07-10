@@ -1,4 +1,5 @@
 #include <Geode/Geode.hpp>
+#include <Geode/modify/MenuLayer.hpp>
 #include "includes.h"
 
 using namespace geode::prelude;
@@ -13,6 +14,9 @@ void setup() {
     
     if (!std::filesystem::exists(FFmpegDir()))
         std::filesystem::create_directories(FFmpegDir());
+
+    if (!std::filesystem::exists(RendersDir()))
+        std::filesystem::create_directories(RendersDir());
 }
 
 void render() {
@@ -29,6 +33,10 @@ void render() {
             rendering = false;
         }
     }
+    
+    if (Core::Components::Button("Save Render (Doesn't work YET)")) {
+        Core::Renderer::SaveRender();
+    }
 
     Core::Components::End();
 }
@@ -36,3 +44,13 @@ void render() {
 $on_mod(Loaded) {
     ImGuiCocos::get().setup(setup).draw(render);
 }
+
+// de3am is a boykisser
+
+#include "gui/mobile/mobileUI.hpp"
+
+class $modify(MenuLayer) {
+    void onMoreGames(CCObject* target) {
+        Core_GUI_Mobile_UI::create()->show();
+    }
+};

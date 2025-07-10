@@ -19,8 +19,8 @@
 			"type": "file",
 			"name": "FFmpeg Path",
 			"default": {
-				"win": "{gd_dir}/core/ffmpeg/",
-				"mac": "{gd_dir}/core/ffmpeg/"
+				"win": "{gd_dir}/.core/ffmpeg/ffmpeg.exe",
+				"mac": "{gd_dir}/.core/ffmpeg/ffmpeg.exe"
 			},
 			"control": {
 				"dialog": "open",

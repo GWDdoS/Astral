@@ -3,7 +3,6 @@
 
 class $modify(GJBaseGameLayer) {
     void handleButton(bool down, int button, bool isPlayer1) {
-        
         GJBaseGameLayer::handleButton(down, button, isPlayer1);
     }
 };

@@ -1,7 +1,9 @@
 #include "theme.hpp"
 
-/*void CORE::GUI::Theme::GetTheme() {
-    if theme = 0 {
+/*void Core::GUI::Theme::GetTheme() {
+    if selectedTheme = 0 {
         CORE::GUI::Theme::CORE();
+    } else if selectedTheme = 1 {
+        CORE::GUI::Theme::Mobile();
     }
 }*/

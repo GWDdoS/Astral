@@ -8,3 +8,7 @@ std::filesystem::path CorePath() {
 std::filesystem::path FFmpegDir() {
     return CorePath() / "ffmpeg";
 }
+
+std::filesystem::path RendersDir() {
+    return CorePath() / "renders";
+}

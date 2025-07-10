@@ -10,9 +10,7 @@
 using namespace geode::prelude;
 
 void Core::Renderer::InstallFFmpeg() {
-    std::filesystem::path corePath = geode::dirs::getGameDir() / ".core";
-    std::filesystem::path FFmpegPath = corePath / "ffmpeg" / "ffmpeg.exe";
-
+    std::filesystem::path FFmpegPath = CorePath() / "ffmpeg" / "ffmpeg.exe";
     web::WebRequest()
         .get("https://github.com/GMDPLUTONIC/test/releases/download/hii/ffmpeg.exe")
         .listen([FFmpegPath](auto res) {
@@ -31,5 +29,9 @@ void Core::Renderer::Rendering() {
 }
 
 void Core::Renderer::SaveRender() {
-// add functionality later
+    std::ofstream file(RendersDir() / "hi.mp4");
+    if (!file.is_open()) {
+        log::error("Failed to write render file");
+        return;
+    }
 }

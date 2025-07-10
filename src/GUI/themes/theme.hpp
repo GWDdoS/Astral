@@ -1,5 +1,8 @@
 #include "../gui.hpp"
 
-namespace CORE::GUI::Theme {
+namespace Core::GUI::Theme {
     void getTheme();
+
+    void Core();
+    void Mobile();
 }

@@ -1,12 +1,14 @@
+#pragma once
+
 #include <imgui-cocos.hpp>
 
 namespace Core::Components {
     // Tab
-    void Begin(int xpos, int ypos, int width, int height, const char* text, bool *open = (bool*)false);
+    void Begin(int xpos, int ypos, int width, int height, const char* text, bool *open = nullptr);
     void End();
 
     // Child
-    bool BeginChild(const char* text, int width, int height, bool *open = (bool*)false);
+    bool BeginChild(const char* text, int width, int height, bool* open = nullptr);
     void EndChild();
 
     // Line
