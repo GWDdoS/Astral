@@ -38,12 +38,12 @@ bool Core_GUI_Mobile_UI::setup() {
     leftMenu->setAnchorPoint(ccp(0.f, 0.5f));
 
     // tabs
-    createTabBtn("hi", menu_selector(Core_GUI_Mobile_UI::onSettings));
+    createTabBtn("Bot", menu_selector(Core_GUI_Mobile_UI::onSettings));
 
     m_mainLayer->addChildAtPosition(bgRight, Anchor::Right, ccp(-HorizontalInset, 0));
     m_mainLayer->addChildAtPosition(rightMenu, Anchor::Right, ccp(-10, 0));
     m_mainLayer->addChildAtPosition(bgLeft, Anchor::Left, ccp(HorizontalInset + 101, 0));
-    m_mainLayer->addChildAtPosition(leftMenu, Anchor::Left, ccp(10, 0));
+    m_mainLayer->addChildAtPosition(leftMenu, Anchor::Left, ccp(17.5, 0));
 
     return true;
 }

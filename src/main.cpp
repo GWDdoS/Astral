@@ -49,8 +49,6 @@ $on_mod(Loaded) {
 
 // de3am is a boykisser
 
-#include "gui/mobile/mobileUI.hpp"
-
 class $modify(MenuLayer) {
     void onMoreGames(CCObject* target) {
         Core_GUI_Mobile_UI::create()->show();
