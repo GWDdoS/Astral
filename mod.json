@@ -1,5 +1,5 @@
 {
-	"geode": "4.6.2",
+	"geode": "4.6.3",
 	"gd": {
 		"win": "2.2074",
 		"mac": "2.2074",
@@ -8,20 +8,21 @@
 	"id": "core.core-bot",
 	"name": "Core Bot",
 	"version": "1.0.0-alpha.2",
-	"developers": ["Team CORE"],
-	"description": "An attempt to make a good bot and render.",
+	"developers": ["CORE Team", "GWDdoS", "Argxment", "loliGD", "GMDPLUTONIC", "slideglide"],
+	"description": "An attempt to make a good bot and a renderer.",
 	"links": {
 		"source": "https://github.com/GWDdoS/CORE",
-		"community": "https://discord.gg/(link)"
+		"community": "https://discord.gg/XbBVg2mCUD"
 	},
-	"tags": ["gameplay", "utility"],
+	"tags": ["gameplay", "utility", "cheat"],
 	"settings": {
 		"ffmpeg-path": {
 			"type": "file",
 			"name": "FFmpeg Path",
+			"description": "The path of the FFmpeg executable (ffmpeg.exe), required for renderer",
+			"platforms": ["win"],
 			"default": {
-				"win": "{gd_dir}/.core/ffmpeg/ffmpeg.exe",
-				"mac": "{gd_dir}/.core/ffmpeg/ffmpeg.exe"
+				"win": "{gd_dir}/.core/ffmpeg/ffmpeg.exe"
 			},
 			"control": {
 				"dialog": "open",
