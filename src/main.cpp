@@ -36,7 +36,7 @@ void render() {
         }
     }
     
-    if (Core::Components::Button("Save Render (Doesn't work YET)", ImVec4( 0.5f, 0.5f, 0.5f, 1.0f))) {
+    if (Core::Components::Button("Save Render (Doesn't work YET)")) {
         Core::Renderer::SaveRender();
     }
 
