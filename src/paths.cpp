@@ -12,3 +12,7 @@ std::filesystem::path FFmpegDir() {
 std::filesystem::path RendersDir() {
     return CorePath() / "renders";
 }
+
+std::filesystem::path MacrosDir() {
+    return CorePath() / "macros";
+}

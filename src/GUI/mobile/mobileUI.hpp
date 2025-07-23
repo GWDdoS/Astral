@@ -7,10 +7,14 @@
 
 using namespace geode::prelude;
 
-class Core_GUI_Mobile_UI: public geode::Popup<> {
+class Core_GUI_Mobile_UI: public Popup<> {
     public:
         virtual bool setup();
+
         CCMenu* leftMenu;
+        CCMenu* rightMenu;
+
+        CCPoint m_obNext;
 
         void onClose(CCObject* sender);
         void keyBackClicked();

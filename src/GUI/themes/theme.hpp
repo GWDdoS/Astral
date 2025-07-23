@@ -1,3 +1,5 @@
+#pragma once
+
 #include "../gui.hpp"
 
 namespace Core::GUI::Theme {

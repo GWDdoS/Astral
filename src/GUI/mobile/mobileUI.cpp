@@ -37,7 +37,10 @@ bool Core_GUI_Mobile_UI::setup() {
     leftMenu->setLayout(AxisLayout::create()->setAxis(Axis::Column));
     leftMenu->setAnchorPoint(ccp(0.f, 0.5f));
 
-    // tabs
+    m_obNext = ccp(0.f, 75.f);
+
+    // bottom to top
+    createTabBtn("Render", menu_selector(Core_GUI_Mobile_UI::onSettings));
     createTabBtn("Bot", menu_selector(Core_GUI_Mobile_UI::onSettings));
 
     m_mainLayer->addChildAtPosition(bgRight, Anchor::Right, ccp(-HorizontalInset, 0));
@@ -52,9 +55,12 @@ void Core_GUI_Mobile_UI::createTabBtn(const char* text, SEL_MenuHandler callback
     auto spr = ButtonSprite::create(text, 65, 69420, .75f, true, "bigFont.fnt", "GJ_button_04.png", 30);
 
     auto btn = CCMenuItemSpriteExtra::create(spr, this, callback);
+    btn->setPosition(m_obNext.x - 120.f, m_obNext.y + 10.f);
     
     leftMenu->addChild(btn);
     leftMenu->updateLayout();
+
+    m_obNext.y = m_obNext.y - 45.f;
 }
 
 void Core_GUI_Mobile_UI::onClose(CCObject* sender) {
@@ -72,8 +78,7 @@ void Core_GUI_Mobile_UI::onSettings(CCObject*) {
 Core_GUI_Mobile_UI* Core_GUI_Mobile_UI::create() {
     auto pRet = new Core_GUI_Mobile_UI();
 
-    if (pRet && pRet->initAnchored(380, 240, "GJ_square05.png"))
-    {
+    if (pRet && pRet->initAnchored(380, 240, "GJ_square05.png")) {
         pRet->autorelease();
         return pRet;
     }

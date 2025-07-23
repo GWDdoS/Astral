@@ -9,7 +9,7 @@ using namespace geode::prelude;
 bool rendering = false;
 
 void setup() {
-    //Core::GUI::GetTheme();
+    Core::GUI::Theme::Core();
     
     if (!std::filesystem::exists(CorePath()))
         std::filesystem::create_directories(CorePath());
@@ -24,11 +24,11 @@ void setup() {
 void render() {
 	Core::Components::Begin(80, 120, 520, 430, "Core");
 
-    if (Core::Components::Button("Test")) {
+    if (Core::Components::Button("Test", ImVec4(0.5f, 0.5f, 0.5f, 1.0f))) {
         Core::Renderer::InstallFFmpeg();
     }
 
-    if (Core::Components::Button("Render")) {
+    if (Core::Components::Button("Render", ImVec4(0.5f, 0.5f, 0.5f, 1.0f))) {
         if(!rendering) {
             rendering = true;
         } else {
@@ -36,7 +36,7 @@ void render() {
         }
     }
     
-    if (Core::Components::Button("Save Render (Doesn't work YET)")) {
+    if (Core::Components::Button("Save Render (Doesn't work YET)", ImVec4( 0.5f, 0.5f, 0.5f, 1.0f))) {
         Core::Renderer::SaveRender();
     }
 
@@ -44,7 +44,7 @@ void render() {
 }
 
 $on_mod(Loaded) {
-    ImGuiCocos::get().setup(setup).draw(render);
+ //   ImGuiCocos::get().setup(setup).draw(render);
 }
 
 // de3am is a boykisser

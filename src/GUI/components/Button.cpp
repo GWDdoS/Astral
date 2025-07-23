@@ -2,7 +2,7 @@
 
 bool Core::Components::Button(const char* label) {
     bool button = false;
-
+    
 	button = ImGui::Button(label, ImVec2(-1, 0));
 
     return button;
