@@ -24,11 +24,11 @@ void setup() {
 void render() {
 	Core::Components::Begin(80, 120, 520, 430, "Core");
 
-    if (Core::Components::Button("Test", ImVec4(0.5f, 0.5f, 0.5f, 1.0f))) {
+    if (Core::Components::Button("Test")) {
         Core::Renderer::InstallFFmpeg();
     }
 
-    if (Core::Components::Button("Render", ImVec4(0.5f, 0.5f, 0.5f, 1.0f))) {
+    if (Core::Components::Button("Render")) {
         if(!rendering) {
             rendering = true;
         } else {
