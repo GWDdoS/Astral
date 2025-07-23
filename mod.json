@@ -8,7 +8,7 @@
 	"id": "core.core-bot",
 	"name": "Core Bot",
 	"version": "1.0.0-alpha.2",
-	"developers": ["CORE Team:", "GWDdoS", "Argxment", "loliGD", "GMDPLUTONIC", "slideglide"],
+	"developers": ["CORE Team", "GWDdoS", "Argxment", "loliGD", "GMDPLUTONIC", "slideglide"],
 	"description": "An attempt to make a good bot and a renderer.",
 	"links": {
 		"source": "https://github.com/GWDdoS/CORE",
