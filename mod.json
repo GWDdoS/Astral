@@ -21,7 +21,7 @@
 			"name": "FFmpeg Path",
 			"default": {
 				"win": "{gd_dir}/.core/ffmpeg/ffmpeg.exe",
-				"mac": "{gd_dir}/.core/ffmpeg/ffmpeg.exe", //wine and macos? or smt idk exe dont work i think
+				"mac": "{gd_dir}/.core/ffmpeg/ffmpeg.exe", 
 			},
 			"control": {
 				"dialog": "open",
