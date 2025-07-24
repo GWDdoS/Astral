@@ -1,11 +1,8 @@
 #include "renderer.hpp"
 #include "../paths.h"
 #include "../vars.h"
-#include <Geode/loader/Dirs.hpp>
-#include <Geode/loader/SettingV3.hpp>
-#include <Geode/loader/Mod.hpp>
+#include <Geode/Geode.hpp>
 #include <Geode/utils/web.hpp>
-#include <Geode/modify/CCScheduler.hpp>
 
 using namespace geode::prelude;
 
@@ -17,9 +14,9 @@ void Core::Renderer::InstallFFmpeg() {
             if (!res) return;
             auto intoRes = res->into(FFmpegPath);
             if (!intoRes) {
-                Notification::create("Failed downloading FFmpeg", geode::NotificationIcon::Error, 1.f);
+                Notification::create("FFmpeg has failed to download", NotificationIcon::Error, 1.f);
             } else {
-                Notification::create("Succes downloading FFmpeg", geode::NotificationIcon::Success, 1.f);
+                Notification::create("FFmpeg has been successfully downloaded", NotificationIcon::Success, 1.f);
             }
         });
 }

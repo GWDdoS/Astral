@@ -1,6 +1,6 @@
 # CORE
 
- CORE: A bot made by botters, designed for botters. This project was started by REDACTED, GWDdoS, and LoliGD. It is currently being developed by them with great help from GMDPLUTONIC/GMP, teaching them how to actually do things, and a few other people.
+ CORE: A bot made by botters, designed for botters. This project was started by Argxment, GWDdoS, and LoliGD. It is currently being developed by them with great help from GMDPLUTONIC/GMP, teaching them how to actually do things, and a few other people.
 
 # Features
 
@@ -25,4 +25,4 @@
 
 * Thank you Slideglide for helping us with this, also teaching us how to do not blow up this!
 * Thanks to Chagh (developer of TCBot) and Nat! (developer of Silicate) for giving us helpful tidbits on what to do and suggestions on how to do them.
-* Thanks to Snopphin for just being there and talking.
+* Thanks to Snopphin and Absollute for just being here and talking.
