@@ -3,8 +3,9 @@
 #include <geode.custom-keybinds/include/Keybinds.hpp>
 #include "includes.h"
 
-// de3am is a boykisser and a list helper
-
+/* de3am is a boykisser and a list helper
+   Breuhh is also a boykisser and a list helper. (de3am told me to put this) 
+*/
 using namespace geode::prelude;
 
 bool rendering = false;
