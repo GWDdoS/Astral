@@ -3,7 +3,7 @@
 #include <geode.custom-keybinds/include/Keybinds.hpp>
 #include "includes.h"
 
-// de3am is a boykisser
+// de3am is a boykisser and a list helper
 
 using namespace geode::prelude;
 
@@ -47,9 +47,6 @@ $on_mod(Loaded) {
     if (!std::filesystem::exists(RendersDir()))
         std::filesystem::create_directories(RendersDir());
 }
-
-// de3am is a boykisser
-
 class $modify(MenuLayer) {
     void onMoreGames(CCObject* target) {
         Core_GUI_Mobile_UI::create()->show();
