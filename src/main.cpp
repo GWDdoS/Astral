@@ -15,7 +15,7 @@ void setup() {
 }
 
 void render() {
-	Core::Components::Begin(80, 120, 520, 430, "Core");
+	Core::Components::Begin("Core");
 
     if (Core::Components::Button("Test")) {
         Core::Renderer::InstallFFmpeg();
@@ -32,6 +32,7 @@ void render() {
     if (Core::Components::Button("Save Render (Doesn't work YET)")) {
         Core::Renderer::SaveRender();
     }
+    
 
     Core::Components::End();
 }
