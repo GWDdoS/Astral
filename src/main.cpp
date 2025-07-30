@@ -60,7 +60,7 @@ $execute {
         "open-core"_spr,
         "Toggle CORE",
         "Toggle the CORE UI.",
-        { Keybind::create(cocos2d::enumKeyCodes::KEY_P, Modifier::Alt) },
+        { Keybind::create(cocos2d::enumKeyCodes::KEY_NONE, Modifier::Alt) },
         "CORE Bot"
     });
     new EventListener([=](InvokeBindEvent* event) {
