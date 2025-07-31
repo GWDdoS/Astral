@@ -53,18 +53,30 @@ class $modify(MenuLayer) {
         Core_GUI_Mobile_UI::create()->show();
     }
 };
-$execute {
-    using namespace keybinds;
+void draw() {
+    static bool m_show = true;
 
-    BindManager::get()->registerBindable({
-        "open-core"_spr,
-        "Toggle CORE",
-        "Toggle the CORE UI.",
-        { Keybind::create(cocos2d::enumKeyCodes::KEY_Alt, Modifier::None) },
-        "CORE Bot"
-    });
-    new EventListener([=](InvokeBindEvent* event) {
-        if (event->isDown()) ImGuiCocos::get().toggle();
-        return ListenerResult::Propagate;
-    }, InvokeBindFilter(nullptr, "open-imgui"_spr));
-}
+    if (ImGui::IsKeyPressed(ImGuiKey_LeftShift))
+    {
+        m_show = !m_show;
+    }
+
+    if (m_show == true)
+    {
+        /**
+         
+This function should be used for drawing ImGui widgets.
+You can put any ImGui code here, and it will be rendered on the screen.*/ImGui::Begin("Hello, ImGui!");
+
+        ImGui::Text("This is a simple ImGui window.");
+        ImGui::Text("You can put any ImGui widgets here.");
+
+        if (ImGui::Button("Close")) {
+            /* This will hide our ImGui interface. */
+            ImGuiCocos::get().toggle();
+        }
+
+
+        ImGui::End();
+    }
+} 
