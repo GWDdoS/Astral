@@ -39,10 +39,6 @@
         "geode.node-ids": {
             "version": ">=v1.21.1",
             "importance": "required"
-        },
-		"geode.custom-keybinds": {
-            "version": ">=v1.10.4",
-            "importance": "required"
-		}
+        }
 	}
 }

@@ -1,6 +1,5 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
-#include <geode.custom-keybinds/include/Keybinds.hpp>
 #include "includes.h"
 
 /* de3am is a boykisser and a list helper
