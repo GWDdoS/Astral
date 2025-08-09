@@ -7,7 +7,7 @@
 
 using namespace geode::prelude;
 
-class Core_GUI_Mobile_UI: public Popup<> {
+class Core_GUI_Mobile_UI : public Popup<> {
     public:
         virtual bool setup();
 
@@ -22,7 +22,17 @@ class Core_GUI_Mobile_UI: public Popup<> {
         void createTabBtn(const char* text, SEL_MenuHandler callback);
 
         void onSettings(CCObject*);
+        void onSave(CCObject* sender);
 
         static Core_GUI_Mobile_UI* create();
-        static Core_GUI_Mobile_UI* get();
+};
+
+class SavePopup : public Popup<> {
+    public:
+        virtual bool setup();
+        
+        void onClose(CCObject* sender);
+        void keyBackClicked();
+
+        static SavePopup* create();
 };

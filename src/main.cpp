@@ -55,6 +55,7 @@ class $modify(MenuLayer) {
         Core_GUI_Mobile_UI::create()->show();
     }
 };
+
 $execute {
     using namespace keybinds;
 

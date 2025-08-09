@@ -41,7 +41,7 @@ bool Core_GUI_Mobile_UI::setup() {
 
     // bottom to top
     createTabBtn("Render", menu_selector(Core_GUI_Mobile_UI::onSettings));
-    createTabBtn("Bot", menu_selector(Core_GUI_Mobile_UI::onSettings));
+    createTabBtn("Bot", menu_selector(Core_GUI_Mobile_UI::onSave));
 
     m_mainLayer->addChildAtPosition(bgRight, Anchor::Right, ccp(-HorizontalInset, 0));
     m_mainLayer->addChildAtPosition(rightMenu, Anchor::Right, ccp(-10, 0));
@@ -79,6 +79,53 @@ Core_GUI_Mobile_UI* Core_GUI_Mobile_UI::create() {
     auto pRet = new Core_GUI_Mobile_UI();
 
     if (pRet && pRet->initAnchored(380, 240, "GJ_square05.png")) {
+        pRet->autorelease();
+        return pRet;
+    }
+
+    CC_SAFE_DELETE(pRet);
+    return nullptr;
+}
+
+void Core_GUI_Mobile_UI::onSave(CCObject* sender) {
+    auto popup = SavePopup::create();
+    popup->show();
+}
+
+bool SavePopup::setup() {
+    this->setAnchorPoint(ccp(0, 0));
+    this->runAction(CCFadeTo::create(0.5f, 50));
+    this->setKeypadEnabled(true);
+    this->setTitle("Save Macro", "bigFont.fnt", 0.7f, 17.5f);
+    
+    auto input = TextInput::create(220, "Macro Name");
+    input->setMaxCharCount(15);
+    input->setFilter("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+
+    auto saveMenu = CCMenu::create();
+
+    auto saveBtn = CCMenuItemSpriteExtra::create(ButtonSprite::create("Save"), this, menu_selector(Core_GUI_Mobile_UI::onSave));
+
+    saveMenu->addChild(saveBtn);
+
+    m_mainLayer->addChildAtPosition(input, Anchor::Center, ccp(0, 0));
+    m_mainLayer->addChildAtPosition(saveMenu, Anchor::Bottom, ccp(0, 22));
+
+    return true;
+}
+
+void SavePopup::onClose(CCObject* sender) {
+    this->removeFromParent();
+}
+
+void SavePopup::keyBackClicked() {
+    onClose(nullptr);
+}
+
+SavePopup* SavePopup::create() {
+    auto pRet = new SavePopup();
+
+    if (pRet && pRet->initAnchored(380, 240, "GJ_square02.png")) {
         pRet->autorelease();
         return pRet;
     }
