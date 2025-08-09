@@ -1,6 +1,6 @@
 #include "../vars.h"
 
-namespace Core::Bot {
+namespace Astral::Bot {
     void Record();
     void Playback();
 

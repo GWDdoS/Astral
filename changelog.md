@@ -1,3 +1,8 @@
+# 1.0.0-alpha.3
+- Rebrand
+- UI stuff
+- Updated most files
+
 # 1.0.0-alpha.2
 - Added "Bot", "Logic" and "UI" Folder to keep things organized
 - Replanned some things, no longer porting Echo's bot; only Echo's renderer

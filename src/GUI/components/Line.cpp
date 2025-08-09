@@ -1,9 +1,9 @@
 #include "components.hpp"
 
-void Core::Components::LineGap() {
+void Astral::Components::LineGap() {
     ImGui::Text("");
 }
 
-void Core::Components::SameLine() {
+void Astral::Components::SameLine() {
     ImGui::SameLine();
 }

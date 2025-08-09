@@ -2,9 +2,9 @@
 
 #include "../gui.hpp"
 
-namespace Core::GUI::Theme {
+namespace Astral::GUI::Theme {
     void getTheme();
 
-    void Core();
+    void Astral();
     void Mobile();
 }

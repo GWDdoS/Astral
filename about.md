@@ -1,6 +1,6 @@
-# CORE
+# Astral
 
- CORE: A bot made by botters, designed for botters. This project was started by Argxment, GWDdoS, and LoliGD. It is currently being developed by them with great help from GMDPLUTONIC/GMP, teaching them how to actually do things, and a few other people.
+ Astral: A bot made by botters, designed for botters. This project was started by Argxment, GWDdoS, and LoliGD. It is currently being developed by them with great help from GMDPLUTONIC/GMP, teaching them how to actually do things, and a few other people.
 
 # Features
 

@@ -4,6 +4,6 @@
 #include "mobile/mobileUI.hpp"
 #include "themes/theme.hpp"
 
-namespace Core::GUI {
+namespace Astral::GUI {
 // I need to put some shit in here
 }

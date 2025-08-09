@@ -5,13 +5,13 @@
 		"mac": "2.2074",
 		"android": "2.2074"
 	},
-	"id": "core.core-bot",
-	"name": "Core Bot",
-	"version": "1.0.0-alpha.2",
-	"developers": ["CORE Team", "GWDdoS", "Argxment", "LoliGD", "GMDPLUTONIC", "slideglide"],
+	"id": "astral.bot",
+	"name": "Astral",
+	"version": "1.0.0-alpha.3",
+	"developers": ["Astral Team", "GWDdoS", "Argxment", "LoliGD", "GMDPLUTONIC", "slideglide"],
 	"description": "An attempt to make a good bot and a renderer.",
 	"links": {
-		"source": "https://github.com/GWDdoS/CORE",
+		"source": "https://github.com/GWDdoS/Astral",
 		"community": "https://discord.gg/XbBVg2mCUD"
 	},
 	"tags": ["gameplay", "utility", "cheat"],

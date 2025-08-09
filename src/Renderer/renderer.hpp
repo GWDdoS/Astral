@@ -1,7 +1,7 @@
 #include <filesystem>
 #include <fstream>
 
-namespace Core::Renderer {
+namespace Astral::Renderer {
     void InstallFFmpeg();
     
     void Rendering();

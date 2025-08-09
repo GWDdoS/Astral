@@ -1,6 +1,6 @@
 #include "../theme.hpp"
 
-void Core::GUI::Theme::Core() {
+void Astral::GUI::Theme::Astral() {
     // test theme
     
     ImVec4* colors = ImGui::GetStyle().Colors;

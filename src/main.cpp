@@ -10,17 +10,18 @@ using namespace geode::prelude;
 bool rendering = false;
 
 void setup() {
-    Core::GUI::Theme::Core();
+    Astral::GUI::Theme::Astral
+    ();
 }
-
+// The REAL GUI THING IS HERE
 void render() {
-	Core::Components::Begin(80, 120, 520, 430, "Core");
+	Astral::Components::Begin(80, 120, 520, 430, "Astral");
 
-    if (Core::Components::Button("Test")) {
-        Core::Renderer::InstallFFmpeg();
+    if (Astral::Components::Button("Test")) {
+        Astral::Renderer::InstallFFmpeg();
     }
 
-    if (Core::Components::Button("Render")) {
+    if (Astral::Components::Button("Render")) {
         if(!rendering) {
             rendering = true;
         } else {
@@ -28,18 +29,18 @@ void render() {
         }
     }
     
-    if (Core::Components::Button("Save Render (Doesn't work YET)")) {
-        Core::Renderer::SaveRender();
+    if (Astral::Components::Button("Save Render (Doesn't work YET)")) {
+        Astral::Renderer::SaveRender();
     }
 
-    Core::Components::End();
+    Astral::Components::End();
 }
 
 $on_mod(Loaded) {
     ImGuiCocos::get().setup(setup).draw(render);
 
-    if (!std::filesystem::exists(CorePath()))
-        std::filesystem::create_directories(CorePath());
+    if (!std::filesystem::exists(AstralPath()))
+        std::filesystem::create_directories(AstralPath());
     
     if (!std::filesystem::exists(FFmpegDir()))
         std::filesystem::create_directories(FFmpegDir());
@@ -49,7 +50,7 @@ $on_mod(Loaded) {
 }
 class $modify(MenuLayer) {
     void onMoreGames(CCObject* target) {
-        Core_GUI_Mobile_UI::create()->show();
+        Astral_GUI_Mobile_UI::create()->show();
     }
 };
 void draw() {

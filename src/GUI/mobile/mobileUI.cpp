@@ -1,14 +1,14 @@
 #include "mobileUI.hpp"
 
-Ref<Core_GUI_Mobile_UI> ins;
+Ref<Astral_GUI_Mobile_UI> ins;
 #define HorizontalInset 8
 #define VerticalInset 9
 
-bool Core_GUI_Mobile_UI::setup() {
+bool Astral_GUI_Mobile_UI::setup() {
     this->setAnchorPoint({0.5, 0});
     this->runAction(CCFadeTo::create(0.5f, 100));
     this->setKeypadEnabled(true);
-    this->setTitle("CORE Bot:", "bigFont.fnt", 0.7f, -12.5f);
+    this->setTitle("Astral:", "bigFont.fnt", 0.7f, -12.5f);
 
     m_mainLayer->setLayoutOptions(AnchorLayoutOptions::create()->setAnchor(Anchor::Center));
     m_mainLayer->updateLayout();
@@ -40,8 +40,8 @@ bool Core_GUI_Mobile_UI::setup() {
     m_obNext = ccp(0.f, 75.f);
 
     // bottom to top
-    createTabBtn("Render", menu_selector(Core_GUI_Mobile_UI::onSettings));
-    createTabBtn("Bot", menu_selector(Core_GUI_Mobile_UI::onSettings));
+    createTabBtn("Render", menu_selector(Astral_GUI_Mobile_UI::onSettings));
+    createTabBtn("Bot", menu_selector(Astral_GUI_Mobile_UI::onSettings));
 
     m_mainLayer->addChildAtPosition(bgRight, Anchor::Right, ccp(-HorizontalInset, 0));
     m_mainLayer->addChildAtPosition(rightMenu, Anchor::Right, ccp(-10, 0));
@@ -51,7 +51,7 @@ bool Core_GUI_Mobile_UI::setup() {
     return true;
 }
 
-void Core_GUI_Mobile_UI::createTabBtn(const char* text, SEL_MenuHandler callback) {
+void Astral_GUI_Mobile_UI::createTabBtn(const char* text, SEL_MenuHandler callback) {
     auto spr = ButtonSprite::create(text, 65, 69420, .75f, true, "bigFont.fnt", "GJ_button_04.png", 30);
 
     auto btn = CCMenuItemSpriteExtra::create(spr, this, callback);
@@ -63,20 +63,20 @@ void Core_GUI_Mobile_UI::createTabBtn(const char* text, SEL_MenuHandler callback
     m_obNext.y = m_obNext.y - 45.f;
 }
 
-void Core_GUI_Mobile_UI::onClose(CCObject* sender) {
+void Astral_GUI_Mobile_UI::onClose(CCObject* sender) {
     this->removeFromParent();
 }
 
-void Core_GUI_Mobile_UI::keyBackClicked() {
+void Astral_GUI_Mobile_UI::keyBackClicked() {
     onClose(nullptr);
 }
 
-void Core_GUI_Mobile_UI::onSettings(CCObject*) {
+void Astral_GUI_Mobile_UI::onSettings(CCObject*) {
     geode::openSettingsPopup(Mod::get());
 }
 
-Core_GUI_Mobile_UI* Core_GUI_Mobile_UI::create() {
-    auto pRet = new Core_GUI_Mobile_UI();
+Astral_GUI_Mobile_UI* Astral_GUI_Mobile_UI::create() {
+    auto pRet = new Astral_GUI_Mobile_UI();
 
     if (pRet && pRet->initAnchored(380, 240, "GJ_square05.png")) {
         pRet->autorelease();

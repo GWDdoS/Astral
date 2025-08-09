@@ -1,6 +1,6 @@
 #include "components.hpp"
 
-bool Core::Components::BeginChild(const char* text, int width, int height, bool* open) {
+bool Astral::Components::BeginChild(const char* text, int width, int height, bool* open) {
     bool beginChild = false;
 
     beginChild = ImGui::BeginChild(text, ImVec2(width, height), true);
@@ -8,6 +8,6 @@ bool Core::Components::BeginChild(const char* text, int width, int height, bool*
     return beginChild;
 }
 
-void Core::Components::EndChild() {
+void Astral::Components::EndChild() {
     ImGui::EndChild();
 }

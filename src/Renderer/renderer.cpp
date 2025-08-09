@@ -6,8 +6,8 @@
 
 using namespace geode::prelude;
 
-void Core::Renderer::InstallFFmpeg() {
-    std::filesystem::path FFmpegPath = CorePath() / "ffmpeg" / "ffmpeg.exe";
+void Astral::Renderer::InstallFFmpeg() {
+    std::filesystem::path FFmpegPath = AstralPath() / "ffmpeg" / "ffmpeg.exe";
     web::WebRequest()
         .get("https://github.com/GMDPLUTONIC/test/releases/download/hii/ffmpeg.exe")
         .listen([FFmpegPath](auto res) {
@@ -21,11 +21,11 @@ void Core::Renderer::InstallFFmpeg() {
         });
 }
 
-void Core::Renderer::Rendering() {
+void Astral::Renderer::Rendering() {
 // add functionality later
 }
 
-void Core::Renderer::SaveRender() {
+void Astral::Renderer::SaveRender() {
     std::ofstream file(RendersDir() / "hi.mp4");
     if (!file.is_open()) {
         log::error("Failed to write render file");

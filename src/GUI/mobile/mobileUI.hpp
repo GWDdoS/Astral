@@ -7,7 +7,7 @@
 
 using namespace geode::prelude;
 
-class Core_GUI_Mobile_UI: public Popup<> {
+class Astral_GUI_Mobile_UI: public Popup<> {
     public:
         virtual bool setup();
 
@@ -23,6 +23,6 @@ class Core_GUI_Mobile_UI: public Popup<> {
 
         void onSettings(CCObject*);
 
-        static Core_GUI_Mobile_UI* create();
-        static Core_GUI_Mobile_UI* get();
+        static Astral_GUI_Mobile_UI* create();
+        static Astral_GUI_Mobile_UI* get();
 };

@@ -7,6 +7,6 @@ class $modify(GJBaseGameLayer) {
     }
 };
 
-void Core::Bot::Save() {
+void Astral::Bot::Save() {
 
 }

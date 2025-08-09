@@ -1,18 +1,18 @@
 #include "paths.h"
 #include <Geode/loader/Dirs.hpp>
 
-std::filesystem::path CorePath() {
+std::filesystem::path AstralPath() {
     return geode::dirs::getGameDir() / ".core";
 }
 
 std::filesystem::path FFmpegDir() {
-    return CorePath() / "ffmpeg";
+    return AstralPath() / "ffmpeg";
 }
 
 std::filesystem::path RendersDir() {
-    return CorePath() / "renders";
+    return AstralPath() / "renders";
 }
 
 std::filesystem::path MacrosDir() {
-    return CorePath() / "macros";
+    return AstralPath() / "macros";
 }
