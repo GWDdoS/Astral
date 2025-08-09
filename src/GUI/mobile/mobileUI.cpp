@@ -87,7 +87,7 @@ Astral_GUI_Mobile_UI* Astral_GUI_Mobile_UI::create() {
     return nullptr;
 }
 
-void Core_GUI_Mobile_UI::onSave(CCObject* sender) {
+void Astral_GUI_Mobile_UI::onSave(CCObject* sender) {
     auto popup = SavePopup::create();
     popup->show();
 }
@@ -104,7 +104,7 @@ bool SavePopup::setup() {
 
     auto saveMenu = CCMenu::create();
 
-    auto saveBtn = CCMenuItemSpriteExtra::create(ButtonSprite::create("Save"), this, menu_selector(Core_GUI_Mobile_UI::onSave));
+    auto saveBtn = CCMenuItemSpriteExtra::create(ButtonSprite::create("Save"), this, menu_selector(Astral_GUI_Mobile_UI::onSave));
 
     saveMenu->addChild(saveBtn);
 
