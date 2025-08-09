@@ -22,6 +22,7 @@ class Astral_GUI_Mobile_UI: public Popup<> {
         void createTabBtn(const char* text, SEL_MenuHandler callback);
 
         void onSettings(CCObject*);
+        void onSave(CCObject* sender);
 
         static Astral_GUI_Mobile_UI* create();
         static Astral_GUI_Mobile_UI* get();

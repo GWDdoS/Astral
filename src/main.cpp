@@ -53,20 +53,16 @@ class $modify(MenuLayer) {
         Astral_GUI_Mobile_UI::create()->show();
     }
 };
+
 void draw() {
     static bool m_show = true;
 
-    if (ImGui::IsKeyPressed(ImGuiKey_LeftShift))
-    {
+    if (ImGui::IsKeyPressed(ImGuiKey_LeftShift)) {
         m_show = !m_show;
     }
 
-    if (m_show == true)
-    {
-        /**
-         
-This function should be used for drawing ImGui widgets.
-You can put any ImGui code here, and it will be rendered on the screen.*/ImGui::Begin("Hello, ImGui!");
+    if (m_show == true) {
+        ImGui::Begin("Hello, ImGui!");
 
         ImGui::Text("This is a simple ImGui window.");
         ImGui::Text("You can put any ImGui widgets here.");
