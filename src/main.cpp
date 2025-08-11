@@ -1,9 +1,7 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
-#include <geode.custom-keybinds/include/Keybinds.hpp>
 #include "includes.h"
 
-// de3am is a boykisser
 
 /* de3am is a boykisser and a list helper
    Breuhh is also a boykisser and a list helper. (de3am told me to put this) 
@@ -25,7 +23,7 @@ class $modify(MenuLayer) {
         Astral_GUI_Mobile_UI::create()->show();
     }
 };
-
+/*
 $execute {
     using namespace keybinds;
 
@@ -34,13 +32,15 @@ $execute {
         "Toggle Astral",
         "Toggle the Astral UI.",
         { Keybind::create(cocos2d::enumKeyCodes::KEY_P, Modifier::Alt) },
-        "CORE Bot"
+        "Astral Bot"
     });
     new EventListener([=](InvokeBindEvent* event) {
         if (event->isDown()) ImGuiCocos::get().toggle();
         return ListenerResult::Propagate;
     }, InvokeBindFilter(nullptr, "open-imgui"_spr));
+
 }
+    */
 void draw() {
     static bool m_show = true;
 
