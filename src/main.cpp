@@ -18,7 +18,7 @@ void render() {
 	Astral::Components::Begin(80, 120, 520, 430, "Astral");
 
     if (Astral::Components::Button("Test")) {
-        Astral::Renderer::InstallFFmpeg();
+       // Astral::Renderer::InstallFFmpeg();
     }
 
     if (Astral::Components::Button("Render")) {
