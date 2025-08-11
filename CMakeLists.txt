@@ -18,7 +18,9 @@ endif()
 
 add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
-CPMAddPackage("gh:gmdplutonic/gd-imgui-cocos#de0edb6")
+CPMAddPackage("gh:matcool/gd-imgui-cocos#commithash") # specify a commit!
+
 target_link_libraries(${PROJECT_NAME} imgui-cocos)
+
 
 setup_geode_mod(${PROJECT_NAME})
