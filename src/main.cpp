@@ -10,6 +10,15 @@ using namespace geode::prelude;
 
 bool rendering = false;
 
+void setup() {
+    Astral::GUI::Theme::Astral();
+}
+void render() {
+	Astral::Components::Begin(300,300,200,350,"Test2");
+    if (Astral::Components::Button("test")){
+    }
+    Astral::Components::End();
+}
 
 void render() {
 	Astral::Components::Begin(100,100,200,350,"Astral");
