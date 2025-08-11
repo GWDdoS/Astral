@@ -7,7 +7,7 @@
 	},
 	"id": "astralteam.astral.bot",
 	"name": "Astral",
-	"version": "1.0.0-alpha.3",
+	"version": "1.0.0-alpha.2",
 	"developers": ["Astral Team", "GWDdoS", "Argxment", "LoliGD", "GMDPLUTONIC", "slideglide"],
 	"description": "An attempt to make a good bot and a renderer.",
 	"links": {
@@ -22,7 +22,7 @@
 			"description": "The path of the FFmpeg executable (ffmpeg.exe), required for renderer",
 			"platforms": ["win"],
 			"default": {
-				"win": "{gd_dir}/.core/ffmpeg/ffmpeg.exe"
+				"win": "{gd_dir}/.astral/ffmpeg/ffmpeg.exe"
 			},
 			"control": {
 				"dialog": "open",

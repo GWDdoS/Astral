@@ -1,4 +1,4 @@
-# 1.0.0-alpha.3
+# 1.0.0-alpha.2ish
 - Rebrand
 - UI stuff
 - Updated most files
