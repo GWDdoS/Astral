@@ -11,7 +11,7 @@ using namespace geode::prelude;
 bool rendering = false;
 
 
-void setup() {
+void render() {
 	Astral::Components::Begin(100,100,200,350,"Astral");
     
     if (Astral::Components::Button("Record Macro")){
