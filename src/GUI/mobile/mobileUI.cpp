@@ -1,18 +1,3 @@
-/*
-
-
-
-
-
-Plutonic, fix ur fucking code
-
-
-
-
-
-
-
-
 #include "mobileUI.hpp"
 
 Ref<Astral_GUI_Mobile_UI> ins;
@@ -23,7 +8,7 @@ bool Astral_GUI_Mobile_UI::setup() {
     this->setAnchorPoint({0.5, 0});
     this->runAction(CCFadeTo::create(0.5f, 100));
     this->setKeypadEnabled(true);
-    this->setTitle("Astral:", "bigFont.fnt", 0.7f, -12.5f);
+    this->setTitle("Astral Bot:", "bigFont.fnt", 0.7f, -12.5f);
 
     m_mainLayer->setLayoutOptions(AnchorLayoutOptions::create()->setAnchor(Anchor::Center));
     m_mainLayer->updateLayout();
@@ -56,7 +41,7 @@ bool Astral_GUI_Mobile_UI::setup() {
 
     // bottom to top
     createTabBtn("Render", menu_selector(Astral_GUI_Mobile_UI::onSettings));
-    createTabBtn("Bot", menu_selector(Astral_GUI_Mobile_UI::onSettings));
+    createTabBtn("Bot", menu_selector(Astral_GUI_Mobile_UI::onSave));
 
     m_mainLayer->addChildAtPosition(bgRight, Anchor::Right, ccp(-HorizontalInset, 0));
     m_mainLayer->addChildAtPosition(rightMenu, Anchor::Right, ccp(-10, 0));
@@ -148,6 +133,3 @@ SavePopup* SavePopup::create() {
     CC_SAFE_DELETE(pRet);
     return nullptr;
 }
-
-
-*/

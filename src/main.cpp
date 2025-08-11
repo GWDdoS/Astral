@@ -10,37 +10,51 @@ using namespace geode::prelude;
 
 bool rendering = false;
 
+void setup() {
+    Astral::GUI::Theme::Astral();
+}
 
-@@ -47,27 +47,31 @@ $on_mod(Loaded) {
+void render() {
+	Astral::Components::Begin(80, 120, 520, 430, "Astral");
+
+    if (Astral::Components::Button("Test")) {
+        Astral::Renderer::InstallFFmpeg();
+    }
+
+    if (Astral::Components::Button("Render")) {
+        if(!rendering) {
+            rendering = true;
+        } else {
+            rendering = false;
+        }
+    }
+    
+    if (Astral::Components::Button("Save Render (Doesn't work YET)")) {
+        Astral::Renderer::SaveRender();
+    }
+
+    Astral::Components::End();
+}
+
+$on_mod(Loaded) {
+    ImGuiCocos::get().setup(setup).draw(render);
+
+    if (!std::filesystem::exists(AstralPath()))
+        std::filesystem::create_directories(AstralPath());
+    
+    if (!std::filesystem::exists(FFmpegDir()))
+        std::filesystem::create_directories(FFmpegDir());
+
     if (!std::filesystem::exists(RendersDir()))
         std::filesystem::create_directories(RendersDir());
 }
 
-// de3am is a boykisser
 
 class $modify(MenuLayer) {
     void onMoreGames(CCObject* target) {
         Astral_GUI_Mobile_UI::create()->show();
     }
 };
-/*
-$execute {
-    using namespace keybinds;
-
-    BindManager::get()->registerBindable({
-        "open-astral"_spr,
-        "Toggle Astral",
-        "Toggle the Astral UI.",
-        { Keybind::create(cocos2d::enumKeyCodes::KEY_P, Modifier::Alt) },
-        "Astral Bot"
-    });
-    new EventListener([=](InvokeBindEvent* event) {
-        if (event->isDown()) ImGuiCocos::get().toggle();
-        return ListenerResult::Propagate;
-    }, InvokeBindFilter(nullptr, "open-imgui"_spr));
-
-}
-    */
 void draw() {
     static bool m_show = true;
 
@@ -63,5 +77,3 @@ void draw() {
         ImGui::End();
     }
 } 
-
-
