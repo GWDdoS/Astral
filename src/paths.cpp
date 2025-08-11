@@ -2,7 +2,7 @@
 #include <Geode/loader/Dirs.hpp>
 
 std::filesystem::path AstralPath() {
-    return geode::dirs::getGameDir() / ".core";
+    return geode::dirs::getGameDir() / ".astral";
 }
 
 std::filesystem::path FFmpegDir() {

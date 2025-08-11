@@ -1,9 +1,9 @@
 #include "theme.hpp"
 
-/*void Core::GUI::Theme::GetTheme() {
+/*void Astral::GUI::Theme::GetTheme() {
     if selectedTheme = 0 {
-        CORE::GUI::Theme::CORE();
+        Astral::GUI::Theme::Astral();
     } else if selectedTheme = 1 {
-        CORE::GUI::Theme::Mobile();
+        Astral::GUI::Theme::Mobile();
     }
 }*/
