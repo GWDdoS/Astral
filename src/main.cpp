@@ -23,14 +23,6 @@ void render() {
     }
     if (Astral::Components::Button("Noclip")) {
     }
-    /*
-    if (Astral::Components::Checkbox("Checkbox Test")) {
-    }
-    if (Astral::Components::Line("Line Test")) {
-    }
-    if (Astral::Components::Text("Text Test")) {
-    }
-    */
     if (Astral::Components::Button("Test FFMPEG Install")) {
        Astral::Renderer::InstallFFmpeg();
     }
@@ -43,9 +35,6 @@ void render() {
     }
     if (Astral::Components::Button("Save Render (Doesn't work YET)")) {
         Astral::Renderer::SaveRender();
-    }
-     if (Astral::Components::Begin("Tab Test")) {
-        
     }
 
     Astral::Components::End();
