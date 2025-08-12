@@ -35,8 +35,10 @@ void render() {
     if (Astral::Components::Button("Save Render (Doesn't work YET)")) {
         Astral::Renderer::SaveRender();
     }
+    
+    
     Astral::Components::End();
-}
+};
 
 // smt for files
 $on_mod(Loaded) {
