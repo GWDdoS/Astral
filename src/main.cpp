@@ -13,12 +13,12 @@ bool rendering = false;
 void setup() {
     Astral::GUI::Theme::Astral();
 }
-/*
+
 void render() {
 	Astral::Components::Begin(100,100,200,350,"Astral");
     
-    if (Astral::Components::Button("Record Macro")) {
-    }
+    Astral::Components::Button("Record Macro")
+
     if (Astral::Components::Button("Save Macro")) {
     }
     if (Astral::Components::Button("Noclip")) {
@@ -38,8 +38,6 @@ void render() {
     }
     Astral::Components::End();
 } 
-
-*/
 
 // smt for files
 $on_mod(Loaded) {
@@ -84,11 +82,3 @@ void setup() {
     }
 } 
 */
-void render() {
-    Astral::Components::Begin("Hello, ImGui!");
-
-        Astral::Components::Text("This is a simple ImGui window.");
-        Astral::Components::Text("You can put any ImGui widgets here.");
-  
-        Astral::Components::End();
-};
