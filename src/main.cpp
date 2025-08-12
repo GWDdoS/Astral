@@ -15,13 +15,13 @@ void setup() {
     Astral::GUI::Theme::Astral();
 }
 void render() {
-	Astral::Components::Begin(100,100,200,350,"Astral");
+	Astral::Components::Begin(200,120,475,350,"Astral");
     
     if (Astral::Components::Button("Record Macro")){
     }
     if (Astral::Components::Button("Save Macro")) {
     }
-    Astral::Components::LineGap();
+
     if (Astral::Components::Button("Test FFMPEG Install")) {
        Astral::Renderer::InstallFFmpeg();
     }
@@ -57,7 +57,8 @@ class $modify(MenuLayer) {
         Astral_GUI_Mobile_UI::create()->show();
     }
 };
-
+// Plutonic you need to do smt here. 
+/*
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
 	bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
 		if (key == cocos2d::enumKeyCodes::KEY_F4 && isKeyDown) {
@@ -65,5 +66,4 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
 		}
 		return CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
 	}
-};
-#endif
+*/
