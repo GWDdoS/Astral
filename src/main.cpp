@@ -36,7 +36,7 @@ void render() {
     if (Astral::Components::Button("Save Render (Doesn't work YET)")) {
         Astral::Renderer::SaveRender();
     }
-    Astral::Components::BeginChild("Astral",40,70)
+    Astral::Components::BeginChild("Astral",40,70);
     Astral::Components::End();
 } 
 // ok this is the shit that breaks
