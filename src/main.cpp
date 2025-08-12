@@ -1,6 +1,7 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
 #include "includes.h"
+#include <Geode/modify/CCKeyboardDispatcher.hpp>
 
 
 /* de3am is a boykisser and a list helper
