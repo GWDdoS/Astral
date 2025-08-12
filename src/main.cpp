@@ -60,6 +60,7 @@ class $modify(MenuLayer) {
         Astral_GUI_Mobile_UI::create()->show();
     }
 };
+/*
 void setup() {
     static bool m_show = true;
 
@@ -74,7 +75,7 @@ void setup() {
         Astral::Components::Text("You can put any ImGui widgets here.");
 
         if (Astral::Components::Button("Close")) {
-            /* This will hide our ImGui interface. */
+            // This will hide our ImGui interface.
             Astral::Components::get().toggle();
         }
 
@@ -82,3 +83,12 @@ void setup() {
         Astral::Components::End();
     }
 } 
+*/
+void render() {
+    Astral::Components::Begin("Hello, ImGui!");
+
+        Astral::Components::Text("This is a simple ImGui window.");
+        Astral::Components::Text("You can put any ImGui widgets here.");
+  
+        Astral::Components::End();
+};
