@@ -15,7 +15,7 @@ void setup() {
 }
 
 void render() {
-	Astral::Components::Begin(80, 120, 520, 430, "Astral");
+	Astral::Components::Begin("Astral");
 
     if (Astral::Components::Button("Record Macro")) {
     }
@@ -44,7 +44,7 @@ void render() {
     if (Astral::Components::Button("Save Render (Doesn't work YET)")) {
         Astral::Renderer::SaveRender();
     }
-     if (Astral::Components::Tab("Tab Test")) {
+     if (Astral::Components::Begin("Tab Test")) {
         
     }
 
