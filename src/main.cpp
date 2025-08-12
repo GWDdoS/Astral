@@ -15,7 +15,7 @@ void setup() {
     Astral::GUI::Theme::Astral();
 }
 void render() {
-	Astral::Components::Begin("Astral");
+	Astral::Components::Begin(100,100,200,350,"Astral");
     
     if (Astral::Components::Button("Record Macro")){
     }
