@@ -15,7 +15,7 @@ void setup() {
 }
 
 void render() {
-	Astral::Components::Begin(10,10,200,350,"Astral");
+	Astral::Components::BeginChild(10,10,200,350,"Astral");
 
     if (Astral::Components::Button("Record Macro")) {
     }
@@ -36,9 +36,6 @@ void render() {
     if (Astral::Components::Button("Save Render (Doesn't work YET)")) {
         Astral::Renderer::SaveRender();
     }
-    Astral::Components::End();
-
-    Astral::Components::BeginChild("Astral",200,350);
     Astral::Components::EndChild();
 } 
 // ok this is the shit that breaks
