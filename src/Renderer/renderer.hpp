@@ -1,4 +1,4 @@
-/*
+
 #include <filesystem>
 #include <fstream>
 
@@ -9,4 +9,3 @@ namespace Astral::Renderer {
 
     void SaveRender();
 }
-*/

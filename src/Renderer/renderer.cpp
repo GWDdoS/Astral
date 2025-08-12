@@ -1,4 +1,3 @@
-/*
 
 #include "renderer.hpp"
 #include "../paths.h"
@@ -34,5 +33,3 @@ void Astral::Renderer::SaveRender() {
         return;
     }
 }
-
-*/
