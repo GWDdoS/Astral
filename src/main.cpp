@@ -28,8 +28,6 @@ void render() {
     }
     if (Astral::Components::Line("Line Test")) {
     }
-    if (Astral::Components::Tab("Tab Test")) {
-    }
     if (Astral::Components::Text("Text Test")) {
     }
     */
@@ -46,14 +44,10 @@ void render() {
     if (Astral::Components::Button("Save Render (Doesn't work YET)")) {
         Astral::Renderer::SaveRender();
     }
-
-    Astral::Components::End();
-} 
-void render() {
-	Astral::Components::Begin("Moving GUI?");
-
-    if (Astral::Components::Button("Test")) {
+     if (Astral::Components::Tab("Tab Test")) {
+        
     }
+
     Astral::Components::End();
 } 
 // ok this is the shit that breaks
