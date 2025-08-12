@@ -15,7 +15,7 @@ void setup() {
 }
 /*
 void render() {
-	Astral::Components::BeginChild(100,100,200,350,"Astral");
+	Astral::Components::Begin(100,100,200,350,"Astral");
     
     if (Astral::Components::Button("Record Macro")) {
     }
@@ -36,7 +36,7 @@ void render() {
     if (Astral::Components::Button("Save Render (Doesn't work YET)")) {
         Astral::Renderer::SaveRender();
     }
-    Astral::Components::EndChild();
+    Astral::Components::End();
 } 
 
 */
@@ -63,22 +63,22 @@ class $modify(MenuLayer) {
 void setup() {
     static bool m_show = true;
 
-    if (ImGui::IsKeyPressed(ImGuiKey_LeftShift)) {
+    if (Astral::Components::IsKeyPressed(ImGuiKey_Ctrl)) {
         m_show = !m_show;
     }
 
     if (m_show == true) {
-        ImGui::Begin("Hello, ImGui!");
+        Astral::Components::Begin("Hello, ImGui!");
 
-        ImGui::Text("This is a simple ImGui window.");
-        ImGui::Text("You can put any ImGui widgets here.");
+        Astral::Components::Text("This is a simple ImGui window.");
+        Astral::Components::Text("You can put any ImGui widgets here.");
 
-        if (ImGui::Button("Close")) {
+        if (Astral::Components::Button("Close")) {
             /* This will hide our ImGui interface. */
-            ImGuiCocos::get().toggle();
+            Astral::Components::get().toggle();
         }
 
 
-        ImGui::End();
+        Astral::Components::End();
     }
 } 
