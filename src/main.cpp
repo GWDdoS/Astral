@@ -57,27 +57,13 @@ class $modify(MenuLayer) {
         Astral_GUI_Mobile_UI::create()->show();
     }
 };
-/*
-void setup() {
-    static bool m_show = true;
 
-    if (Astral::Components::IsKeyPressed(ImGuiKey_Ctrl)) {
-        m_show = !m_show;
-    }
-
-    if (m_show == true) {
-        Astral::Components::Begin("Hello, ImGui!");
-
-        Astral::Components::Text("This is a simple ImGui window.");
-        Astral::Components::Text("You can put any ImGui widgets here.");
-
-        if (Astral::Components::Button("Close")) {
-            // This will hide our ImGui interface.
-            Astral::Components::get().toggle();
-        }
-
-
-        Astral::Components::End();
-    }
-} 
-*/
+class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
+	bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
+		if (key == cocos2d::enumKeyCodes::KEY_F4 && isKeyDown) {
+			ImGuiCocos::get().toggle();
+		}
+		return CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
+	}
+};
+#endif
