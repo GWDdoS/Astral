@@ -23,6 +23,15 @@ void render() {
     }
     if (Astral::Components::Button("Noclip")) {
     }
+    if (Astral::Components::Checkbox("Checkbox Test")) {
+    }
+    if (Astral::Components::Line("Line Test")) {
+    }
+    if (Astral::Components::Tab("Tab Test")) {
+    }
+    if (Astral::Components::Text("Text Test")) {
+    }
+    
     if (Astral::Components::Button("Test FFMPEG Install")) {
        Astral::Renderer::InstallFFmpeg();
     }
@@ -33,14 +42,19 @@ void render() {
             rendering = false;
         }
     }
-    
     if (Astral::Components::Button("Save Render (Doesn't work YET)")) {
         Astral::Renderer::SaveRender();
     }
 
     Astral::Components::End();
 } 
+void render() {
+	Astral::Components::Begin("Moving GUI?");
 
+    if (Astral::Components::Button("Test")) {
+    }
+    Astral::Components::End();
+} 
 // ok this is the shit that breaks
 $on_mod(Loaded) {
     ImGuiCocos::get().setup(setup).draw(render);
