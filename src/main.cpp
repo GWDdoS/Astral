@@ -13,10 +13,10 @@ bool rendering = false;
 void setup() {
     Astral::GUI::Theme::Astral();
 }
-
+/*
 void render() {
-	Astral::Components::BeginChild(10,10,200,350,"Astral");
-
+	Astral::Components::BeginChild(100,100,200,350,"Astral");
+    
     if (Astral::Components::Button("Record Macro")) {
     }
     if (Astral::Components::Button("Save Macro")) {
@@ -38,7 +38,10 @@ void render() {
     }
     Astral::Components::EndChild();
 } 
-// ok this is the shit that breaks
+
+*/
+
+// smt for files
 $on_mod(Loaded) {
     ImGuiCocos::get().setup(setup).draw(render);
     if (!std::filesystem::exists(AstralPath()))
@@ -57,7 +60,7 @@ class $modify(MenuLayer) {
         Astral_GUI_Mobile_UI::create()->show();
     }
 };
-void draw() {
+void setup() {
     static bool m_show = true;
 
     if (ImGui::IsKeyPressed(ImGuiKey_LeftShift)) {
