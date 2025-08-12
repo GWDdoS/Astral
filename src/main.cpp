@@ -35,7 +35,7 @@ void render() {
 
     Astral::Components::End();
 }
-*/
+*//*
 $on_mod(Loaded) {
     ImGuiCocos::get().setup(setup).draw(render);
 
@@ -48,7 +48,7 @@ $on_mod(Loaded) {
     if (!std::filesystem::exists(RendersDir()))
         std::filesystem::create_directories(RendersDir());
 }
-
+*/
 
 class $modify(MenuLayer) {
     void onMoreGames(CCObject* target) {
