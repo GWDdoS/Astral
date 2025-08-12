@@ -21,8 +21,9 @@ void render() {
     }
     if (Astral::Components::Button("Save Macro")) {
     }
-    if (Astral::Components::Button("Noclip")) {
+    if (Astral::Components::LineGap()){
     }
+    if (Astral::Components::Checkbox("Test Ceckbox")
     if (Astral::Components::Button("Test FFMPEG Install")) {
        Astral::Renderer::InstallFFmpeg();
     }
