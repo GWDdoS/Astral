@@ -1,7 +1,9 @@
-# 1.0.0-alpha.2ish
+# 1.0.0-alpha.3
 - Rebrand
 - UI stuff
 - Updated most files
+- GUI work
+- Actual start of botting implementation
 
 # 1.0.0-alpha.2
 - Added "Bot", "Logic" and "UI" Folder to keep things organized

@@ -17,10 +17,15 @@ void setup() {
 void render() {
 	Astral::Components::Begin(80, 120, 520, 430, "Astral");
 
-    if (Astral::Components::Button("Test")) {
+    if (Astral::Components::Button("Record Macro")) {
+    }
+    if (Astral::Components::Button("Save Macro")) {
+    }
+    if (Astral::Components::Button("Noclip")) {
+    }
+    if (Astral::Components::Button("Test FFMPEG Install")) {
        Astral::Renderer::InstallFFmpeg();
     }
-
     if (Astral::Components::Button("Render")) {
         if(!rendering) {
             rendering = true;
