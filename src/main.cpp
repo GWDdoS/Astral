@@ -35,10 +35,11 @@ void render() {
 
     Astral::Components::End();
 }
-/* ok this is the shit that breaks
+ ok this is the shit that breaks
 $on_mod(Loaded) {
     ImGuiCocos::get().setup(setup).draw(render);
-
+}
+    /*
     if (!std::filesystem::exists(AstralPath()))
         std::filesystem::create_directories(AstralPath());
     
