@@ -6,8 +6,8 @@ void Astral::Components::Begin(int xpos, int ypos, int width, int height, const 
     ImGui::SetNextWindowPos(ImVec2(xpos, ypos), ImGuiCond_Always);
     ImGui::SetNextWindowSize(ImVec2(width, height), ImGuiCond_Always);
 
-    /* ImGuiWindowFlags flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoMove; */
-    ImGui::Begin(text, open, flags);
+    /* ImGuiWindowFlags flags = ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoMove;
+    ImGui::Begin(text, open, flags); */
 }
 
 void Astral::Components::End() {
