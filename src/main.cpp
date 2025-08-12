@@ -13,7 +13,7 @@ bool rendering = false;
 void setup() {
     Astral::GUI::Theme::Astral();
 }
-/*
+
 void render() {
 	Astral::Components::Begin(80, 120, 520, 430, "Astral");
 
@@ -35,7 +35,7 @@ void render() {
 
     Astral::Components::End();
 }
-*//*
+/* ok this is the shit that breaks
 $on_mod(Loaded) {
     ImGuiCocos::get().setup(setup).draw(render);
 
