@@ -15,7 +15,7 @@ void setup() {
 }
 
 void render() {
-	Astral::Components::Begin(10,10,40,70,"Astral");
+	Astral::Components::Begin(10,10,200,350,"Astral");
 
     if (Astral::Components::Button("Record Macro")) {
     }
@@ -36,8 +36,19 @@ void render() {
     if (Astral::Components::Button("Save Render (Doesn't work YET)")) {
         Astral::Renderer::SaveRender();
     }
-    Astral::Components::BeginChild("Astral",40,70);
     Astral::Components::End();
+    Astral::Components::BeginChild("Astral",200,350);
+    if (Astral::Components::Button("Record Macro")) {
+    }
+    if (Astral::Components::Button("Save Macro")) {
+    }
+    if (Astral::Components::Button("Noclip")) {
+    }
+    if (Astral::Components::Button("Test FFMPEG Install")) {
+       Astral::Renderer::InstallFFmpeg();
+    }
+    if (Astral::Components::Button("Render")) {
+    Astral::Components::EndChild();
 } 
 // ok this is the shit that breaks
 $on_mod(Loaded) {
