@@ -23,6 +23,7 @@ void render() {
     }
     if (Astral::Components::Button("Noclip")) {
     }
+    /*
     if (Astral::Components::Checkbox("Checkbox Test")) {
     }
     if (Astral::Components::Line("Line Test")) {
@@ -31,7 +32,7 @@ void render() {
     }
     if (Astral::Components::Text("Text Test")) {
     }
-    
+    */
     if (Astral::Components::Button("Test FFMPEG Install")) {
        Astral::Renderer::InstallFFmpeg();
     }
