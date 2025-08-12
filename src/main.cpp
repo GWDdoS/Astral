@@ -34,11 +34,11 @@ void render() {
     }
 
     Astral::Components::End();
-}
+} 
+
+// ok this is the shit that breaks
 $on_mod(Loaded) {
     ImGuiCocos::get().setup(setup).draw(render);
-}
-    /*
     if (!std::filesystem::exists(AstralPath()))
         std::filesystem::create_directories(AstralPath());
     
@@ -48,7 +48,7 @@ $on_mod(Loaded) {
     if (!std::filesystem::exists(RendersDir()))
         std::filesystem::create_directories(RendersDir());
 }
-*/
+
 
 class $modify(MenuLayer) {
     void onMoreGames(CCObject* target) {
