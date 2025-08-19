@@ -8,7 +8,7 @@
 	"id": "astral",
 	"name": "Astral",
 	"version": "1.0.0-alpha.3",
-	"developers": ["Astral Team", "GWDdoS", "Argxment", "LoliGD", "GMDPLUTONIC", "slideglide"],
+	"developers": ["Astral Team", "GWDdoS", "Argxment", "LoliGD", "slideglide"],
 	"description": "An attempt to make a good bot and a renderer.",
 	"links": {
 		"source": "https://github.com/GWDdoS/Astral",
