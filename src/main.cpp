@@ -38,7 +38,7 @@ void render() {
     
     
     Astral::Components::End();
-};
+}; 
 
 // smt for files
 $on_mod(Loaded) {
