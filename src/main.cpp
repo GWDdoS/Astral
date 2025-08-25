@@ -32,6 +32,7 @@ void render() {
             rendering = false;
         }
     }
+    Astral::Components::LineGap();
     if (Astral::Components::Button("Save Render (Doesn't work YET)")) {
         Astral::Renderer::SaveRender();
     }
