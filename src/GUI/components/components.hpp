@@ -4,7 +4,8 @@
 
 namespace Astral::Components {
     // Tab
-    void Begin(int xpos, int ypos, int width, int height, const char* text, bool *open = nullptr);
+    //void Begin(int xpos, int ypos, int width, int height, const char* text, bool *open = nullptr);
+void Begin(const char* text, bool *open = nullptr);
     void End();
 
     // Child
