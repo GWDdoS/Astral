@@ -1,6 +1,5 @@
 #include "components.hpp"
 #include <Imgui-cocos.hpp>
-#include <Imgui-cocos.cpp>
 
 void Astral::Components::Begin(int xpos, int ypos, int width, int height, const char* text, bool* open) {
     ImGui::SetNextWindowPos(ImVec2(xpos, ypos));
