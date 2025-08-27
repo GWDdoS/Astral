@@ -1,4 +1,5 @@
 #include "components.hpp"
+#include <imgui-cocos.hpp>
 
 bool Astral::Components::InputFloat(const char* label, float* v, float step, float step_fast, const char* format) {
     bool inputFloat = false;

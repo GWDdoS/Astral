@@ -1,4 +1,5 @@
 #include "components.hpp"
+#include <imgui-cocos.hpp>
 
 bool Astral::Components::BeginChild(const char* text, int width, int height, bool* open) {
     bool beginChild = false;

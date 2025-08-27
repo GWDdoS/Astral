@@ -1,4 +1,5 @@
 #include "components.hpp"
+#include <imgui-cocos.hpp>
 
 bool Astral::Components::Button(const char* label) {
     bool button = false;

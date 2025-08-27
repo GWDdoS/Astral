@@ -1,4 +1,5 @@
 #include "components.hpp"
+#include <imgui-cocos.hpp>
 
 bool Astral::Components::Checkbox(const char* label, bool* v, const char* description) {
 	bool checkbox = false;
