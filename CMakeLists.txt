@@ -16,6 +16,9 @@ else()
     message(STATUS "Found Geode: $ENV{GEODE_SDK}")
 endif()
 
+# Set CMAKE_PREFIX_PATH to include Geode SDK so find_package can locate it
+set(CMAKE_PREFIX_PATH "$ENV{GEODE_SDK}" ${CMAKE_PREFIX_PATH})
+
 # Add Geode
 find_package(geode REQUIRED)
 
