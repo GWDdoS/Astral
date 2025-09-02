@@ -16,11 +16,8 @@ else()
     message(STATUS "Found Geode: $ENV{GEODE_SDK}")
 endif()
 
-# Set CMAKE_PREFIX_PATH to include Geode SDK so find_package can locate it
-set(CMAKE_PREFIX_PATH "$ENV{GEODE_SDK}" ${CMAKE_PREFIX_PATH})
-
-# Add Geode
-find_package(geode REQUIRED)
+# Add Geode SDK as subdirectory
+add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
 # Get source files
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
@@ -29,7 +26,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 # Add imgui-cocos dependency
-CPMAddPackage("gh:matcool/gd-imgui-cocos#bc342a8")
+CPMAddPackage("gh:gmdplutonic/gd-imgui-cocos#de0edb6")
 target_link_libraries(${PROJECT_NAME} imgui-cocos)
 
 # Setup Geode mod (this should come after target creation and dependencies)
