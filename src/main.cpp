@@ -33,6 +33,11 @@ $on_mod(Loaded) {
         ImGui::Button("NoClip");
 
         ImGui::End();
+        ImGui::BeginTabBar("##tabs");
+        if (ImGui::BeginTabItem("Tab 1")) {
+            ImGui::Text("This is the first tab!");
+            ImGui::EndTabItem();
+        }   
     });
 }
 
