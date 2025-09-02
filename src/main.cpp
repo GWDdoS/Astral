@@ -30,13 +30,16 @@ $on_mod(Loaded) {
         ImGui::Text(" ");
         ImGui::Text("Astral Hacks:");
         ImGui::Text(" ");
-        ImGui::Button("NoClip");
-
+        ImGui::Checkbox("Enable Noclip", &astralEnabled); --- IGNORE ---
         ImGui::End();
         ImGui::BeginTabBar("##tabs");
         if (ImGui::BeginTabItem("Tab 1")) {
             ImGui::Text("This is the first tab!");
             ImGui::EndTabItem();
+         if (ImGui::BeginTabItem("Tab 2")) {
+            ImGui::Text("This is the second tab!");
+            ImGui::EndTabItem();    
+        ImGui::EndTabBar();
         }   
     });
 }
@@ -54,3 +57,10 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
 	}
 };
 #endif
+
+/*
+ImGui::Tooltip("Astral Mod by de3am and breuhh");
+ImGui::Text("Astral Mod by de3am and breuhh");
+ImGui::Button(" "); --- IGNORE ---
+ImGui::Checkbox("Enable Astral Mod", &astralEnabled); --- IGNORE ---
+*/
