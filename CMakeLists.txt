@@ -7,7 +7,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 project(Astral VERSION 1.0.0)
 
 # Include CPM (should be done before using CPMAddPackage)
-include(cmake/CPM.cmake)
+# include(cmake/CPM.cmake)
 
 # Find Geode SDK
 if (NOT DEFINED ENV{GEODE_SDK})
