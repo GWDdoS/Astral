@@ -2,11 +2,11 @@
 #include <Geode/modify/PlayLayer.hpp>
 
 using namespace geode::prelude;
-if (&astralEnabled = false;)
+/* if (&astralEnabled = false;)
 {
-    /* code */
-}
 
+}
+*/
 class $modify(MyPlayLayer, PlayLayer) {
     void destroyPlayer(PlayerObject* p0, GameObject* p1) {
         if (!m_anticheatSpike) {
