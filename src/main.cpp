@@ -23,11 +23,11 @@ $on_mod(Loaded) {
         ImGui::Text(" ");
         ImGui::Button("Record Macro");
         ImGui::Button("Save Macro");
-        ImGui::Button(" ");
+        ImGui::Text(" ");
         ImGui::Text("Astral AutoClicker:");
         ImGui::Text(" ");
         ImGui::Button("Start AutoClicker");
-        ImGui::Button(" ");
+        ImGui::Text(" ");
         ImGui::Text("Astral Hacks:");
         ImGui::Text(" ");
         ImGui::Button("NoClip");
