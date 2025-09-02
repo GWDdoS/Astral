@@ -30,7 +30,7 @@ $on_mod(Loaded) {
         ImGui::Text(" ");
         ImGui::Text("Astral Hacks:");
         ImGui::Text(" ");
-        ImGui::Checkbox("Enable Noclip", &astralEnabled); --- IGNORE ---
+        ImGui::Checkbox("Enable Noclip", &astralEnabled);
         ImGui::End();
         ImGui::BeginTabBar("##tabs");
         if (ImGui::BeginTabItem("Tab 1")) {

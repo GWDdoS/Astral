@@ -2,6 +2,10 @@
 #include <Geode/modify/PlayLayer.hpp>
 
 using namespace geode::prelude;
+if (&astralEnabled = false;)
+{
+    /* code */
+}
 
 class $modify(MyPlayLayer, PlayLayer) {
     void destroyPlayer(PlayerObject* p0, GameObject* p1) {
