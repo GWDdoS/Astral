@@ -20,7 +20,7 @@ $on_mod(Loaded) {
         ImGui::Begin("Astral");
         ImGui::Text("Hello, I am Astral. The number one bot for SLL levels.");
         ImGui::Button("Awesome button");
-        ImGui::Line();
+        ImGui::Text("                                                   ");
 		ImGui::Button("Would you like to support a boykisser?");
 
         ImGui::End();
