@@ -19,7 +19,7 @@ $on_mod(Loaded) {
         // so use this to setup any themes and or fonts!
     }).draw([] {
         ImGui::Begin("Astral");
-		ImGui::Text("Astral Botting:");
+        ImGui::Text("Astral Botting:");
         ImGui::Text(" ");
         ImGui::Button("Record Macro");
         ImGui::Button("Save Macro");
@@ -30,31 +30,30 @@ $on_mod(Loaded) {
         ImGui::Text(" ");
         ImGui::Text("Astral Hacks:");
         ImGui::Text(" ");
-        // ImGui::Checkbox("Enable Noclip", &astralEnabled);
+        // ImGui::Checkbox("Enable Noclip", &noclipEnabled);
         ImGui::End();
+        
         ImGui::BeginTabBar("##tabs");
         if (ImGui::BeginTabItem("Tab 1")) {
             ImGui::Text("This is the first tab!");
             ImGui::EndTabItem();
-         if (ImGui::BeginTabItem("Tab 2")) {
+        }
+        if (ImGui::BeginTabItem("Tab 2")) {
             ImGui::Text("This is the second tab!");
             ImGui::EndTabItem();    
+        }
         ImGui::EndTabBar();
-        }   
     });
 }
 
-
-
 #ifndef GEODE_IS_IOS
-#include <Geode/modify/CCKeyboardDispatcher.hpp>
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
-	bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
-		if (key == cocos2d::enumKeyCodes::KEY_Alt && isKeyDown) {
-			ImGuiCocos::get().toggle();
-		}
-		return CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
-	}
+    bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
+        if (key == cocos2d::enumKeyCodes::KEY_Alt && isKeyDown) {
+            ImGuiCocos::get().toggle();
+        }
+        return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
+    }
 };
 #endif
 
