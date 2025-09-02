@@ -18,22 +18,9 @@ $on_mod(Loaded) {
         // so use this to setup any themes and or fonts!
     }).draw([] {
         ImGui::Begin("Astral");
-
+        ImGui::Text("Hello, I am Astral. The number one bot for SLL levels.");
         ImGui::Button("Awesome button");
-        
-		ImGui::Button("Would you like to support a boykisser?");
-
-        ImGui::End();
-    });
-	ImGuiCocos::get().setup([] {
-        // this runs after imgui has been setup,
-        // its a callback as imgui will be re initialized when toggling fullscreen,
-        // so use this to setup any themes and or fonts!
-    }).draw([] {
-        ImGui::Begin("Astral: Hacks");
-
-        ImGui::Button("NoClip");
-        
+        ImGui::Line();
 		ImGui::Button("Would you like to support a boykisser?");
 
         ImGui::End();
