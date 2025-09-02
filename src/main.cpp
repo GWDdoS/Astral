@@ -18,16 +18,17 @@ $on_mod(Loaded) {
         // so use this to setup any themes and or fonts!
     }).draw([] {
         ImGui::Begin("Astral");
-        ImGui::Text("Hello, I am Astral. The number one bot for SLL levels.");
-        ImGui::Text(" ");
 		ImGui::Text("Astral Botting:");
+        ImGui::Text(" ");
         ImGui::Button("Record Macro");
         ImGui::Button("Save Macro");
         ImGui::Button(" ");
         ImGui::Text("Astral AutoClicker:");
+        ImGui::Text(" ");
         ImGui::Button("Start AutoClicker");
         ImGui::Button(" ");
         ImGui::Text("Astral Hacks:");
+        ImGui::Text(" ");
         ImGui::Button("NoClip");
 
         ImGui::End();
