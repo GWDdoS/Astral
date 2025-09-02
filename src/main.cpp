@@ -12,6 +12,8 @@
 // OMG its all gone :sob: 
 // omg its all back :D
 
+bool noclipEnabled = false;
+
 $on_mod(Loaded) {
     ImGuiCocos::get().setup([] {
         // this runs after imgui has been setup,

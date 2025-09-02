@@ -6,9 +6,9 @@ using namespace geode::prelude;
 
 class $modify(MyPlayLayer, PlayLayer) {
     void destroyPlayer(PlayerObject* p1, GameObject* p2) {
-        if (!&noclipEnabled) {
+        if (noclipEnabled) {
             if (!m_anticheatSpike) {
-                PlayLayer::destroyPlayer(p1, p2);
+                // this line having nothing in it is intentional, it's to never call it
             }
         }
     }
