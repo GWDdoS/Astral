@@ -19,9 +19,16 @@ $on_mod(Loaded) {
     }).draw([] {
         ImGui::Begin("Astral");
         ImGui::Text("Hello, I am Astral. The number one bot for SLL levels.");
-        ImGui::Button("Awesome button");
-        ImGui::Text("                                                   ");
-		ImGui::Button("Would you like to support a boykisser?");
+        ImGui::Text(" ");
+		ImGui::Text("Astral Botting:");
+        ImGui::Button("Record Macro");
+        ImGui::Button("Save Macro");
+        ImGui::Button(" ");
+        ImGui::Text("Astral AutoClicker:");
+        ImGui::Button("Start AutoClicker");
+        ImGui::Button(" ");
+        ImGui::Text("Astral Hacks:");
+        ImGui::Button("NoClip");
 
         ImGui::End();
     });
