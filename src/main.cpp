@@ -23,7 +23,7 @@ $on_mod(Loaded) {
 #include <Geode/modify/CCKeyboardDispatcher.hpp>
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
 	bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
-		if (key == cocos2d::enumKeyCodes::KEY_F4 && isKeyDown) {
+		if (key == cocos2d::enumKeyCodes::KEY_RightAlt && isKeyDown) {
 			ImGuiCocos::get().toggle();
 		}
 		return CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);

@@ -1,3 +1,10 @@
+# 1.0.0-alpha.4
+- Removed old ImGui settings.
+- Fixed Cmake files and Imgui Install.
+- Removed old Mobile GUI.
+- Fixed GUI keybind.
+- Start on the final GUI.
+
 # 1.0.0-alpha.3
 - Rebrand.
 - UI stuff.
