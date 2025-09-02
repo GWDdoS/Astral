@@ -12,23 +12,17 @@
 // OMG its all gone :sob:
 
 $on_mod(Loaded) {
-	ImGuiCocos::get().setup([] {
-		ImGui::StyleColorsLight();
-	}).draw([] {
-		ImGui::ShowDemoWindow();
-	});
-}
-
-$on_mod(Loaded) {
     ImGuiCocos::get().setup([] {
         // this runs after imgui has been setup,
         // its a callback as imgui will be re initialized when toggling fullscreen,
         // so use this to setup any themes and or fonts!
     }).draw([] {
-        ImGui::Begin("My awesome window");
+        ImGui::Begin("Astral");
 
         ImGui::Button("Awesome button");
         
+		ImGui::Button("Would you like to support a boykisser?");
+
         ImGui::End();
     });
 }
