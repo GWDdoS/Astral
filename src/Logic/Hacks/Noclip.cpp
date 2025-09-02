@@ -1,6 +1,6 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/PlayLayer.hpp>
-#include "src/includes.h"
+#include "../../includes.h"
 
 using namespace geode::prelude;
 
