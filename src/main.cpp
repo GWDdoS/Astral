@@ -24,7 +24,7 @@ $on_mod(Loaded) {
 		ImGui::Button("Would you like to support a boykisser?");
 
         ImGui::End();
-    })
+    });
 	ImGuiCocos::get().setup([] {
         // this runs after imgui has been setup,
         // its a callback as imgui will be re initialized when toggling fullscreen,
