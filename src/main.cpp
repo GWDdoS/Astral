@@ -9,7 +9,8 @@
 /* de3am is a boykisser and a list helper
    Breuhh is also a boykisser and a list helper. (de3am told me to put this) 
 */
-// OMG its all gone :sob:
+// OMG its all gone :sob: 
+// omg its all back :D
 
 $on_mod(Loaded) {
     ImGuiCocos::get().setup([] {
