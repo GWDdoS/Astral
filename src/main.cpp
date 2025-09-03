@@ -12,6 +12,8 @@
 // OMG its all gone :sob: 
 // omg its all back :D
 
+bool noclipEnabled = false;
+
 $on_mod(Loaded) {
     ImGuiCocos::get().setup([] {
         // this runs after imgui has been setup,
@@ -30,7 +32,7 @@ $on_mod(Loaded) {
         ImGui::Text(" ");
         ImGui::Text("Astral Hacks:");
         ImGui::Text(" ");
-        // ImGui::Checkbox("Enable Noclip", &noclipEnabled);
+        ImGui::Checkbox("Enable Noclip", &noclipEnabled);
         ImGui::End();
         
         ImGui::BeginTabBar("##tabs");
@@ -46,7 +48,7 @@ $on_mod(Loaded) {
     });
 }
 
-#ifndef GEODE_IS_IOS
+/* #ifndef GEODE_IS_IOS
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
         if (key == cocos2d::enumKeyCodes::KEY_Alt && isKeyDown) {
@@ -56,6 +58,7 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     }
 };
 #endif
+*/
 
 /*
 ImGui::Tooltip("Astral Mod by de3am and breuhh");
