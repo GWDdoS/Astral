@@ -1,6 +1,5 @@
 // still needs rewrite dont get me wrong
-// this shit doesnt work anyway
-
+// this shit should work now
 #include "../../includes.hpp"
 
 using namespace geode::prelude;
@@ -18,10 +17,10 @@ class $modify(GJBaseGameLayer) {
             return GJBaseGameLayer::update(dt);
         }
         
-        float targetDt = 1.0f / fpsValue;
+        float speedMultiplier = fpsValue / 240.0f;
+        float adjustedDt = dt * speedMultiplier;
         
-        // rework delta time to be toggable like TCBot etc
-        GJBaseGameLayer::update(targetDt);
+        GJBaseGameLayer::update(adjustedDt);
     }
 
     float getModifiedDelta(float dt) {
@@ -33,20 +32,21 @@ class $modify(GJBaseGameLayer) {
             return GJBaseGameLayer::getModifiedDelta(dt);
         }
 
-        float targetDt = 1.0f / fpsValue;
+        float speedMultiplier = fpsValue / 240.0f;
         
         if (0 < m_resumeTimer) {
             m_resumeTimer--;
             dt = 0.0;
         }
 
-        // Not actually sure what this is smt with timewarp
+        // timewarp or smt 
         float timeWarp = 1.0f;
         if (m_gameState.m_timeWarp <= 1.0f) {
             timeWarp = m_gameState.m_timeWarp;
         }
 
-        double adjustedDt = dt + m_extraDelta;
+        double adjustedDt = (dt * speedMultiplier) + m_extraDelta;
+        float targetDt = 1.0f / 240.0f;
         float steps = std::round(adjustedDt / (timeWarp * targetDt));
         double finalDt = steps * timeWarp * targetDt;
         m_extraDelta = adjustedDt - finalDt;
