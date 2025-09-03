@@ -13,6 +13,15 @@
 // omg its all back :D
 
 bool noclipEnabled = false;
+bool recording = false;
+bool replaying = false;
+bool rendering = false;
+int selectedTheme = 0;
+bool noclipEnabled = false;
+bool layoutEnabled = false;
+bool oldphysEnabled = false;
+float seedValue = 1.0f;
+float fpsValue = 240.0f;
 
 $on_mod(Loaded) {
     ImGuiCocos::get().setup([] {
