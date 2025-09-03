@@ -1,3 +1,9 @@
+// Ok no we HAVE TO MOVE ALL THIS SHIT OUT OF HERE OMFG. Ill be remakign the whole code branch soon omfg. 
+
+
+
+
+
 #include <Geode/Geode.hpp>
 #include <Geode/modify/MenuLayer.hpp>
 #include "includes.h"
@@ -13,6 +19,7 @@ using namespace geode::prelude;
 // OMG its all gone :sob: 
 // omg its all back :D
 
+// The unholy list of vars 
 bool noclipEnabled = false;
 bool recording = false;
 bool replaying = false;
@@ -22,13 +29,11 @@ bool layoutEnabled = false;
 bool oldphysEnabled = false;
 float seedValue = 1.0f;
 float fpsValue = 240.0f;
-
-// Theme and style variables
-float themeColor[3] = {0.4f, 1.0f, 0.7f};  // Mint green RGB
+float themeColor[3] = {0.4f, 1.0f, 0.7f};  // smt that might be close to echo
 bool styleApplied = false;
+int selectedKeybind = 0; // idk how to do real custom keybinds
 
-// Keybind variables
-int selectedKeybind = 0;  // 0 = Alt, 1 = F1, 2 = F2, 3 = F3, etc.
+// dumbahh fix 
 const char* keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
 cocos2d::enumKeyCodes keybindCodes[] = {
     cocos2d::enumKeyCodes::KEY_Alt,
@@ -44,14 +49,10 @@ cocos2d::enumKeyCodes keybindCodes[] = {
 
 $on_mod(Loaded) {
     ImGuiCocos::get().setup([] {
-        // Setup callback - runs after imgui initialization
         auto& style = ImGui::GetStyle();
         auto& io = ImGui::GetIO();
         
-        // Make the font less pixelated and bigger
         io.FontGlobalScale = 1.2f;
-        
-        // Apply mint green theme with curved edges
         style.WindowRounding = 12.0f;
         style.FrameRounding = 8.0f;
         style.PopupRounding = 8.0f;
@@ -59,40 +60,37 @@ $on_mod(Loaded) {
         style.GrabRounding = 8.0f;
         style.TabRounding = 8.0f;
         style.ChildRounding = 8.0f;
-        
-        // Make it 200% bigger
         style.ScaleAllSizes(2.0f);
-        
-        // Mint green color scheme
-        ImVec4 mintGreen = ImVec4(0.4f, 1.0f, 0.7f, 1.0f);
-        ImVec4 darkMintGreen = ImVec4(0.3f, 0.8f, 0.55f, 1.0f);
-        ImVec4 lightMintGreen = ImVec4(0.5f, 1.0f, 0.8f, 1.0f);
-        ImVec4 mintAccent = ImVec4(0.2f, 0.9f, 0.6f, 1.0f);
-        
+        // Was going to make different themes but ehhh
+        ImVec4 baseGreen = ImVec4(0.4f, 1.0f, 0.7f, 1.0f);
+        ImVec4 darkBaseGreen = ImVec4(0.3f, 0.8f, 0.55f, 1.0f);
+        ImVec4 lightBaseGreen = ImVec4(0.5f, 1.0f, 0.8f, 1.0f);
+        ImVec4 baseAccent = ImVec4(0.2f, 0.9f, 0.6f, 1.0f);
+        // tldr removing 90% of this shit
         style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.9f);
-        style.Colors[ImGuiCol_TitleBg] = darkMintGreen;
-        style.Colors[ImGuiCol_TitleBgActive] = mintGreen;
-        style.Colors[ImGuiCol_Button] = darkMintGreen;
-        style.Colors[ImGuiCol_ButtonHovered] = mintGreen;
-        style.Colors[ImGuiCol_ButtonActive] = mintAccent;
+        style.Colors[ImGuiCol_TitleBg] = darkBaseGreen;
+        style.Colors[ImGuiCol_TitleBgActive] = baseGreen;
+        style.Colors[ImGuiCol_Button] = darkBaseGreen;
+        style.Colors[ImGuiCol_ButtonHovered] = baseGreen;
+        style.Colors[ImGuiCol_ButtonActive] = baseAccent;
         style.Colors[ImGuiCol_FrameBg] = ImVec4(0.2f, 0.2f, 0.2f, 0.8f);
         style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.3f, 0.3f, 0.3f, 0.8f);
-        style.Colors[ImGuiCol_FrameBgActive] = mintAccent;
-        style.Colors[ImGuiCol_CheckMark] = mintGreen;
-        style.Colors[ImGuiCol_SliderGrab] = mintGreen;
-        style.Colors[ImGuiCol_SliderGrabActive] = lightMintGreen;
-        style.Colors[ImGuiCol_Header] = darkMintGreen;
-        style.Colors[ImGuiCol_HeaderHovered] = mintGreen;
-        style.Colors[ImGuiCol_HeaderActive] = lightMintGreen;
-        style.Colors[ImGuiCol_Tab] = darkMintGreen;
-        style.Colors[ImGuiCol_TabHovered] = mintGreen;
-        style.Colors[ImGuiCol_TabActive] = lightMintGreen;
+        style.Colors[ImGuiCol_FrameBgActive] = baseAccent;
+        style.Colors[ImGuiCol_CheckMark] = baseGreen;
+        style.Colors[ImGuiCol_SliderGrab] = baseGreen;
+        style.Colors[ImGuiCol_SliderGrabActive] = lightBaseGreen;
+        style.Colors[ImGuiCol_Header] = darkBaseGreen;
+        style.Colors[ImGuiCol_HeaderHovered] = baseGreen;
+        style.Colors[ImGuiCol_HeaderActive] = lightBaseGreen;
+        style.Colors[ImGuiCol_Tab] = darkBaseGreen;
+        style.Colors[ImGuiCol_TabHovered] = baseGreen;
+        style.Colors[ImGuiCol_TabActive] = lightBaseGreen;
         style.Colors[ImGuiCol_TabUnfocused] = ImVec4(0.2f, 0.6f, 0.4f, 0.8f);
-        style.Colors[ImGuiCol_TabUnfocusedActive] = darkMintGreen;
+        style.Colors[ImGuiCol_TabUnfocusedActive] = darkBaseGreen;
         
         styleApplied = true;
    }).draw([] {
-        // Apply custom theme colors if changed
+        
         if (styleApplied) {
             auto& style = ImGui::GetStyle();
             ImVec4 customColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 1.0f);
@@ -118,7 +116,7 @@ $on_mod(Loaded) {
             style.Colors[ImGuiCol_TabActive] = customColorLight;
         }
         
-        // Always wrap ImGui content in a window
+
         if (ImGui::Begin("Astral Mod", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Separator();
             
@@ -134,10 +132,8 @@ $on_mod(Loaded) {
                 if (ImGui::BeginTabItem("Botting")) {
                     ImGui::Separator();
                     if (ImGui::Button("Record Macro")) {
-                        // Add macro recording functionality here
                     }
                     if (ImGui::Button("Save Macro")) {
-                        // Add macro saving functionality here  
                     }
                     ImGui::InputFloat("FPS", &fpsValue);
                     ImGui::Checkbox("Enable 2.1 Legacy Physics", &oldphysEnabled);
@@ -146,17 +142,14 @@ $on_mod(Loaded) {
                 if (ImGui::BeginTabItem("AutoClicker")) {
                     ImGui::Separator();
                     if (ImGui::Button("Start AutoClicker")) {
-                        // Add autoclicker functionality here
                     }
                     ImGui::EndTabItem();
                 }
                 if (ImGui::BeginTabItem("Render")) {
                     ImGui::Separator();
                     if (ImGui::Button("Start Render")) {
-                        // Add render functionality here
                     }
                     if (ImGui::Button("Stop Render")) {
-                        // Add render functionality here
                     }
                     ImGui::EndTabItem();
                 }
@@ -165,29 +158,23 @@ $on_mod(Loaded) {
                     ImGui::Text("GUI Settings:");
                     ImGui::Separator();
                     
-                    // Keybind selector
                     ImGui::Text("Toggle GUI Key:");
                     if (ImGui::Combo("##keybind", &selectedKeybind, keybindNames, IM_ARRAYSIZE(keybindNames))) {
-                        // Keybind changed - could save to config here
                     }
                     
                     ImGui::Text("Current Key: %s", keybindNames[selectedKeybind]);
                     
-                    // Color chooser
                     ImGui::Separator();
                     ImGui::Text("Theme Color:");
                     if (ImGui::ColorEdit3("##themecolor", themeColor)) {
-                        // Color changed - theme updates automatically
                     }
                     
-                    // Reset to mint green button
-                    if (ImGui::Button("Reset to Mint Green")) {
+                    if (ImGui::Button("Reset to Default")) {
                         themeColor[0] = 0.4f; // R
                         themeColor[1] = 1.0f; // G  
                         themeColor[2] = 0.7f; // B
                     }
                     
-                    // Other settings can go here
                     ImGui::Separator();
                     ImGui::Text("Other Settings:");
                     ImGui::Combo("Theme Style", &selectedTheme, "Custom Color\0Dark\0Light\0Classic\0");
@@ -204,7 +191,6 @@ $on_mod(Loaded) {
 #ifndef GEODE_IS_IOS
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
-        // Check if the pressed key matches the selected keybind
         if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes)) {
             if (key == keybindCodes[selectedKeybind] && isKeyDown) {
                 ImGuiCocos::get().toggle();
