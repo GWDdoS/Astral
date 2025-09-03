@@ -34,7 +34,14 @@ $on_mod(Loaded) {
         ImGui::Text(" ");
         ImGui::Checkbox("Enable Noclip", &noclipEnabled);
         ImGui::End();
-        
+    });
+}
+
+
+
+$on_mod(Loaded) {
+    ImGuiCocos::get().setup([] {
+    }).draw([] {
         ImGui::BeginTabBar("##tabs");
         if (ImGui::BeginTabItem("Tab 1")) {
             ImGui::Text("This is the first tab!");
@@ -48,7 +55,8 @@ $on_mod(Loaded) {
     });
 }
 
-#ifndef GEODE_IS_IOS
+
+// #ifndef GEODE_IS_IOS
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
         if (key == cocos2d::enumKeyCodes::KEY_Alt && isKeyDown) {
@@ -57,7 +65,7 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
         return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
     }
 };
-#endif
+// #endif
 
 
 /*
