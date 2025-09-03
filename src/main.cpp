@@ -129,23 +129,11 @@ $on_mod(Loaded) {
                     }
                     
                     ImGui::Text("TPS Bypass:");
-                    ImGui::InputFloat("TPS", &tpsValue, 1.0f, 10.0f, "%.0f");
+                    ImGui::InputFloat("TPS", &tpsValue);
                     
 
                     
                     ImGui::Checkbox("Lock Delta Time", &lockDeltaEnabled);
-                    ImGui::SameLine();
-                    if (ImGui::Button("?")) {
-                        ImGui::OpenPopup("delta_help");
-                    }
-                    
-                    if (ImGui::BeginPopup("delta_help")) {
-                        ImGui::Text("Lock Delta Time:");
-                        ImGui::Separator();
-                        ImGui::TextWrapped("When enabled, forces consistent physics timing.\nUseful for TAS and frame-perfect gameplay.");
-                        ImGui::TextWrapped("When disabled, allows smooth high TPS gameplay\nwithout physics slowdown.");
-                        ImGui::EndPopup();
-                    }
                     
                     ImGui::Separator();
                     ImGui::InputFloat("Speedhack", &speedValue);  
