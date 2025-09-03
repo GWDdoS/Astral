@@ -23,8 +23,11 @@ bool oldphysEnabled = false;
 float seedValue = 1.0f;
 float fpsValue = 240.0f;
 
-// Mouse cursor and keybind variables
-bool guiVisible = false;
+// Theme and style variables
+float themeColor[3] = {0.4f, 1.0f, 0.7f};  // Mint green RGB
+bool styleApplied = false;
+
+// Keybind variables
 int selectedKeybind = 0;  // 0 = Alt, 1 = F1, 2 = F2, 3 = F3, etc.
 const char* keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
 cocos2d::enumKeyCodes keybindCodes[] = {
@@ -43,30 +46,76 @@ $on_mod(Loaded) {
     ImGuiCocos::get().setup([] {
         // Setup callback - runs after imgui initialization
         auto& style = ImGui::GetStyle();
-        // Optional: customize style here
+        auto& io = ImGui::GetIO();
+        
+        // Make the font less pixelated and bigger
+        io.FontGlobalScale = 1.2f;
+        
+        // Apply mint green theme with curved edges
+        style.WindowRounding = 12.0f;
+        style.FrameRounding = 8.0f;
+        style.PopupRounding = 8.0f;
+        style.ScrollbarRounding = 8.0f;
+        style.GrabRounding = 8.0f;
+        style.TabRounding = 8.0f;
+        style.ChildRounding = 8.0f;
+        
+        // Make it 200% bigger
+        style.ScaleAllSizes(2.0f);
+        
+        // Mint green color scheme
+        ImVec4 mintGreen = ImVec4(0.4f, 1.0f, 0.7f, 1.0f);
+        ImVec4 darkMintGreen = ImVec4(0.3f, 0.8f, 0.55f, 1.0f);
+        ImVec4 lightMintGreen = ImVec4(0.5f, 1.0f, 0.8f, 1.0f);
+        ImVec4 mintAccent = ImVec4(0.2f, 0.9f, 0.6f, 1.0f);
+        
+        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.9f);
+        style.Colors[ImGuiCol_TitleBg] = darkMintGreen;
+        style.Colors[ImGuiCol_TitleBgActive] = mintGreen;
+        style.Colors[ImGuiCol_Button] = darkMintGreen;
+        style.Colors[ImGuiCol_ButtonHovered] = mintGreen;
+        style.Colors[ImGuiCol_ButtonActive] = mintAccent;
+        style.Colors[ImGuiCol_FrameBg] = ImVec4(0.2f, 0.2f, 0.2f, 0.8f);
+        style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.3f, 0.3f, 0.3f, 0.8f);
+        style.Colors[ImGuiCol_FrameBgActive] = mintAccent;
+        style.Colors[ImGuiCol_CheckMark] = mintGreen;
+        style.Colors[ImGuiCol_SliderGrab] = mintGreen;
+        style.Colors[ImGuiCol_SliderGrabActive] = lightMintGreen;
+        style.Colors[ImGuiCol_Header] = darkMintGreen;
+        style.Colors[ImGuiCol_HeaderHovered] = mintGreen;
+        style.Colors[ImGuiCol_HeaderActive] = lightMintGreen;
+        style.Colors[ImGuiCol_Tab] = darkMintGreen;
+        style.Colors[ImGuiCol_TabHovered] = mintGreen;
+        style.Colors[ImGuiCol_TabActive] = lightMintGreen;
+        style.Colors[ImGuiCol_TabUnfocused] = ImVec4(0.2f, 0.6f, 0.4f, 0.8f);
+        style.Colors[ImGuiCol_TabUnfocusedActive] = darkMintGreen;
+        
+        styleApplied = true;
    }).draw([] {
-        // Check if GUI visibility changed and manage cursor
-        bool currentlyVisible = ImGuiCocos::get().isVisible();
-        if (currentlyVisible != guiVisible) {
-            guiVisible = currentlyVisible;
+        // Apply custom theme colors if changed
+        if (styleApplied) {
+            auto& style = ImGui::GetStyle();
+            ImVec4 customColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 1.0f);
+            ImVec4 customColorDark = ImVec4(themeColor[0] * 0.7f, themeColor[1] * 0.8f, themeColor[2] * 0.8f, 1.0f);
+            ImVec4 customColorLight = ImVec4(
+                std::min(1.0f, themeColor[0] * 1.2f), 
+                std::min(1.0f, themeColor[1] * 1.0f), 
+                std::min(1.0f, themeColor[2] * 1.15f), 
+                1.0f
+            );
             
-            if (guiVisible) {
-                // GUI just opened - show mouse cursor
-#ifdef GEODE_IS_WINDOWS
-                ShowCursor(TRUE);
-#endif
-                // Alternative method for other platforms
-                auto& io = ImGui::GetIO();
-                io.MouseDrawCursor = true;
-            } else {
-                // GUI just closed - hide mouse cursor
-#ifdef GEODE_IS_WINDOWS
-                ShowCursor(FALSE);
-#endif
-                // Alternative method for other platforms
-                auto& io = ImGui::GetIO();
-                io.MouseDrawCursor = false;
-            }
+            style.Colors[ImGuiCol_TitleBgActive] = customColor;
+            style.Colors[ImGuiCol_ButtonHovered] = customColor;
+            style.Colors[ImGuiCol_CheckMark] = customColor;
+            style.Colors[ImGuiCol_SliderGrab] = customColor;
+            style.Colors[ImGuiCol_HeaderHovered] = customColor;
+            style.Colors[ImGuiCol_TabHovered] = customColor;
+            style.Colors[ImGuiCol_Button] = customColorDark;
+            style.Colors[ImGuiCol_Header] = customColorDark;
+            style.Colors[ImGuiCol_Tab] = customColorDark;
+            style.Colors[ImGuiCol_SliderGrabActive] = customColorLight;
+            style.Colors[ImGuiCol_HeaderActive] = customColorLight;
+            style.Colors[ImGuiCol_TabActive] = customColorLight;
         }
         
         // Always wrap ImGui content in a window
