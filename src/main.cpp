@@ -22,12 +22,10 @@ bool layoutEnabled = false;
 bool oldphysEnabled = false;
 float seedValue = 1.0f;
 float fpsValue = 240.0f;
-float themeColor[3] = {0.4f, 1.0f, 0.7f};  // green kinda like Echo
-bool styleApplied = false;
-bool guiVisible = false;
-int selectedKeybind = 0;
 
-// bro this is so shit its crazy
+// Mouse cursor and keybind variables
+bool guiVisible = false;
+int selectedKeybind = 0;  // 0 = Alt, 1 = F1, 2 = F2, 3 = F3, etc.
 const char* keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
 cocos2d::enumKeyCodes keybindCodes[] = {
     cocos2d::enumKeyCodes::KEY_Alt,
@@ -54,18 +52,20 @@ $on_mod(Loaded) {
             
             if (guiVisible) {
                 // GUI just opened - show mouse cursor
-                auto director = cocos2d::CCDirector::sharedDirector();
-                auto view = director->getOpenGLView();
-                if (view) {
-                    view->showCursor(true);
-                }
+#ifdef GEODE_IS_WINDOWS
+                ShowCursor(TRUE);
+#endif
+                // Alternative method for other platforms
+                auto& io = ImGui::GetIO();
+                io.MouseDrawCursor = true;
             } else {
                 // GUI just closed - hide mouse cursor
-                auto director = cocos2d::CCDirector::sharedDirector();
-                auto view = director->getOpenGLView();
-                if (view) {
-                    view->showCursor(false);
-                }
+#ifdef GEODE_IS_WINDOWS
+                ShowCursor(FALSE);
+#endif
+                // Alternative method for other platforms
+                auto& io = ImGui::GetIO();
+                io.MouseDrawCursor = false;
             }
         }
         
