@@ -34,24 +34,11 @@ $on_mod(Loaded) {
         ImGui::Text(" ");
         ImGui::Checkbox("Enable Noclip", &noclipEnabled);
         ImGui::End();
-    });
-}
-
-
-
-$on_mod(Loaded) {
-    ImGuiCocos::get().setup([] {
-    }).draw([] {
+        
         ImGui::BeginTabBar("##tabs");
         if (ImGui::BeginTabItem("Tab 1")) {
             ImGui::Text("This is the first tab!");
             ImGui::EndTabItem();
-        }
-        if (ImGui::BeginTabItem("Tab 2")) {
-            ImGui::Text("This is the second tab!");
-            ImGui::EndTabItem();    
-        }
-        ImGui::EndTabBar();
     });
 }
 
