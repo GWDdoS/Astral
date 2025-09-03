@@ -2,7 +2,7 @@
 #include <Geode/Geode.hpp>
 #include <Geode/modify/PlayLayer.hpp>
 #include "../../includes.h"
-
+/*
 using namespace geode::prelude;
 
 class $modify(MyPlayLayer, PlayLayer) {
@@ -13,5 +13,15 @@ class $modify(MyPlayLayer, PlayLayer) {
         }
         // When noclip is disabled, call the original function
         PlayLayer::destroyPlayer(p1, p2);
+    }
+};
+*/
+
+class $modify (NoclipPL, PlayLayer) {
+    void destroyPlayer(PlayerObject * p0, GameObject * p1) {
+        if (noclipEnabled) {
+            return;
+        }
+            PlayLayer::destroyPlayer(p0, p1);
     }
 };
