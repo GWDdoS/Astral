@@ -22,19 +22,20 @@ $on_mod(Loaded) {
    }).draw([] {
         // Always wrap ImGui content in a window
         if (ImGui::Begin("Astral Mod", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-            ImGui::Text("Astral Mod by de3am and breuhh");
             ImGui::Separator();
             
-            // Option 1: Keep tabs (recommended)
             if (ImGui::BeginTabBar("##tabs")) {
                 if (ImGui::BeginTabItem("Hacks")) {
-                    ImGui::Text("Astral Hacks:");
                     ImGui::Separator();
                     ImGui::Checkbox("Enable Noclip", &noclipEnabled);
+                    ImGui::Checkbox("Show Layout", &layoutEnabled);
+                    ImGui::InputFloat("Lock Seed", &seedValue);
+                    ImGui::Checkbox("Enable Noclip", &noclipEnabled);
+                    ImGui::Checkbox("Enable Noclip", &noclipEnabled);
+                    
                     ImGui::EndTabItem();
                 }
                 if (ImGui::BeginTabItem("Botting")) {
-                    ImGui::Text("Astral Botting:");
                     ImGui::Separator();
                     if (ImGui::Button("Record Macro")) {
                         // Add macro recording functionality here
@@ -42,12 +43,23 @@ $on_mod(Loaded) {
                     if (ImGui::Button("Save Macro")) {
                         // Add macro saving functionality here  
                     }
+                    ImGui::InputFloat("FPS", &fpsValue);
+                    ImGui::Checkbox("Enable 2.1 Legacy Physics", &oldphysEnabled);
                     ImGui::EndTabItem();
                 }
                 if (ImGui::BeginTabItem("AutoClicker")) {
-                    ImGui::Text("Astral AutoClicker:");
                     ImGui::Separator();
                     if (ImGui::Button("Start AutoClicker")) {
+                        // Add autoclicker functionality here
+                    }
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem("Render")) {
+                    ImGui::Separator();
+                    if (ImGui::Button("Start Render")) {
+                        // Add autoclicker functionality here
+                    }
+                    if (ImGui::Button("Stop Render")) {
                         // Add autoclicker functionality here
                     }
                     ImGui::EndTabItem();
@@ -56,33 +68,6 @@ $on_mod(Loaded) {
             }
         }
         ImGui::End();
-        
-        /* Alternative Option 2: Replace tabs with collapsing headers
-        if (ImGui::Begin("Astral Mod", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-            ImGui::Text("Astral Mod by de3am and breuhh");
-            ImGui::Separator();
-            
-            if (ImGui::CollapsingHeader("Hacks")) {
-                ImGui::Checkbox("Enable Noclip", &noclipEnabled);
-            }
-            
-            if (ImGui::CollapsingHeader("Botting")) {
-                if (ImGui::Button("Record Macro")) {
-                    // Add functionality
-                }
-                if (ImGui::Button("Save Macro")) {
-                    // Add functionality
-                }
-            }
-            
-            if (ImGui::CollapsingHeader("AutoClicker")) {
-                if (ImGui::Button("Start AutoClicker")) {
-                    // Add functionality
-                }
-            }
-        }
-        ImGui::End();
-        */
     });
 }
 
