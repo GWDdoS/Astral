@@ -30,8 +30,6 @@ $on_mod(Loaded) {
                     ImGui::Checkbox("Enable Noclip", &noclipEnabled);
                     ImGui::Checkbox("Show Layout", &layoutEnabled);
                     ImGui::InputFloat("Lock Seed", &seedValue);
-                    ImGui::Checkbox("Enable Noclip", &noclipEnabled);
-                    ImGui::Checkbox("Enable Noclip", &noclipEnabled);
                     
                     ImGui::EndTabItem();
                 }
