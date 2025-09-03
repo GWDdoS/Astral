@@ -17,10 +17,9 @@ class $modify(GJBaseGameLayer) {
             return GJBaseGameLayer::update(dt);
         }
         
-        float speedMultiplier = fpsValue / 240.0f;
-        float adjustedDt = dt * speedMultiplier;
+        float fixedDt = 1.0f / fpsValue;
         
-        GJBaseGameLayer::update(adjustedDt);
+        GJBaseGameLayer::update(fixedDt);
     }
 
     float getModifiedDelta(float dt) {
@@ -32,25 +31,18 @@ class $modify(GJBaseGameLayer) {
             return GJBaseGameLayer::getModifiedDelta(dt);
         }
 
-        float speedMultiplier = fpsValue / 240.0f;
+        float targetDt = 1.0f / fpsValue;
         
         if (0 < m_resumeTimer) {
             m_resumeTimer--;
-            dt = 0.0;
+            return 0.0f;
         }
-
-        // timewarp or smt 
+        // copied from XDBot
         float timeWarp = 1.0f;
         if (m_gameState.m_timeWarp <= 1.0f) {
             timeWarp = m_gameState.m_timeWarp;
         }
 
-        double adjustedDt = (dt * speedMultiplier) + m_extraDelta;
-        float targetDt = 1.0f / 240.0f;
-        float steps = std::round(adjustedDt / (timeWarp * targetDt));
-        double finalDt = steps * timeWarp * targetDt;
-        m_extraDelta = adjustedDt - finalDt;
-
-        return finalDt;
+        return targetDt * timeWarp;
     }
 };
