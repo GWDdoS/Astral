@@ -29,6 +29,7 @@ bool trajectoryEnabled = false;
 bool layoutEnabled = false;
 bool oldphysEnabled = false;
 bool styleApplied = false;
+bool framestepEnabled = false;
 
 //Floats
 float seedValue = 1.0f;
@@ -137,8 +138,8 @@ $on_mod(Loaded) {
                     ImGui::InputFloat("FPS", &fpsValue);
                     ImGui::InputFloat("Speedhack", &speedValue);  
                     ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
-                               
-
+                    ImGui::Button("Frame Stepper", &framestepEnabled)
+                    ImGui::Button("Step Frame")
                     ImGui::Checkbox("Enable 2.1 Legacy Physics", &oldphysEnabled);
                     ImGui::EndTabItem();
                 }

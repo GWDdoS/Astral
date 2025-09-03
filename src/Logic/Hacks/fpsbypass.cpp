@@ -47,7 +47,6 @@ class $modify(GJBaseGameLayer) {
         float newDt = 1.f / Global::getTPS();
         
         if (0 < m_resumeTimer) {
-            // cocos2d::CCDirector::sharedDirector();
             m_resumeTimer--;
             dt = 0.0;
         }
