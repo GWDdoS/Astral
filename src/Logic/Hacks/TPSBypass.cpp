@@ -4,8 +4,7 @@
 
 using namespace geode::prelude;
 
-extern float tpsValue;
-extern bool lockDeltaEnabled;
+
 
 class $modify(GJBaseGameLayer) {
 

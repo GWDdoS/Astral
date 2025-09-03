@@ -19,7 +19,7 @@ bool layoutEnabled = false;
 bool oldphysEnabled = false;
 bool styleApplied = false;
 bool framestepEnabled = false;
-bool lockDeltaEnabled = false; // NEW: Lock delta option
+bool lockedDeltaEnabled = false; // NEW: Lock delta option
 
 //Floats
 float seedValue = 1.0f;
