@@ -28,8 +28,6 @@ bool guiVisible = false;
 int selectedKeybind = 0;
 
 // bro this is so shit its crazy
-bool guiVisible = false;
-int selectedKeybind = 0;  // i couldnt think of anything else ok :skull:
 const char* keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
 cocos2d::enumKeyCodes keybindCodes[] = {
     cocos2d::enumKeyCodes::KEY_Alt,
