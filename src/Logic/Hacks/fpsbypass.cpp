@@ -1,3 +1,5 @@
+// still needs rewrite dont get me wrong
+
 #include <Geode/Geode.hpp>
 #include <Geode/modify/GJBaseGameLayer.hpp>
 #include <cmath>
