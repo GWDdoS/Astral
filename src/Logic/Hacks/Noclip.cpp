@@ -16,6 +16,8 @@ class $modify(MyPlayLayer, PlayLayer) {
     }
 };
 */
+// omfg tf isgoing on HAAAHHHHAHAHAHAHAHHHAHAHHA
+
 
 class $modify (NoclipPL, PlayLayer) {
     void destroyPlayer(PlayerObject * p0, GameObject * p1) {

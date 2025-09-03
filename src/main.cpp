@@ -19,21 +19,28 @@ using namespace geode::prelude;
 // OMG its all gone :sob: 
 // omg its all back :D
 
-// The unholy list of vars 
+// The unholy list of vars
+//bools
 bool noclipEnabled = false;
 bool recording = false;
 bool replaying = false;
 bool rendering = false;
-int selectedTheme = 0;
+bool trajectoryEnabled = false;
 bool layoutEnabled = false;
 bool oldphysEnabled = false;
+bool styleApplied = false;
+
+//Floats
 float seedValue = 1.0f;
 float fpsValue = 240.0f;
+float speedValue = 1.0f;
 float themeColor[3] = {0.4f, 1.0f, 0.7f};  // smt that might be close to echo
-bool styleApplied = false;
+
+//Ints
+int selectedTheme = 0;
 int selectedKeybind = 0; // idk how to do real custom keybinds
 
-// dumbahh fix 
+// dumbahh fix i actually haev to rework this, move to /keybinds.cpp
 const char* keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
 cocos2d::enumKeyCodes keybindCodes[] = {
     cocos2d::enumKeyCodes::KEY_Alt,
@@ -128,6 +135,10 @@ $on_mod(Loaded) {
                     if (ImGui::Button("Save Macro")) {
                     }
                     ImGui::InputFloat("FPS", &fpsValue);
+                    ImGui::InputFloat("Speedhack", &speedValue);  
+                    ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
+                               
+
                     ImGui::Checkbox("Enable 2.1 Legacy Physics", &oldphysEnabled);
                     ImGui::EndTabItem();
                 }
