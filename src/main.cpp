@@ -133,7 +133,7 @@ $on_mod(Loaded) {
                     
 
                     
-                    ImGui::Checkbox("Lock Delta Time", &lockDeltaEnabled);
+                    ImGui::Checkbox("Lock Delta Time", &lockedDeltaEnabled);
                     
                     ImGui::Separator();
                     ImGui::InputFloat("Speedhack", &speedValue);  
