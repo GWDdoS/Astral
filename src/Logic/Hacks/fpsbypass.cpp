@@ -1,67 +1,54 @@
-// def didnt steal this from XDBot to learn how to do this shit
+// To be rewriten
 
 #include "../includes.hpp"
 #include <Geode/modify/GJBaseGameLayer.hpp>
 
+extern float fpsValue;
+
 class $modify(GJBaseGameLayer) {
 
     void update(float dt) {
-        auto& g = Global::get();
-
-        if (!g.tpsEnabled) return GJBaseGameLayer::update(dt);
-        if (Global::getTPS() == 240.f) return GJBaseGameLayer::update(dt);
-        if (!PlayLayer::get()) return GJBaseGameLayer::update(dt);
-        
-        float newDt = 1.f / Global::getTPS();
-
-        if (g.frameStepper) return GJBaseGameLayer::update(newDt);
-
-        float realDt = dt + g.leftOver;
-        if (realDt > dt && newDt < dt) realDt = dt;
-
-        auto startTime = std::chrono::high_resolution_clock::now();
-        int mult = static_cast<int>(realDt / newDt);
-
-        for (int i = 0; i < mult; ++i) {
-            GJBaseGameLayer::update(newDt);
-            if (std::chrono::high_resolution_clock::now() - startTime > std::chrono::duration<double, std::milli>(16.666f)) {
-                mult = i + 1;
-                break;
-            }
+        if (fpsValue == 240.0f) {
+            return GJBaseGameLayer::update(dt);
         }
-
-        g.leftOver += (dt - newDt * mult);
         
+        if (!PlayLayer::get()) {
+            return GJBaseGameLayer::update(dt);
+        }
+        
+        float targetDt = 1.0f / fpsValue;
+        
+        // rework delta time to be toggable like TCBot etc
+        GJBaseGameLayer::update(targetDt);
     }
 
     float getModifiedDelta(float dt) {
-        if (!Global::get().tpsEnabled) return GJBaseGameLayer::getModifiedDelta(dt);
-        if (Global::getTPS() == 240.f) return GJBaseGameLayer::getModifiedDelta(dt);
-        if (!PlayLayer::get()) return GJBaseGameLayer::getModifiedDelta(dt);
+        if (fpsValue == 240.0f) {
+            return GJBaseGameLayer::getModifiedDelta(dt);
+        }
+        
+        if (!PlayLayer::get()) {
+            return GJBaseGameLayer::getModifiedDelta(dt);
+        }
 
-        double dVar1;
-        float fVar2;
-        float fVar3;
-        double dVar4;
-
-        float newDt = 1.f / Global::getTPS();
+        float targetDt = 1.0f / fpsValue;
         
         if (0 < m_resumeTimer) {
             m_resumeTimer--;
             dt = 0.0;
         }
 
-        fVar2 = 1.0;
-        if (m_gameState.m_timeWarp <= 1.0) {
-            fVar2 = m_gameState.m_timeWarp;
+        // Not actually sure what this is smt with timewarp
+        float timeWarp = 1.0f;
+        if (m_gameState.m_timeWarp <= 1.0f) {
+            timeWarp = m_gameState.m_timeWarp;
         }
 
-        dVar1 = dt + m_extraDelta;
-        fVar3 = std::round(dVar1 / (fVar2 * newDt));
-        dVar4 = fVar3 * fVar2 * newDt;
-        m_extraDelta = dVar1 - dVar4;
+        double adjustedDt = dt + m_extraDelta;
+        float steps = std::round(adjustedDt / (timeWarp * targetDt));
+        double finalDt = steps * timeWarp * targetDt;
+        m_extraDelta = adjustedDt - finalDt;
 
-        return dVar4;
+        return finalDt;
     }
-
 };
