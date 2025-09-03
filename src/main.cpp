@@ -34,13 +34,17 @@ $on_mod(Loaded) {
         ImGui::Text(" ");
         ImGui::Checkbox("Enable Noclip", &noclipEnabled);
         ImGui::End();
-        
         ImGui::BeginTabBar("##tabs");
-        if (ImGui::BeginTabItem("Tab 1")) {
+        if (ImGui::BeginTabItem("Tab 1"))
             ImGui::Text("This is the first tab!");
             ImGui::EndTabItem();
     });
 }
+
+
+
+        
+    
 
 
 // #ifndef GEODE_IS_IOS
