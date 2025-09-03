@@ -5,6 +5,7 @@
 #include <Geode/Geode.hpp>
 #include <imgui-cocos.hpp>
 
+using namespace geode::prelude;
 
 /* de3am is a boykisser and a list helper
    Breuhh is also a boykisser and a list helper. (de3am told me to put this) 
@@ -22,12 +23,50 @@ bool oldphysEnabled = false;
 float seedValue = 1.0f;
 float fpsValue = 240.0f;
 
+// Mouse cursor and keybind variables
+bool guiVisible = false;
+int selectedKeybind = 0;  // 0 = Alt, 1 = F1, 2 = F2, 3 = F3, etc.
+const char* keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
+cocos2d::enumKeyCodes keybindCodes[] = {
+    cocos2d::enumKeyCodes::KEY_Alt,
+    cocos2d::enumKeyCodes::KEY_F1,
+    cocos2d::enumKeyCodes::KEY_F2,
+    cocos2d::enumKeyCodes::KEY_F3,
+    cocos2d::enumKeyCodes::KEY_F4,
+    cocos2d::enumKeyCodes::KEY_F5,
+    cocos2d::enumKeyCodes::KEY_Insert,
+    cocos2d::enumKeyCodes::KEY_Home,
+    cocos2d::enumKeyCodes::KEY_End
+};
+
 $on_mod(Loaded) {
     ImGuiCocos::get().setup([] {
         // Setup callback - runs after imgui initialization
         auto& style = ImGui::GetStyle();
         // Optional: customize style here
    }).draw([] {
+        // Check if GUI visibility changed and manage cursor
+        bool currentlyVisible = ImGuiCocos::get().isVisible();
+        if (currentlyVisible != guiVisible) {
+            guiVisible = currentlyVisible;
+            
+            if (guiVisible) {
+                // GUI just opened - show mouse cursor
+                auto director = cocos2d::CCDirector::sharedDirector();
+                auto view = director->getOpenGLView();
+                if (view) {
+                    view->showCursor(true);
+                }
+            } else {
+                // GUI just closed - hide mouse cursor
+                auto director = cocos2d::CCDirector::sharedDirector();
+                auto view = director->getOpenGLView();
+                if (view) {
+                    view->showCursor(false);
+                }
+            }
+        }
+        
         // Always wrap ImGui content in a window
         if (ImGui::Begin("Astral Mod", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::Separator();
@@ -63,11 +102,45 @@ $on_mod(Loaded) {
                 if (ImGui::BeginTabItem("Render")) {
                     ImGui::Separator();
                     if (ImGui::Button("Start Render")) {
-                        // Add autoclicker functionality here
+                        // Add render functionality here
                     }
                     if (ImGui::Button("Stop Render")) {
-                        // Add autoclicker functionality here
+                        // Add render functionality here
                     }
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem("Settings")) {
+                    ImGui::Separator();
+                    ImGui::Text("GUI Settings:");
+                    ImGui::Separator();
+                    
+                    // Keybind selector
+                    ImGui::Text("Toggle GUI Key:");
+                    if (ImGui::Combo("##keybind", &selectedKeybind, keybindNames, IM_ARRAYSIZE(keybindNames))) {
+                        // Keybind changed - could save to config here
+                    }
+                    
+                    ImGui::Text("Current Key: %s", keybindNames[selectedKeybind]);
+                    
+                    // Color chooser
+                    ImGui::Separator();
+                    ImGui::Text("Theme Color:");
+                    if (ImGui::ColorEdit3("##themecolor", themeColor)) {
+                        // Color changed - theme updates automatically
+                    }
+                    
+                    // Reset to mint green button
+                    if (ImGui::Button("Reset to Mint Green")) {
+                        themeColor[0] = 0.4f; // R
+                        themeColor[1] = 1.0f; // G  
+                        themeColor[2] = 0.7f; // B
+                    }
+                    
+                    // Other settings can go here
+                    ImGui::Separator();
+                    ImGui::Text("Other Settings:");
+                    ImGui::Combo("Theme Style", &selectedTheme, "Custom Color\0Dark\0Light\0Classic\0");
+                    
                     ImGui::EndTabItem();
                 }
                 ImGui::EndTabBar();
@@ -77,15 +150,14 @@ $on_mod(Loaded) {
     });
 }
 
-        
-    
-
-
 #ifndef GEODE_IS_IOS
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
-        if (key == cocos2d::enumKeyCodes::KEY_Alt && isKeyDown) {
-            ImGuiCocos::get().toggle();
+        // Check if the pressed key matches the selected keybind
+        if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes)) {
+            if (key == keybindCodes[selectedKeybind] && isKeyDown) {
+                ImGuiCocos::get().toggle();
+            }
         }
         return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
     }
