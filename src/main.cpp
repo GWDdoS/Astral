@@ -22,10 +22,14 @@ bool layoutEnabled = false;
 bool oldphysEnabled = false;
 float seedValue = 1.0f;
 float fpsValue = 240.0f;
-
-// Mouse cursor and keybind variables
+float themeColor[3] = {0.4f, 1.0f, 0.7f};  // green kinda like Echo
+bool styleApplied = false;
 bool guiVisible = false;
-int selectedKeybind = 0;  // 0 = Alt, 1 = F1, 2 = F2, 3 = F3, etc.
+int selectedKeybind = 0;
+
+// bro this is so shit its crazy
+bool guiVisible = false;
+int selectedKeybind = 0;  // i couldnt think of anything else ok :skull:
 const char* keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
 cocos2d::enumKeyCodes keybindCodes[] = {
     cocos2d::enumKeyCodes::KEY_Alt,
