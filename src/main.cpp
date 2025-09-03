@@ -48,7 +48,7 @@ $on_mod(Loaded) {
     });
 }
 
-/* #ifndef GEODE_IS_IOS
+#ifndef GEODE_IS_IOS
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
         if (key == cocos2d::enumKeyCodes::KEY_Alt && isKeyDown) {
@@ -58,7 +58,7 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     }
 };
 #endif
-*/
+
 
 /*
 ImGui::Tooltip("Astral Mod by de3am and breuhh");

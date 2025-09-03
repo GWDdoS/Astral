@@ -8,10 +8,11 @@ class $modify(MyPlayLayer, PlayLayer) {
     void destroyPlayer(PlayerObject* p1, GameObject* p2) {
         if (noclipEnabled) {
             if (!m_anticheatSpike) {
-                // this line having nothing in it is intentional, it's to never call it
+                // Don't call the original destroyPlayer when noclip is enabled
+                return;
             }
         }
+        // Call the original destroyPlayer when noclip is disabled
+        PlayLayer::destroyPlayer(p1, p2);
     }
 };
-
-// will this work? lets find out 
