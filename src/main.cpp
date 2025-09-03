@@ -20,7 +20,7 @@ $on_mod(Loaded) {
         // its a callback as imgui will be re initialized when toggling fullscreen,
         // so use this to setup any themes and or fonts!
     }).draw([] {
-        ImGui::Begin("Astral");
+        /*ImGui::Begin("Astral");
         ImGui::Text("Astral Botting:");
         ImGui::Text(" ");
         ImGui::Button("Record Macro");
@@ -34,6 +34,7 @@ $on_mod(Loaded) {
         ImGui::Text(" ");
         ImGui::Checkbox("Enable Noclip", &noclipEnabled);
         ImGui::End();
+        */
         ImGui::BeginTabBar("##tabs");
         if (ImGui::BeginTabItem("Tab 1"))
             ImGui::Text("This is the first tab!");
@@ -64,4 +65,5 @@ ImGui::Tooltip("Astral Mod by de3am and breuhh");
 ImGui::Text("Astral Mod by de3am and breuhh");
 ImGui::Button(" "); --- IGNORE ---
 ImGui::Checkbox("Enable Astral Mod", &astralEnabled); --- IGNORE ---
+ImGui::ToggleButton("Enable Astral Mod", &astralEnabled); // New toggle button
 */
