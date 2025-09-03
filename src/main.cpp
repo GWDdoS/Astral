@@ -1,15 +1,7 @@
 // Ok no we HAVE TO MOVE ALL THIS SHIT OUT OF HERE OMFG. Ill be remakign the whole code branch soon omfg. 
 
-
-
-
-
-#include <Geode/Geode.hpp>
-#include <Geode/modify/MenuLayer.hpp>
 #include "includes.h"
-#include <Geode/modify/CCKeyboardDispatcher.hpp>
-#include <Geode/Geode.hpp>
-#include <imgui-cocos.hpp>
+
 
 using namespace geode::prelude;
 

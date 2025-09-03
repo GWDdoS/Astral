@@ -1,5 +1,4 @@
-#include <Geode/Geode.hpp>
-#include <Geode/modify/PlayLayer.hpp>
+
 #include "../../includes.h"
 
 class $modify (NoclipPL, PlayLayer) {

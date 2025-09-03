@@ -1,8 +1,7 @@
 // still needs rewrite dont get me wrong
+// this shit doesnt work anyway
 
-#include <Geode/Geode.hpp>
-#include <Geode/modify/GJBaseGameLayer.hpp>
-#include <cmath>
+#include "includes.h"
 
 using namespace geode::prelude;
 
