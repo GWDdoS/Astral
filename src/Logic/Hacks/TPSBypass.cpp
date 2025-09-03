@@ -10,7 +10,7 @@ class $modify(GJBaseGameLayer) {
 
     void update(float dt) {
         // Don't modify if at default 240 TPS and lock delta is disabled
-        if (tpsValue == 240.0f && !lockDeltaEnabled) {
+        if (tpsValue == 240.0f && !lockedDeltaEnabled) {
             return GJBaseGameLayer::update(dt);
         }
         
@@ -29,7 +29,7 @@ class $modify(GJBaseGameLayer) {
 
     float getModifiedDelta(float dt) {
         // Don't modify if at default 240 TPS and lock delta is disabled
-        if (tpsValue == 240.0f && !lockDeltaEnabled) {
+        if (tpsValue == 240.0f && !lockedDeltaEnabled) {
             return GJBaseGameLayer::getModifiedDelta(dt);
         }
         
