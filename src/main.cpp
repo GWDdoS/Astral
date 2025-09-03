@@ -19,27 +19,35 @@ $on_mod(Loaded) {
         // this runs after imgui has been setup,
         // its a callback as imgui will be re initialized when toggling fullscreen,
         // so use this to setup any themes and or fonts!
-    }).draw([] {
-        /*ImGui::Begin("Astral");
-        ImGui::Text("Astral Botting:");
-        ImGui::Text(" ");
-        ImGui::Button("Record Macro");
-        ImGui::Button("Save Macro");
-        ImGui::Text(" ");
-        ImGui::Text("Astral AutoClicker:");
-        ImGui::Text(" ");
-        ImGui::Button("Start AutoClicker");
-        ImGui::Text(" ");
+   }).draw([] {
+    ImGui::BeginTabBar("##tabs");
+    if (ImGui::BeginTabItem("Hacks")) {
         ImGui::Text("Astral Hacks:");
-        ImGui::Text(" ");
+        ImGui::Separator();
         ImGui::Checkbox("Enable Noclip", &noclipEnabled);
-        ImGui::End();
-        */
-        ImGui::BeginTabBar("##tabs");
-        if (ImGui::BeginTabItem("Tab 1"))
-            ImGui::Text("This is the first tab!");
-            ImGui::EndTabItem();
-    });
+        ImGui::EndTabItem();
+    }
+    if (ImGui::BeginTabItem("Botting")) {
+        ImGui::Text("Astral Botting:");
+        ImGui::Separator();
+        if (ImGui::Button("Record Macro")) {
+            // Add macro recording functionality here
+        }
+        if (ImGui::Button("Save Macro")) {
+            // Add macro saving functionality here  
+        }
+        ImGui::EndTabItem();
+    }
+    if (ImGui::BeginTabItem("AutoClicker")) {
+        ImGui::Text("Astral AutoClicker:");
+        ImGui::Separator();
+        if (ImGui::Button("Start AutoClicker")) {
+            // Add autoclicker functionality here
+        }
+        ImGui::EndTabItem();
+    }
+    ImGui::EndTabBar();
+});
 }
 
 
