@@ -132,14 +132,20 @@ $on_mod(Loaded) {
                 if (ImGui::BeginTabItem("Botting")) {
                     ImGui::Separator();
                     if (ImGui::Button("Record Macro")) {
+                        
                     }
                     if (ImGui::Button("Save Macro")) {
+                        
                     }
                     ImGui::InputFloat("FPS", &fpsValue);
                     ImGui::InputFloat("Speedhack", &speedValue);  
                     ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
-                    ImGui::Button("Frame Stepper", &framestepEnabled)
-                    ImGui::Button("Step Frame")
+                    
+                    ImGui::Checkbox("Frame Stepper", &framestepEnabled);
+    
+                    if (ImGui::Button("Step Frame")) {
+                    }
+
                     ImGui::Checkbox("Enable 2.1 Legacy Physics", &oldphysEnabled);
                     ImGui::EndTabItem();
                 }

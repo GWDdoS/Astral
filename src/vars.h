@@ -9,6 +9,7 @@ extern bool oldphysEnabled;
 extern bool trajectoryEnabled;
 extern bool styleApplied;
 extern bool guiVisible;
+extern bool framestepEnabled;
 
 //Floats
 extern float seedValue;
