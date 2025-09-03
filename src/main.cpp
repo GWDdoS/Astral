@@ -16,41 +16,75 @@ bool noclipEnabled = false;
 
 $on_mod(Loaded) {
     ImGuiCocos::get().setup([] {
-        // this runs after imgui has been setup,
-        // its a callback as imgui will be re initialized when toggling fullscreen,
-        // so use this to setup any themes and or fonts!
+        // Setup callback - runs after imgui initialization
+        auto& style = ImGui::GetStyle();
+        // Optional: customize style here
    }).draw([] {
-    ImGui::BeginTabBar("##tabs");
-    if (ImGui::BeginTabItem("Hacks")) {
-        ImGui::Text("Astral Hacks:");
-        ImGui::Separator();
-        ImGui::Checkbox("Enable Noclip", &noclipEnabled);
-        ImGui::EndTabItem();
-    }
-    if (ImGui::BeginTabItem("Botting")) {
-        ImGui::Text("Astral Botting:");
-        ImGui::Separator();
-        if (ImGui::Button("Record Macro")) {
-            // Add macro recording functionality here
+        // Always wrap ImGui content in a window
+        if (ImGui::Begin("Astral Mod", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+            ImGui::Text("Astral Mod by de3am and breuhh");
+            ImGui::Separator();
+            
+            // Option 1: Keep tabs (recommended)
+            if (ImGui::BeginTabBar("##tabs")) {
+                if (ImGui::BeginTabItem("Hacks")) {
+                    ImGui::Text("Astral Hacks:");
+                    ImGui::Separator();
+                    ImGui::Checkbox("Enable Noclip", &noclipEnabled);
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem("Botting")) {
+                    ImGui::Text("Astral Botting:");
+                    ImGui::Separator();
+                    if (ImGui::Button("Record Macro")) {
+                        // Add macro recording functionality here
+                    }
+                    if (ImGui::Button("Save Macro")) {
+                        // Add macro saving functionality here  
+                    }
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem("AutoClicker")) {
+                    ImGui::Text("Astral AutoClicker:");
+                    ImGui::Separator();
+                    if (ImGui::Button("Start AutoClicker")) {
+                        // Add autoclicker functionality here
+                    }
+                    ImGui::EndTabItem();
+                }
+                ImGui::EndTabBar();
+            }
         }
-        if (ImGui::Button("Save Macro")) {
-            // Add macro saving functionality here  
+        ImGui::End();
+        
+        /* Alternative Option 2: Replace tabs with collapsing headers
+        if (ImGui::Begin("Astral Mod", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
+            ImGui::Text("Astral Mod by de3am and breuhh");
+            ImGui::Separator();
+            
+            if (ImGui::CollapsingHeader("Hacks")) {
+                ImGui::Checkbox("Enable Noclip", &noclipEnabled);
+            }
+            
+            if (ImGui::CollapsingHeader("Botting")) {
+                if (ImGui::Button("Record Macro")) {
+                    // Add functionality
+                }
+                if (ImGui::Button("Save Macro")) {
+                    // Add functionality
+                }
+            }
+            
+            if (ImGui::CollapsingHeader("AutoClicker")) {
+                if (ImGui::Button("Start AutoClicker")) {
+                    // Add functionality
+                }
+            }
         }
-        ImGui::EndTabItem();
-    }
-    if (ImGui::BeginTabItem("AutoClicker")) {
-        ImGui::Text("Astral AutoClicker:");
-        ImGui::Separator();
-        if (ImGui::Button("Start AutoClicker")) {
-            // Add autoclicker functionality here
-        }
-        ImGui::EndTabItem();
-    }
-    ImGui::EndTabBar();
-});
+        ImGui::End();
+        */
+    });
 }
-
-
 
         
     
