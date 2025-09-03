@@ -121,14 +121,6 @@ $on_mod(Loaded) {
             ImGui::Separator();
             
             if (ImGui::BeginTabBar("##tabs")) {
-                if (ImGui::BeginTabItem("Hacks")) {
-                    ImGui::Separator();
-                    ImGui::Checkbox("Enable Noclip", &noclipEnabled);
-                    ImGui::Checkbox("Show Layout", &layoutEnabled);
-                    ImGui::InputFloat("Lock Seed", &seedValue);
-                    
-                    ImGui::EndTabItem();
-                }
                 if (ImGui::BeginTabItem("Botting")) {
                     ImGui::Separator();
                     if (ImGui::Button("Record Macro")) {
@@ -137,6 +129,14 @@ $on_mod(Loaded) {
                     }
                     ImGui::InputFloat("FPS", &fpsValue);
                     ImGui::Checkbox("Enable 2.1 Legacy Physics", &oldphysEnabled);
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem("Hacks")) {
+                    ImGui::Separator();
+                    ImGui::Checkbox("Enable Noclip", &noclipEnabled);
+                    ImGui::Checkbox("Show Layout", &layoutEnabled);
+                    ImGui::InputFloat("Lock Seed", &seedValue);
+                    
                     ImGui::EndTabItem();
                 }
                 if (ImGui::BeginTabItem("AutoClicker")) {
