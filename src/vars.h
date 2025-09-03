@@ -10,12 +10,14 @@ extern bool trajectoryEnabled;
 extern bool styleApplied;
 extern bool guiVisible;
 extern bool framestepEnabled;
+extern bool lockedDeltaEnabled;
 
 //Floats
 extern float seedValue;
-extern float fpsValue;
+extern float tpsValue;
 extern float themeColor[3];
 extern float speedValue;
+extern float lockedDeltaValue;
 
 //Ints
 extern int selectedKeybind;

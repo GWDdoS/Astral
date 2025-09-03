@@ -7,8 +7,6 @@ using namespace geode::prelude;
 /* de3am is a boykisser and a list helper
    Breuhh is also a boykisser and a list helper. (de3am told me to put this) 
 */
-// OMG its all gone :sob: 
-// omg its all back :D
 
 // The unholy list of vars
 //bools
@@ -21,10 +19,11 @@ bool layoutEnabled = false;
 bool oldphysEnabled = false;
 bool styleApplied = false;
 bool framestepEnabled = false;
+bool lockDeltaEnabled = false; // NEW: Lock delta option
 
 //Floats
 float seedValue = 1.0f;
-float fpsValue = 240.0f;
+float tpsValue = 240.0f;
 float speedValue = 1.0f;
 float themeColor[3] = {0.4f, 1.0f, 0.7f};  // smt that might be close to echo
 
@@ -128,7 +127,27 @@ $on_mod(Loaded) {
                     if (ImGui::Button("Save Macro")) {
                         
                     }
-                    ImGui::InputFloat("FPS", &fpsValue);
+                    
+                    ImGui::Text("TPS Bypass:");
+                    ImGui::InputFloat("TPS", &tpsValue, 1.0f, 10.0f, "%.0f");
+                    
+
+                    
+                    ImGui::Checkbox("Lock Delta Time", &lockDeltaEnabled);
+                    ImGui::SameLine();
+                    if (ImGui::Button("?")) {
+                        ImGui::OpenPopup("delta_help");
+                    }
+                    
+                    if (ImGui::BeginPopup("delta_help")) {
+                        ImGui::Text("Lock Delta Time:");
+                        ImGui::Separator();
+                        ImGui::TextWrapped("When enabled, forces consistent physics timing.\nUseful for TAS and frame-perfect gameplay.");
+                        ImGui::TextWrapped("When disabled, allows smooth high TPS gameplay\nwithout physics slowdown.");
+                        ImGui::EndPopup();
+                    }
+                    
+                    ImGui::Separator();
                     ImGui::InputFloat("Speedhack", &speedValue);  
                     ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
                     
