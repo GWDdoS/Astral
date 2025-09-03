@@ -12,3 +12,4 @@
 #include <Geode/modify/GJBaseGameLayer.hpp>
 #include <cmath>
 #include <Geode/modify/PlayLayer.hpp>
+#include <geode.imgui-cocos/include/imgui-cocos.hpp>

@@ -4,6 +4,7 @@
 - Removed old Mobile GUI.
 - Fixed GUI keybind.
 - Start on the final GUI.
+- o7 andriod lol (maybe later)
 
 # 1.0.0-alpha.3
 - Rebrand.
