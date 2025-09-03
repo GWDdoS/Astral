@@ -4,7 +4,7 @@ extern bool recording;
 extern bool replaying;
 extern bool rendering;
 extern int selectedTheme;
-extern bool noclipEnabled = false;
+extern bool noclipEnabled;
 bool noclipEnabled = false;
 bool layoutEnabled = false;
 bool oldphysEnabled = false;
