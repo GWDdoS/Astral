@@ -254,8 +254,8 @@ $on_mod(Loaded) {
                     
                     ImGui::Separator();
                     ImGui::Text("Individual Player Noclip:");
-                    ImGui::Checkbox("Player 1 Noclip", &noclipP1Enabled);
-                    ImGui::Checkbox("Player 2 Noclip", &noclipP2Enabled);
+                    ImGui::Checkbox("Player 1 Noclip", &noclipP1);
+                    ImGui::Checkbox("Player 2 Noclip", &noclipP2);
                     
                     ImGui::Separator();
                     ImGui::Checkbox("Show Layout", &layoutEnabled);
