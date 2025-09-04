@@ -151,7 +151,7 @@ $on_mod(Loaded) {
         }
         
         // Window flags: no title bar, no close button, no collapse, resizable
-        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize;
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse;
         
         if (ImGui::Begin("Astral Mod", nullptr, window_flags)) {
             // Custom title bar with centered text
