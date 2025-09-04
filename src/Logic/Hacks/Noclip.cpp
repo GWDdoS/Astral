@@ -13,9 +13,9 @@ class $modify(NoclipPL, PlayLayer) {
         if (noclipEnabled) {
             shouldNoclip = true;
         } else {
-            if (isPlayer1 && noclipP1Enabled && noclipEnabled) {
+            if (isPlayer1 && noclipP1 && noclipEnabled) {
                 shouldNoclip = true;
-            } else if (isPlayer2 && noclipP2Enabled && noclipEnabled) {
+            } else if (isPlayer2 && noclipP2 && noclipEnabled) {
                 shouldNoclip = true;
             } 
         }
@@ -26,5 +26,6 @@ class $modify(NoclipPL, PlayLayer) {
         }
         
         PlayLayer::destroyPlayer(player, obstacle);
+        return;}
     }
 };
