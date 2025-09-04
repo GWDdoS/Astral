@@ -12,3 +12,6 @@
 #include <Geode/modify/GJBaseGameLayer.hpp>
 #include <cmath>
 #include <Geode/modify/PlayLayer.hpp>
+#include <vector>
+#include <string>
+#include <algorithm>

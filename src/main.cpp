@@ -157,6 +157,7 @@ $on_mod(Loaded) {
             if (ImGui::BeginTabBar("##tabs")) {
                 if (ImGui::BeginTabItem("Botting")) {
                     ImGui::Separator();
+                    ImGui::InputText("Macro Name", (char*)"", 128);
                     if (ImGui::Button("Record Macro")) {
                         
                     }
@@ -191,10 +192,14 @@ $on_mod(Loaded) {
                     
                     ImGui::EndTabItem();
                 }
-                if (ImGui::BeginTabItem("AutoClicker")) {
+                if (ImGui::BeginTabItem("Assists")) {
                     ImGui::Separator();
                     if (ImGui::Button("Start AutoClicker")) {
                     }
+                    ImGui::Button("Stop AutoClicker");
+                    ImGui::Button("Dual Merge Input");
+                    ImGui::Sameline();
+                     ImGui::Combo("Input Type", &inputMerge, "Input\0Space\0Up\0Left\0Right\0");
                     ImGui::EndTabItem();
                 }
                 if (ImGui::BeginTabItem("Render")) {
