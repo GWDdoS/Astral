@@ -151,7 +151,7 @@ $on_mod(Loaded) {
         }
         
         // Window flags: no title bar, no close button, no collapse, resizable
-        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse;
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize;
         
         if (ImGui::Begin("Astral Mod", nullptr, window_flags)) {
             // Custom title bar with centered text
@@ -161,18 +161,18 @@ $on_mod(Loaded) {
             // Draw larger banner area
             ImDrawList* draw_list = ImGui::GetWindowDrawList();
             ImVec2 banner_min = windowPos;
-            ImVec2 banner_max = ImVec2(windowPos.x + windowSize.x, windowPos.y + 80); // Increased height from ~50 to 80
+            ImVec2 banner_max = ImVec2(windowPos.x + windowSize.x, windowPos.y + 40); // Increased height from ~50 to 80
             
             // Banner background with theme color
             ImVec4 bannerColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 0.8f);
             draw_list->AddRectFilled(banner_min, banner_max, ImGui::ColorConvertFloat4ToU32(bannerColor), 12.0f, ImDrawFlags_RoundCornersTop);
             
             // Center the "Astral Mod" text in the banner
-            const char* title = "Astral Mod";
+            const char* title = "Astral: Bot";
             ImVec2 text_size = ImGui::CalcTextSize(title);
             ImVec2 text_pos = ImVec2(
                 windowPos.x + (windowSize.x - text_size.x) * 0.5f,
-                windowPos.y + (80 - text_size.y) * 0.5f  // Center in the 80px banner
+                windowPos.y + (40 - text_size.y) * 0.5f  // Center in the 80px banner
             );
             
             draw_list->AddText(text_pos, IM_COL32(255, 255, 255, 255), title);
@@ -181,7 +181,7 @@ $on_mod(Loaded) {
             ImGui::Dummy(ImVec2(0, 80));
             
             // Main content area with side tabs
-            ImGui::BeginChild("MainContent", ImVec2(0, 0), false, ImGuiWindowFlags_NoScrollbar);
+            ImGui::BeginChild("MainContent", ImVec2(0, 0), false, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoMove);
             
             // Create horizontal layout: tabs on left, content on right
             ImGui::BeginChild("TabsPanel", ImVec2(150, 0), true);
