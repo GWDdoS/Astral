@@ -11,7 +11,7 @@ using namespace geode::prelude;
 // The unholy list of vars
 //bools
 bool noclipP1Enabled = false;
-bool noclipP2Enabled = false;
+bool noclipP2Enabled = false;   
 bool noclipEnabled = false;
 bool recording = false;
 bool replaying = false;
@@ -162,10 +162,8 @@ $on_mod(Loaded) {
             style.Colors[ImGuiCol_TabActive] = customColorLight;
         }
         
-        // Window flags: no title bar, no close button, no collapse, no resize
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
         
-        // Update GUI visibility state and cursor
         bool currentGuiState = ImGuiCocos::get().isVisible();
         if (currentGuiState != guiVisible) {
             guiVisible = currentGuiState;
@@ -174,25 +172,20 @@ $on_mod(Loaded) {
 #endif
         }
         
-        // Set window size and position
         ImGui::SetNextWindowSize(ImVec2(600, 450), ImGuiCond_Always);
         ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);
         
         if (ImGui::Begin("Astral Mod", nullptr, window_flags)) {
-            // Custom title bar with centered text
             ImVec2 windowSize = ImGui::GetWindowSize();
             ImVec2 windowPos = ImGui::GetWindowPos();
             
-            // Draw larger banner area
             ImDrawList* draw_list = ImGui::GetWindowDrawList();
             ImVec2 banner_min = windowPos;
             ImVec2 banner_max = ImVec2(windowPos.x + windowSize.x, windowPos.y + 50);
             
-            // Banner background with theme color
             ImVec4 bannerColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 0.8f);
             draw_list->AddRectFilled(banner_min, banner_max, ImGui::ColorConvertFloat4ToU32(bannerColor), 12.0f, ImDrawFlags_RoundCornersTop);
             
-            // Center the "Astral: Bot" text in the banner
             const char* title = "Astral: Bot";
             ImVec2 text_size = ImGui::CalcTextSize(title);
             ImVec2 text_pos = ImVec2(
@@ -202,13 +195,10 @@ $on_mod(Loaded) {
             
             draw_list->AddText(text_pos, IM_COL32(255, 255, 255, 255), title);
             
-            // Add spacing for the banner
             ImGui::Dummy(ImVec2(0, 50));
             
-            // Main content area with side tabs
             ImGui::BeginChild("MainContent", ImVec2(0, -5), false, ImGuiWindowFlags_NoScrollbar);
             
-            // Create horizontal layout: tabs on left, content on right
             ImGui::BeginChild("TabsPanel", ImVec2(140, 0), true);
             
             static int selected_tab = 0;
@@ -224,11 +214,10 @@ $on_mod(Loaded) {
             
             ImGui::SameLine();
             
-            // Content area
             ImGui::BeginChild("ContentPanel", ImVec2(0, 0), true);
             
             switch (selected_tab) {
-                case 0: // Botting
+                case 0: 
                     ImGui::Separator();
                     ImGui::InputText("Macro Name", macroName, sizeof(macroName));
                     if (ImGui::Button("Record Macro", ImVec2(120, 0))) {
@@ -249,25 +238,22 @@ $on_mod(Loaded) {
                     ImGui::Separator();
                     ImGui::Text("Speedhack Controls:");
                     
-                    // Speedhack enable checkbox
+                    
                     if (ImGui::Checkbox("Enable Speedhack", &speedhackEnabled)) {
                         Global::toggleSpeedhack();
                     }
-                    
-                    // Speed value input
+                    // remove and rewrite
                     ImGui::SetNextItemWidth(200);
                     if (ImGui::InputFloat("Speed Value", &speedValue, 0.1f, 1.0f, "%.2f")) {
-                        // Clamp speed value to reasonable range
                         if (speedValue < 0.01f) speedValue = 0.01f;
                         if (speedValue > 10.0f) speedValue = 10.0f;
                         
-                        // Apply speed change if speedhack is enabled
                         if (speedhackEnabled) {
                             Global::updateGameSpeed(speedValue);
                         }
                     }
                     
-                    // Audio sync checkbox and button
+                    // also needs rewrite
                     ImGui::Checkbox("Audio Sync", &speedhackAudio);
                     ImGui::SameLine();
                     if (ImGui::Button("Toggle Audio Sync", ImVec2(140, 0))) {
@@ -285,7 +271,7 @@ $on_mod(Loaded) {
                     ImGui::Checkbox("Enable 2.1 Legacy Physics", &oldphysEnabled);
                     break;
                     
-                case 1: // Hacks
+                case 1: 
                     ImGui::Separator();
                     ImGui::Checkbox("Enable Noclip (Both Players)", &noclipEnabled);
                     
@@ -300,7 +286,7 @@ $on_mod(Loaded) {
                     ImGui::InputFloat("Lock Seed", &seedValue);
                     break;
                     
-                case 2: // Assists
+                case 2: 
                     ImGui::Separator();
                     if (ImGui::Button("Start AutoClicker", ImVec2(140, 0))) {
                     }
@@ -312,7 +298,7 @@ $on_mod(Loaded) {
                     ImGui::Combo("Input Type", &inputMerge, "Input\0Space\0Up\0Left\0Right\0");
                     break;
                     
-                case 3: // Render
+                case 3: 
                     ImGui::Separator();
                     if (ImGui::Button("Start Render", ImVec2(120, 0))) {
                     }
@@ -320,7 +306,7 @@ $on_mod(Loaded) {
                     }
                     break;
                     
-                case 4: // Settings
+                case 4: 
                     ImGui::Separator();
                     ImGui::Text("GUI Settings:");
                     ImGui::Separator();
@@ -351,19 +337,19 @@ $on_mod(Loaded) {
                     }
                     break;
                     
-                case 5: // Customization
+                case 5: 
                     ImGui::Separator();
                     ImGui::Text("More to come soon :)");
                     break;
             }
             
-            ImGui::EndChild(); // ContentPanel
-            ImGui::EndChild(); // MainContent
+            ImGui::EndChild(); 
+            ImGui::EndChild(); 
         }
         ImGui::End();
     });
 }
-
+// basic cursor shit, idk how to fix it or make it work
 #ifdef GEODE_IS_WINDOWS
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
@@ -379,7 +365,6 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     }
 };
 #else
-// Non-Windows platforms - no cursor management
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
         if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes)) {

@@ -1,15 +1,10 @@
 #include "../../includes.hpp"
 
-// External variables from main.cpp
-extern bool speedhackEnabled;
-extern bool speedhackAudio;
-extern float currentPitch;
-extern float currentSpeedValue;
-extern float speedValue;
-
-void updatePitch(float value) {
-  if (!speedhackAudio) {
-    if (currentPitch != 1.f) value = 1.f;
+/*
+void Global::updatePitch(float value) {
+  auto& g = Global::get();
+  if (!g.speedhackAudio) {
+    if (g.currentPitch != 1.f) value = 1.f;
     else return;
   }
 
@@ -19,51 +14,30 @@ void updatePitch(float value) {
 
   if (channel) {
     channel->setPitch(value);
-    currentPitch = value;
+    g.currentPitch = value;
   }
 }
 
-void updateGameSpeed(float value) {
-  // Get the director and current scene
-  auto director = cocos2d::CCDirector::sharedDirector();
-  if (!director) return;
-  
-  auto scene = director->getRunningScene();
-  if (!scene) return;
-  
-  // Set the game speed by modifying the scheduler time scale
-  director->getScheduler()->setTimeScale(value);
-  
-  // Also update audio pitch if enabled
-  if (speedhackAudio) {
-    updatePitch(value);
-  }
-  
-  currentSpeedValue = value;
+void Global::frameStep() {
+  auto& g = Global::get();
+  if (!PlayLayer::get() || !g.frameStepper) return;
+
+  g.stepFrame = true;
+  g.stepFrameDraw = true;
+  g.stepFrameParticle = 4;
 }
 
-void toggleSpeedhack() {
-  speedhackEnabled = !speedhackEnabled;
+void Global::toggleSpeedhack() {
+  auto& g = Global::get();
+  g.mod->setSavedValue("macro_speedhack_enabled", !g.mod->getSavedValue<bool>("macro_speedhack_enabled"));
+  g.speedhackEnabled = g.mod->getSavedValue<bool>("macro_speedhack_enabled");
 
-  if (speedhackEnabled) {
-    // Apply the current speed value when enabling speedhack
-    updateGameSpeed(speedValue);
-  } else {
-    // Reset to normal speed when disabling speedhack
-    updateGameSpeed(1.0f);
-    updatePitch(1.0f);
+  if (g.layer) {
+    if (static_cast<RecordLayer*>(g.layer)->speedhackToggle)
+      static_cast<RecordLayer*>(g.layer)->speedhackToggle->toggle(g.mod->getSavedValue<bool>("macro_speedhack_enabled"));
   }
-}
 
-void toggleSpeedhackAudio() {
-  speedhackAudio = !speedhackAudio;
-  
-  // Update audio immediately based on current settings
-  if (speedhackEnabled) {
-    if (speedhackAudio) {
-      updatePitch(speedValue);
-    } else {
-      updatePitch(1.0f);
-    }
-  }
+  if (!g.mod->getSavedValue<bool>("macro_speedhack_enabled"))
+    Global::updatePitch(1.f);
 }
+*/
