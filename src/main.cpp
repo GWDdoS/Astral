@@ -19,7 +19,8 @@ bool layoutEnabled = false;
 bool oldphysEnabled = false;
 bool styleApplied = false;
 bool framestepEnabled = false;
-bool lockedDeltaEnabled = false; 
+bool lockedDeltaEnabled = false;
+bool guiVisible = false;
 
 //Floats
 float seedValue = 1.0f;
@@ -33,7 +34,7 @@ int backgroundTheme = 0;
 int inputMerge = 0;
 
 //Chars
-char macroName; 
+char macroName[128] = "Test";
 
 // dumbahh fix i actually haev to rework this, move to /keybinds.cpp
 const char* keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
@@ -50,6 +51,30 @@ cocos2d::enumKeyCodes keybindCodes[] = {
 };
 
 const char* backgroundThemeNames[] = {"Dark", "Light", "Medium"};
+
+#ifdef GEODE_IS_WINDOWS
+#include <windows.h>
+
+void setCursorVisibility(bool visible) {
+    static bool lastState = true;
+    static int cursorCount = 0;
+    
+    if (visible != lastState) {
+        if (visible) {
+            // Show cursor - keep calling ShowCursor(TRUE) until cursor is visible
+            while (ShowCursor(TRUE) < 0) {
+                // Continue until cursor count is >= 0 (visible)
+            }
+        } else {
+            // Hide cursor - keep calling ShowCursor(FALSE) until cursor is hidden
+            while (ShowCursor(FALSE) >= 0) {
+                // Continue until cursor count is < 0 (hidden)
+            }
+        }
+        lastState = visible;
+    }
+}
+#endif
 
 void applyBackgroundTheme() {
     auto& style = ImGui::GetStyle();
@@ -153,8 +178,21 @@ $on_mod(Loaded) {
             style.Colors[ImGuiCol_TabActive] = customColorLight;
         }
         
-        // Window flags: no title bar, no close button, no collapse, resizable
-        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse;
+        // Window flags: no title bar, no close button, no collapse, no resize
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+        
+        // Update GUI visibility state and cursor
+        bool currentGuiState = ImGuiCocos::get().isVisible();
+        if (currentGuiState != guiVisible) {
+            guiVisible = currentGuiState;
+#ifdef GEODE_IS_WINDOWS
+            setCursorVisibility(guiVisible);
+#endif
+        }
+        
+        // Set window size and position
+        ImGui::SetNextWindowSize(ImVec2(600, 450), ImGuiCond_Always);
+        ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);
         
         if (ImGui::Begin("Astral Mod", nullptr, window_flags)) {
             // Custom title bar with centered text
@@ -164,36 +202,36 @@ $on_mod(Loaded) {
             // Draw larger banner area
             ImDrawList* draw_list = ImGui::GetWindowDrawList();
             ImVec2 banner_min = windowPos;
-            ImVec2 banner_max = ImVec2(windowPos.x + windowSize.x, windowPos.y + 40); // Increased height from ~50 to 80
+            ImVec2 banner_max = ImVec2(windowPos.x + windowSize.x, windowPos.y + 50);
             
             // Banner background with theme color
             ImVec4 bannerColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 0.8f);
             draw_list->AddRectFilled(banner_min, banner_max, ImGui::ColorConvertFloat4ToU32(bannerColor), 12.0f, ImDrawFlags_RoundCornersTop);
             
-            // Center the "Astral Mod" text in the banner
+            // Center the "Astral: Bot" text in the banner
             const char* title = "Astral: Bot";
             ImVec2 text_size = ImGui::CalcTextSize(title);
             ImVec2 text_pos = ImVec2(
                 windowPos.x + (windowSize.x - text_size.x) * 0.5f,
-                windowPos.y + (40 - text_size.y) * 0.5f  // Center in the 80px banner
+                windowPos.y + (50 - text_size.y) * 0.5f
             );
             
             draw_list->AddText(text_pos, IM_COL32(255, 255, 255, 255), title);
             
             // Add spacing for the banner
-            ImGui::Dummy(ImVec2(0, 80));
+            ImGui::Dummy(ImVec2(0, 50));
             
             // Main content area with side tabs
-            ImGui::BeginChild("MainContent", ImVec2(0, 0), false, ImGuiWindowFlags_NoScrollbar);
+            ImGui::BeginChild("MainContent", ImVec2(0, -5), false, ImGuiWindowFlags_NoScrollbar);
             
             // Create horizontal layout: tabs on left, content on right
-            ImGui::BeginChild("TabsPanel", ImVec2(150, 0), true);
+            ImGui::BeginChild("TabsPanel", ImVec2(140, 0), true);
             
             static int selected_tab = 0;
-            const char* tab_names[] = {"Botting", "Hacks", "Assists", "Render", "Settings", "Customization"};
+            const char* tab_names[] = {"Botting", "Hacks", "Assists", "Render", "Settings", "Custom"};
             
             for (int i = 0; i < 6; i++) {
-                if (ImGui::Selectable(tab_names[i], selected_tab == i, 0, ImVec2(130, 40))) {
+                if (ImGui::Selectable(tab_names[i], selected_tab == i, 0, ImVec2(120, 35))) {
                     selected_tab = i;
                 }
             }
@@ -208,26 +246,30 @@ $on_mod(Loaded) {
             switch (selected_tab) {
                 case 0: // Botting
                     ImGui::Separator();
-                    ImGui::InputText("Macro Name", (char*)"Test", 128);
-                    if (ImGui::Button("Record Macro")) {
+                    ImGui::InputText("Macro Name", macroName, sizeof(macroName));
+                    if (ImGui::Button("Record Macro", ImVec2(120, 0))) {
                         
                     }
-                    if (ImGui::Button("Save Macro")) {
+                    ImGui::SameLine();
+                    if (ImGui::Button("Save Macro", ImVec2(120, 0))) {
                         
                     }
                     
+                    ImGui::Spacing();
                     ImGui::Text("TPS Bypass:");
+                    ImGui::SetNextItemWidth(200);
                     ImGui::InputFloat("TPS", &tpsValue);
                     
                     ImGui::Checkbox("Lock Delta Time", &lockedDeltaEnabled);
                     
                     ImGui::Separator();
+                    ImGui::SetNextItemWidth(200);
                     ImGui::InputFloat("Speedhack", &speedValue);  
                     ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
                     
                     ImGui::Checkbox("Frame Stepper", &framestepEnabled);
     
-                    if (ImGui::Button("Step Frame")) {
+                    if (ImGui::Button("Step Frame", ImVec2(120, 0))) {
                     }
 
                     ImGui::Checkbox("Enable 2.1 Legacy Physics", &oldphysEnabled);
@@ -237,24 +279,27 @@ $on_mod(Loaded) {
                     ImGui::Separator();
                     ImGui::Checkbox("Enable Noclip", &noclipEnabled);
                     ImGui::Checkbox("Show Layout", &layoutEnabled);
+                    ImGui::SetNextItemWidth(200);
                     ImGui::InputFloat("Lock Seed", &seedValue);
                     break;
                     
                 case 2: // Assists
                     ImGui::Separator();
-                    if (ImGui::Button("Start AutoClicker")) {
+                    if (ImGui::Button("Start AutoClicker", ImVec2(140, 0))) {
                     }
-                    ImGui::Button("Stop AutoClicker");
-                    ImGui::Button("Dual Merge Input");
-                    ImGui::SameLine();
+                    if (ImGui::Button("Stop AutoClicker", ImVec2(140, 0))) {
+                    }
+                    if (ImGui::Button("Dual Merge Input", ImVec2(140, 0))) {
+                    }
+                    ImGui::SetNextItemWidth(200);
                     ImGui::Combo("Input Type", &inputMerge, "Input\0Space\0Up\0Left\0Right\0");
                     break;
                     
                 case 3: // Render
                     ImGui::Separator();
-                    if (ImGui::Button("Start Render")) {
+                    if (ImGui::Button("Start Render", ImVec2(120, 0))) {
                     }
-                    if (ImGui::Button("Stop Render")) {
+                    if (ImGui::Button("Stop Render", ImVec2(120, 0))) {
                     }
                     break;
                     
@@ -264,6 +309,7 @@ $on_mod(Loaded) {
                     ImGui::Separator();
                     
                     ImGui::Text("Toggle GUI Key:");
+                    ImGui::SetNextItemWidth(200);
                     if (ImGui::Combo("##keybind", &selectedKeybind, keybindNames, IM_ARRAYSIZE(keybindNames))) {
                     }
                     
@@ -271,6 +317,7 @@ $on_mod(Loaded) {
                     
                     ImGui::Separator();
                     ImGui::Text("Background Theme:");
+                    ImGui::SetNextItemWidth(200);
                     if (ImGui::Combo("##backgroundtheme", &backgroundTheme, backgroundThemeNames, IM_ARRAYSIZE(backgroundThemeNames))) {
                         applyBackgroundTheme();
                     }
@@ -280,14 +327,11 @@ $on_mod(Loaded) {
                     if (ImGui::ColorEdit3("##themecolor", themeColor)) {
                     }
                     
-                    if (ImGui::Button("Reset to Default")) {
+                    if (ImGui::Button("Reset to Default", ImVec2(150, 0))) {
                         themeColor[0] = 0.2f; // R
                         themeColor[1] = 0.7f; // G  
                         themeColor[2] = 0.4f; // B
                     }
-                    
-                    ImGui::Separator();
-                    ImGui::Text("Other Settings:");
                     break;
                     
                 case 5: // Customization
@@ -310,8 +354,8 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
             if (key == keybindCodes[selectedKeybind] && isKeyDown) {
                 ImGuiCocos::get().toggle();
                 // Update cursor visibility when toggling
-                /*guiVisible = ImGuiCocos::get().isVisible();
-                setCursorVisibility(guiVisible); */
+                guiVisible = ImGuiCocos::get().isVisible();
+                setCursorVisibility(guiVisible);
             }
         }
         return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
