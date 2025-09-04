@@ -1,5 +1,7 @@
 // Ok no we HAVE TO MOVE ALL THIS SHIT OUT OF HERE OMFG. Ill be remakign the whole code branch soon omfg. 
 
+// Ok no we HAVE TO MOVE ALL THIS SHIT OUT OF HERE OMFG. Ill be remakign the whole code branch soon omfg. 
+
 #include "includes.hpp"
 
 using namespace geode::prelude;
@@ -28,9 +30,9 @@ float speedValue = 1.0f;
 float themeColor[3] = {0.2f, 0.7f, 0.4f};  // Darker green default
 
 //Ints
-int selectedTheme = 0;
 int selectedKeybind = 0; // idk how to do real custom keybinds
 int backgroundTheme = 0;
+int inputMerge = 0;
 
 // dumbahh fix i actually haev to rework this, move to /keybinds.cpp
 const char* keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
@@ -53,8 +55,8 @@ void applyBackgroundTheme() {
     
     switch(backgroundTheme) {
         case 0: // Dark
-            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.95f);
-            style.Colors[ImGuiCol_ChildBg] = ImVec4(0.08f, 0.08f, 0.08f, 0.9f);
+            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.75f);  // 75% opacity
+            style.Colors[ImGuiCol_ChildBg] = ImVec4(0.08f, 0.08f, 0.08f, 0.75f);   // 75% opacity
             style.Colors[ImGuiCol_PopupBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.94f);
             style.Colors[ImGuiCol_FrameBg] = ImVec4(0.12f, 0.12f, 0.12f, 0.8f);
             style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.18f, 0.18f, 0.18f, 0.8f);
@@ -62,8 +64,8 @@ void applyBackgroundTheme() {
             style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
             break;
         case 1: // Light
-            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.95f);
-            style.Colors[ImGuiCol_ChildBg] = ImVec4(0.96f, 0.96f, 0.96f, 0.9f);
+            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.75f);  // 75% opacity
+            style.Colors[ImGuiCol_ChildBg] = ImVec4(0.96f, 0.96f, 0.96f, 0.75f);   // 75% opacity
             style.Colors[ImGuiCol_PopupBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.94f);
             style.Colors[ImGuiCol_FrameBg] = ImVec4(0.9f, 0.9f, 0.9f, 0.8f);
             style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.85f, 0.85f, 0.85f, 0.8f);
@@ -71,8 +73,8 @@ void applyBackgroundTheme() {
             style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
             break;
         case 2: // Medium
-            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.3f, 0.3f, 0.3f, 0.95f);
-            style.Colors[ImGuiCol_ChildBg] = ImVec4(0.35f, 0.35f, 0.35f, 0.9f);
+            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.3f, 0.3f, 0.3f, 0.75f);     // 75% opacity
+            style.Colors[ImGuiCol_ChildBg] = ImVec4(0.35f, 0.35f, 0.35f, 0.75f);   // 75% opacity
             style.Colors[ImGuiCol_PopupBg] = ImVec4(0.3f, 0.3f, 0.3f, 0.94f);
             style.Colors[ImGuiCol_FrameBg] = ImVec4(0.45f, 0.45f, 0.45f, 0.8f);
             style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.55f, 0.55f, 0.55f, 0.8f);
@@ -150,12 +152,60 @@ $on_mod(Loaded) {
             style.Colors[ImGuiCol_TabActive] = customColorLight;
         }
         
-
-        if (ImGui::Begin("Astral Mod", nullptr, ImGuiWindowFlags_AlwaysAutoResize)) {
-            ImGui::Separator();
+        // Window flags: no title bar, no close button, no collapse, resizable
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse;
+        
+        if (ImGui::Begin("Astral Mod", nullptr, window_flags)) {
+            // Custom title bar with centered text
+            ImVec2 windowSize = ImGui::GetWindowSize();
+            ImVec2 windowPos = ImGui::GetWindowPos();
             
-            if (ImGui::BeginTabBar("##tabs")) {
-                if (ImGui::BeginTabItem("Botting")) {
+            // Draw larger banner area
+            ImDrawList* draw_list = ImGui::GetWindowDrawList();
+            ImVec2 banner_min = windowPos;
+            ImVec2 banner_max = ImVec2(windowPos.x + windowSize.x, windowPos.y + 80); // Increased height from ~50 to 80
+            
+            // Banner background with theme color
+            ImVec4 bannerColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 0.8f);
+            draw_list->AddRectFilled(banner_min, banner_max, ImGui::ColorConvertFloat4ToU32(bannerColor), 12.0f, ImDrawFlags_RoundCornersTop);
+            
+            // Center the "Astral Mod" text in the banner
+            const char* title = "Astral Mod";
+            ImVec2 text_size = ImGui::CalcTextSize(title);
+            ImVec2 text_pos = ImVec2(
+                windowPos.x + (windowSize.x - text_size.x) * 0.5f,
+                windowPos.y + (80 - text_size.y) * 0.5f  // Center in the 80px banner
+            );
+            
+            draw_list->AddText(text_pos, IM_COL32(255, 255, 255, 255), title);
+            
+            // Add spacing for the banner
+            ImGui::Dummy(ImVec2(0, 80));
+            
+            // Main content area with side tabs
+            ImGui::BeginChild("MainContent", ImVec2(0, 0), false, ImGuiWindowFlags_NoScrollbar);
+            
+            // Create horizontal layout: tabs on left, content on right
+            ImGui::BeginChild("TabsPanel", ImVec2(150, 0), true);
+            
+            static int selected_tab = 0;
+            const char* tab_names[] = {"Botting", "Hacks", "Assists", "Render", "Settings", "Customization"};
+            
+            for (int i = 0; i < 6; i++) {
+                if (ImGui::Selectable(tab_names[i], selected_tab == i, 0, ImVec2(130, 40))) {
+                    selected_tab = i;
+                }
+            }
+            
+            ImGui::EndChild();
+            
+            ImGui::SameLine();
+            
+            // Content area
+            ImGui::BeginChild("ContentPanel", ImVec2(0, 0), true);
+            
+            switch (selected_tab) {
+                case 0: // Botting
                     ImGui::Separator();
                     ImGui::InputText("Macro Name", (char*)"", 128);
                     if (ImGui::Button("Record Macro")) {
@@ -167,8 +217,6 @@ $on_mod(Loaded) {
                     
                     ImGui::Text("TPS Bypass:");
                     ImGui::InputFloat("TPS", &tpsValue);
-                    
-
                     
                     ImGui::Checkbox("Lock Delta Time", &lockedDeltaEnabled);
                     
@@ -182,35 +230,34 @@ $on_mod(Loaded) {
                     }
 
                     ImGui::Checkbox("Enable 2.1 Legacy Physics", &oldphysEnabled);
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem("Hacks")) {
+                    break;
+                    
+                case 1: // Hacks
                     ImGui::Separator();
                     ImGui::Checkbox("Enable Noclip", &noclipEnabled);
                     ImGui::Checkbox("Show Layout", &layoutEnabled);
                     ImGui::InputFloat("Lock Seed", &seedValue);
+                    break;
                     
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem("Assists")) {
+                case 2: // Assists
                     ImGui::Separator();
                     if (ImGui::Button("Start AutoClicker")) {
                     }
                     ImGui::Button("Stop AutoClicker");
                     ImGui::Button("Dual Merge Input");
-                    ImGui::Sameline();
-                     ImGui::Combo("Input Type", &inputMerge, "Input\0Space\0Up\0Left\0Right\0");
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem("Render")) {
+                    ImGui::SameLine();
+                    ImGui::Combo("Input Type", &inputMerge, "Input\0Space\0Up\0Left\0Right\0");
+                    break;
+                    
+                case 3: // Render
                     ImGui::Separator();
                     if (ImGui::Button("Start Render")) {
                     }
                     if (ImGui::Button("Stop Render")) {
                     }
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem("Settings")) {
+                    break;
+                    
+                case 4: // Settings
                     ImGui::Separator();
                     ImGui::Text("GUI Settings:");
                     ImGui::Separator();
@@ -240,18 +287,16 @@ $on_mod(Loaded) {
                     
                     ImGui::Separator();
                     ImGui::Text("Other Settings:");
-                    ImGui::Combo("Theme Style", &selectedTheme, "Custom Color\0Dark\0Light\0Classic\0");
+                    break;
                     
-                    ImGui::EndTabItem();
-                }
-                if (ImGui::BeginTabItem("Custimization")) {
+                case 5: // Customization
                     ImGui::Separator();
                     ImGui::Text("More to come soon :)");
-                    
-                    ImGui::EndTabItem();
-                }
-                ImGui::EndTabBar();
+                    break;
             }
+            
+            ImGui::EndChild(); // ContentPanel
+            ImGui::EndChild(); // MainContent
         }
         ImGui::End();
     });
