@@ -167,9 +167,7 @@ $on_mod(Loaded) {
         bool currentGuiState = ImGuiCocos::get().isVisible();
         if (currentGuiState != guiVisible) {
             guiVisible = currentGuiState;
-#ifdef GEODE_IS_WINDOWS
-            setCursorVisibility(guiVisible);
-#endif
+
         }
         
         ImGui::SetNextWindowSize(ImVec2(600, 450), ImGuiCond_Always);
@@ -227,34 +225,18 @@ $on_mod(Loaded) {
                     if (ImGui::Button("Save Macro", ImVec2(120, 0))) {
                         
                     }
-                    
                     ImGui::Spacing();
                     ImGui::Text("TPS Bypass:");
-                    ImGui::SetNextItemWidth(200);
+                    ImGui::SetNextItemWidth(100);
                     ImGui::InputFloat("TPS", &tpsValue);
-                    
                     ImGui::Checkbox("Lock Delta Time", &lockedDeltaEnabled);
-                    
                     ImGui::Separator();
                     ImGui::Text("Speedhack Controls:");
-                    
-                    
-                    if (ImGui::Checkbox("Enable Speedhack", &speedhackEnabled)) {
-                       
-                    }
-                    // remove and rewrite
-                    ImGui::SetNextItemWidth(200);
-                    if (ImGui::InputFloat("Speed Value", &speedValue, 0.1f, 1.0f, "%.2f")) {
-                        }
-                    }
-                    
-                    // also needs rewrite
-                    ImGui::Checkbox("Audio Sync", &speedhackAudio);
+                    ImGui::Checkbox("Enable Speedhack", &speedhackEnabled);
                     ImGui::SameLine();
-                    if (ImGui::Button("Toggle Audio Sync", ImVec2(140, 0))) {
-                        
-                    }
-                    
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputFloat("Speed Value", &speedValue, 0.1f, 1.0f, "%.2f");
+                    ImGui::Checkbox("Audio Sync", &speedhackAudio);
                     ImGui::Spacing();
                     ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
                     
@@ -277,7 +259,7 @@ $on_mod(Loaded) {
                     
                     ImGui::Separator();
                     ImGui::Checkbox("Show Layout", &layoutEnabled);
-                    ImGui::SetNextItemWidth(200);
+                    ImGui::SetNextItemWidth(100);
                     ImGui::InputFloat("Lock Seed", &seedValue);
                     break;
                     
@@ -289,7 +271,7 @@ $on_mod(Loaded) {
                     }
                     if (ImGui::Button("Dual Merge Input", ImVec2(140, 0))) {
                     }
-                    ImGui::SetNextItemWidth(200);
+                    ImGui::SetNextItemWidth(100);
                     ImGui::Combo("Input Type", &inputMerge, "Input\0Space\0Up\0Left\0Right\0");
                     break;
                     
@@ -307,7 +289,7 @@ $on_mod(Loaded) {
                     ImGui::Separator();
                     
                     ImGui::Text("Toggle GUI Key:");
-                    ImGui::SetNextItemWidth(200);
+                    ImGui::SetNextItemWidth(100);
                     if (ImGui::Combo("##keybind", &selectedKeybind, keybindNames, IM_ARRAYSIZE(keybindNames))) {
                     }
                     
@@ -315,7 +297,7 @@ $on_mod(Loaded) {
                     
                     ImGui::Separator();
                     ImGui::Text("Background Theme:");
-                    ImGui::SetNextItemWidth(200);
+                    ImGui::SetNextItemWidth(100);
                     if (ImGui::Combo("##backgroundtheme", &backgroundTheme, backgroundThemeNames, IM_ARRAYSIZE(backgroundThemeNames))) {
                         applyBackgroundTheme();
                     }
@@ -351,9 +333,7 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
         if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes)) {
             if (key == keybindCodes[selectedKeybind] && isKeyDown) {
                 ImGuiCocos::get().toggle();
-                // Update cursor visibility when toggling
                 guiVisible = ImGuiCocos::get().isVisible();
-                setCursorVisibility(guiVisible);
             }
         }
         return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
