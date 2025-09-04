@@ -10,8 +10,8 @@ using namespace geode::prelude;
 
 // The unholy list of vars
 //bools
-bool noclipP1Enabled = false;
-bool noclipP2Enabled = false;   
+bool noclipP1 = false;
+bool noclipP2 = false;   
 bool noclipEnabled = false;
 bool recording = false;
 bool replaying = false;

@@ -7,20 +7,24 @@ class $modify(NoclipPL, PlayLayer) {
         bool isPlayer1 = (player == m_player1);
         bool isPlayer2 = (player == m_player2);
         
-        bool noclipEnabled = false;
-        if (isPlayer1 && (noclipEnabled && noclipP1Enabled)) {
-            noclipEnabled = true;
-        } else if (isPlayer2 && (noclipEnabled && noclipP2Enabled)) {
-            noclipEnabled = true;
-        }
+        bool shouldNoclip = false;
+        
         
         if (noclipEnabled) {
+            shouldNoclip = true;
+        } else {
+            if (isPlayer1 && noclipP1Enabled && noclipEnabled) {
+                shouldNoclip = true;
+            } else if (isPlayer2 && noclipP2Enabled && noclipEnabled) {
+                shouldNoclip = true;
+            } 
+        }
+        
+        if (shouldNoclip) {
             if (!m_anticheatSpike) {
                 return;
-            }
         }
-        else {
-            PlayLayer::destroyPlayer(player, obstacle);
-        }
+        
+        PlayLayer::destroyPlayer(player, obstacle);
     }
 };
