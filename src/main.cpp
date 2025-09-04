@@ -19,17 +19,18 @@ bool layoutEnabled = false;
 bool oldphysEnabled = false;
 bool styleApplied = false;
 bool framestepEnabled = false;
-bool lockedDeltaEnabled = false; // NEW: Lock delta option
+bool lockedDeltaEnabled = false; 
 
 //Floats
 float seedValue = 1.0f;
 float tpsValue = 240.0f;
 float speedValue = 1.0f;
-float themeColor[3] = {0.4f, 1.0f, 0.7f};  // smt that might be close to echo
+float themeColor[3] = {0.2f, 0.7f, 0.4f};  // Darker green default
 
 //Ints
 int selectedTheme = 0;
 int selectedKeybind = 0; // idk how to do real custom keybinds
+int backgroundTheme = 0;
 
 // dumbahh fix i actually haev to rework this, move to /keybinds.cpp
 const char* keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
@@ -45,6 +46,42 @@ cocos2d::enumKeyCodes keybindCodes[] = {
     cocos2d::enumKeyCodes::KEY_End
 };
 
+const char* backgroundThemeNames[] = {"Dark", "Light", "Medium"};
+
+void applyBackgroundTheme() {
+    auto& style = ImGui::GetStyle();
+    
+    switch(backgroundTheme) {
+        case 0: // Dark
+            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.95f);
+            style.Colors[ImGuiCol_ChildBg] = ImVec4(0.08f, 0.08f, 0.08f, 0.9f);
+            style.Colors[ImGuiCol_PopupBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.94f);
+            style.Colors[ImGuiCol_FrameBg] = ImVec4(0.12f, 0.12f, 0.12f, 0.8f);
+            style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.18f, 0.18f, 0.18f, 0.8f);
+            style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.95f, 1.0f);
+            style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+            break;
+        case 1: // Light
+            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.95f);
+            style.Colors[ImGuiCol_ChildBg] = ImVec4(0.96f, 0.96f, 0.96f, 0.9f);
+            style.Colors[ImGuiCol_PopupBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.94f);
+            style.Colors[ImGuiCol_FrameBg] = ImVec4(0.9f, 0.9f, 0.9f, 0.8f);
+            style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.85f, 0.85f, 0.85f, 0.8f);
+            style.Colors[ImGuiCol_Text] = ImVec4(0.05f, 0.05f, 0.05f, 1.0f);
+            style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+            break;
+        case 2: // Medium
+            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.3f, 0.3f, 0.3f, 0.95f);
+            style.Colors[ImGuiCol_ChildBg] = ImVec4(0.35f, 0.35f, 0.35f, 0.9f);
+            style.Colors[ImGuiCol_PopupBg] = ImVec4(0.3f, 0.3f, 0.3f, 0.94f);
+            style.Colors[ImGuiCol_FrameBg] = ImVec4(0.45f, 0.45f, 0.45f, 0.8f);
+            style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.55f, 0.55f, 0.55f, 0.8f);
+            style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.95f, 1.0f);
+            style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.7f, 0.7f, 0.7f, 1.0f);
+            break;
+    }
+}
+
 $on_mod(Loaded) {
     ImGuiCocos::get().setup([] {
         auto& style = ImGui::GetStyle();
@@ -58,21 +95,20 @@ $on_mod(Loaded) {
         style.GrabRounding = 8.0f;
         style.TabRounding = 8.0f;
         style.ChildRounding = 8.0f;
-        style.ScaleAllSizes(2.0f);
-        // Was going to make different themes but ehhh
-        ImVec4 baseGreen = ImVec4(0.4f, 1.0f, 0.7f, 1.0f);
-        ImVec4 darkBaseGreen = ImVec4(0.3f, 0.8f, 0.55f, 1.0f);
-        ImVec4 lightBaseGreen = ImVec4(0.5f, 1.0f, 0.8f, 1.0f);
-        ImVec4 baseAccent = ImVec4(0.2f, 0.9f, 0.6f, 1.0f);
-        // tldr removing 90% of this shit
-        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.1f, 0.1f, 0.1f, 0.9f);
+        style.ScaleAllSizes(1.5f);
+        
+        ImVec4 baseGreen = ImVec4(0.2f, 0.7f, 0.4f, 1.0f); 
+        ImVec4 darkBaseGreen = ImVec4(0.15f, 0.5f, 0.3f, 1.0f);  
+        ImVec4 lightBaseGreen = ImVec4(0.25f, 0.8f, 0.5f, 1.0f);  
+        ImVec4 baseAccent = ImVec4(0.1f, 0.6f, 0.35f, 1.0f);  
+        
+        applyBackgroundTheme();
+        
         style.Colors[ImGuiCol_TitleBg] = darkBaseGreen;
         style.Colors[ImGuiCol_TitleBgActive] = baseGreen;
         style.Colors[ImGuiCol_Button] = darkBaseGreen;
         style.Colors[ImGuiCol_ButtonHovered] = baseGreen;
         style.Colors[ImGuiCol_ButtonActive] = baseAccent;
-        style.Colors[ImGuiCol_FrameBg] = ImVec4(0.2f, 0.2f, 0.2f, 0.8f);
-        style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.3f, 0.3f, 0.3f, 0.8f);
         style.Colors[ImGuiCol_FrameBgActive] = baseAccent;
         style.Colors[ImGuiCol_CheckMark] = baseGreen;
         style.Colors[ImGuiCol_SliderGrab] = baseGreen;
@@ -83,7 +119,7 @@ $on_mod(Loaded) {
         style.Colors[ImGuiCol_Tab] = darkBaseGreen;
         style.Colors[ImGuiCol_TabHovered] = baseGreen;
         style.Colors[ImGuiCol_TabActive] = lightBaseGreen;
-        style.Colors[ImGuiCol_TabUnfocused] = ImVec4(0.2f, 0.6f, 0.4f, 0.8f);
+        style.Colors[ImGuiCol_TabUnfocused] = ImVec4(0.1f, 0.4f, 0.25f, 0.8f);
         style.Colors[ImGuiCol_TabUnfocusedActive] = darkBaseGreen;
         
         styleApplied = true;
@@ -92,11 +128,11 @@ $on_mod(Loaded) {
         if (styleApplied) {
             auto& style = ImGui::GetStyle();
             ImVec4 customColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 1.0f);
-            ImVec4 customColorDark = ImVec4(themeColor[0] * 0.7f, themeColor[1] * 0.8f, themeColor[2] * 0.8f, 1.0f);
+            ImVec4 customColorDark = ImVec4(themeColor[0] * 0.6f, themeColor[1] * 0.7f, themeColor[2] * 0.7f, 1.0f); 
             ImVec4 customColorLight = ImVec4(
-                std::min(1.0f, themeColor[0] * 1.2f), 
-                std::min(1.0f, themeColor[1] * 1.0f), 
-                std::min(1.0f, themeColor[2] * 1.15f), 
+                std::min(1.0f, themeColor[0] * 1.3f), 
+                std::min(1.0f, themeColor[1] * 1.1f), 
+                std::min(1.0f, themeColor[2] * 1.2f), 
                 1.0f
             );
             
@@ -181,19 +217,31 @@ $on_mod(Loaded) {
                     ImGui::Text("Current Key: %s", keybindNames[selectedKeybind]);
                     
                     ImGui::Separator();
+                    ImGui::Text("Background Theme:");
+                    if (ImGui::Combo("##backgroundtheme", &backgroundTheme, backgroundThemeNames, IM_ARRAYSIZE(backgroundThemeNames))) {
+                        applyBackgroundTheme();
+                    }
+                    
+                    ImGui::Separator();
                     ImGui::Text("Theme Color:");
                     if (ImGui::ColorEdit3("##themecolor", themeColor)) {
                     }
                     
                     if (ImGui::Button("Reset to Default")) {
-                        themeColor[0] = 0.4f; // R
-                        themeColor[1] = 1.0f; // G  
-                        themeColor[2] = 0.7f; // B
+                        themeColor[0] = 0.2f; // R
+                        themeColor[1] = 0.7f; // G  
+                        themeColor[2] = 0.4f; // B
                     }
                     
                     ImGui::Separator();
                     ImGui::Text("Other Settings:");
                     ImGui::Combo("Theme Style", &selectedTheme, "Custom Color\0Dark\0Light\0Classic\0");
+                    
+                    ImGui::EndTabItem();
+                }
+                if (ImGui::BeginTabItem("Custimization")) {
+                    ImGui::Separator();
+                    ImGui::Text("More to come soon :)");
                     
                     ImGui::EndTabItem();
                 }
@@ -216,7 +264,6 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     }
 };
 #endif
-
 
 /* Generated with AI, I have no clue if all these work :D
 
