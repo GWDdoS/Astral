@@ -240,7 +240,7 @@ $on_mod(Loaded) {
                     
                     
                     if (ImGui::Checkbox("Enable Speedhack", &speedhackEnabled)) {
-                        Global::toggleSpeedhack();
+                       
                     }
                     // remove and rewrite
                     ImGui::SetNextItemWidth(200);
@@ -257,7 +257,7 @@ $on_mod(Loaded) {
                     ImGui::Checkbox("Audio Sync", &speedhackAudio);
                     ImGui::SameLine();
                     if (ImGui::Button("Toggle Audio Sync", ImVec2(140, 0))) {
-                        toggleSpeedhackAudio();
+                        
                     }
                     
                     ImGui::Spacing();
