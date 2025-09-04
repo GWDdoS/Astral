@@ -12,6 +12,7 @@ using namespace geode::prelude;
 //bools
 bool noclipP1Enabled = false;
 bool noclipP2Enabled = false;
+bool noclipEnabled = false;
 bool recording = false;
 bool replaying = false;
 bool rendering = false;

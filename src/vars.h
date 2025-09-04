@@ -5,6 +5,7 @@ extern bool replaying;
 extern bool rendering;
 extern bool noclipP1Enabled;
 extern bool noclipP2Enabled;
+extern bool noclipEnabled;
 extern bool layoutEnabled;
 extern bool oldphysEnabled;
 extern bool trajectoryEnabled;

@@ -1,8 +1,7 @@
 #include "../../includes.hpp"
 
 // Add variables for individual player noclip control
-extern bool noclipP1Enabled;
-extern bool noclipP2Enabled;
+
 
 class $modify(NoclipPL, PlayLayer) {
     void destroyPlayer(PlayerObject* player, GameObject* obstacle) {
