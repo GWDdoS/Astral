@@ -24,13 +24,12 @@ void updatePitch(float value) {
 }
 
 void updateGameSpeed(float value) {
-  // Get the current scene
-  auto scene = cocos2d::CCScene::getRunningScene();
-  if (!scene) return;
-  
-  // Find the GameManager or PlayLayer to modify game speed
+  // Get the director and current scene
   auto director = cocos2d::CCDirector::sharedDirector();
   if (!director) return;
+  
+  auto scene = director->getRunningScene();
+  if (!scene) return;
   
   // Set the game speed by modifying the scheduler time scale
   director->getScheduler()->setTimeScale(value);
