@@ -65,11 +65,11 @@ void Global::toggleSpeedhackAudio() {
   g.speedhackAudio = g.mod->getSavedValue<bool>("macro_speedhack_audio");
   
   // Update audio immediately based on current settings
-  if (g.speedhackEnabled) {
-    if (g.speedhackAudio) {
-      Global::updatePitch(g.speedValue);
+  if (speedhackEnabled) {
+    if (speedhackAudio) {
+      updatePitch(speedValue);
     } else {
-      Global::updatePitch(1.0f);
+      updatePitch(1.0f);
     }
   }
 }

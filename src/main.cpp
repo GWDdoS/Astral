@@ -271,7 +271,7 @@ $on_mod(Loaded) {
                     ImGui::Checkbox("Audio Sync", &speedhackAudio);
                     ImGui::SameLine();
                     if (ImGui::Button("Toggle Audio Sync", ImVec2(140, 0))) {
-                        Global::toggleSpeedhackAudio();
+                        toggleSpeedhackAudio();
                     }
                     
                     ImGui::Spacing();

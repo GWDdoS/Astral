@@ -16,5 +16,7 @@
 #include <string>
 #include <algorithm>
 
-void updateGameSpeed(float value);
+void updatePitch(float value);
+void updateGameSpeed(float value);  
+void toggleSpeedhack();
 void toggleSpeedhackAudio();

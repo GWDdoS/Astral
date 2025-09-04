@@ -13,6 +13,8 @@ extern bool styleApplied;
 extern bool guiVisible;
 extern bool framestepEnabled;
 extern bool lockedDeltaEnabled;
+extern bool speedhackEnabled;
+extern bool speedhackAudio;
 
 
 //Floats
@@ -21,6 +23,9 @@ extern float tpsValue;
 extern float themeColor[3];
 extern float speedValue;
 extern float lockedDeltaValue;
+extern float currentPitch;
+extern float currentSpeedValue;
+extern float speedValue;
 
 //Ints
 extern int selectedKeybind;
