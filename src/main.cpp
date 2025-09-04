@@ -87,7 +87,7 @@ $on_mod(Loaded) {
         auto& style = ImGui::GetStyle();
         auto& io = ImGui::GetIO();
         
-        io.FontGlobalScale = 1.2f;
+        io.FontGlobalScale = 1f;
         style.WindowRounding = 12.0f;
         style.FrameRounding = 8.0f;
         style.PopupRounding = 8.0f;
@@ -95,7 +95,7 @@ $on_mod(Loaded) {
         style.GrabRounding = 8.0f;
         style.TabRounding = 8.0f;
         style.ChildRounding = 8.0f;
-        style.ScaleAllSizes(1.5f);
+        style.ScaleAllSizes(1.0f);
         
         ImVec4 baseGreen = ImVec4(0.2f, 0.7f, 0.4f, 1.0f); 
         ImVec4 darkBaseGreen = ImVec4(0.15f, 0.5f, 0.3f, 1.0f);  
@@ -181,7 +181,7 @@ $on_mod(Loaded) {
             ImGui::Dummy(ImVec2(0, 80));
             
             // Main content area with side tabs
-            ImGui::BeginChild("MainContent", ImVec2(0, 0), false, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoMove);
+            ImGui::BeginChild("MainContent", ImVec2(0, 0), false, ImGuiWindowFlags_NoScrollbar);
             
             // Create horizontal layout: tabs on left, content on right
             ImGui::BeginChild("TabsPanel", ImVec2(150, 0), true);
