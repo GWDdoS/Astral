@@ -7,14 +7,14 @@ class $modify(NoclipPL, PlayLayer) {
         bool isPlayer1 = (player == m_player1);
         bool isPlayer2 = (player == m_player2);
         
-        bool shouldNoclip = false;
+        bool noclipEnabled = false;
         if (isPlayer1 && (noclipEnabled || noclipP1Enabled)) {
-            shouldNoclip = true;
+            noclipEnabled = true;
         } else if (isPlayer2 && (noclipEnabled || noclipP2Enabled)) {
-            shouldNoclip = true;
+            noclipEnabled = true;
         }
         
-        if (shouldNoclip) {
+        if (noclipEnabled) {
             if (!m_anticheatSpike) {
                 return;
             }
