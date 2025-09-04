@@ -1,5 +1,5 @@
 // needs complete rewrite
-
+/*
 #include "practice_fixes.hpp"
 
 void InputPracticeFixes::applyFixes(PlayLayer* pl, PlayerData p1Data, PlayerData p2Data, int frame) {
@@ -148,3 +148,4 @@ std::vector<int> InputPracticeFixes::fixInputs(std::vector<button> foundButtons,
 
 	return notFoundButtons;
 }
+*/

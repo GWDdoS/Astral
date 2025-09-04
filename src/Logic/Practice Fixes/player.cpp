@@ -1,5 +1,5 @@
 // needs complete rewrite
-
+/*
 
 #include "practice_fixes.hpp"
 
@@ -519,3 +519,4 @@ void PlayerPracticeFixes::applyData(PlayerObject* player, PlayerData data, bool 
     player->setPosition(data.position);
     player->setRotation(data.rotation);
 }
+*/
