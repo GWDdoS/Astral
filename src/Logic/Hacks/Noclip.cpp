@@ -8,9 +8,9 @@ class $modify(NoclipPL, PlayLayer) {
         bool isPlayer2 = (player == m_player2);
         
         bool noclipEnabled = false;
-        if (isPlayer1 && (noclipEnabled || noclipP1Enabled)) {
+        if (isPlayer1 && (noclipEnabled && noclipP1Enabled)) {
             noclipEnabled = true;
-        } else if (isPlayer2 && (noclipEnabled || noclipP2Enabled)) {
+        } else if (isPlayer2 && (noclipEnabled && noclipP2Enabled)) {
             noclipEnabled = true;
         }
         
