@@ -1,7 +1,5 @@
 // Ok no we HAVE TO MOVE ALL THIS SHIT OUT OF HERE OMFG. Ill be remakign the whole code branch soon omfg. 
 
-// Ok no we HAVE TO MOVE ALL THIS SHIT OUT OF HERE OMFG. Ill be remakign the whole code branch soon omfg. 
-
 #include "includes.hpp"
 
 using namespace geode::prelude;
@@ -302,7 +300,22 @@ $on_mod(Loaded) {
     });
 }
 
-#ifndef GEODE_IS_IOS
+#ifdef GEODE_IS_WINDOWS
+class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
+    bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
+        if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes)) {
+            if (key == keybindCodes[selectedKeybind] && isKeyDown) {
+                ImGuiCocos::get().toggle();
+                // Update cursor visibility when toggling
+                guiVisible = ImGuiCocos::get().isVisible();
+                setCursorVisibility(guiVisible);
+            }
+        }
+        return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
+    }
+};
+#else
+// Non-Windows platforms - no cursor management
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
         if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes)) {
@@ -314,7 +327,6 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     }
 };
 #endif
-
 /* Generated with AI, I have no clue if all these work :D
 
 // Basic Text and Labels
