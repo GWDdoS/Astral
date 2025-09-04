@@ -245,11 +245,6 @@ $on_mod(Loaded) {
                     // remove and rewrite
                     ImGui::SetNextItemWidth(200);
                     if (ImGui::InputFloat("Speed Value", &speedValue, 0.1f, 1.0f, "%.2f")) {
-                        if (speedValue < 0.01f) speedValue = 0.01f;
-                        if (speedValue > 10.0f) speedValue = 10.0f;
-                        
-                        if (speedhackEnabled) {
-                            Global::updateGameSpeed(speedValue);
                         }
                     }
                     
