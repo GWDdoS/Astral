@@ -10,7 +10,8 @@ using namespace geode::prelude;
 
 // The unholy list of vars
 //bools
-bool noclipEnabled = false;
+bool noclipP1Enabled = false;
+bool noclipP2Enabled = false;
 bool recording = false;
 bool replaying = false;
 bool rendering = false;
@@ -277,7 +278,14 @@ $on_mod(Loaded) {
                     
                 case 1: // Hacks
                     ImGui::Separator();
-                    ImGui::Checkbox("Enable Noclip", &noclipEnabled);
+                    ImGui::Checkbox("Enable Noclip (Both Players)", &noclipEnabled);
+                    
+                    ImGui::Separator();
+                    ImGui::Text("Individual Player Noclip:");
+                    ImGui::Checkbox("Player 1 Noclip", &noclipP1Enabled);
+                    ImGui::Checkbox("Player 2 Noclip", &noclipP2Enabled);
+                    
+                    ImGui::Separator();
                     ImGui::Checkbox("Show Layout", &layoutEnabled);
                     ImGui::SetNextItemWidth(200);
                     ImGui::InputFloat("Lock Seed", &seedValue);

@@ -3,7 +3,8 @@
 extern bool recording;
 extern bool replaying;
 extern bool rendering;
-extern bool noclipEnabled;
+extern bool noclipP1Enabled;
+extern bool noclipP2Enabled;
 extern bool layoutEnabled;
 extern bool oldphysEnabled;
 extern bool trajectoryEnabled;
