@@ -14,6 +14,7 @@ extern bool guiVisible;
 extern bool framestepEnabled;
 extern bool lockedDeltaEnabled;
 
+
 //Floats
 extern float seedValue;
 extern float tpsValue;

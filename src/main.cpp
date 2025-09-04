@@ -32,6 +32,7 @@ float tpsValue = 240.0f;
 float speedValue = 1.0f;
 float themeColor[3] = {0.2f, 0.7f, 0.4f};  // Darker green default
 float currentPitch = 1.0f;
+float currentSpeedValue = 1.0f;
 
 
 //Ints
@@ -246,9 +247,34 @@ $on_mod(Loaded) {
                     ImGui::Checkbox("Lock Delta Time", &lockedDeltaEnabled);
                     
                     ImGui::Separator();
+                    ImGui::Text("Speedhack Controls:");
+                    
+                    // Speedhack enable checkbox
+                    if (ImGui::Checkbox("Enable Speedhack", &speedhackEnabled)) {
+                        Global::toggleSpeedhack();
+                    }
+                    
+                    // Speed value input
                     ImGui::SetNextItemWidth(200);
-                    ImGui::SetNextItemWidth(200);
-                    ImGui::InputFloat("Speedhack", &speedValue); 
+                    if (ImGui::InputFloat("Speed Value", &speedValue, 0.1f, 1.0f, "%.2f")) {
+                        // Clamp speed value to reasonable range
+                        if (speedValue < 0.01f) speedValue = 0.01f;
+                        if (speedValue > 10.0f) speedValue = 10.0f;
+                        
+                        // Apply speed change if speedhack is enabled
+                        if (speedhackEnabled) {
+                            Global::updateGameSpeed(speedValue);
+                        }
+                    }
+                    
+                    // Audio sync checkbox and button
+                    ImGui::Checkbox("Audio Sync", &speedhackAudio);
+                    ImGui::SameLine();
+                    if (ImGui::Button("Toggle Audio Sync", ImVec2(140, 0))) {
+                        Global::toggleSpeedhackAudio();
+                    }
+                    
+                    ImGui::Spacing();
                     ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
                     
                     ImGui::Checkbox("Frame Stepper", &framestepEnabled);

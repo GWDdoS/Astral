@@ -15,3 +15,6 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+
+void updateGameSpeed(float value);
+void toggleSpeedhackAudio();
