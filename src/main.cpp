@@ -307,8 +307,8 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
             if (key == keybindCodes[selectedKeybind] && isKeyDown) {
                 ImGuiCocos::get().toggle();
                 // Update cursor visibility when toggling
-                guiVisible = ImGuiCocos::get().isVisible();
-                setCursorVisibility(guiVisible);
+                /*guiVisible = ImGuiCocos::get().isVisible();
+                setCursorVisibility(guiVisible); */
             }
         }
         return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
