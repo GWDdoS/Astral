@@ -23,12 +23,16 @@ bool styleApplied = false;
 bool framestepEnabled = false;
 bool lockedDeltaEnabled = false;
 bool guiVisible = false;
+bool speedhackEnabled = false;
+bool speedhackAudio = false;
 
 //Floats
 float seedValue = 1.0f;
 float tpsValue = 240.0f;
 float speedValue = 1.0f;
 float themeColor[3] = {0.2f, 0.7f, 0.4f};  // Darker green default
+float currentPitch = 1.0f;
+
 
 //Ints
 int selectedKeybind = 0; // idk how to do real custom keybinds
@@ -54,29 +58,6 @@ cocos2d::enumKeyCodes keybindCodes[] = {
 
 const char* backgroundThemeNames[] = {"Dark", "Light", "Medium"};
 
-#ifdef GEODE_IS_WINDOWS
-#include <windows.h>
-
-void setCursorVisibility(bool visible) {
-    static bool lastState = true;
-    static int cursorCount = 0;
-    
-    if (visible != lastState) {
-        if (visible) {
-            // Show cursor - keep calling ShowCursor(TRUE) until cursor is visible
-            while (ShowCursor(TRUE) < 0) {
-                // Continue until cursor count is >= 0 (visible)
-            }
-        } else {
-            // Hide cursor - keep calling ShowCursor(FALSE) until cursor is hidden
-            while (ShowCursor(FALSE) >= 0) {
-                // Continue until cursor count is < 0 (hidden)
-            }
-        }
-        lastState = visible;
-    }
-}
-#endif
 
 void applyBackgroundTheme() {
     auto& style = ImGui::GetStyle();
@@ -266,7 +247,8 @@ $on_mod(Loaded) {
                     
                     ImGui::Separator();
                     ImGui::SetNextItemWidth(200);
-                    ImGui::InputFloat("Speedhack", &speedValue);  
+                    ImGui::SetNextItemWidth(200);
+                    ImGui::InputFloat("Speedhack", &speedValue); 
                     ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
                     
                     ImGui::Checkbox("Frame Stepper", &framestepEnabled);
