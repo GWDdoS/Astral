@@ -87,7 +87,7 @@ $on_mod(Loaded) {
         auto& style = ImGui::GetStyle();
         auto& io = ImGui::GetIO();
         
-        io.FontGlobalScale = 1f;
+        io.FontGlobalScale = 1.0f;
         style.WindowRounding = 12.0f;
         style.FrameRounding = 8.0f;
         style.PopupRounding = 8.0f;
