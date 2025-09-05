@@ -130,7 +130,7 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         case cocos2d::enumKeyCodes::KEY_Z: return "Z";
         
         // Numeric keypad keys
-        /*
+        /* these dont work
         case cocos2d::enumKeyCodes::KEY_Num0: return "Numpad 0";
         case cocos2d::enumKeyCodes::KEY_Num1: return "Numpad 1";
         case cocos2d::enumKeyCodes::KEY_Num2: return "Numpad 2";
@@ -150,7 +150,9 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         */
         
         // Lock keys
+        /* these dont work
         case cocos2d::enumKeyCodes::KEY_NumLock: return "Num Lock";
+        */
         case cocos2d::enumKeyCodes::KEY_ScrollLock: return "Scroll Lock";
         
         // Punctuation and special characters
