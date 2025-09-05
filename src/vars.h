@@ -1,4 +1,5 @@
 #pragma once
+
 //Bools
 extern bool recording;
 extern bool replaying;
@@ -15,7 +16,7 @@ extern bool framestepEnabled;
 extern bool lockedDeltaEnabled;
 extern bool speedhackEnabled;
 extern bool speedhackAudio;
-
+extern bool isCapturingKeybind;
 
 //Floats
 extern float seedValue;
@@ -31,4 +32,16 @@ extern float speedValue;
 extern int selectedKeybind;
 extern int selectedTheme;
 extern int noclipMode;
+extern int backgroundTheme;
+extern int inputMerge;
+extern int noclipMode;
+
+//Chars
+extern char macroName[128];
+extern const char *backgroundThemeNames[];
+
+// Other
+extern cocos2d::enumKeyCodes capturedCustomKey;
+
+
 
