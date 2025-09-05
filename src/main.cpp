@@ -45,7 +45,7 @@ int noclipMode = 0;
 
 // Chars
 char macroName[128] = "Test";
-char fontType[128] = "font0.ttf";
+char fontType[10] = "font0.ttf";
 
 const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
 const int backgroundThemeNamesCount = sizeof(backgroundThemeNames) / sizeof(backgroundThemeNames[0]);

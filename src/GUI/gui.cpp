@@ -220,14 +220,14 @@ void renderCustomizationTab()
         switch (fontList)
         {
             case 0: // font 1
-            fontType[128] = "font.ttf";
+            fontType[10] = "font0.ttf";
             
             case 1: // font 2
-            fontType[128] = "font1.ttf";
+            fontType[10] = "font1.ttf";
 
             
             case 2: // font 3
-            fontType[128] = "font2.ttf";
+            fontType[10] = "font2.ttf";
 
         }
     }
