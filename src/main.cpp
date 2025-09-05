@@ -307,13 +307,13 @@ $on_mod(Loaded)
                         
                         ImDrawList* draw_list = ImGui::GetWindowDrawList();
                         ImVec2 banner_min = windowPos;
-                        ImVec2 banner_max = ImVec2(windowPos.x + windowSize.x, windowPos.y + 50);
+                        ImVec2 banner_max = ImVec2(windowPos.x + windowSize.x, windowPos.y + 40);
                         
                         ImVec4 bannerColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 0.8f);
                         draw_list->AddRectFilled(banner_min, banner_max, ImGui::ColorConvertFloat4ToU32(bannerColor), 12.0f, ImDrawFlags_RoundCornersTop);
                         
                         const char* title = "Astral: Bot";
-                        ImVec2 text_size = ImGui::CalcTextSize(title) * 0.5f;
+                        ImVec2 text_size = ImGui::CalcTextSize(title);
                         ImVec2 text_pos = ImVec2(
                             windowPos.x + (windowSize.x - text_size.x) * 0.5f,
                             windowPos.y + (50 - text_size.y) * 0.5f
