@@ -44,7 +44,7 @@ void setupImGuiStyle()
 {
     auto& style = ImGui::GetStyle();
     auto& io = ImGui::GetIO();
-    auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / "font"fontType".ttfv").string().c_str(), 16.0f);
+    auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / "font" + fontType + ".ttf").string().c_str(), 16.0f);
 
     io.FontGlobalScale = 1.0f;
     style.WindowRounding = 12.0f;
@@ -220,15 +220,15 @@ void renderCustomizationTab()
         switch (fontList)
         {
             case 0: // font 1
-                fontType = 0
+                fontType = 0;
                 break;
             
             case 1: // font 2
-                fontType = 1
+                fontType = 1;
                 break;
             
             case 2: // font 3
-                fontType = 2
+                fontType = 2;
                 break;
         }
     }
