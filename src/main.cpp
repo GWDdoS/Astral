@@ -224,6 +224,7 @@ $on_mod(Loaded)
         {
             auto& style = ImGui::GetStyle();
             auto& io = ImGui::GetIO();
+            auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / "font.ttf").string().c_str(), 16.0f);
             
             io.FontGlobalScale = 1.0f;
             style.WindowRounding = 12.0f;
@@ -327,7 +328,8 @@ $on_mod(Loaded)
                         ImGui::BeginChild("TabsPanel", ImVec2(140, 0), true);
                         
                         static int selected_tab = 0;
-                        const char* tab_names[] = {"Botting", "Hacks", "Assists", "Render", "Settings", "Custom"};
+                        const char* tab_names[] = {"Botting", "Hacks", "Assists", "Render", "Settings", "Customization
+                            "};
                         
                         for (int i = 0; i < 6; i++) {
                             if (ImGui::Selectable(tab_names[i], selected_tab == i, 0, ImVec2(120, 35))) {

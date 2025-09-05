@@ -1,6 +1,6 @@
 # Astral
 
- Astral: A bot made by botters, designed for botters. This project was started by Argxment, GWDdoS, and LoliGD. It is currently being developed by them with  help from SlideGlide, and a few other people.
+ Astral: A bot made by botters, designed for botters. This project was started by Argxment, GWDdoS, and LoliGD. It is currently being developed by them with help from SlideGlide, and a few other people.
 
 # Features
 
@@ -13,17 +13,17 @@
 
  * Customization
  * Another type of features as:
-    - Hitbox Trail
-    - Layout Mode
-    - No Effects (any visual effect)
+    - Hitbox Trail (In the works)
+    - Layout Mode (In the works)
+    - No Effects (Any visual effect)
 
 # How to use
 
-* Click ALT or your custom keybind (Not Implemented)
+* Click ALT or your custom keybind
 
 # Special Thanks
 
 * Thank you Slideglide for helping us with this, also teaching us how to do not blow up this!
 * Thanks to Chagh (developer of TCBot) and Nat! (developer of Silicate) for giving us helpful tidbits on what to do and suggestions on how to do them.
 * Thanks to Snopphin and Absollute for just being here and talking.
-* Thanks to GMP for helping us start the mod, even though you had to leave before we could finish. 
+* Thank you GMP for helping start the project, and give use useful advice and help.
