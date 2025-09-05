@@ -41,7 +41,7 @@ extern int fontList;
 //Chars
 extern char macroName[128];
 extern const char *backgroundThemeNames[];
-extern const char[128];
+extern const char[10];
 // Other
 extern cocos2d::enumKeyCodes capturedCustomKey;
 
