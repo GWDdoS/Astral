@@ -191,15 +191,6 @@ void renderSettingsTab()
     }
     
     ImGui::Text("Current Key: %s", currentKeyDisplay);
-    ImGui::Spacing();
-    
-    ImGui::Text("Theme Settings:");
-    ImGui::SetNextItemWidth(120);
-    static int classic_mode = 0;
-    ImGui::Combo("Style##classic", &classic_mode, "Classic\0Modern\0");
-    
-    ImGui::SetNextItemWidth(120);
-    ImGui::Combo("Background##bg", &backgroundTheme, "Dark\0Light\0Medium\0");
 }
 
 void renderCustomizationTab()
@@ -291,10 +282,10 @@ void renderMainGui()
         for (int i = 0; i < tabCount; i++) {
             if (i > 0) ImGui::SameLine();
             
-            // Highlight active tab
+            // Highlight active tab with very dark grey
             if (currentTab == i) {
-                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.25f, 0.25f, 0.25f, 1.0f));
+                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.05f, 0.05f, 0.05f, 1.0f));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
             }
             
             if (ImGui::Button(tabNames[i], ImVec2(90, 25))) {
