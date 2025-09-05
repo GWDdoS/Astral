@@ -25,15 +25,13 @@ class $modify(NoclipPL, PlayLayer) {
         if (shouldNoclip) {
             if (m_anticheatSpike) {
                 PlayLayer::destroyPlayer(player, obstacle);
-            else {
+            } else {
                 return;
             }
         }
-        
-        PlayLayer::destroyPlayer(player, obstacle);
     }
 };
-};
+
 
 /*
 if (ImGui::Combo("Noclip Mode", &noclipMode, "Off\0Both Players\0Player 1 Only\0Player 2 Only\0")){
