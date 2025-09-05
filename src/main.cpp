@@ -482,16 +482,7 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher)
         }
         
         // Handle GUI toggle
-        cocos2d::enumKeyCodes toggleKey;
-        if (isUsingCustomKey && capturedCustomKey != cocos2d::enumKeyCodes::KEY_None) {
-            toggleKey = capturedCustomKey;
-        } else if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes)) {
-            toggleKey = keybindCodes[selectedKeybind];
-        } else {
-            toggleKey = cocos2d::enumKeyCodes::KEY_None;
-        }
-        
-        if (toggleKey != cocos2d::enumKeyCodes::KEY_None && key == toggleKey && isKeyDown) {
+        if (capturedCustomKey != cocos2d::enumKeyCodes::KEY_None && key == capturedCustomKey && isKeyDown) {
             ImGuiCocos::get().toggle();
         }
         
