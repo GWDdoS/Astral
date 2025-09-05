@@ -63,7 +63,7 @@ cocos2d::enumKeyCodes keybindCodes[] = {
 
 const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
 
-// get some form of key name from cocos2d keycode idk i had ai generate this list
+// Function to get key name from keycode
 const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
     switch(keyCode) {
         case cocos2d::enumKeyCodes::KEY_Alt: return "Alt";
@@ -90,11 +90,11 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         case cocos2d::enumKeyCodes::KEY_Escape: return "Escape";
         case cocos2d::enumKeyCodes::KEY_Tab: return "Tab";
         case cocos2d::enumKeyCodes::KEY_Shift: return "Shift";
-        case cocos2d::enumKeyCodes::KEY_Ctrl: return "Ctrl";
-        case cocos2d::enumKeyCodes::KEY_LeftArrow: return "Left Arrow";
-        case cocos2d::enumKeyCodes::KEY_RightArrow: return "Right Arrow";
-        case cocos2d::enumKeyCodes::KEY_UpArrow: return "Up Arrow";
-        case cocos2d::enumKeyCodes::KEY_DownArrow: return "Down Arrow";
+        case cocos2d::enumKeyCodes::KEY_Control: return "Ctrl";
+        case cocos2d::enumKeyCodes::KEY_ArrowLeft: return "Left Arrow";
+        case cocos2d::enumKeyCodes::KEY_ArrowRight: return "Right Arrow";
+        case cocos2d::enumKeyCodes::KEY_ArrowUp: return "Up Arrow";
+        case cocos2d::enumKeyCodes::KEY_ArrowDown: return "Down Arrow";
         default: return "Unknown Key";
     }
 }
@@ -348,6 +348,7 @@ $on_mod(Loaded)
                     
                     ImGui::Text("Toggle GUI Key:");
                     
+                    // Get current key display
                     const char* currentKeyDisplay;
                     if (isUsingCustomKey && capturedCustomKey != cocos2d::enumKeyCodes::KEY_None) {
                         currentKeyDisplay = getKeyName(capturedCustomKey);
@@ -357,8 +358,10 @@ $on_mod(Loaded)
                         currentKeyDisplay = "None";
                     }
                     
+                    // Dropdown for preset keys + custom option
                     ImGui::SetNextItemWidth(150);
                     if (ImGui::BeginCombo("##keybind", currentKeyDisplay)) {
+                        // Show existing keybinds
                         for (int i = 0; i < IM_ARRAYSIZE(keybindNames); i++) {
                             bool isSelected = (!isUsingCustomKey && selectedKeybind == i);
                             if (ImGui::Selectable(keybindNames[i], isSelected)) {
@@ -371,6 +374,7 @@ $on_mod(Loaded)
                             }
                         }
                         
+                        // Separator and capture option
                         ImGui::Separator();
                         if (ImGui::Selectable("Set Custom Key...")) {
                             isCapturingKeybind = true;
@@ -379,10 +383,12 @@ $on_mod(Loaded)
                         ImGui::EndCombo();
                     }
                     
+                    // Handle key capture
                     if (isCapturingKeybind) {
                         ImGui::Text("Press any key to set as keybind (ESC to cancel)");
                         ImGui::Text("Waiting for input...");
                         
+                        // The key capture will be handled in the keyboard hook
                     }
                     
                     ImGui::Text("Current Key: %s", currentKeyDisplay);
@@ -418,24 +424,27 @@ $on_mod(Loaded)
         ImGui::End(); });
 }
 
-// WHY IS THIS EVEN HERE WHAT?
+// Enhanced keybind hook with capture functionality
 #ifdef GEODE_IS_WINDOWS
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher)
 {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
     {
-        
+        // Handle keybind capture
         if (isCapturingKeybind && isKeyDown && !isKeyRepeat) {
             if (key == cocos2d::enumKeyCodes::KEY_Escape) {
+                // Cancel capture
                 isCapturingKeybind = false;
             } else {
+                // Capture the key
                 capturedCustomKey = key;
                 isUsingCustomKey = true;
                 isCapturingKeybind = false;
             }
-            return true; 
+            return true; // Consume the key event during capture
         }
         
+        // Handle GUI toggle
         cocos2d::enumKeyCodes toggleKey;
         if (isUsingCustomKey && capturedCustomKey != cocos2d::enumKeyCodes::KEY_None) {
             toggleKey = capturedCustomKey;
@@ -458,20 +467,21 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher)
 {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
     {
-        // does it get key press?
+        // Handle keybind capture
         if (isCapturingKeybind && isKeyDown && !isKeyRepeat) {
             if (key == cocos2d::enumKeyCodes::KEY_Escape) {
-                
+                // Cancel capture
                 isCapturingKeybind = false;
             } else {
-                // get the key
+                // Capture the key
                 capturedCustomKey = key;
                 isUsingCustomKey = true;
                 isCapturingKeybind = false;
             }
-            return true; 
+            return true; // Consume the key event during capture
         }
         
+        // Handle GUI toggle
         cocos2d::enumKeyCodes toggleKey;
         if (isUsingCustomKey && capturedCustomKey != cocos2d::enumKeyCodes::KEY_None) {
             toggleKey = capturedCustomKey;
