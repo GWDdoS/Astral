@@ -26,6 +26,11 @@ bool guiVisible = false;
 bool speedhackEnabled = false;
 bool speedhackAudio = false;
 
+// Keybind capture variables
+bool isCapturingKeybind = false;
+cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_None;
+bool isUsingCustomKey = false;
+
 // Floats
 float seedValue = 1.0f;
 float tpsValue = 240.0f;
@@ -57,6 +62,42 @@ cocos2d::enumKeyCodes keybindCodes[] = {
     cocos2d::enumKeyCodes::KEY_End};
 
 const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
+
+// get some form of key name from cocos2d keycode idk i had ai generate this list
+const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
+    switch(keyCode) {
+        case cocos2d::enumKeyCodes::KEY_Alt: return "Alt";
+        case cocos2d::enumKeyCodes::KEY_F1: return "F1";
+        case cocos2d::enumKeyCodes::KEY_F2: return "F2";
+        case cocos2d::enumKeyCodes::KEY_F3: return "F3";
+        case cocos2d::enumKeyCodes::KEY_F4: return "F4";
+        case cocos2d::enumKeyCodes::KEY_F5: return "F5";
+        case cocos2d::enumKeyCodes::KEY_F6: return "F6";
+        case cocos2d::enumKeyCodes::KEY_F7: return "F7";
+        case cocos2d::enumKeyCodes::KEY_F8: return "F8";
+        case cocos2d::enumKeyCodes::KEY_F9: return "F9";
+        case cocos2d::enumKeyCodes::KEY_F10: return "F10";
+        case cocos2d::enumKeyCodes::KEY_F11: return "F11";
+        case cocos2d::enumKeyCodes::KEY_F12: return "F12";
+        case cocos2d::enumKeyCodes::KEY_Insert: return "Insert";
+        case cocos2d::enumKeyCodes::KEY_Home: return "Home";
+        case cocos2d::enumKeyCodes::KEY_End: return "End";
+        case cocos2d::enumKeyCodes::KEY_PageUp: return "Page Up";
+        case cocos2d::enumKeyCodes::KEY_PageDown: return "Page Down";
+        case cocos2d::enumKeyCodes::KEY_Delete: return "Delete";
+        case cocos2d::enumKeyCodes::KEY_Space: return "Space";
+        case cocos2d::enumKeyCodes::KEY_Enter: return "Enter";
+        case cocos2d::enumKeyCodes::KEY_Escape: return "Escape";
+        case cocos2d::enumKeyCodes::KEY_Tab: return "Tab";
+        case cocos2d::enumKeyCodes::KEY_Shift: return "Shift";
+        case cocos2d::enumKeyCodes::KEY_Ctrl: return "Ctrl";
+        case cocos2d::enumKeyCodes::KEY_LeftArrow: return "Left Arrow";
+        case cocos2d::enumKeyCodes::KEY_RightArrow: return "Right Arrow";
+        case cocos2d::enumKeyCodes::KEY_UpArrow: return "Up Arrow";
+        case cocos2d::enumKeyCodes::KEY_DownArrow: return "Down Arrow";
+        default: return "Unknown Key";
+    }
+}
 
 void applyBackgroundTheme()
 {
@@ -306,11 +347,45 @@ $on_mod(Loaded)
                     ImGui::Separator();
                     
                     ImGui::Text("Toggle GUI Key:");
-                    ImGui::SetNextItemWidth(150);
-                    if (ImGui::Combo("##keybind", &selectedKeybind, keybindNames, IM_ARRAYSIZE(keybindNames))) {
+                    
+                    const char* currentKeyDisplay;
+                    if (isUsingCustomKey && capturedCustomKey != cocos2d::enumKeyCodes::KEY_None) {
+                        currentKeyDisplay = getKeyName(capturedCustomKey);
+                    } else if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindNames)) {
+                        currentKeyDisplay = keybindNames[selectedKeybind];
+                    } else {
+                        currentKeyDisplay = "None";
                     }
                     
-                    ImGui::Text("Current Key: %s", keybindNames[selectedKeybind]);
+                    ImGui::SetNextItemWidth(150);
+                    if (ImGui::BeginCombo("##keybind", currentKeyDisplay)) {
+                        for (int i = 0; i < IM_ARRAYSIZE(keybindNames); i++) {
+                            bool isSelected = (!isUsingCustomKey && selectedKeybind == i);
+                            if (ImGui::Selectable(keybindNames[i], isSelected)) {
+                                selectedKeybind = i;
+                                isUsingCustomKey = false;
+                                capturedCustomKey = cocos2d::enumKeyCodes::KEY_None;
+                            }
+                            if (isSelected) {
+                                ImGui::SetItemDefaultFocus();
+                            }
+                        }
+                        
+                        ImGui::Separator();
+                        if (ImGui::Selectable("Set Custom Key...")) {
+                            isCapturingKeybind = true;
+                        }
+                        
+                        ImGui::EndCombo();
+                    }
+                    
+                    if (isCapturingKeybind) {
+                        ImGui::Text("Press any key to set as keybind (ESC to cancel)");
+                        ImGui::Text("Waiting for input...");
+                        
+                    }
+                    
+                    ImGui::Text("Current Key: %s", currentKeyDisplay);
                     
                     ImGui::Separator();
                     ImGui::Text("Background Theme:");
@@ -342,20 +417,39 @@ $on_mod(Loaded)
         }
         ImGui::End(); });
 }
-// basic cursor shit, idk how to fix it or make it work
+
+// WHY IS THIS EVEN HERE WHAT?
 #ifdef GEODE_IS_WINDOWS
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher)
 {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
     {
-        if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes))
-        {
-            if (key == keybindCodes[selectedKeybind] && isKeyDown)
-            {
-                ImGuiCocos::get().toggle();
-                guiVisible = ImGuiCocos::get().isVisible();
+        
+        if (isCapturingKeybind && isKeyDown && !isKeyRepeat) {
+            if (key == cocos2d::enumKeyCodes::KEY_Escape) {
+                isCapturingKeybind = false;
+            } else {
+                capturedCustomKey = key;
+                isUsingCustomKey = true;
+                isCapturingKeybind = false;
             }
+            return true; 
         }
+        
+        cocos2d::enumKeyCodes toggleKey;
+        if (isUsingCustomKey && capturedCustomKey != cocos2d::enumKeyCodes::KEY_None) {
+            toggleKey = capturedCustomKey;
+        } else if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes)) {
+            toggleKey = keybindCodes[selectedKeybind];
+        } else {
+            toggleKey = cocos2d::enumKeyCodes::KEY_None;
+        }
+        
+        if (toggleKey != cocos2d::enumKeyCodes::KEY_None && key == toggleKey && isKeyDown) {
+            ImGuiCocos::get().toggle();
+            guiVisible = ImGuiCocos::get().isVisible();
+        }
+        
         return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
     }
 };
@@ -364,13 +458,33 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher)
 {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
     {
-        if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes))
-        {
-            if (key == keybindCodes[selectedKeybind] && isKeyDown)
-            {
-                ImGuiCocos::get().toggle();
+        // does it get key press?
+        if (isCapturingKeybind && isKeyDown && !isKeyRepeat) {
+            if (key == cocos2d::enumKeyCodes::KEY_Escape) {
+                
+                isCapturingKeybind = false;
+            } else {
+                // get the key
+                capturedCustomKey = key;
+                isUsingCustomKey = true;
+                isCapturingKeybind = false;
             }
+            return true; 
         }
+        
+        cocos2d::enumKeyCodes toggleKey;
+        if (isUsingCustomKey && capturedCustomKey != cocos2d::enumKeyCodes::KEY_None) {
+            toggleKey = capturedCustomKey;
+        } else if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes)) {
+            toggleKey = keybindCodes[selectedKeybind];
+        } else {
+            toggleKey = cocos2d::enumKeyCodes::KEY_None;
+        }
+        
+        if (toggleKey != cocos2d::enumKeyCodes::KEY_None && key == toggleKey && isKeyDown) {
+            ImGuiCocos::get().toggle();
+        }
+        
         return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
     }
 };
