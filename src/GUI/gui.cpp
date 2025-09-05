@@ -1,4 +1,5 @@
 #include "../includes.hpp"
+#include "gui.hpp"
 
 using namespace geode::prelude;
 
