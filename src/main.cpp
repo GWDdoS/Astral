@@ -45,10 +45,12 @@ int noclipMode = 0;
 
 // Chars
 char macroName[128] = "Test";
-char fontType[128] = "font0.ttf";
 
 const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
 const int backgroundThemeNamesCount = sizeof(backgroundThemeNames) / sizeof(backgroundThemeNames[0]);
+//strings
+std::string fontType = "font0.ttf";
+
 
 // Ai is good for one thing, making a fucking massive list :skull:
 const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
