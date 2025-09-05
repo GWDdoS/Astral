@@ -31,7 +31,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 # Add imgui-cocos dependency
-CPMAddPackage("gh:gmdplutonic/gd-imgui-cocos#de0edb6")
+CPMAddPackage("gh:matcool/gd-imgui-cocos##bc342a8")
 target_link_libraries(${PROJECT_NAME} imgui-cocos)
 
 # Setup Geode mod (this should come after target creation and dependencies)

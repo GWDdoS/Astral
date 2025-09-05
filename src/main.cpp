@@ -130,7 +130,7 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         case cocos2d::enumKeyCodes::KEY_Z: return "Z";
         
         // Numeric keypad keys
-        /* these dont work
+        /*
         case cocos2d::enumKeyCodes::KEY_Num0: return "Numpad 0";
         case cocos2d::enumKeyCodes::KEY_Num1: return "Numpad 1";
         case cocos2d::enumKeyCodes::KEY_Num2: return "Numpad 2";
@@ -141,18 +141,20 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         case cocos2d::enumKeyCodes::KEY_Num7: return "Numpad 7";
         case cocos2d::enumKeyCodes::KEY_Num8: return "Numpad 8";
         case cocos2d::enumKeyCodes::KEY_Num9: return "Numpad 9";
-        */
+        
         case cocos2d::enumKeyCodes::KEY_NumMultiply: return "Numpad *";
         case cocos2d::enumKeyCodes::KEY_NumPlus: return "Numpad +";
         case cocos2d::enumKeyCodes::KEY_NumMinus: return "Numpad -";
         case cocos2d::enumKeyCodes::KEY_NumDelete: return "Numpad Delete";
         case cocos2d::enumKeyCodes::KEY_NumDivide: return "Numpad /";
+        */
         
         // Lock keys
         case cocos2d::enumKeyCodes::KEY_NumLock: return "Num Lock";
         case cocos2d::enumKeyCodes::KEY_ScrollLock: return "Scroll Lock";
         
         // Punctuation and special characters
+        /* these dont work
         case cocos2d::enumKeyCodes::KEY_Semicolon: return ";";
         case cocos2d::enumKeyCodes::KEY_Equal: return "=";
         case cocos2d::enumKeyCodes::KEY_Comma: return ",";
@@ -164,14 +166,16 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         case cocos2d::enumKeyCodes::KEY_Backslash: return "\\";
         case cocos2d::enumKeyCodes::KEY_CloseBracket: return "]";
         case cocos2d::enumKeyCodes::KEY_Quote: return "'";
+        */
         
         // D-pad keys (for gamepad/controller support)
+        /* these dont work
         case cocos2d::enumKeyCodes::KEY_DpadLeft: return "D-pad Left";
         case cocos2d::enumKeyCodes::KEY_DpadRight: return "D-pad Right";
         case cocos2d::enumKeyCodes::KEY_DpadUp: return "D-pad Up";
         case cocos2d::enumKeyCodes::KEY_DpadDown: return "D-pad Down";
         case cocos2d::enumKeyCodes::KEY_DpadCenter: return "D-pad Center";
-        
+        */
         default: return "Unknown Key";
     }
 }
