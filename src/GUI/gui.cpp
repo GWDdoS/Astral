@@ -248,6 +248,7 @@ void renderCustomizationTab()
 {
     ImGui::Separator();
     ImGui::Text("More to come soon :)");
+    ImGui::Button("De3am Mode");
 }
 
 void renderMainGui()

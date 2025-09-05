@@ -35,6 +35,7 @@ extern int noclipMode;
 extern int backgroundTheme;
 extern int inputMerge;
 extern int noclipMode;
+extern int backgroundThemeNamesCount;
 
 //Chars
 extern char macroName[128];
