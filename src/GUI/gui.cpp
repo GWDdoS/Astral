@@ -222,14 +222,14 @@ void renderCustomizationTab()
         switch (fontList)
         {
             case 0: // font 1
-            fontType = "font.ttf"
+            fontType = "font.ttf";
             
             case 1: // font 2
-            fontType = "font1.ttf"
+            fontType = "font1.ttf";
 
             
             case 2: // font 3
-            fontType = "font2.ttf"
+            fontType = "font2.ttf";
 
         }
     }
@@ -286,7 +286,7 @@ void renderMainGui()
         ImVec4 bannerColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 0.8f);
         draw_list->AddRectFilled(banner_min, banner_max, ImGui::ColorConvertFloat4ToU32(bannerColor), 12.0f, ImDrawFlags_RoundCornersTop);
         
-        const char* title = "Astral: Bot";
+        const char* title = "Astral [Alpha]";
         ImVec2 text_size = ImGui::CalcTextSize(title);
         ImVec2 text_pos = ImVec2(
             windowPos.x + (windowSize.x - text_size.x) * 0.5f,
