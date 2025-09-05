@@ -136,7 +136,6 @@ $on_mod(Loaded)
         }
         
         class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher){
-            #ifndef GEODE_IS_IOS
             bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
             {
                 if (isCapturingKeybind && isKeyDown && !isKeyRepeat) {
@@ -155,6 +154,4 @@ $on_mod(Loaded)
                 }
                 
                 return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
-            }
-            #endif
-        };
+            };
