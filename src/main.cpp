@@ -154,4 +154,5 @@ $on_mod(Loaded)
                 }
                 
                 return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
-            };
+            }
+        };
