@@ -224,7 +224,7 @@ $on_mod(Loaded)
         {
             auto& style = ImGui::GetStyle();
             auto& io = ImGui::GetIO();
-            auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / "font.ttf").string().c_str(), 16.0f);
+            auto& font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / "font.ttf").string().c_str(), 16.0f);
             
             io.FontGlobalScale = 1.0f;
             style.WindowRounding = 12.0f;
