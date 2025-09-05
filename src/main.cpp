@@ -386,26 +386,30 @@ $on_mod(Loaded)
         ImGui::End(); });
 }
 
-
+// Clean keybind hook with only custom capture functionality
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher)
 {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
     {
+        // Handle keybind capture
         if (isCapturingKeybind && isKeyDown && !isKeyRepeat) {
             if (key == cocos2d::enumKeyCodes::KEY_Escape) {
+                // Cancel capture
                 isCapturingKeybind = false;
             } else {
+                // Capture the key
                 capturedCustomKey = key;
                 isCapturingKeybind = false;
             }
-            return true; 
+            return true; // Consume the key event during capture
         }
         
-\        if (capturedCustomKey != cocos2d::enumKeyCodes::KEY_None && key == capturedCustomKey && isKeyDown) {
+        // Handle GUI toggle
+        if (capturedCustomKey != cocos2d::enumKeyCodes::KEY_None && key == capturedCustomKey && isKeyDown) {
             ImGuiCocos::get().toggle();
+            guiVisible = ImGuiCocos::get().isVisible();
         }
         
         return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
     }
 };
-#
