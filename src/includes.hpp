@@ -14,5 +14,6 @@
 #include <Geode/modify/PlayLayer.hpp>
 #include <vector>
 #include <string>
+#include <cstring>
 #include <algorithm>
 #include "GUI/gui.hpp"
