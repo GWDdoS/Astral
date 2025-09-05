@@ -13,9 +13,7 @@
 	"description": "Astral: A multi-platform bot made for botting hard GD levels such as the ILL and the SLL.",
 	"resources": {
 		"files": [
-			"resources/font0.ttf"
-			"resources/font1.ttf"
-			"resources/font2.ttf"
+			"resources/*.ttf"
 		]
 	},
 	"links": {
