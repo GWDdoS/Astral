@@ -28,8 +28,7 @@ bool speedhackAudio = false;
 
 // Keybind capture variables
 bool isCapturingKeybind = false;
-cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_None;
-bool isUsingCustomKey = false;
+cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt; // Default to Alt
 
 // Floats
 float seedValue = 1.0f;
@@ -40,26 +39,12 @@ float currentPitch = 1.0f;
 float currentSpeedValue = 1.0f;
 
 // Ints
-int selectedKeybind = 0; // idk how to do real custom keybinds
 int backgroundTheme = 0;
 int inputMerge = 0;
 int noclipMode = 0;
 
 // Chars
 char macroName[128] = "Test";
-
-// dumbahh fix i actually haev to rework this, move to /keybinds.cpp
-const char *keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
-cocos2d::enumKeyCodes keybindCodes[] = {
-    cocos2d::enumKeyCodes::KEY_Alt,
-    cocos2d::enumKeyCodes::KEY_F1,
-    cocos2d::enumKeyCodes::KEY_F2,
-    cocos2d::enumKeyCodes::KEY_F3,
-    cocos2d::enumKeyCodes::KEY_F4,
-    cocos2d::enumKeyCodes::KEY_F5,
-    cocos2d::enumKeyCodes::KEY_Insert,
-    cocos2d::enumKeyCodes::KEY_Home,
-    cocos2d::enumKeyCodes::KEY_End};
 
 const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
 
@@ -349,46 +334,21 @@ $on_mod(Loaded)
                     ImGui::Text("Toggle GUI Key:");
                     
                     // Get current key display
-                    const char* currentKeyDisplay;
-                    if (isUsingCustomKey && capturedCustomKey != cocos2d::enumKeyCodes::KEY_None) {
-                        currentKeyDisplay = getKeyName(capturedCustomKey);
-                    } else if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindNames)) {
-                        currentKeyDisplay = keybindNames[selectedKeybind];
-                    } else {
-                        currentKeyDisplay = "None";
-                    }
+                    const char* currentKeyDisplay = getKeyName(capturedCustomKey);
                     
-                    // Dropdown for preset keys + custom option
-                    ImGui::SetNextItemWidth(150);
-                    if (ImGui::BeginCombo("##keybind", currentKeyDisplay)) {
-                        // Show existing keybinds
-                        for (int i = 0; i < IM_ARRAYSIZE(keybindNames); i++) {
-                            bool isSelected = (!isUsingCustomKey && selectedKeybind == i);
-                            if (ImGui::Selectable(keybindNames[i], isSelected)) {
-                                selectedKeybind = i;
-                                isUsingCustomKey = false;
-                                capturedCustomKey = cocos2d::enumKeyCodes::KEY_None;
-                            }
-                            if (isSelected) {
-                                ImGui::SetItemDefaultFocus();
-                            }
-                        }
-                        
-                        // Separator and capture option
-                        ImGui::Separator();
-                        if (ImGui::Selectable("Set Custom Key...")) {
-                            isCapturingKeybind = true;
-                        }
-                        
-                        ImGui::EndCombo();
+                    // Button to capture new keybind
+                    if (ImGui::Button(isCapturingKeybind ? "Press any key..." : "Set Keybind")) {
+                        isCapturingKeybind = !isCapturingKeybind;
                     }
                     
                     // Handle key capture
                     if (isCapturingKeybind) {
+                        ImGui::SameLine();
+                        if (ImGui::Button("Cancel")) {
+                            isCapturingKeybind = false;
+                        }
                         ImGui::Text("Press any key to set as keybind (ESC to cancel)");
                         ImGui::Text("Waiting for input...");
-                        
-                        // The key capture will be handled in the keyboard hook
                     }
                     
                     ImGui::Text("Current Key: %s", currentKeyDisplay);
@@ -424,7 +384,7 @@ $on_mod(Loaded)
         ImGui::End(); });
 }
 
-// Enhanced keybind hook with capture functionality
+// Clean keybind hook with only custom capture functionality
 #ifdef GEODE_IS_WINDOWS
 class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher)
 {
@@ -438,23 +398,13 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher)
             } else {
                 // Capture the key
                 capturedCustomKey = key;
-                isUsingCustomKey = true;
                 isCapturingKeybind = false;
             }
             return true; // Consume the key event during capture
         }
         
         // Handle GUI toggle
-        cocos2d::enumKeyCodes toggleKey;
-        if (isUsingCustomKey && capturedCustomKey != cocos2d::enumKeyCodes::KEY_None) {
-            toggleKey = capturedCustomKey;
-        } else if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes)) {
-            toggleKey = keybindCodes[selectedKeybind];
-        } else {
-            toggleKey = cocos2d::enumKeyCodes::KEY_None;
-        }
-        
-        if (toggleKey != cocos2d::enumKeyCodes::KEY_None && key == toggleKey && isKeyDown) {
+        if (capturedCustomKey != cocos2d::enumKeyCodes::KEY_None && key == capturedCustomKey && isKeyDown) {
             ImGuiCocos::get().toggle();
             guiVisible = ImGuiCocos::get().isVisible();
         }
@@ -475,7 +425,6 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher)
             } else {
                 // Capture the key
                 capturedCustomKey = key;
-                isUsingCustomKey = true;
                 isCapturingKeybind = false;
             }
             return true; // Consume the key event during capture
