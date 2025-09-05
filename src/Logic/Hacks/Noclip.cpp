@@ -1,9 +1,9 @@
 #include "../../includes.hpp"
 
 
-noclipEnabled = false;
-noclipP1 = false;
-noclipP2 = false;
+// noclipEnabled = false;
+// noclipP1 = false;
+// noclipP2 = false;
 
 class $modify(NoclipPL, PlayLayer) {
     void destroyPlayer(PlayerObject* player, GameObject* obstacle) {
@@ -30,7 +30,7 @@ class $modify(NoclipPL, PlayLayer) {
         PlayLayer::destroyPlayer(player, obstacle);
     }
 };
-}
+};
 
 /*
 if (ImGui::Combo("Noclip Mode", &noclipMode, "Off\0Both Players\0Player 1 Only\0Player 2 Only\0")){
