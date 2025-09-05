@@ -49,7 +49,7 @@ char macroName[128] = "Test";
 const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
 const int backgroundThemeNamesCount = sizeof(backgroundThemeNames) / sizeof(backgroundThemeNames[0]);
 //strings
-std::string fontType = "font0.ttf";
+string fontType = "font0.ttf";
 
 
 // Ai is good for one thing, making a fucking massive list :skull:
