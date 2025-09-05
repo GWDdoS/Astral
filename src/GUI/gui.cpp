@@ -2,37 +2,6 @@
 
 using namespace geode::prelude;
 
-/* wait i dont need these do i 
-extern bool noclipP1;
-extern bool noclipP2;
-extern bool noclipEnabled;
-extern bool recording;
-extern bool replaying;
-extern bool rendering;
-extern bool trajectoryEnabled;
-extern bool layoutEnabled;
-extern bool oldphysEnabled;
-extern bool styleApplied;
-extern bool framestepEnabled;
-extern bool lockedDeltaEnabled;
-extern bool guiVisible;
-extern bool speedhackEnabled;
-extern bool speedhackAudio;
-extern bool isCapturingKeybind;
-extern cocos2d::enumKeyCodes capturedCustomKey;
-extern float seedValue;
-extern float tpsValue;
-extern float speedValue;
-extern float themeColor[3];
-extern float currentPitch;
-extern float currentSpeedValue;
-extern int backgroundTheme;
-extern int inputMerge;
-extern int noclipMode;
-extern char macroName[128];
-extern const char *backgroundThemeNames[];
-*/
-
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 
 void applyBackgroundTheme()
@@ -75,8 +44,10 @@ void setupImGuiStyle()
 {
     auto& style = ImGui::GetStyle();
     auto& io = ImGui::GetIO();
-    auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / "font.ttf").string().c_str(), 16.0f);
     
+    applyFont();
+    auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / fontType).string().c_str(), 16.0f);
+
     io.FontGlobalScale = 1.0f;
     style.WindowRounding = 12.0f;
     style.FrameRounding = 8.0f;
@@ -224,14 +195,10 @@ void renderSettingsTab()
     }
     
     ImGui::Text("Current Key: %s", currentKeyDisplay);
-    
-    ImGui::Separator();
-    ImGui::Text("Background Theme:");
-    ImGui::SetNextItemWidth(150);
-    if (ImGui::Combo("##backgroundtheme", &backgroundTheme, backgroundThemeNames, backgroundThemeNamesCount)) {
-        applyBackgroundTheme();
-    }
-    
+}
+
+void renderCustomizationTab()
+{
     ImGui::Separator();
     ImGui::Text("Theme Color:");
     if (ImGui::ColorEdit3("##themecolor", themeColor)) {
@@ -242,13 +209,33 @@ void renderSettingsTab()
         themeColor[1] = 0.7f; // G  
         themeColor[2] = 0.4f; // B
     }
-}
-
-void renderCustomizationTab()
-{
     ImGui::Separator();
-    ImGui::Text("More to come soon :)");
+    ImGui::Text("Background Theme:");
+    ImGui::SetNextItemWidth(150);
+    if (ImGui::Combo("##backgroundtheme", &backgroundTheme, backgroundThemeNames, backgroundThemeNamesCount)) {
+        applyBackgroundTheme();
+    }
+    // I think we need a new applyBackgroundTheme; applyFont?
+    ImGui::Text("Font:");
+    ImGui::SetNextItemWidth(150);
+    if (ImGui::Combo("Font Type", &fontList, "Font 1\0Font 2\0Font 3\0")){
+        switch (fontList)
+        {
+            case 0: // font 1
+            fontType = "font.ttf"
+            
+            case 1: // font 2
+            fontType = "font1.ttf"
+
+            
+            case 2: // font 3
+            fontType = "font2.ttf"
+
+        }
+    }
+    ImGui::Separator();
     ImGui::Button("De3am Mode");
+
 }
 
 void renderMainGui()

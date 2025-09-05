@@ -36,11 +36,12 @@ extern int backgroundTheme;
 extern int inputMerge;
 extern int noclipMode;
 extern const int backgroundThemeNamesCount;
+extern int fontList;
 
 //Chars
 extern char macroName[128];
 extern const char *backgroundThemeNames[];
-
+extern char fontType;
 // Other
 extern cocos2d::enumKeyCodes capturedCustomKey;
 

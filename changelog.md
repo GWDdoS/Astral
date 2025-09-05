@@ -4,6 +4,7 @@
 - Removed old Mobile GUI.
 - Fixed GUI keybind.
 - Start on the final GUI.
+- Went from removing Andriod, to adding both IOS and Andriod :skull:
 
 # 1.0.0-alpha.3
 - Rebrand.
