@@ -47,6 +47,7 @@ int noclipMode = 0;
 char macroName[128] = "Test";
 
 const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
+const int backgroundThemeNamesCount = sizeof(backgroundThemeNames) / sizeof(backgroundThemeNames[0]);
 
 // Ai is good for one thing, making a fucking massive list :skull:
 const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
@@ -121,7 +122,7 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         default: return "Unknown Key";
     }
 }
-// Ok lets see if this opens GUI.CPP
+
 $on_mod(Loaded)
 {
     ImGuiCocos::get().setup([]
@@ -155,5 +156,5 @@ $on_mod(Loaded)
                 
                 return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
             }
-            #endif
         };
+        #endif

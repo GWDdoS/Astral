@@ -2,7 +2,7 @@
 
 using namespace geode::prelude;
 
-// moved the variables here
+/* wait i dont need these do i 
 extern bool noclipP1;
 extern bool noclipP2;
 extern bool noclipEnabled;
@@ -31,6 +31,7 @@ extern int inputMerge;
 extern int noclipMode;
 extern char macroName[128];
 extern const char *backgroundThemeNames[];
+*/
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 
@@ -119,11 +120,9 @@ void renderBottingTab()
     ImGui::Separator();
     ImGui::InputText("Macro Name", macroName, sizeof(macroName));
     if (ImGui::Button("Record Macro", ImVec2(120, 0))) {
-
     }
     ImGui::SameLine();
     if (ImGui::Button("Save Macro", ImVec2(120, 0))) {
-
     }
     ImGui::Spacing();
     ImGui::Text("TPS Bypass:");
@@ -143,7 +142,6 @@ void renderBottingTab()
     ImGui::Checkbox("Frame Stepper", &framestepEnabled);
     
     if (ImGui::Button("Step Frame", ImVec2(120, 0))) {
-        
     }
     
     ImGui::Checkbox("Enable 2.1 Legacy Physics", &oldphysEnabled);
@@ -183,13 +181,10 @@ void renderAssistsTab()
 {
     ImGui::Separator();
     if (ImGui::Button("Start AutoClicker", ImVec2(140, 0))) {
-        
     }
     if (ImGui::Button("Stop AutoClicker", ImVec2(140, 0))) {
-        
     }
     if (ImGui::Button("Dual Merge Input", ImVec2(140, 0))) {
-        
     }
     ImGui::SetNextItemWidth(150);
     ImGui::Combo("Input Type", &inputMerge, "Input\0Space\0Up\0Left\0Right\0");
@@ -199,10 +194,8 @@ void renderRenderTab()
 {
     ImGui::Separator();
     if (ImGui::Button("Start Render", ImVec2(120, 0))) {
-        
     }
     if (ImGui::Button("Stop Render", ImVec2(120, 0))) {
-        
     }
 }
 
@@ -235,14 +228,13 @@ void renderSettingsTab()
     ImGui::Separator();
     ImGui::Text("Background Theme:");
     ImGui::SetNextItemWidth(150);
-    if (ImGui::Combo("##backgroundtheme", &backgroundTheme, backgroundThemeNames, IM_ARRAYSIZE(backgroundThemeNames))) {
+    if (ImGui::Combo("##backgroundtheme", &backgroundTheme, backgroundThemeNames, backgroundThemeNamesCount)) {
         applyBackgroundTheme();
     }
     
     ImGui::Separator();
     ImGui::Text("Theme Color:");
     if (ImGui::ColorEdit3("##themecolor", themeColor)) {
-        
     }
     
     if (ImGui::Button("Reset to Default", ImVec2(150, 0))) {
@@ -338,23 +330,23 @@ void renderMainGui()
         
         switch (selected_tab) {
             case 0: 
-                renderBottingTab();
-                break;
+            renderBottingTab();
+            break;
             case 1: 
-                renderHacksTab();
-                break;
+            renderHacksTab();
+            break;
             case 2: 
-                renderAssistsTab();
-                break;
+            renderAssistsTab();
+            break;
             case 3: 
-                renderRenderTab();
-                break;
+            renderRenderTab();
+            break;
             case 4: 
-                renderSettingsTab();
-                break;
+            renderSettingsTab();
+            break;
             case 5: 
-                renderCustomizationTab();
-                break;
+            renderCustomizationTab();
+            break;
         }
         
         ImGui::EndChild(); 
