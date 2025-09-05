@@ -15,4 +15,6 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include "src/GUI/gui.hpp"
 #include "GUI/gui.hpp"
+#include "gui.hpp"
