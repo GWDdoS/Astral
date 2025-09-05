@@ -220,20 +220,20 @@ void renderCustomizationTab()
         switch (fontList)
         {
             case 0: // font 1
-            std::string fontType = "font0.ttf";
+                fontType = "font0.ttf";
+                break;
             
             case 1: // font 2
-            std::string fontType = "font1.ttf";
-
+                fontType = "font1.ttf";
+                break;
             
             case 2: // font 3
-            std::string fontType = "font2.ttf";
-
+                fontType = "font2.ttf";
+                break;
         }
     }
     ImGui::Separator();
     ImGui::Button("De3am Mode");
-
 }
 
 void renderMainGui()
