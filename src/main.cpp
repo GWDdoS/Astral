@@ -327,6 +327,7 @@ $on_mod(Loaded)
                     break;
                     
                 case 4: 
+                {
                     ImGui::Separator();
                     ImGui::Text("GUI Settings:");
                     ImGui::Separator();
@@ -371,6 +372,7 @@ $on_mod(Loaded)
                         themeColor[2] = 0.4f; // B
                     }
                     break;
+                }
                     
                 case 5: 
                     ImGui::Separator();
