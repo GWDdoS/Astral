@@ -46,6 +46,6 @@ extern const char *backgroundThemeNames[];
 extern cocos2d::enumKeyCodes capturedCustomKey;
 
 // strings
-extern std::string fontType;
+extern string fontType;
 
 
