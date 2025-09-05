@@ -1,17 +1,17 @@
-// Ok no we HAVE TO MOVE ALL THIS SHIT OUT OF HERE OMFG. Ill be remakign the whole code branch soon omfg. 
+// Ok no we HAVE TO MOVE ALL THIS SHIT OUT OF HERE OMFG. Ill be remakign the whole code branch soon omfg.
 
 #include "includes.hpp"
 
 using namespace geode::prelude;
 
 /* de3am is a boykisser and a list helper
-   Breuhh is also a boykisser and a list helper. (de3am told me to put this) 
+   Breuhh is also a boykisser and a list helper. (de3am told me to put this)
 */
 
 // The unholy list of vars
-//bools
+// bools
 bool noclipP1 = false;
-bool noclipP2 = false;   
+bool noclipP2 = false;
 bool noclipEnabled = false;
 bool recording = false;
 bool replaying = false;
@@ -26,26 +26,25 @@ bool guiVisible = false;
 bool speedhackEnabled = false;
 bool speedhackAudio = false;
 
-//Floats
+// Floats
 float seedValue = 1.0f;
 float tpsValue = 240.0f;
 float speedValue = 1.0f;
-float themeColor[3] = {0.2f, 0.7f, 0.4f};  // Darker green default
+float themeColor[3] = {0.2f, 0.7f, 0.4f}; // Darker green default
 float currentPitch = 1.0f;
 float currentSpeedValue = 1.0f;
 
-
-//Ints
+// Ints
 int selectedKeybind = 0; // idk how to do real custom keybinds
 int backgroundTheme = 0;
 int inputMerge = 0;
 int noclipMode = 0;
 
-//Chars
+// Chars
 char macroName[128] = "Test";
 
 // dumbahh fix i actually haev to rework this, move to /keybinds.cpp
-const char* keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
+const char *keybindNames[] = {"Alt", "F1", "F2", "F3", "F4", "F5", "Insert", "Home", "End"};
 cocos2d::enumKeyCodes keybindCodes[] = {
     cocos2d::enumKeyCodes::KEY_Alt,
     cocos2d::enumKeyCodes::KEY_F1,
@@ -55,48 +54,50 @@ cocos2d::enumKeyCodes keybindCodes[] = {
     cocos2d::enumKeyCodes::KEY_F5,
     cocos2d::enumKeyCodes::KEY_Insert,
     cocos2d::enumKeyCodes::KEY_Home,
-    cocos2d::enumKeyCodes::KEY_End
-};
+    cocos2d::enumKeyCodes::KEY_End};
 
-const char* backgroundThemeNames[] = {"Dark", "Light", "Medium"};
+const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
 
+void applyBackgroundTheme()
+{
+    auto &style = ImGui::GetStyle();
 
-void applyBackgroundTheme() {
-    auto& style = ImGui::GetStyle();
-    
-    switch(backgroundTheme) {
-        case 0: // Dark
-            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.75f);  // 75% opacity
-            style.Colors[ImGuiCol_ChildBg] = ImVec4(0.08f, 0.08f, 0.08f, 0.75f);   // 75% opacity
-            style.Colors[ImGuiCol_PopupBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.94f);
-            style.Colors[ImGuiCol_FrameBg] = ImVec4(0.12f, 0.12f, 0.12f, 0.8f);
-            style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.18f, 0.18f, 0.18f, 0.8f);
-            style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.95f, 1.0f);
-            style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
-            break;
-        case 1: // Light
-            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.75f);  // 75% opacity
-            style.Colors[ImGuiCol_ChildBg] = ImVec4(0.96f, 0.96f, 0.96f, 0.75f);   // 75% opacity
-            style.Colors[ImGuiCol_PopupBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.94f);
-            style.Colors[ImGuiCol_FrameBg] = ImVec4(0.9f, 0.9f, 0.9f, 0.8f);
-            style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.85f, 0.85f, 0.85f, 0.8f);
-            style.Colors[ImGuiCol_Text] = ImVec4(0.05f, 0.05f, 0.05f, 1.0f);
-            style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
-            break;
-        case 2: // Medium
-            style.Colors[ImGuiCol_WindowBg] = ImVec4(0.3f, 0.3f, 0.3f, 0.75f);     // 75% opacity
-            style.Colors[ImGuiCol_ChildBg] = ImVec4(0.35f, 0.35f, 0.35f, 0.75f);   // 75% opacity
-            style.Colors[ImGuiCol_PopupBg] = ImVec4(0.3f, 0.3f, 0.3f, 0.94f);
-            style.Colors[ImGuiCol_FrameBg] = ImVec4(0.45f, 0.45f, 0.45f, 0.8f);
-            style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.55f, 0.55f, 0.55f, 0.8f);
-            style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.95f, 1.0f);
-            style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.7f, 0.7f, 0.7f, 1.0f);
-            break;
+    switch (backgroundTheme)
+    {
+    case 0:                                                                   // Dark
+        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.75f); // 75% opacity
+        style.Colors[ImGuiCol_ChildBg] = ImVec4(0.08f, 0.08f, 0.08f, 0.75f);  // 75% opacity
+        style.Colors[ImGuiCol_PopupBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.94f);
+        style.Colors[ImGuiCol_FrameBg] = ImVec4(0.12f, 0.12f, 0.12f, 0.8f);
+        style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.18f, 0.18f, 0.18f, 0.8f);
+        style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.95f, 1.0f);
+        style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+        break;
+    case 1:                                                                   // Light
+        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.75f); // 75% opacity
+        style.Colors[ImGuiCol_ChildBg] = ImVec4(0.96f, 0.96f, 0.96f, 0.75f);  // 75% opacity
+        style.Colors[ImGuiCol_PopupBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.94f);
+        style.Colors[ImGuiCol_FrameBg] = ImVec4(0.9f, 0.9f, 0.9f, 0.8f);
+        style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.85f, 0.85f, 0.85f, 0.8f);
+        style.Colors[ImGuiCol_Text] = ImVec4(0.05f, 0.05f, 0.05f, 1.0f);
+        style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
+        break;
+    case 2:                                                                  // Medium
+        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.3f, 0.3f, 0.3f, 0.75f);   // 75% opacity
+        style.Colors[ImGuiCol_ChildBg] = ImVec4(0.35f, 0.35f, 0.35f, 0.75f); // 75% opacity
+        style.Colors[ImGuiCol_PopupBg] = ImVec4(0.3f, 0.3f, 0.3f, 0.94f);
+        style.Colors[ImGuiCol_FrameBg] = ImVec4(0.45f, 0.45f, 0.45f, 0.8f);
+        style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.55f, 0.55f, 0.55f, 0.8f);
+        style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.95f, 1.0f);
+        style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.7f, 0.7f, 0.7f, 1.0f);
+        break;
     }
 }
 
-$on_mod(Loaded) {
-    ImGuiCocos::get().setup([] {
+$on_mod(Loaded)
+{
+    ImGuiCocos::get().setup([]
+                            {
         auto& style = ImGui::GetStyle();
         auto& io = ImGui::GetIO();
         
@@ -135,8 +136,9 @@ $on_mod(Loaded) {
         style.Colors[ImGuiCol_TabUnfocused] = ImVec4(0.1f, 0.4f, 0.25f, 0.8f);
         style.Colors[ImGuiCol_TabUnfocusedActive] = darkBaseGreen;
         
-        styleApplied = true;
-   }).draw([] {
+        styleApplied = true; })
+        .draw([]
+              {
         
         if (styleApplied) {
             auto& style = ImGui::GetStyle();
@@ -345,15 +347,18 @@ $on_mod(Loaded) {
             ImGui::EndChild(); 
             ImGui::EndChild(); 
         }
-        ImGui::End();
-    });
+        ImGui::End(); });
 }
 // basic cursor shit, idk how to fix it or make it work
 #ifdef GEODE_IS_WINDOWS
-class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
-    bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
-        if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes)) {
-            if (key == keybindCodes[selectedKeybind] && isKeyDown) {
+class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher)
+{
+    bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
+    {
+        if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes))
+        {
+            if (key == keybindCodes[selectedKeybind] && isKeyDown)
+            {
                 ImGuiCocos::get().toggle();
                 guiVisible = ImGuiCocos::get().isVisible();
             }
@@ -362,10 +367,14 @@ class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
     }
 };
 #else
-class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher) {
-    bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
-        if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes)) {
-            if (key == keybindCodes[selectedKeybind] && isKeyDown) {
+class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher)
+{
+    bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
+    {
+        if (selectedKeybind >= 0 && selectedKeybind < IM_ARRAYSIZE(keybindCodes))
+        {
+            if (key == keybindCodes[selectedKeybind] && isKeyDown)
+            {
                 ImGuiCocos::get().toggle();
             }
         }
