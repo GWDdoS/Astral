@@ -83,14 +83,13 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         
         // Missing cases to add:
         case cocos2d::enumKeyCodes::KEY_None: return "None";
-        case cocos2d::enumKeyCodes::KEY_Back: return "Back";
-        case cocos2d::enumKeyCodes::KEY_Menu: return "Menu";
         case cocos2d::enumKeyCodes::KEY_Backspace: return "Backspace";
         case cocos2d::enumKeyCodes::KEY_Pause: return "Pause";
         case cocos2d::enumKeyCodes::KEY_CapsLock: return "Caps Lock";
         case cocos2d::enumKeyCodes::KEY_Select: return "Select";
         
         // Number keys (0-9)
+        /* these dont work
         case cocos2d::enumKeyCodes::KEY_0: return "0";
         case cocos2d::enumKeyCodes::KEY_1: return "1";
         case cocos2d::enumKeyCodes::KEY_2: return "2";
@@ -101,7 +100,7 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         case cocos2d::enumKeyCodes::KEY_7: return "7";
         case cocos2d::enumKeyCodes::KEY_8: return "8";
         case cocos2d::enumKeyCodes::KEY_9: return "9";
-        
+        */
         // Letter keys (A-Z)
         case cocos2d::enumKeyCodes::KEY_A: return "A";
         case cocos2d::enumKeyCodes::KEY_B: return "B";
@@ -131,6 +130,7 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         case cocos2d::enumKeyCodes::KEY_Z: return "Z";
         
         // Numeric keypad keys
+        /* these dont work
         case cocos2d::enumKeyCodes::KEY_Num0: return "Numpad 0";
         case cocos2d::enumKeyCodes::KEY_Num1: return "Numpad 1";
         case cocos2d::enumKeyCodes::KEY_Num2: return "Numpad 2";
@@ -141,6 +141,7 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         case cocos2d::enumKeyCodes::KEY_Num7: return "Numpad 7";
         case cocos2d::enumKeyCodes::KEY_Num8: return "Numpad 8";
         case cocos2d::enumKeyCodes::KEY_Num9: return "Numpad 9";
+        */
         case cocos2d::enumKeyCodes::KEY_NumMultiply: return "Numpad *";
         case cocos2d::enumKeyCodes::KEY_NumPlus: return "Numpad +";
         case cocos2d::enumKeyCodes::KEY_NumMinus: return "Numpad -";
