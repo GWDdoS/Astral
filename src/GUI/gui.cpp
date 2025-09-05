@@ -45,15 +45,16 @@ void setupImGuiStyle()
     auto& style = ImGui::GetStyle();
     auto& io = ImGui::GetIO();
     auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / ("font" + std::to_string(fontType) + ".ttf")).string().c_str(), 16.0f);
+    // notice the font + fontType. Artifact of the old code that tried to swap fonts.
 
     io.FontGlobalScale = 1.0f;
-    style.WindowRounding = 12.0f;
-    style.FrameRounding = 8.0f;
-    style.PopupRounding = 8.0f;
-    style.ScrollbarRounding = 8.0f;
-    style.GrabRounding = 8.0f;
-    style.TabRounding = 8.0f;
-    style.ChildRounding = 8.0f;
+    style.WindowRounding = 6.0f;
+    style.FrameRounding = 4.0f;
+    style.PopupRounding = 4.0f;
+    style.ScrollbarRounding = 4.0f;
+    style.GrabRounding = 4.0f;
+    style.TabRounding = 4.0f;
+    style.ChildRounding = 4.0f;
     style.ScaleAllSizes(1.0f);
     
     ImVec4 baseGreen = ImVec4(0.2f, 0.7f, 0.4f, 1.0f); 
@@ -84,158 +85,6 @@ void setupImGuiStyle()
     styleApplied = true;
 }
 
-void renderBottingTab()
-{
-    ImGui::Separator();
-    ImGui::InputText("Macro Name", macroName, sizeof(macroName));
-    if (ImGui::Button("Record Macro", ImVec2(120, 0))) {
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Save Macro", ImVec2(120, 0))) {
-    }
-    ImGui::Spacing();
-    ImGui::Text("TPS Bypass:");
-    ImGui::SetNextItemWidth(150);
-    ImGui::InputFloat("TPS", &tpsValue);
-    ImGui::Checkbox("Lock Delta Time", &lockedDeltaEnabled);
-    ImGui::Separator();
-    ImGui::Text("Speedhack Controls:");
-    ImGui::Checkbox("Enable Speedhack", &speedhackEnabled);
-    ImGui::SameLine();
-    ImGui::SetNextItemWidth(150);
-    ImGui::InputFloat("Speed Value", &speedValue, 0.1f, 1.0f, "%.2f");
-    ImGui::Checkbox("Audio Sync", &speedhackAudio);
-    ImGui::Spacing();
-    ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
-    
-    ImGui::Checkbox("Frame Stepper", &framestepEnabled);
-    
-    if (ImGui::Button("Step Frame", ImVec2(120, 0))) {
-    }
-    
-    ImGui::Checkbox("Enable 2.1 Legacy Physics", &oldphysEnabled);
-}
-
-void renderHacksTab()
-{
-    ImGui::Separator();
-    ImGui::Checkbox("Enable Noclip", &noclipEnabled);
-    ImGui::SetNextItemWidth(150);
-    if (ImGui::Combo("Noclip Mode", &noclipMode, "Both Players\0Player 1\0Player 2\0")){
-        switch (noclipMode)
-        {
-            case 0: // Both Players
-            noclipP1 = true;
-            noclipP2 = true;
-            break;
-            
-            case 1: // Player 1 Only
-            noclipP1 = true;
-            noclipP2 = false;
-            break;
-            
-            case 2: // Player 2 Only
-            noclipP1 = false;
-            noclipP2 = true;
-            break;
-        }
-    }
-    ImGui::Separator();
-    ImGui::Checkbox("Show Layout", &layoutEnabled);
-    ImGui::SetNextItemWidth(150);
-    ImGui::InputFloat("Lock Seed", &seedValue);
-}
-
-void renderAssistsTab()
-{
-    ImGui::Separator();
-    if (ImGui::Button("Start AutoClicker", ImVec2(140, 0))) {
-    }
-    if (ImGui::Button("Stop AutoClicker", ImVec2(140, 0))) {
-    }
-    if (ImGui::Button("Dual Merge Input", ImVec2(140, 0))) {
-    }
-    ImGui::SetNextItemWidth(150);
-    ImGui::Combo("Input Type", &inputMerge, "Input\0Space\0Up\0Left\0Right\0");
-}
-
-void renderRenderTab()
-{
-    ImGui::Separator();
-    if (ImGui::Button("Start Render", ImVec2(120, 0))) {
-    }
-    if (ImGui::Button("Stop Render", ImVec2(120, 0))) {
-    }
-}
-
-void renderSettingsTab()
-{
-    ImGui::Separator();
-    ImGui::Text("GUI Settings:");
-    ImGui::Separator();
-    
-    ImGui::Text("Toggle GUI Key:");
-    
-    const char* currentKeyDisplay = getKeyName(capturedCustomKey);
-    
-    if (ImGui::Button(isCapturingKeybind ? "Press any key..." : "Set Keybind")) {
-        isCapturingKeybind = !isCapturingKeybind;
-    }
-    
-    // get pressed key (it works....?)
-    if (isCapturingKeybind) {
-        ImGui::SameLine();
-        if (ImGui::Button("Cancel")) {
-            isCapturingKeybind = false;
-        }
-        ImGui::Text("Press any key to set as keybind (ESC to cancel)");
-        ImGui::Text("Waiting for input...");
-    }
-    
-    ImGui::Text("Current Key: %s", currentKeyDisplay);
-}
-
-void renderCustomizationTab()
-{
-    ImGui::Separator();
-    ImGui::Text("Theme Color:");
-    if (ImGui::ColorEdit3("##themecolor", themeColor)) {
-    }
-    
-    if (ImGui::Button("Reset to Default", ImVec2(150, 0))) {
-        themeColor[0] = 0.2f; // R
-        themeColor[1] = 0.7f; // G  
-        themeColor[2] = 0.4f; // B
-    }
-    ImGui::Separator();
-    ImGui::Text("Background Theme:");
-    ImGui::SetNextItemWidth(150);
-    if (ImGui::Combo("##backgroundtheme", &backgroundTheme, backgroundThemeNames, backgroundThemeNamesCount)) {
-        applyBackgroundTheme();
-    }
-    // I think we need a new applyBackgroundTheme; applyFont?
-    ImGui::Text("Font:");
-    ImGui::SetNextItemWidth(150);
-    if (ImGui::Combo("Font Type", &fontList, "Font 1\0Font 2\0Font 3\0")){
-        switch (fontList)
-        {
-            case 0: // font 1
-                fontType = 0;
-                break;
-            
-            case 1: // font 2
-                fontType = 1;
-                break;
-            
-            case 2: // font 3
-                fontType = 2;
-                break;
-        }
-    }
-    ImGui::Separator();
-    ImGui::Button("De3am Mode");
-}
-
 void renderMainGui()
 {
     if (styleApplied) {
@@ -263,80 +112,99 @@ void renderMainGui()
         style.Colors[ImGuiCol_TabActive] = customColorLight;
     }
     
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
     
     bool currentGuiState = ImGuiCocos::get().isVisible();
     if (currentGuiState != guiVisible) {
         guiVisible = currentGuiState;
     }
     
-    ImGui::SetNextWindowSize(ImVec2(600, 450), ImGuiCond_Always);
+    ImGui::SetNextWindowSize(ImVec2(400, 300), ImGuiCond_Always);
     ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);
     
     if (ImGui::Begin("Astral Mod", nullptr, window_flags)) {
+        
         ImVec2 windowSize = ImGui::GetWindowSize();
         ImVec2 windowPos = ImGui::GetWindowPos();
-        
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
-        ImVec2 banner_min = windowPos;
-        ImVec2 banner_max = ImVec2(windowPos.x + windowSize.x, windowPos.y + 40);
         
-        ImVec4 bannerColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 0.8f);
-        draw_list->AddRectFilled(banner_min, banner_max, ImGui::ColorConvertFloat4ToU32(bannerColor), 12.0f, ImDrawFlags_RoundCornersTop);
+        ImU32 col_top = IM_COL32(0, 0, 0, 255);        // Black at top
+        ImU32 col_bottom = IM_COL32(80, 80, 80, 255);  // Grey at bottom
         
-        const char* title = "Astral [Alpha]";
-        ImVec2 text_size = ImGui::CalcTextSize(title);
-        ImVec2 text_pos = ImVec2(
-            windowPos.x + (windowSize.x - text_size.x) * 0.5f,
-            windowPos.y + (50 - text_size.y) * 0.5f
+        draw_list->AddRectFilledMultiColor(
+            windowPos,
+            ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
+            col_top, col_top, col_bottom, col_bottom
         );
         
-        draw_list->AddText(text_pos, IM_COL32(255, 255, 255, 255), title);
         
-        ImGui::Dummy(ImVec2(0, 50));
+        ImGui::Text("Categories:");
+        if (ImGui::Button("Botting", ImVec2(80, 25))) {}
+        ImGui::SameLine();
+        if (ImGui::Button("Hacks", ImVec2(80, 25))) {}
+        ImGui::SameLine();
+        if (ImGui::Button("AutoClicker", ImVec2(80, 25))) {}
+        ImGui::SameLine();
+        if (ImGui::Button("Render", ImVec2(80, 25))) {}
+        ImGui::SameLine();
+        if (ImGui::Button("Settings", ImVec2(80, 25))) {
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Customization", ImVec2(100, 25))) {}
         
-        ImGui::BeginChild("MainContent", ImVec2(0, -5), false, ImGuiWindowFlags_NoScrollbar);
+        ImGui::Separator();
         
-        ImGui::BeginChild("TabsPanel", ImVec2(140, 0), true);
+        ImGui::Text("GUI Settings:");
         
-        static int selected_tab = 0;
-        const char* tab_names[] = {"Botting", "Hacks", "Assists", "Render", "Settings", "Customization"};
+        ImGui::Text("Toggle GUI Key:");
+        const char* currentKeyDisplay = getKeyName(capturedCustomKey);
         
-        for (int i = 0; i < 6; i++) {
-            if (ImGui::Selectable(tab_names[i], selected_tab == i, 0, ImVec2(120, 35))) {
-                selected_tab = i;
+        if (ImGui::Button(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 0))) {
+            isCapturingKeybind = !isCapturingKeybind;
+        }
+        
+        if (isCapturingKeybind) {
+            ImGui::SameLine();
+            if (ImGui::Button("Cancel")) {
+                isCapturingKeybind = false;
             }
         }
         
-        ImGui::EndChild();
+        ImGui::Text("Current Key: %s", currentKeyDisplay);
+        
+        ImGui::Spacing();
+        
+        ImGui::Text("Other Settings:");
+        ImGui::SetNextItemWidth(120);
+        static int classic_mode = 0;
+        ImGui::Combo("##classic", &classic_mode, "Classic\0Modern\0");
         
         ImGui::SameLine();
+        ImGui::Text("Theme Style");
         
-        ImGui::BeginChild("ContentPanel", ImVec2(0, 0), true);
+        ImGui::Spacing();
         
-        switch (selected_tab) {
-            case 0: 
-            renderBottingTab();
-            break;
-            case 1: 
-            renderHacksTab();
-            break;
-            case 2: 
-            renderAssistsTab();
-            break;
-            case 3: 
-            renderRenderTab();
-            break;
-            case 4: 
-            renderSettingsTab();
-            break;
-            case 5: 
-            renderCustomizationTab();
-            break;
+        ImGui::Checkbox("Enable Noclip", &noclipEnabled);
+        ImGui::SameLine();
+        ImGui::Checkbox("Show Layout", &layoutEnabled);
+        
+        ImGui::Checkbox("Enable Speedhack", &speedhackEnabled);
+        if (speedhackEnabled) {
+            ImGui::SameLine();
+            ImGui::SetNextItemWidth(80);
+            ImGui::InputFloat("##speed", &speedValue, 0.1f, 1.0f, "%.1f");
         }
         
-        ImGui::EndChild(); 
-        ImGui::EndChild(); 
+        ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
+        ImGui::SameLine();
+        ImGui::Checkbox("Frame Stepper", &framestepEnabled);
+        
+        ImGui::Separator();
+        if (ImGui::Button("Record Macro", ImVec2(100, 0))) {}
+        ImGui::SameLine();
+        if (ImGui::Button("Start Render", ImVec2(100, 0))) {}
+        ImGui::SameLine();
+        if (ImGui::Button("AutoClicker", ImVec2(100, 0))) {}
     }
     ImGui::End();
 }
