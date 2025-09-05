@@ -220,20 +220,20 @@ void renderCustomizationTab()
         switch (fontList)
         {
             case 0: // font 1
-            fontType[128] = "font0.ttf";
+                strcpy(fontType, "font0.ttf");
+                break;
             
             case 1: // font 2
-            fontType[128] = "font1.ttf";
-
+                strcpy(fontType, "font1.ttf");
+                break;
             
             case 2: // font 3
-            fontType[128] = "font2.ttf";
-
+                strcpy(fontType, "font2.ttf");
+                break;
         }
     }
     ImGui::Separator();
     ImGui::Button("De3am Mode");
-
 }
 
 void renderMainGui()
