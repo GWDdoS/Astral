@@ -39,7 +39,10 @@ class $modify(NoclipPL, PlayLayer)
                 return;
             }
         }
+    if (!shouldNoclip) {
+        PlayLayer::destroyPlayer(player, obstacle);
     }
+  }
 };
 
 /*
