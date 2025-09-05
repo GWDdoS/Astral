@@ -328,8 +328,7 @@ $on_mod(Loaded)
                         ImGui::BeginChild("TabsPanel", ImVec2(140, 0), true);
                         
                         static int selected_tab = 0;
-                        const char* tab_names[] = {"Botting", "Hacks", "Assists", "Render", "Settings", "Customization
-                            "};
+                        const char* tab_names[] = {"Botting", "Hacks", "Assists", "Render", "Settings", "Customization"};
                         
                         for (int i = 0; i < 6; i++) {
                             if (ImGui::Selectable(tab_names[i], selected_tab == i, 0, ImVec2(120, 35))) {
@@ -485,8 +484,7 @@ $on_mod(Loaded)
                     ImGui::End(); });
                 }
                 // i should learn how to actually do this later
-                class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher)
-                {
+                class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher){
                     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
                     {
                         if (isCapturingKeybind && isKeyDown && !isKeyRepeat) {
