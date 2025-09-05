@@ -6,7 +6,6 @@ if ("${CMAKE_SYSTEM_NAME}" STREQUAL "iOS" OR IOS)
 else()
     set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
 endif()
-set (CMAKE_CXX_AND)
 
 set(CMAKE_CXX_VISIBILITY_PRESET hidden)
 
