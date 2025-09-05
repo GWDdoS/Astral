@@ -132,26 +132,28 @@ $on_mod(Loaded)
             {
                 renderMainGui();
             });
-}
-
-class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher){
-    bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
-    {
-        if (isCapturingKeybind && isKeyDown && !isKeyRepeat) {
-            if (key == cocos2d::enumKeyCodes::KEY_Escape) {
-                isCapturingKeybind = false;
-            } else {
-                capturedCustomKey = key;
-                isCapturingKeybind = false;
+        }
+        
+        #ifndef GEODE_IS_IOS
+        class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher){
+            bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
+            {
+                if (isCapturingKeybind && isKeyDown && !isKeyRepeat) {
+                    if (key == cocos2d::enumKeyCodes::KEY_Escape) {
+                        isCapturingKeybind = false;
+                    } else {
+                        capturedCustomKey = key;
+                        isCapturingKeybind = false;
+                    }
+                    return true; 
+                }
+                
+                if (capturedCustomKey != cocos2d::enumKeyCodes::KEY_None && key == capturedCustomKey && isKeyDown) {
+                    ImGuiCocos::get().toggle();
+                    guiVisible = ImGuiCocos::get().isVisible();
+                }
+                
+                return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
             }
-            return true; 
-        }
-        
-        if (capturedCustomKey != cocos2d::enumKeyCodes::KEY_None && key == capturedCustomKey && isKeyDown) {
-            ImGuiCocos::get().toggle();
-            guiVisible = ImGuiCocos::get().isVisible();
-        }
-        
-        return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
-    }
-};
+            #endif
+        };
