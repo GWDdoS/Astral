@@ -30,7 +30,7 @@ class $modify(NoclipPL, PlayLayer)
 
         if (shouldNoclip)
         {
-            if (m_anticheatSpike)
+            if (obstacle == m_anticheatSpike)
             {
                 PlayLayer::destroyPlayer(player, obstacle);
             }
