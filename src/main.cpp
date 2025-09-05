@@ -253,29 +253,22 @@ $on_mod(Loaded)
                     
                 case 1: 
                     ImGui::Separator();
-                    if (ImGui::Combo("Noclip Mode", &noclipMode, "Off\0Both Players\0Player 1 Only\0Player 2 Only\0")){
+                    ImGui::Checkbox("Enable Noclip", &noclipEnabled);
+                    ImGui::SetNextItemWidth(150);
+                    if (ImGui::Combo("Noclip Mode", &noclipMode, "Both Players\0Player 1 Only\0Player 2 Only\0")){
                         switch (noclipMode)
                                 {
-                            case 0: // Off
-                                noclipEnabled = false;
-                                noclipP1 = false;
-                                noclipP2 = false;
-                                break;
-            
-                            case 1: // Both Players
-                                noclipEnabled = true;
+                            case 0: // Both Players
                                 noclipP1 = true;
                                 noclipP2 = true;
                                 break;
             
-                            case 2: // Player 1 Only
-                                noclipEnabled = true;  
+                            case 1: // Player 1 Only
                                 noclipP1 = true;
                                 noclipP2 = false;
                                 break;
             
-                            case 3: // Player 2 Only
-                                noclipEnabled = true;
+                            case 2: // Player 2 Only
                                 noclipP1 = false;
                                 noclipP2 = true;
                             break;
