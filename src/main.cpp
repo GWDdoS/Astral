@@ -313,7 +313,7 @@ $on_mod(Loaded)
                         draw_list->AddRectFilled(banner_min, banner_max, ImGui::ColorConvertFloat4ToU32(bannerColor), 12.0f, ImDrawFlags_RoundCornersTop);
                         
                         const char* title = "Astral: Bot";
-                        ImVec2 text_size = ImGui::CalcTextSize(title);
+                        ImVec2 text_size = ImGui::CalcTextSize(title*0.5f);
                         ImVec2 text_pos = ImVec2(
                             windowPos.x + (windowSize.x - text_size.x) * 0.5f,
                             windowPos.y + (50 - text_size.y) * 0.5f
