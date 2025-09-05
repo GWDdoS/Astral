@@ -39,6 +39,7 @@ float currentSpeedValue = 1.0f;
 int selectedKeybind = 0; // idk how to do real custom keybinds
 int backgroundTheme = 0;
 int inputMerge = 0;
+int noclipMode = 0;
 
 //Chars
 char macroName[128] = "Test";
@@ -227,14 +228,14 @@ $on_mod(Loaded) {
                     }
                     ImGui::Spacing();
                     ImGui::Text("TPS Bypass:");
-                    ImGui::SetNextItemWidth(100);
+                    ImGui::SetNextItemWidth(150);
                     ImGui::InputFloat("TPS", &tpsValue);
                     ImGui::Checkbox("Lock Delta Time", &lockedDeltaEnabled);
                     ImGui::Separator();
                     ImGui::Text("Speedhack Controls:");
                     ImGui::Checkbox("Enable Speedhack", &speedhackEnabled);
                     ImGui::SameLine();
-                    ImGui::SetNextItemWidth(100);
+                    ImGui::SetNextItemWidth(150);
                     ImGui::InputFloat("Speed Value", &speedValue, 0.1f, 1.0f, "%.2f");
                     ImGui::Checkbox("Audio Sync", &speedhackAudio);
                     ImGui::Spacing();
@@ -250,16 +251,37 @@ $on_mod(Loaded) {
                     
                 case 1: 
                     ImGui::Separator();
-                    ImGui::Checkbox("Enable Noclip (Both Players)", &noclipEnabled);
-                    
-                    ImGui::Separator();
-                    ImGui::Text("Individual Player Noclip:");
-                    ImGui::Checkbox("Player 1 Noclip", &noclipP1);
-                    ImGui::Checkbox("Player 2 Noclip", &noclipP2);
-                    
+                    if (ImGui::Combo("Noclip Mode", &noclipMode, "Off\0Both Players\0Player 1 Only\0Player 2 Only\0")){
+                        switch (noclipMode)
+                                {
+                            case 0: // Off
+                                noclipEnabled = false;
+                                noclipP1 = false;
+                                noclipP2 = false;
+                                break;
+            
+                            case 1: // Both Players
+                                noclipEnabled = true;
+                                noclipP1 = true;
+                                noclipP2 = true;
+                                break;
+            
+                            case 2: // Player 1 Only
+                                noclipEnabled = true;  
+                                noclipP1 = true;
+                                noclipP2 = false;
+                                break;
+            
+                            case 3: // Player 2 Only
+                                noclipEnabled = true;
+                                noclipP1 = false;
+                                noclipP2 = true;
+                            break;
+                        }
+                    }
                     ImGui::Separator();
                     ImGui::Checkbox("Show Layout", &layoutEnabled);
-                    ImGui::SetNextItemWidth(100);
+                    ImGui::SetNextItemWidth(150);
                     ImGui::InputFloat("Lock Seed", &seedValue);
                     break;
                     
@@ -271,7 +293,7 @@ $on_mod(Loaded) {
                     }
                     if (ImGui::Button("Dual Merge Input", ImVec2(140, 0))) {
                     }
-                    ImGui::SetNextItemWidth(100);
+                    ImGui::SetNextItemWidth(150);
                     ImGui::Combo("Input Type", &inputMerge, "Input\0Space\0Up\0Left\0Right\0");
                     break;
                     
@@ -289,7 +311,7 @@ $on_mod(Loaded) {
                     ImGui::Separator();
                     
                     ImGui::Text("Toggle GUI Key:");
-                    ImGui::SetNextItemWidth(100);
+                    ImGui::SetNextItemWidth(150);
                     if (ImGui::Combo("##keybind", &selectedKeybind, keybindNames, IM_ARRAYSIZE(keybindNames))) {
                     }
                     
@@ -297,7 +319,7 @@ $on_mod(Loaded) {
                     
                     ImGui::Separator();
                     ImGui::Text("Background Theme:");
-                    ImGui::SetNextItemWidth(100);
+                    ImGui::SetNextItemWidth(150);
                     if (ImGui::Combo("##backgroundtheme", &backgroundTheme, backgroundThemeNames, IM_ARRAYSIZE(backgroundThemeNames))) {
                         applyBackgroundTheme();
                     }

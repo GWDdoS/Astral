@@ -30,3 +30,5 @@ extern float speedValue;
 //Ints
 extern int selectedKeybind;
 extern int selectedTheme;
+extern int noclipMode;
+
