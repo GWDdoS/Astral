@@ -45,7 +45,7 @@ void setupImGuiStyle()
     auto& style = ImGui::GetStyle();
     auto& io = ImGui::GetIO();
     auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / ("font" + std::to_string(fontType) + ".ttf")).string().c_str(), 16.0f);
-    // notice the font + fontType. Artifact of the old code that tried to swap fonts.
+    // archive of the old code that tried to change the font from font0.ttf to font1.ttf and font2.ttf etc.
 
     io.FontGlobalScale = 1.0f;
     style.WindowRounding = 6.0f;
@@ -128,8 +128,8 @@ void renderMainGui()
         ImVec2 windowPos = ImGui::GetWindowPos();
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         
-        ImU32 col_top = IM_COL32(0, 0, 0, 255);        // Black at top
-        ImU32 col_bottom = IM_COL32(80, 80, 80, 255);  // Grey at bottom
+        ImU32 col_top = IM_COL32(0, 0, 0, 255);        
+        ImU32 col_bottom = IM_COL32(80, 80, 80, 255);  
         
         draw_list->AddRectFilledMultiColor(
             windowPos,
