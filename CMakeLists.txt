@@ -24,7 +24,7 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
-CPMAddPackage("gh:matcool/gd-imgui-cocos#8973953")
+CPMAddPackage("gh:matcool/gd-imgui-cocos#653e533")
 target_link_libraries(${PROJECT_NAME} imgui-cocos)
 
 setup_geode_mod(${PROJECT_NAME})
