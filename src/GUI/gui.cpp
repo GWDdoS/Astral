@@ -174,6 +174,7 @@ void renderCustomizationTab()
     
     ImGui::Text("Accent Color:");
     ImGui::ColorEdit3("##accentcolor", themeColor);
+
     if (ImGui::Checkbox("Boykisser Mode", &boykisserMode)){
         float themeColor[3] = {1.0f, 0.75f, 0.8f};
     }
@@ -216,7 +217,7 @@ void renderMainGui()
     ImGui::SetNextWindowSize(ImVec2(800, 600), ImGuiCond_Always);
     ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);
     
-    if (ImGui::Begin("Astral Mod", nullptr, window_flags)) {
+    if (ImGui::Begin("Astral [BETA]", nullptr, window_flags)) {
         
         ImVec2 windowSize = ImGui::GetWindowSize();
         ImVec2 windowPos = ImGui::GetWindowPos();
@@ -229,12 +230,12 @@ void renderMainGui()
             1.0f
         );
         ImVec4 bottomColor = ImVec4(
-            std::min(1.0f, themeColor[0] + 0.1f), 
-            std::min(1.0f, themeColor[1] + 0.1f), 
-            std::min(1.0f, themeColor[2] + 0.1f), 
+            std::min(1.0f, themeColor[0] + 0.2f), 
+            std::min(1.0f, themeColor[1] + 0.2f), 
+            std::min(1.0f, themeColor[2] + 0.2f), 
             1.0f
         );
-        
+        // this should be gradient 
         ImU32 col_top = IM_COL32(
             (int)(topColor.x * 255), 
             (int)(topColor.y * 255), 
