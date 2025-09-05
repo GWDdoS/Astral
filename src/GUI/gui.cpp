@@ -45,9 +45,7 @@ void setupImGuiStyle()
     auto& style = ImGui::GetStyle();
     auto& io = ImGui::GetIO();
     auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / ("font" + std::to_string(fontType) + ".ttf")).string().c_str(), 16.0f);
-    // rip old font changer
 
-    
     io.FontGlobalScale = 1.0f;
     style.WindowRounding = 6.0f;
     style.FrameRounding = 4.0f;
@@ -138,6 +136,7 @@ void renderMainGui()
             col_top, col_top, col_bottom, col_bottom
         );
         
+        
         ImGui::Text("Categories:");
         if (ImGui::Button("Botting", ImVec2(80, 25))) {}
         ImGui::SameLine();
@@ -192,7 +191,7 @@ void renderMainGui()
         if (speedhackEnabled) {
             ImGui::SameLine();
             ImGui::SetNextItemWidth(80);
-            ImGui::InputFloat("##speed", &speedValue, 0.1f, 1.0f, "%.1f");
+            ImGui::InputFloat("##speed", &speedValue,);
         }
         
         ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
