@@ -18,7 +18,6 @@ extern bool speedhackEnabled;
 extern bool speedhackAudio;
 extern bool isCapturingKeybind;
 extern bool boykisserMode;
-extern ImTextureID boykisserTexture;
 extern bool boykisserTextureLoaded;
 
 //Floats

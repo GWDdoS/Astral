@@ -233,10 +233,10 @@ void renderMainGui()
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         
         
-        if (boykisserMode && boykisserTexture) {
+        if (boykisserMode) {
             
             draw_list->AddImage(
-                boykisserTexture,
+                "resources/boykisser.png",
                 windowPos,
                 ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
                 ImVec2(0, 0), ImVec2(1, 1),
