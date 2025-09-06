@@ -216,7 +216,7 @@ void renderMainGui()
         style.Colors[ImGuiCol_FrameBgActive] = customColorLight;   
     }
     
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
     
     bool currentGuiState = ImGuiCocos::get().isVisible();
     if (currentGuiState != guiVisible) {
@@ -232,62 +232,91 @@ void renderMainGui()
         ImVec2 windowPos = ImGui::GetWindowPos();
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         
+        float windowRounding = ImGui::GetStyle().WindowRounding;
+        
+        // Draw pink banner at the top
+        ImVec2 bannerStart = ImVec2(windowPos.x, windowPos.y);
+        ImVec2 bannerEnd = ImVec2(windowPos.x + windowSize.x, windowPos.y + 60);
+        
+        // Pink banner background with rounded top corners
+        ImU32 pinkColor = IM_COL32(255, 102, 178, 255);
+        draw_list->AddRectFilled(
+            bannerStart,
+            bannerEnd,
+            pinkColor,
+            windowRounding,
+            ImDrawFlags_RoundCornersTop
+        );
+        
+        // Banner text
+        ImVec2 textSize = ImGui::CalcTextSize("Astral [BETA]");
+        ImVec2 textPos = ImVec2(
+            windowPos.x + (windowSize.x - textSize.x) * 0.5f,
+            windowPos.y + (60 - textSize.y) * 0.5f
+        );
+        draw_list->AddText(textPos, IM_COL32(255, 255, 255, 255), "Astral [BETA]");
+        
+        // Background gradient/overlay below banner
+        ImVec2 gradientStart = ImVec2(windowPos.x, windowPos.y + 60);
+        ImVec2 gradientEnd = ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y);
         
         if (boykisserMode) {
-            /*
-            draw_list->AddImage(
-                "boykisser.png",
-                windowPos,
-                ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
-                ImVec2(0, 0), ImVec2(1, 1),
-                IM_COL32(255, 255, 255, 180) 
-            );
-            */
-            
+            // Pink overlay with rounded bottom corners
             ImU32 pinkOverlay = IM_COL32(255, 102, 178, 40);
             draw_list->AddRectFilled(
-                windowPos,
-                ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
-                pinkOverlay
+                gradientStart,
+                gradientEnd,
+                pinkOverlay,
+                windowRounding,
+                ImDrawFlags_RoundCornersBottom
             );
         } else {
-            // gradient background based on theme color. I think we should make an animated moving noise file or smt
+            // Gradient background based on theme color with rounded bottom corners
             ImVec4 topColor = ImVec4(
                 std::max(0.0f, themeColor[0] * 0.3f), 
                 std::max(0.0f, themeColor[1] * 0.3f), 
                 std::max(0.0f, themeColor[2] * 0.3f), 
-                1.0f
+                0.3f
             );
             ImVec4 bottomColor = ImVec4(
                 std::min(1.0f, themeColor[0] + 0.5f), 
                 std::min(1.0f, themeColor[1] + 0.5f), 
                 std::min(1.0f, themeColor[2] + 0.5f), 
-                1.0f
+                0.5f
             );
             
             ImU32 col_top = IM_COL32(
                 (int)(topColor.x * 255), 
                 (int)(topColor.y * 255), 
                 (int)(topColor.z * 255), 
-                255
+                (int)(topColor.w * 255)
             );
             ImU32 col_bottom = IM_COL32(
                 (int)(bottomColor.x * 255), 
                 (int)(bottomColor.y * 255), 
                 (int)(bottomColor.z * 255), 
-                255
+                (int)(bottomColor.w * 255)
             );
             
+            // Draw gradient with rounded bottom corners
             draw_list->AddRectFilledMultiColor(
-                windowPos,
-                ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
+                gradientStart,
+                gradientEnd,
                 col_top, col_top, col_bottom, col_bottom
+            );
+            
+            // Add rounded bottom corners by drawing over the gradient
+            draw_list->AddRectFilled(
+                gradientStart,
+                gradientEnd,
+                IM_COL32(0, 0, 0, 0),
+                windowRounding,
+                ImDrawFlags_RoundCornersBottom
             );
         }
         
-        ImGui::SetCursorPosX((windowSize.x - ImGui::CalcTextSize("Astral [BETA]").x) * 0.5f);
-        ImGui::Text("Astral [BETA]");
-        ImGui::Spacing();
+        // Set cursor position below banner
+        ImGui::SetCursorPosY(70);
         
         const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
         const int tabCount = 6;
