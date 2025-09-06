@@ -270,10 +270,22 @@ void renderMainGui()
         for (int i = 0; i < tabCount; i++) {
             if (i > 0) ImGui::SameLine();
             
-            // Highlight active tab with brighter grey - NO GREEN
+            // Highlight active tab with calculated theme colors
             if (currentTab == i) {
-                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.35f, 0.35f, 0.35f, 1.0f));
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.45f, 0.45f, 0.45f, 1.0f));
+                ImVec4 activeTabColor = ImVec4(
+                    std::min(1.0f, themeColor[0] + 0.20f),
+                    std::min(1.0f, themeColor[1] + 0.18f),
+                    std::min(1.0f, themeColor[2] + 0.15f),
+                    1.0f
+                );
+                ImVec4 activeTabHover = ImVec4(
+                    std::min(1.0f, themeColor[0] + 0.25f),
+                    std::min(1.0f, themeColor[1] + 0.23f),
+                    std::min(1.0f, themeColor[2] + 0.20f),
+                    1.0f
+                );
+                ImGui::PushStyleColor(ImGuiCol_Button, activeTabColor);
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, activeTabHover);
             }
             
             if (ImGui::Button(tabNames[i], ImVec2(120, 30))) {
