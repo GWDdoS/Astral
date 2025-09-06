@@ -34,7 +34,7 @@ cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt; // Def
 float seedValue = 1.0f;
 float tpsValue = 240.0f;
 float speedValue = 1.0f;
-float themeColor[3] = {0.2f, 0.7f, 0.4f}; // Darker green default
+float themeColor[3] = {0.0f, .0f, 0.0f}; // Darker green default
 float currentPitch = 1.0f;
 float currentSpeedValue = 1.0f;
 

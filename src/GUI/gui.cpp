@@ -4,21 +4,19 @@ using namespace geode::prelude;
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 
-// Add a variable to track the current tab
 static int currentTab = 0;
 
 void applyBackgroundTheme()
 {
     auto &style = ImGui::GetStyle();
     
-    // Force everything to be black regardless of theme setting
-    style.Colors[ImGuiCol_WindowBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.9f);     // Pure black window
-    style.Colors[ImGuiCol_ChildBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.9f);      // Pure black child windows
-    style.Colors[ImGuiCol_PopupBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.95f);     // Pure black popups
-    style.Colors[ImGuiCol_FrameBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.9f);   // Very dark frames
-    style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.1f, 0.1f, 0.1f, 0.9f); // Slightly lighter on hover
-    style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.95f, 1.0f);      // Light text
-    style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f); // Grey disabled text
+    style.Colors[ImGuiCol_WindowBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.9f);    
+    style.Colors[ImGuiCol_ChildBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.9f);      
+    style.Colors[ImGuiCol_PopupBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.95f);     
+    style.Colors[ImGuiCol_FrameBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.9f);   
+    style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.1f, 0.1f, 0.1f, 0.9f); 
+    style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.95f, 1.0f);      
+    style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f); 
 }
 
 void setupImGuiStyle()
@@ -37,22 +35,20 @@ void setupImGuiStyle()
     style.ChildRounding = 4.0f;
     style.ScaleAllSizes(1.0f);
     
-    // Pure black color scheme - NO GREEN
-    ImVec4 pureBlack = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);          // Pure black
-    ImVec4 veryDarkGrey = ImVec4(0.05f, 0.05f, 0.05f, 1.0f);    // Very dark grey
-    ImVec4 darkGrey = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);           // Dark grey
-    ImVec4 mediumGrey = ImVec4(0.15f, 0.15f, 0.15f, 1.0f);      // Medium grey
+    ImVec4 pureBlack = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);          
+    ImVec4 veryDarkGrey = ImVec4(0.05f, 0.05f, 0.05f, 1.0f);    
+    ImVec4 darkGrey = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);           
+    ImVec4 mediumGrey = ImVec4(0.15f, 0.15f, 0.15f, 1.0f);      
     
     applyBackgroundTheme();
     
-    // Apply pure black theme - COMPLETELY REMOVE GREEN
     style.Colors[ImGuiCol_TitleBg] = pureBlack;
     style.Colors[ImGuiCol_TitleBgActive] = veryDarkGrey;
     style.Colors[ImGuiCol_Button] = pureBlack;
     style.Colors[ImGuiCol_ButtonHovered] = veryDarkGrey;
     style.Colors[ImGuiCol_ButtonActive] = darkGrey;
     style.Colors[ImGuiCol_FrameBgActive] = darkGrey;
-    style.Colors[ImGuiCol_CheckMark] = ImVec4(0.8f, 0.8f, 0.8f, 1.0f); // Light grey checkmark
+    style.Colors[ImGuiCol_CheckMark] = ImVec4(0.8f, 0.8f, 0.8f, 1.0f); 
     style.Colors[ImGuiCol_SliderGrab] = veryDarkGrey;
     style.Colors[ImGuiCol_SliderGrabActive] = darkGrey;
     style.Colors[ImGuiCol_Header] = pureBlack;
@@ -73,12 +69,10 @@ void renderBottingTab()
     ImGui::Separator();
     
     if (ImGui::Button("Record Macro", ImVec2(150, 30))) {
-        // Add macro recording functionality
     }
     
     ImGui::SameLine();
     if (ImGui::Button("Play Macro", ImVec2(150, 30))) {
-        // Add macro playback functionality
     }
     
     ImGui::Spacing();
@@ -133,12 +127,10 @@ void renderRenderTab()
     ImGui::Checkbox("Show Layout", &layoutEnabled);
     
     if (ImGui::Button("Start Render", ImVec2(150, 30))) {
-        // Add render functionality
     }
     
     ImGui::SameLine();
     if (ImGui::Button("Stop Render", ImVec2(150, 30))) {
-        // Add stop render functionality
     }
     
     ImGui::Spacing();
@@ -182,7 +174,6 @@ void renderCustomizationTab()
 
 void renderMainGui()
 {
-    // Apply theme colors to buttons and UI elements
     if (styleApplied) {
         auto& style = ImGui::GetStyle();
         ImVec4 customColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 1.0f);
@@ -215,7 +206,6 @@ void renderMainGui()
         guiVisible = currentGuiState;
     }
     
-    // MUCH LARGER window size
     ImGui::SetNextWindowSize(ImVec2(800, 600), ImGuiCond_Always);
     ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);
     
@@ -225,8 +215,6 @@ void renderMainGui()
         ImVec2 windowPos = ImGui::GetWindowPos();
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         
-        // ==================== GRADIENT BACKGROUND CODE ====================
-        // Create gradient background using theme color: darker at top, lighter at bottom
         ImVec4 topColor = ImVec4(
             std::max(0.0f, themeColor[0] - 0.1f), 
             std::max(0.0f, themeColor[1] - 0.1f), 
@@ -253,15 +241,12 @@ void renderMainGui()
             255
         );
         
-        // DRAW THE ACTUAL GRADIENT (darker top to lighter bottom)
         draw_list->AddRectFilledMultiColor(
             windowPos,
             ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
             col_top, col_top, col_bottom, col_bottom
         );
-        // ==================== END GRADIENT CODE ====================
         
-        // Tab buttons
         ImGui::Text("Categories:");
         
         const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
@@ -270,7 +255,6 @@ void renderMainGui()
         for (int i = 0; i < tabCount; i++) {
             if (i > 0) ImGui::SameLine();
             
-            // Highlight active tab with calculated theme colors
             if (currentTab == i) {
                 ImVec4 activeTabColor = ImVec4(
                     std::min(1.0f, themeColor[0] + 0.20f),
@@ -300,7 +284,6 @@ void renderMainGui()
         ImGui::Separator();
         ImGui::Spacing();
         
-        // Render the appropriate tab content
         switch (currentTab) {
             case 0: renderBottingTab(); break;
             case 1: renderHacksTab(); break;
