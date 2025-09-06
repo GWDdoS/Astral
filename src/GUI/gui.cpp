@@ -3,11 +3,7 @@
 using namespace geode::prelude;
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
-float themeColor[3] = {0.0f, .0f, 0.0f}; // main colorm should be a dark grey
-
-
-
-
+float themeColor[3] = {0.0f, .0f, 0.0f}; 
 static int currentTab = 0;
 
 void applyBackgroundTheme()
@@ -30,13 +26,14 @@ void setupImGuiStyle()
     auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / ("font" + std::to_string(fontType) + ".ttf")).string().c_str(), 16.0f);
 
     io.FontGlobalScale = 1.0f;
-    style.WindowRounding = 6.0f;
-    style.FrameRounding = 4.0f;
-    style.PopupRounding = 4.0f;
-    style.ScrollbarRounding = 4.0f;
-    style.GrabRounding = 4.0f;
-    style.TabRounding = 4.0f;
-    style.ChildRounding = 4.0f;
+    
+    style.WindowRounding = 15.0f;
+    style.FrameRounding = 12.0f;
+    style.PopupRounding = 12.0f;
+    style.ScrollbarRounding = 12.0f;
+    style.GrabRounding = 12.0f;
+    style.TabRounding = 12.0f;
+    style.ChildRounding = 12.0f;
     style.ScaleAllSizes(1.0f);
     
     ImVec4 pureBlack = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);          
@@ -176,7 +173,15 @@ void renderCustomizationTab()
     ImGui::ColorEdit3("##accentcolor", themeColor);
 
     if (ImGui::Checkbox("Boykisser Mode", &boykisserMode)){
-        float themeColor[3] = {1.0f, 0.75f, 0.8f};
+        if (boykisserMode) {
+            themeColor[0] = 1.0f;   
+            themeColor[1] = 0.4f;   
+            themeColor[2] = 0.7f;   
+        } else {
+            themeColor[0] = 0.0f;   
+            themeColor[1] = 0.0f;
+            themeColor[2] = 0.0f;
+        }
     }
 }
 
@@ -205,6 +210,9 @@ void renderMainGui()
         style.Colors[ImGuiCol_SliderGrabActive] = customColorLight;
         style.Colors[ImGuiCol_HeaderActive] = customColorLight;
         style.Colors[ImGuiCol_TabActive] = customColorLight;
+        style.Colors[ImGuiCol_FrameBg] = customColorDark;
+        style.Colors[ImGuiCol_FrameBgHovered] = customColor;
+        style.Colors[ImGuiCol_FrameBgActive] = customColorLight;
     }
     
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
@@ -223,19 +231,20 @@ void renderMainGui()
         ImVec2 windowPos = ImGui::GetWindowPos();
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         
+        // gradient background
         ImVec4 topColor = ImVec4(
-            std::max(0.0f, themeColor[0] - 0.1f), 
-            std::max(0.0f, themeColor[1] - 0.1f), 
-            std::max(0.0f, themeColor[2] - 0.1f), 
+            std::max(0.0f, themeColor[0] * 0.3f), 
+            std::max(0.0f, themeColor[1] * 0.3f), 
+            std::max(0.0f, themeColor[2] * 0.3f), 
             1.0f
         );
         ImVec4 bottomColor = ImVec4(
-            std::min(1.0f, themeColor[0] + 0.2f), 
-            std::min(1.0f, themeColor[1] + 0.2f), 
-            std::min(1.0f, themeColor[2] + 0.2f), 
+            std::min(1.0f, themeColor[0] + 0.5f), 
+            std::min(1.0f, themeColor[1] + 0.5f), 
+            std::min(1.0f, themeColor[2] + 0.5f), 
             1.0f
         );
-        // this should be gradient 
+        
         ImU32 col_top = IM_COL32(
             (int)(topColor.x * 255), 
             (int)(topColor.y * 255), 
@@ -255,25 +264,30 @@ void renderMainGui()
             col_top, col_top, col_bottom, col_bottom
         );
         
-        ImGui::Text("Categories:");
+        ImGui::SetCursorPosX((windowSize.x - ImGui::CalcTextSize("Astral [BETA]").x) * 0.5f);
+        ImGui::Text("Astral [BETA]");
+        ImGui::Spacing();
         
         const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
         const int tabCount = 6;
+        
+        float totalTabWidth = (120 * tabCount) + (ImGui::GetStyle().ItemSpacing.x * (tabCount - 1));
+        ImGui::SetCursorPosX((windowSize.x - totalTabWidth) * 0.5f);
         
         for (int i = 0; i < tabCount; i++) {
             if (i > 0) ImGui::SameLine();
             
             if (currentTab == i) {
                 ImVec4 activeTabColor = ImVec4(
-                    std::min(1.0f, themeColor[0] + 0.20f),
-                    std::min(1.0f, themeColor[1] + 0.18f),
-                    std::min(1.0f, themeColor[2] + 0.15f),
+                    std::min(1.0f, themeColor[0] + 0.30f),
+                    std::min(1.0f, themeColor[1] + 0.28f),
+                    std::min(1.0f, themeColor[2] + 0.25f),
                     1.0f
                 );
                 ImVec4 activeTabHover = ImVec4(
-                    std::min(1.0f, themeColor[0] + 0.25f),
-                    std::min(1.0f, themeColor[1] + 0.23f),
-                    std::min(1.0f, themeColor[2] + 0.20f),
+                    std::min(1.0f, themeColor[0] + 0.35f),
+                    std::min(1.0f, themeColor[1] + 0.33f),
+                    std::min(1.0f, themeColor[2] + 0.30f),
                     1.0f
                 );
                 ImGui::PushStyleColor(ImGuiCol_Button, activeTabColor);
