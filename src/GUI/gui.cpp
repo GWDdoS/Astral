@@ -234,7 +234,7 @@ void renderMainGui()
         
         
         if (boykisserMode) {
-            
+            /*
             draw_list->AddImage(
                 "boykisser.png",
                 windowPos,
@@ -242,7 +242,7 @@ void renderMainGui()
                 ImVec2(0, 0), ImVec2(1, 1),
                 IM_COL32(255, 255, 255, 180) 
             );
-            
+            */
             
             ImU32 pinkOverlay = IM_COL32(255, 102, 178, 40);
             draw_list->AddRectFilled(
