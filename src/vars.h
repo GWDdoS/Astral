@@ -17,6 +17,7 @@ extern bool lockedDeltaEnabled;
 extern bool speedhackEnabled;
 extern bool speedhackAudio;
 extern bool isCapturingKeybind;
+extern bool boykisserMode;
 
 //Floats
 extern float seedValue;

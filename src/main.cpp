@@ -25,6 +25,7 @@ bool lockedDeltaEnabled = false;
 bool guiVisible = false;
 bool speedhackEnabled = false;
 bool speedhackAudio = false;
+bool boykisserMode = false;
 
 bool isCapturingKeybind = false;
 cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt; 

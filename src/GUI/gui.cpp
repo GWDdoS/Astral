@@ -174,6 +174,9 @@ void renderCustomizationTab()
     
     ImGui::Text("Accent Color:");
     ImGui::ColorEdit3("##accentcolor", themeColor);
+    if (ImGui::Checkbox("Boykisser Mode", &boykisserMode)){
+        float themeColor[3] = {1.0f, 0.75f, 0.8f};
+    }
 }
 
 void renderMainGui()
