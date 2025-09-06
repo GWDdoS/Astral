@@ -10,7 +10,7 @@ extern bool noclipEnabled;
 extern bool layoutEnabled;
 extern bool oldphysEnabled;
 extern bool trajectoryEnabled;
-extern bool styleApplied
+extern bool styleApplied;
 extern bool guiVisible;
 extern bool framestepEnabled;
 extern bool lockedDeltaEnabled;
