@@ -26,7 +26,7 @@ void setupImGuiStyle()
     auto& style = ImGui::GetStyle();
     auto& io = ImGui::GetIO();
     auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / ("font" + std::to_string(fontType) + ".ttf")).string().c_str(), 16.0f);
-
+    
     io.FontGlobalScale = 1.0f;
     style.WindowRounding = 6.0f;
     style.FrameRounding = 4.0f;
@@ -226,12 +226,17 @@ void renderMainGui()
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         
         // ==================== GRADIENT BACKGROUND CODE ====================
-        // Create gradient background using theme color
-        ImVec4 bottomColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 1.0f);
+        // Create gradient background using theme color: darker at top, lighter at bottom
         ImVec4 topColor = ImVec4(
-            std::min(1.0f, themeColor[0] + 0.2f), 
-            std::min(1.0f, themeColor[1] + 0.2f), 
-            std::min(1.0f, themeColor[2] + 0.2f), 
+            std::max(0.0f, themeColor[0] - 0.1f), 
+            std::max(0.0f, themeColor[1] - 0.1f), 
+            std::max(0.0f, themeColor[2] - 0.1f), 
+            1.0f
+        );
+        ImVec4 bottomColor = ImVec4(
+            std::min(1.0f, themeColor[0] + 0.1f), 
+            std::min(1.0f, themeColor[1] + 0.1f), 
+            std::min(1.0f, themeColor[2] + 0.1f), 
             1.0f
         );
         
@@ -248,7 +253,7 @@ void renderMainGui()
             255
         );
         
-        // DRAW THE ACTUAL GRADIENT
+        // DRAW THE ACTUAL GRADIENT (darker top to lighter bottom)
         draw_list->AddRectFilledMultiColor(
             windowPos,
             ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
@@ -265,10 +270,10 @@ void renderMainGui()
         for (int i = 0; i < tabCount; i++) {
             if (i > 0) ImGui::SameLine();
             
-            // Highlight active tab
+            // Highlight active tab with dark grey - NO GREEN
             if (currentTab == i) {
-                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(themeColor[0] + 0.1f, themeColor[1] + 0.1f, themeColor[2] + 0.1f, 1.0f));
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(themeColor[0] + 0.15f, themeColor[1] + 0.15f, themeColor[2] + 0.15f, 1.0f));
+                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.15f, 0.15f, 1.0f));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
             }
             
             if (ImGui::Button(tabNames[i], ImVec2(120, 30))) {
