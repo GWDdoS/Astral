@@ -18,7 +18,6 @@ extern bool speedhackEnabled;
 extern bool speedhackAudio;
 extern bool isCapturingKeybind;
 
-
 //Floats
 extern float seedValue;
 extern float tpsValue;
@@ -35,11 +34,13 @@ extern int selectedTheme;
 extern int noclipMode;
 extern int backgroundTheme;
 extern int inputMerge;
-
+extern const int backgroundThemeNamesCount;
+extern int fontList;
+extern int fontType;
 
 //Chars
 extern char macroName[128];
-
+extern const char *backgroundThemeNames[];
 
 // Other
 extern cocos2d::enumKeyCodes capturedCustomKey;
