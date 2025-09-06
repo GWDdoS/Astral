@@ -7,9 +7,6 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 // Add a variable to track the current tab
 static int currentTab = 0;
 
-// Define theme color here since it's not in the original code
-static float themeColor[3] = {0.05f, 0.05f, 0.05f}; // Dark black default
-
 void applyBackgroundTheme()
 {
     auto &style = ImGui::GetStyle();
@@ -228,12 +225,13 @@ void renderMainGui()
         ImVec2 windowPos = ImGui::GetWindowPos();
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         
+        // ==================== GRADIENT BACKGROUND CODE ====================
         // Create gradient background using theme color
         ImVec4 bottomColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 1.0f);
         ImVec4 topColor = ImVec4(
-            std::min(1.0f, themeColor[0] + 0.15f), 
-            std::min(1.0f, themeColor[1] + 0.15f), 
-            std::min(1.0f, themeColor[2] + 0.15f), 
+            std::min(1.0f, themeColor[0] + 0.2f), 
+            std::min(1.0f, themeColor[1] + 0.2f), 
+            std::min(1.0f, themeColor[2] + 0.2f), 
             1.0f
         );
         
@@ -250,11 +248,13 @@ void renderMainGui()
             255
         );
         
+        // DRAW THE ACTUAL GRADIENT
         draw_list->AddRectFilledMultiColor(
             windowPos,
             ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
             col_top, col_top, col_bottom, col_bottom
         );
+        // ==================== END GRADIENT CODE ====================
         
         // Tab buttons
         ImGui::Text("Categories:");
