@@ -26,15 +26,13 @@ bool guiVisible = false;
 bool speedhackEnabled = false;
 bool speedhackAudio = false;
 
-// Keybind capture variables
 bool isCapturingKeybind = false;
-cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt; // Default to Alt
+cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt; 
 
 // Floats
 float seedValue = 1.0f;
 float tpsValue = 240.0f;
 float speedValue = 1.0f;
-float themeColor[3] = {0.0f, .0f, 0.0f}; // Darker green default
 float currentPitch = 1.0f;
 float currentSpeedValue = 1.0f;
 
