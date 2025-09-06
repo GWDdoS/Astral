@@ -39,9 +39,15 @@ float currentSpeedValue = 1.0f;
 int backgroundTheme = 0;
 int inputMerge = 0;
 int noclipMode = 0;
+int fontType = 0;
+int fontList = 0;
 
 // Chars
 char macroName[128] = "Test";
+
+const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
+const int backgroundThemeNamesCount = sizeof(backgroundThemeNames) / sizeof(backgroundThemeNames[0]);
+
 
 // Ai is good for one thing, making a fucking massive list :skull:
 const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
