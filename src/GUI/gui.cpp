@@ -3,7 +3,8 @@
 using namespace geode::prelude;
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
-float themeColor[3] = {0.0f, .0f, 0.0f}; 
+float themeColor[3] = {0.0f, .0f, 0.0f}; // main color, should be a dark grey
+
 static int currentTab = 0;
 
 void applyBackgroundTheme()
@@ -24,7 +25,7 @@ void setupImGuiStyle()
     auto& style = ImGui::GetStyle();
     auto& io = ImGui::GetIO();
     auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / ("font" + std::to_string(fontType) + ".ttf")).string().c_str(), 16.0f);
-
+    
     io.FontGlobalScale = 1.0f;
     
     style.WindowRounding = 15.0f;
@@ -171,7 +172,7 @@ void renderCustomizationTab()
     
     ImGui::Text("Accent Color:");
     ImGui::ColorEdit3("##accentcolor", themeColor);
-
+    
     if (ImGui::Checkbox("Boykisser Mode", &boykisserMode)){
         if (boykisserMode) {
             themeColor[0] = 1.0f;   
@@ -210,9 +211,9 @@ void renderMainGui()
         style.Colors[ImGuiCol_SliderGrabActive] = customColorLight;
         style.Colors[ImGuiCol_HeaderActive] = customColorLight;
         style.Colors[ImGuiCol_TabActive] = customColorLight;
-        style.Colors[ImGuiCol_FrameBg] = customColorDark;
-        style.Colors[ImGuiCol_FrameBgHovered] = customColor;
-        style.Colors[ImGuiCol_FrameBgActive] = customColorLight;
+        style.Colors[ImGuiCol_FrameBg] = customColorDark;           
+        style.Colors[ImGuiCol_FrameBgHovered] = customColor;       
+        style.Colors[ImGuiCol_FrameBgActive] = customColorLight;   
     }
     
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
@@ -231,38 +232,58 @@ void renderMainGui()
         ImVec2 windowPos = ImGui::GetWindowPos();
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         
-        // gradient background
-        ImVec4 topColor = ImVec4(
-            std::max(0.0f, themeColor[0] * 0.3f), 
-            std::max(0.0f, themeColor[1] * 0.3f), 
-            std::max(0.0f, themeColor[2] * 0.3f), 
-            1.0f
-        );
-        ImVec4 bottomColor = ImVec4(
-            std::min(1.0f, themeColor[0] + 0.5f), 
-            std::min(1.0f, themeColor[1] + 0.5f), 
-            std::min(1.0f, themeColor[2] + 0.5f), 
-            1.0f
-        );
         
-        ImU32 col_top = IM_COL32(
-            (int)(topColor.x * 255), 
-            (int)(topColor.y * 255), 
-            (int)(topColor.z * 255), 
-            255
-        );
-        ImU32 col_bottom = IM_COL32(
-            (int)(bottomColor.x * 255), 
-            (int)(bottomColor.y * 255), 
-            (int)(bottomColor.z * 255), 
-            255
-        );
-        
-        draw_list->AddRectFilledMultiColor(
-            windowPos,
-            ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
-            col_top, col_top, col_bottom, col_bottom
-        );
+        if (boykisserMode && boykisserTexture) {
+            
+            draw_list->AddImage(
+                boykisserTexture,
+                windowPos,
+                ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
+                ImVec2(0, 0), ImVec2(1, 1),
+                IM_COL32(255, 255, 255, 180) 
+            );
+            
+            
+            ImU32 pinkOverlay = IM_COL32(255, 102, 178, 40);
+            draw_list->AddRectFilled(
+                windowPos,
+                ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
+                pinkOverlay
+            );
+        } else {
+            // gradient background based on theme color. I think we should make an animated moving noise file or smt
+            ImVec4 topColor = ImVec4(
+                std::max(0.0f, themeColor[0] * 0.3f), 
+                std::max(0.0f, themeColor[1] * 0.3f), 
+                std::max(0.0f, themeColor[2] * 0.3f), 
+                1.0f
+            );
+            ImVec4 bottomColor = ImVec4(
+                std::min(1.0f, themeColor[0] + 0.5f), 
+                std::min(1.0f, themeColor[1] + 0.5f), 
+                std::min(1.0f, themeColor[2] + 0.5f), 
+                1.0f
+            );
+            
+            ImU32 col_top = IM_COL32(
+                (int)(topColor.x * 255), 
+                (int)(topColor.y * 255), 
+                (int)(topColor.z * 255), 
+                255
+            );
+            ImU32 col_bottom = IM_COL32(
+                (int)(bottomColor.x * 255), 
+                (int)(bottomColor.y * 255), 
+                (int)(bottomColor.z * 255), 
+                255
+            );
+            
+            draw_list->AddRectFilledMultiColor(
+                windowPos,
+                ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
+                col_top, col_top, col_bottom, col_bottom
+            );
+        }
         
         ImGui::SetCursorPosX((windowSize.x - ImGui::CalcTextSize("Astral [BETA]").x) * 0.5f);
         ImGui::Text("Astral [BETA]");
