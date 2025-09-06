@@ -10,15 +10,14 @@ extern bool noclipEnabled;
 extern bool layoutEnabled;
 extern bool oldphysEnabled;
 extern bool trajectoryEnabled;
-extern bool styleApplied;
+extern bool styleApplied
 extern bool guiVisible;
 extern bool framestepEnabled;
 extern bool lockedDeltaEnabled;
 extern bool speedhackEnabled;
 extern bool speedhackAudio;
 extern bool isCapturingKeybind;
-extern bool boykisserMode;
-extern bool boykisserTextureLoaded;
+
 
 //Floats
 extern float seedValue;
@@ -36,13 +35,11 @@ extern int selectedTheme;
 extern int noclipMode;
 extern int backgroundTheme;
 extern int inputMerge;
-extern const int backgroundThemeNamesCount;
-extern int fontList;
-extern int fontType;
+
 
 //Chars
 extern char macroName[128];
-extern const char *backgroundThemeNames[];
+
 
 // Other
 extern cocos2d::enumKeyCodes capturedCustomKey;
