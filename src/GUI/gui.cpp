@@ -3,7 +3,7 @@
 using namespace geode::prelude;
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
-float themeColor = {0.0f,0.0f,0.0f}
+float themeColor[3] = {0.0f,0.0f,0.0f};
 static int currentTab = 0;
 
 void applyBackgroundTheme()
