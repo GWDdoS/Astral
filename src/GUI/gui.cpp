@@ -26,7 +26,7 @@ void setupImGuiStyle()
     auto& style = ImGui::GetStyle();
     auto& io = ImGui::GetIO();
     auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / ("font" + std::to_string(fontType) + ".ttf")).string().c_str(), 16.0f);
-    
+
     io.FontGlobalScale = 1.0f;
     style.WindowRounding = 6.0f;
     style.FrameRounding = 4.0f;
@@ -270,10 +270,10 @@ void renderMainGui()
         for (int i = 0; i < tabCount; i++) {
             if (i > 0) ImGui::SameLine();
             
-            // Highlight active tab with dark grey - NO GREEN
+            // Highlight active tab with brighter grey - NO GREEN
             if (currentTab == i) {
-                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.15f, 0.15f, 0.15f, 1.0f));
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.2f, 0.2f, 0.2f, 1.0f));
+                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.35f, 0.35f, 0.35f, 1.0f));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.45f, 0.45f, 0.45f, 1.0f));
             }
             
             if (ImGui::Button(tabNames[i], ImVec2(120, 30))) {
