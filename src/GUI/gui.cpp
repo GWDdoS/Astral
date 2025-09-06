@@ -236,7 +236,7 @@ void renderMainGui()
         if (boykisserMode) {
             
             draw_list->AddImage(
-                // botkisserTexture here?
+                "boykisser.png"_spr,
                 windowPos,
                 ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
                 ImVec2(0, 0), ImVec2(1, 1),
