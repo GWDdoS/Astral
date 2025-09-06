@@ -130,7 +130,6 @@ void renderMainGui()
         const int tabCount = 6;
         
         float totalTabWidth = (120 * tabCount) + (ImGui::GetStyle().ItemSpacing.x * (tabCount - 1));
-        ImGui::SetCursorPosX((windowSize.x - totalTabWidth) * 0.5f);
         
     
         ImGui::Separator();
