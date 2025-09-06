@@ -7,40 +7,21 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 // Add a variable to track the current tab
 static int currentTab = 0;
 
+// Define theme color here since it's not in the original code
+static float themeColor[3] = {0.05f, 0.05f, 0.05f}; // Dark black default
+
 void applyBackgroundTheme()
 {
     auto &style = ImGui::GetStyle();
     
-    switch (backgroundTheme)
-    {
-        case 0:                                                                   // Dark
-        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.75f); // 75% opacity
-        style.Colors[ImGuiCol_ChildBg] = ImVec4(0.08f, 0.08f, 0.08f, 0.75f);  // 75% opacity
-        style.Colors[ImGuiCol_PopupBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.94f);
-        style.Colors[ImGuiCol_FrameBg] = ImVec4(0.12f, 0.12f, 0.12f, 0.8f);
-        style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.18f, 0.18f, 0.18f, 0.8f);
-        style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.95f, 1.0f);
-        style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
-        break;
-        case 1:                                                                   // Light
-        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.75f); // 75% opacity
-        style.Colors[ImGuiCol_ChildBg] = ImVec4(0.96f, 0.96f, 0.96f, 0.75f);  // 75% opacity
-        style.Colors[ImGuiCol_PopupBg] = ImVec4(0.98f, 0.98f, 0.98f, 0.94f);
-        style.Colors[ImGuiCol_FrameBg] = ImVec4(0.9f, 0.9f, 0.9f, 0.8f);
-        style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.85f, 0.85f, 0.85f, 0.8f);
-        style.Colors[ImGuiCol_Text] = ImVec4(0.05f, 0.05f, 0.05f, 1.0f);
-        style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f);
-        break;
-        case 2:                                                                  // Medium
-        style.Colors[ImGuiCol_WindowBg] = ImVec4(0.3f, 0.3f, 0.3f, 0.75f);   // 75% opacity
-        style.Colors[ImGuiCol_ChildBg] = ImVec4(0.35f, 0.35f, 0.35f, 0.75f); // 75% opacity
-        style.Colors[ImGuiCol_PopupBg] = ImVec4(0.3f, 0.3f, 0.3f, 0.94f);
-        style.Colors[ImGuiCol_FrameBg] = ImVec4(0.45f, 0.45f, 0.45f, 0.8f);
-        style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.55f, 0.55f, 0.55f, 0.8f);
-        style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.95f, 1.0f);
-        style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.7f, 0.7f, 0.7f, 1.0f);
-        break;
-    }
+    // Force everything to be black regardless of theme setting
+    style.Colors[ImGuiCol_WindowBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.9f);     // Pure black window
+    style.Colors[ImGuiCol_ChildBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.9f);      // Pure black child windows
+    style.Colors[ImGuiCol_PopupBg] = ImVec4(0.0f, 0.0f, 0.0f, 0.95f);     // Pure black popups
+    style.Colors[ImGuiCol_FrameBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.9f);   // Very dark frames
+    style.Colors[ImGuiCol_FrameBgHovered] = ImVec4(0.1f, 0.1f, 0.1f, 0.9f); // Slightly lighter on hover
+    style.Colors[ImGuiCol_Text] = ImVec4(0.95f, 0.95f, 0.95f, 1.0f);      // Light text
+    style.Colors[ImGuiCol_TextDisabled] = ImVec4(0.5f, 0.5f, 0.5f, 1.0f); // Grey disabled text
 }
 
 void setupImGuiStyle()
@@ -59,32 +40,32 @@ void setupImGuiStyle()
     style.ChildRounding = 4.0f;
     style.ScaleAllSizes(1.0f);
     
-    // Dark black color scheme instead of green
-    ImVec4 baseDark = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);       // Dark black
-    ImVec4 darkBaseDark = ImVec4(0.05f, 0.05f, 0.05f, 1.0f); // Darker black  
-    ImVec4 lightBaseDark = ImVec4(0.2f, 0.2f, 0.2f, 1.0f);   // Lighter black
-    ImVec4 baseAccent = ImVec4(0.15f, 0.15f, 0.15f, 1.0f);   // Medium black
+    // Pure black color scheme - NO GREEN
+    ImVec4 pureBlack = ImVec4(0.0f, 0.0f, 0.0f, 1.0f);          // Pure black
+    ImVec4 veryDarkGrey = ImVec4(0.05f, 0.05f, 0.05f, 1.0f);    // Very dark grey
+    ImVec4 darkGrey = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);           // Dark grey
+    ImVec4 mediumGrey = ImVec4(0.15f, 0.15f, 0.15f, 1.0f);      // Medium grey
     
     applyBackgroundTheme();
     
-    // Apply dark black theme
-    style.Colors[ImGuiCol_TitleBg] = darkBaseDark;
-    style.Colors[ImGuiCol_TitleBgActive] = lightBaseDark;  // Lighter for active title
-    style.Colors[ImGuiCol_Button] = baseDark;
-    style.Colors[ImGuiCol_ButtonHovered] = lightBaseDark;
-    style.Colors[ImGuiCol_ButtonActive] = baseAccent;
-    style.Colors[ImGuiCol_FrameBgActive] = baseAccent;
+    // Apply pure black theme - COMPLETELY REMOVE GREEN
+    style.Colors[ImGuiCol_TitleBg] = pureBlack;
+    style.Colors[ImGuiCol_TitleBgActive] = veryDarkGrey;
+    style.Colors[ImGuiCol_Button] = pureBlack;
+    style.Colors[ImGuiCol_ButtonHovered] = veryDarkGrey;
+    style.Colors[ImGuiCol_ButtonActive] = darkGrey;
+    style.Colors[ImGuiCol_FrameBgActive] = darkGrey;
     style.Colors[ImGuiCol_CheckMark] = ImVec4(0.8f, 0.8f, 0.8f, 1.0f); // Light grey checkmark
-    style.Colors[ImGuiCol_SliderGrab] = lightBaseDark;
-    style.Colors[ImGuiCol_SliderGrabActive] = ImVec4(0.3f, 0.3f, 0.3f, 1.0f);
-    style.Colors[ImGuiCol_Header] = baseDark;
-    style.Colors[ImGuiCol_HeaderHovered] = lightBaseDark;
-    style.Colors[ImGuiCol_HeaderActive] = ImVec4(0.25f, 0.25f, 0.25f, 1.0f);
-    style.Colors[ImGuiCol_Tab] = baseDark;
-    style.Colors[ImGuiCol_TabHovered] = lightBaseDark;
-    style.Colors[ImGuiCol_TabActive] = ImVec4(0.25f, 0.25f, 0.25f, 1.0f);
-    style.Colors[ImGuiCol_TabUnfocused] = darkBaseDark;
-    style.Colors[ImGuiCol_TabUnfocusedActive] = baseDark;
+    style.Colors[ImGuiCol_SliderGrab] = veryDarkGrey;
+    style.Colors[ImGuiCol_SliderGrabActive] = darkGrey;
+    style.Colors[ImGuiCol_Header] = pureBlack;
+    style.Colors[ImGuiCol_HeaderHovered] = veryDarkGrey;
+    style.Colors[ImGuiCol_HeaderActive] = darkGrey;
+    style.Colors[ImGuiCol_Tab] = pureBlack;
+    style.Colors[ImGuiCol_TabHovered] = veryDarkGrey;
+    style.Colors[ImGuiCol_TabActive] = darkGrey;
+    style.Colors[ImGuiCol_TabUnfocused] = pureBlack;
+    style.Colors[ImGuiCol_TabUnfocusedActive] = veryDarkGrey;
     
     styleApplied = true;
 }
@@ -198,52 +179,36 @@ void renderCustomizationTab()
     ImGui::Text("Customization Options:");
     ImGui::Separator();
     
-    ImGui::Text("Color Theme:");
-    if (styleApplied) {
-        ImGui::ColorEdit3("Accent Color", themeColor);
-    }
-    
-    ImGui::Spacing();
-    ImGui::Text("Font Settings:");
-    ImGui::SetNextItemWidth(120);
-    ImGui::SliderInt("Font Type", &fontType, 0, 5);
-    
-    static float uiScale = 1.0f;
-    ImGui::Text("UI Scale:");
-    ImGui::SetNextItemWidth(150);
-    if (ImGui::SliderFloat("##uiscale", &uiScale, 0.5f, 2.0f, "%.2f")) {
-        ImGui::GetStyle().ScaleAllSizes(uiScale);
-    }
+    ImGui::Text("Accent Color:");
+    ImGui::ColorEdit3("##accentcolor", themeColor);
 }
 
 void renderMainGui()
 {
+    // Apply theme colors to buttons and UI elements
     if (styleApplied) {
         auto& style = ImGui::GetStyle();
         ImVec4 customColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 1.0f);
-        ImVec4 customColorDark = ImVec4(themeColor[0] * 0.6f, themeColor[1] * 0.7f, themeColor[2] * 0.7f, 1.0f); 
+        ImVec4 customColorDark = ImVec4(themeColor[0] * 0.6f, themeColor[1] * 0.6f, themeColor[2] * 0.6f, 1.0f); 
         ImVec4 customColorLight = ImVec4(
-            std::min(1.0f, themeColor[0] * 1.3f), 
-            std::min(1.0f, themeColor[1] * 1.1f), 
-            std::min(1.0f, themeColor[2] * 1.2f), 
+            std::min(1.0f, themeColor[0] + 0.1f), 
+            std::min(1.0f, themeColor[1] + 0.1f), 
+            std::min(1.0f, themeColor[2] + 0.1f), 
             1.0f
         );
         
-        // Only apply custom colors if they're not the default dark theme
-        if (themeColor[0] > 0.1f || themeColor[1] > 0.1f || themeColor[2] > 0.1f) {
-            style.Colors[ImGuiCol_TitleBgActive] = customColor;
-            style.Colors[ImGuiCol_ButtonHovered] = customColor;
-            style.Colors[ImGuiCol_CheckMark] = customColor;
-            style.Colors[ImGuiCol_SliderGrab] = customColor;
-            style.Colors[ImGuiCol_HeaderHovered] = customColor;
-            style.Colors[ImGuiCol_TabHovered] = customColor;
-            style.Colors[ImGuiCol_Button] = customColorDark;
-            style.Colors[ImGuiCol_Header] = customColorDark;
-            style.Colors[ImGuiCol_Tab] = customColorDark;
-            style.Colors[ImGuiCol_SliderGrabActive] = customColorLight;
-            style.Colors[ImGuiCol_HeaderActive] = customColorLight;
-            style.Colors[ImGuiCol_TabActive] = customColorLight;
-        }
+        style.Colors[ImGuiCol_TitleBgActive] = customColor;
+        style.Colors[ImGuiCol_ButtonHovered] = customColor;
+        style.Colors[ImGuiCol_CheckMark] = customColor;
+        style.Colors[ImGuiCol_SliderGrab] = customColor;
+        style.Colors[ImGuiCol_HeaderHovered] = customColor;
+        style.Colors[ImGuiCol_TabHovered] = customColor;
+        style.Colors[ImGuiCol_Button] = customColorDark;
+        style.Colors[ImGuiCol_Header] = customColorDark;
+        style.Colors[ImGuiCol_Tab] = customColorDark;
+        style.Colors[ImGuiCol_SliderGrabActive] = customColorLight;
+        style.Colors[ImGuiCol_HeaderActive] = customColorLight;
+        style.Colors[ImGuiCol_TabActive] = customColorLight;
     }
     
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize;
@@ -253,8 +218,8 @@ void renderMainGui()
         guiVisible = currentGuiState;
     }
     
-    // Increased window size
-    ImGui::SetNextWindowSize(ImVec2(600, 450), ImGuiCond_Always);
+    // MUCH LARGER window size
+    ImGui::SetNextWindowSize(ImVec2(800, 600), ImGuiCond_Always);
     ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);
     
     if (ImGui::Begin("Astral Mod", nullptr, window_flags)) {
@@ -263,9 +228,27 @@ void renderMainGui()
         ImVec2 windowPos = ImGui::GetWindowPos();
         ImDrawList* draw_list = ImGui::GetWindowDrawList();
         
-        // Dark gradient that matches button colors
-        ImU32 col_top = IM_COL32(25, 25, 25, 255);      // Lighter dark (matches button hover)
-        ImU32 col_bottom = IM_COL32(13, 13, 13, 255);   // Darker (matches buttons)
+        // Create gradient background using theme color
+        ImVec4 bottomColor = ImVec4(themeColor[0], themeColor[1], themeColor[2], 1.0f);
+        ImVec4 topColor = ImVec4(
+            std::min(1.0f, themeColor[0] + 0.15f), 
+            std::min(1.0f, themeColor[1] + 0.15f), 
+            std::min(1.0f, themeColor[2] + 0.15f), 
+            1.0f
+        );
+        
+        ImU32 col_top = IM_COL32(
+            (int)(topColor.x * 255), 
+            (int)(topColor.y * 255), 
+            (int)(topColor.z * 255), 
+            255
+        );
+        ImU32 col_bottom = IM_COL32(
+            (int)(bottomColor.x * 255), 
+            (int)(bottomColor.y * 255), 
+            (int)(bottomColor.z * 255), 
+            255
+        );
         
         draw_list->AddRectFilledMultiColor(
             windowPos,
@@ -282,13 +265,13 @@ void renderMainGui()
         for (int i = 0; i < tabCount; i++) {
             if (i > 0) ImGui::SameLine();
             
-            // Highlight active tab with very dark grey
+            // Highlight active tab
             if (currentTab == i) {
-                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.05f, 0.05f, 0.05f, 1.0f));
-                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.1f, 0.1f, 0.1f, 1.0f));
+                ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(themeColor[0] + 0.1f, themeColor[1] + 0.1f, themeColor[2] + 0.1f, 1.0f));
+                ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(themeColor[0] + 0.15f, themeColor[1] + 0.15f, themeColor[2] + 0.15f, 1.0f));
             }
             
-            if (ImGui::Button(tabNames[i], ImVec2(90, 25))) {
+            if (ImGui::Button(tabNames[i], ImVec2(120, 30))) {
                 currentTab = i;
             }
             
