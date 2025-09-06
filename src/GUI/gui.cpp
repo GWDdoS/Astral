@@ -43,13 +43,7 @@ void renderHacksTab()
     
     ImGui::Checkbox("Enable Noclip", &noclipEnabled);
     ImGui::Checkbox("Enable Speedhack", &speedhackEnabled);
-    
-    if (speedhackEnabled) {
-        ImGui::Text("Speed Multiplier:");
-        ImGui::SetNextItemWidth(120);
-        ImGui::SliderFloat("##speed", &speedValue);
-    }
-    
+
     ImGui::Spacing();
     ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
     ImGui::Checkbox("Frame Stepper", &framestepEnabled);
@@ -125,8 +119,6 @@ void renderMainGui()
         guiVisible = currentGuiState;
     }
     
-    ImGui::SetNextWindowSize(ImVec2(800, 600), ImGuiCond_Always);
-    ImGui::SetNextWindowPos(ImVec2(100, 100), ImGuiCond_FirstUseEver);
     
     if (ImGui::Begin("Astral [BETA]")) {
         
@@ -152,6 +144,6 @@ void renderMainGui()
             case 4: renderSettingsTab(); break;
             case 5: renderCustomizationTab(); break;
         }
+            ImGui::End();
     }
-    ImGui::End();
-}
+    
