@@ -8,7 +8,7 @@ const char* currentKeyDisplay = getKeyName(capturedCustomKey);
 bool currentGuiState = ImGuiCocos::get().isVisible();
 bool showHitboxes = false;
 bool showGrid = false;
-const int tabCount = 6;
+const int tabCount = 7; // you have to change this when u add a tag lmfao
 int currentTab = 0;
 float themeColor[3] = {0.0f,0.0f,0.0f};
 
@@ -171,7 +171,7 @@ void renderMainGui()
         case 3: renderRenderTab(); break;
         case 4: renderSettingsTab(); break;
         case 5: renderCustomizationTab(); break;
-        case 6: todoListTab(); break;
+        case 6: rendertodoListTab(); break;
     }
     ImGui::End();
 }

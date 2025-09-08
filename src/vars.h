@@ -46,9 +46,6 @@ extern const int tabCount;
 //Chars
 extern char macroName[128];
 extern const char *backgroundThemeNames[];
-extern const char getKeyName;
-extern const char tabNames[];
-extern const char currentKeyDisplay;
 
 // Other
 extern cocos2d::enumKeyCodes capturedCustomKey;
