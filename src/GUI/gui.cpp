@@ -6,10 +6,10 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
 const char* currentKeyDisplay = getKeyName(capturedCustomKey);
 bool currentGuiState = ImGuiCocos::get().isVisible();
-static bool showHitboxes = false;
-static bool showGrid = false;
+bool showHitboxes = false;
+bool showGrid = false;
 const int tabCount = 6;
-static int currentTab = 0;
+int currentTab = 0;
 float themeColor[3] = {0.0f,0.0f,0.0f};
 
 void applyBackgroundTheme()

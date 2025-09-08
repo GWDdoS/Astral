@@ -17,8 +17,8 @@ extern bool lockedDeltaEnabled;
 extern bool speedhackEnabled;
 extern bool speedhackAudio;
 extern bool isCapturingKeybind;
-extern static bool showHitboxes;
-extern static bool showGrid;
+extern bool showHitboxes;
+extern bool showGrid;
 extern bool currentGuiState;
 
 //Floats
@@ -40,7 +40,7 @@ extern int inputMerge;
 extern const int backgroundThemeNamesCount;
 extern int fontList;
 extern int fontType;
-extern static int currentTab;
+extern int currentTab;
 extern const int tabCount;
 
 //Chars
