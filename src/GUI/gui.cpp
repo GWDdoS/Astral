@@ -16,7 +16,7 @@ void setupImGuiStyle()
     auto& style = ImGui::GetStyle();
     auto& io = ImGui::GetIO();
     auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / ("font" + std::to_string(fontType) + ".ttf")).string().c_str(), 16.0f);
-
+    
     styleApplied = true;
 }
 
@@ -43,7 +43,7 @@ void renderHacksTab()
     
     ImGui::Checkbox("Enable Noclip", &noclipEnabled);
     ImGui::Checkbox("Enable Speedhack", &speedhackEnabled);
-
+    
     ImGui::Spacing();
     ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
     ImGui::Checkbox("Frame Stepper", &framestepEnabled);
@@ -122,27 +122,31 @@ void renderMainGui()
     
     if (ImGui::Begin("Astral [BETA]")) {
         
-        }
-        
-        ImGui::SetCursorPosY(70);
-        
-        const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
-        const int tabCount = 6;
-        
-        float totalTabWidth = (120 * tabCount) + (ImGui::GetStyle().ItemSpacing.x * (tabCount - 1));
-        
-    
-        ImGui::Separator();
-        ImGui::Spacing();
-        
-        switch (currentTab) {
-            case 0: renderBottingTab(); break;
-            case 1: renderHacksTab(); break;
-            case 2: renderAutoClickerTab(); break;
-            case 3: renderRenderTab(); break;
-            case 4: renderSettingsTab(); break;
-            case 5: renderCustomizationTab(); break;
-        }
-            ImGui::End();
     }
     
+    ImGui::SetCursorPosY(70);
+    for (int i = 0; i < tabCount; i++) {
+        if (ImGui::Button(tabNames[i], ImVec2(120, 30))) {
+            currentTab = i;
+        }
+        if (i < tabCount - 1) ImGui::SameLine();
+    }
+    const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
+    const int tabCount = 6;
+    
+    float totalTabWidth = (120 * tabCount) + (ImGui::GetStyle().ItemSpacing.x * (tabCount - 1));
+    
+    
+    ImGui::Separator();
+    ImGui::Spacing();
+    
+    switch (currentTab) {
+        case 0: renderBottingTab(); break;
+        case 1: renderHacksTab(); break;
+        case 2: renderAutoClickerTab(); break;
+        case 3: renderRenderTab(); break;
+        case 4: renderSettingsTab(); break;
+        case 5: renderCustomizationTab(); break;
+    }
+    ImGui::End();
+}
