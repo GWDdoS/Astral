@@ -23,7 +23,7 @@ void setupImGuiStyle()
     auto& style = ImGui::GetStyle();
     auto& io = ImGui::GetIO();
     auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / ("font" + std::to_string(fontType) + ".ttf")).string().c_str(), 16.0f);
-    style.Alpha = 0.99f // bg opacity  
+    style.Alpha = 0.99f; // bg opacity  
     style.WindowRounding = 12.0f; // rounding between menus (it also says rounding dumbass)
     style.ChildRounding = 8.0f; 
     style.FrameRounding = 8.0f;
