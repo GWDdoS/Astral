@@ -1,16 +1,16 @@
 #include "../includes.hpp"
 
 using namespace geode::prelude;
-
+// I like the vars being orginized
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
-float themeColor[3] = {0.0f,0.0f,0.0f};
-static int currentTab = 0;
 const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
-const int tabCount = 6;
-static bool showHitboxes = false;
-static bool showGrid = false;
 const char* currentKeyDisplay = getKeyName(capturedCustomKey);
 bool currentGuiState = ImGuiCocos::get().isVisible();
+static bool showHitboxes = false;
+static bool showGrid = false;
+const int tabCount = 6;
+static int currentTab = 0;
+float themeColor[3] = {0.0f,0.0f,0.0f};
 
 void applyBackgroundTheme()
 {
@@ -19,9 +19,23 @@ void applyBackgroundTheme()
 
 void setupImGuiStyle()
 {
+    // this is all the style stuff, font, colors, etc.
     auto& style = ImGui::GetStyle();
     auto& io = ImGui::GetIO();
     auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / ("font" + std::to_string(fontType) + ".ttf")).string().c_str(), 16.0f);
+    style.Alpha = 0.99f // bg opacity  
+    style.WindowRounding = 12.0f; // rounding between menus (it also says rounding dumbass)
+    style.ChildRounding = 8.0f; 
+    style.FrameRounding = 8.0f;
+    style.PopupRounding = 8.0f;
+    style.ScrollbarRounding = 12.0f;
+    style.GrabRounding = 8.0f;
+    style.TabRounding = 6.0f;
+    style.WindowPadding = ImVec2(15, 15); // Spaces between shit
+    style.FramePadding = ImVec2(10, 6);
+    style.ItemSpacing = ImVec2(12, 8);
+    style.AntiAliasedLines = true; // imgui said it changes lines 
+    style.AntiAliasedFill = true;
     
     styleApplied = true;
 }
@@ -75,8 +89,8 @@ void renderRenderTab()
     }
     
     ImGui::Spacing();
-
-
+    
+    
     ImGui::Checkbox("Show Hitboxes", &showHitboxes);
     
     ImGui::Checkbox("Show Grid", &showGrid);
@@ -111,20 +125,26 @@ void renderCustomizationTab()
     ImGui::Text("Accent Color:");
     ImGui::ColorEdit3("##accentcolor", themeColor);
 }
-
+void rendertodoListTab()
+{
+    ImGui::Separator();
+    ImGui::BulletText("A list of todo"); 
+    
+    
+}
 void renderMainGui()
 {
     if (styleApplied) { 
     }
-    
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
+    // windows flags, changes main context about the gui
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize;
     
     if (currentGuiState != guiVisible) {
         guiVisible = currentGuiState;
     }
     
-    
-    if (ImGui::Begin("Astral [BETA]")) {
+    // nullprt, X calls certin flags/shit for making the gui. If you dont have these the WindowFlags wont be called. 
+    if (ImGui::Begin("Astral [BETA]", nullptr, window_flags)) {
         
     }
     
@@ -143,7 +163,7 @@ void renderMainGui()
     
     ImGui::Separator();
     ImGui::Spacing();
-    
+    // to switch the gui cahnge render 
     switch (currentTab) {
         case 0: renderBottingTab(); break;
         case 1: renderHacksTab(); break;
@@ -151,6 +171,7 @@ void renderMainGui()
         case 3: renderRenderTab(); break;
         case 4: renderSettingsTab(); break;
         case 5: renderCustomizationTab(); break;
+        case 6: todoListTab(); break;
     }
     ImGui::End();
 }
