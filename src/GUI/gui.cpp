@@ -5,6 +5,12 @@ using namespace geode::prelude;
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 float themeColor[3] = {0.0f,0.0f,0.0f};
 static int currentTab = 0;
+const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
+const int tabCount = 6;
+static bool showHitboxes = false;
+static bool showGrid = false;
+const char* currentKeyDisplay = getKeyName(capturedCustomKey);
+bool currentGuiState = ImGuiCocos::get().isVisible();
 
 void applyBackgroundTheme()
 {
@@ -69,10 +75,10 @@ void renderRenderTab()
     }
     
     ImGui::Spacing();
-    static bool showHitboxes = false;
+
+
     ImGui::Checkbox("Show Hitboxes", &showHitboxes);
     
-    static bool showGrid = false;
     ImGui::Checkbox("Show Grid", &showGrid);
 }
 
@@ -82,7 +88,6 @@ void renderSettingsTab()
     ImGui::Separator();
     
     ImGui::Text("Toggle GUI Key:");
-    const char* currentKeyDisplay = getKeyName(capturedCustomKey);
     
     if (ImGui::Button(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 25))) {
         isCapturingKeybind = !isCapturingKeybind;
@@ -114,7 +119,6 @@ void renderMainGui()
     
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
     
-    bool currentGuiState = ImGuiCocos::get().isVisible();
     if (currentGuiState != guiVisible) {
         guiVisible = currentGuiState;
     }
@@ -132,8 +136,7 @@ void renderMainGui()
         }
         if (i < tabCount - 1) ImGui::SameLine();
     }
-    const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
-    const int tabCount = 6;
+    
     
     float totalTabWidth = (120 * tabCount) + (ImGui::GetStyle().ItemSpacing.x * (tabCount - 1));
     
