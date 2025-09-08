@@ -136,8 +136,8 @@ void renderMainGui()
 {
     if (styleApplied) { 
     }
-    // windows flags, changes main context about the gui
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_AlwaysAutoResize;
+    // windows flags, changes main context about the gui  | ImGuiWindowFlags_AlwaysAutoResize
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
     
     if (currentGuiState != guiVisible) {
         guiVisible = currentGuiState;
