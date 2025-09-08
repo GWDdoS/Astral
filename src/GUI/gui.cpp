@@ -124,8 +124,9 @@ void renderMainGui()
         
     }
     
-    ImGui::SetCursorPosY(70);
-    for (int i = 0; i < tabCount; i++) {
+    ImGui::SetCursorPosY(70); // moves the thing
+    // if button pressed set the tabCont=?
+    for (int i = 0; i < tabCount; i++) { 
         if (ImGui::Button(tabNames[i], ImVec2(120, 30))) {
             currentTab = i;
         }
