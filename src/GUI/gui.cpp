@@ -131,9 +131,21 @@ void renderSettingsTab()
         ImGui::BulletText("A list of todo"); 
         
         
+    
     }
     void renderMainGui()
+{
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
+    
+    if (ImGui::Begin("Astral [BETA]", nullptr, window_flags)) {
+        ImGui::Text("Hello World");
+    }
+    ImGui::End();
+}
+/*
+    void renderMainGui()
     {
+        
         currentGuiState = ImGuiCocos::get().isVisible();  // if i move it here iwll it work?
         
         if (styleApplied) { 
@@ -176,4 +188,8 @@ void renderSettingsTab()
             case 6: renderTodoTab(); break;
         }
         ImGui::End();
+
+
+        
     }
+        */
