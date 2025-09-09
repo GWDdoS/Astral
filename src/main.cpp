@@ -30,6 +30,7 @@ cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt;
 bool showHitboxes = false;
 bool showGrid = false;
 bool currentGuiState = false;
+bool safeMode = false;
 
 // Floats
 float seedValue = 1.0f;
