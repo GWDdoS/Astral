@@ -181,6 +181,6 @@ void renderSettingsTab()
             case 6: if (renderTodoTab) renderTodoTab(); break;
         }
 
-        ImGui::End();
     }
+        ImGui::End();
 }
