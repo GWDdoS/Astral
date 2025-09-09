@@ -37,7 +37,7 @@ void setupImGuiStyle()
     style.ItemSpacing = ImVec2(12, 8);
     style.AntiAliasedLines = true; // idk fully what these do, i looked up what they do and they fix lines or smt so idk maybe it will look cool
     style.AntiAliasedFill = true;
-    
+    */
     styleApplied = true;
 }
 
