@@ -1,4 +1,4 @@
-#include "includes.hpp"
+ "includes.hpp"
 
 // noclipEnabled = false;
 // noclipP1 = false;
@@ -11,13 +11,13 @@ class $modify(NoclipPL, PlayLayer)
         bool shouldNoclip = false;
 
         {
-            if (noclipP1)
+            if (player == m_player1 && noclipP1)
             {
-                m_player1->shouldNoclip = true;
+                shouldNoclip = true;
             }
-            else if (noclipP2)
+            else if (player == m_player2 && noclipP2)
             {
-                m_player2->shouldNoclip = true;
+                shouldNoclip = true;
             }
         }
 
