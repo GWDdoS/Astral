@@ -6,6 +6,7 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
 bool showHitboxes = false;
 bool showGrid = false;
+bool currentGuiState = false;
 const int tabCount = 7; // you have to change this when u add a tag lmfao
 int currentTab = 0;
 float themeColor[3] = {0.0f,0.0f,0.0f};
@@ -104,7 +105,6 @@ void renderSettingsTab()
     ImGui::Text("Toggle GUI Key:");
     
     
-    const char* currentKeyDisplay = getKeyName(capturedCustomKey); // DONT MOVE THIS LMFAO IT WILL BREAK EVERYTHING
     
     if (ImGui::Button(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 25))) {
         isCapturingKeybind = !isCapturingKeybind;
@@ -138,6 +138,8 @@ void renderTodoTab()
 bool currentGuiState = ImGuiCocos::get().isVisible(); // if i move it here iwll it work?
 void renderMainGui()
 {
+    currentGuiState = ImGuiCocos::get().isVisible();
+
     if (styleApplied) { 
     }
     // windows flags, changes main context about the gui  | ImGuiWindowFlags_AlwaysAutoResize

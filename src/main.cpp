@@ -26,7 +26,6 @@ bool guiVisible = false;
 bool speedhackEnabled = false;
 bool speedhackAudio = false;
 bool isCapturingKeybind = false;
-bool currentGuiState = false;
 cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt; 
 
 // Floats
