@@ -131,18 +131,22 @@ void renderSettingsTab()
         ImGui::BulletText("A list of todo"); 
         
         
-    
+        
     }
     
     void renderMainGui()
     {
-        
-        currentGuiState = ImGuiCocos::get().isVisible();  // if i move it here iwll it work?
+        // Check if ImGui has made the gui
+        auto* imguiCocos = &ImGuiCocos::get();
+        if (imguiCocos == nullptr) {
+            return;
+        }
+        currentGuiState = imguiCocos->isVisible();
+        // windows flags, changes main context about the gui  | ImGuiWindowFlags_AlwaysAutoResize
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
         
         if (styleApplied) { 
         }
-        // windows flags, changes main context about the gui  | ImGuiWindowFlags_AlwaysAutoResize
-        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
         
         if (currentGuiState != guiVisible) {
             guiVisible = currentGuiState;
@@ -179,8 +183,7 @@ void renderSettingsTab()
             case 6: renderTodoTab(); break;
         }
         ImGui::End();
-
-
+        
+        
         
     }
-    

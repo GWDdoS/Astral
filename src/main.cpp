@@ -36,7 +36,8 @@ bool safeMode = false;
 float seedValue = 1.0f;
 float tpsValue = 240.0f;
 float speedValue = 1.0f;
-float currentPitch = 1.0f;
+float currentP
+= 1.0f;
 float currentSpeedValue = 1.0f;
 
 // Ints
