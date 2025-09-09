@@ -4,7 +4,6 @@ using namespace geode::prelude;
 // I like the vars being orginized
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
-const char* currentKeyDisplay = getKeyName(capturedCustomKey);
 bool currentGuiState = ImGuiCocos::get().isVisible();
 bool showHitboxes = false;
 bool showGrid = false;
@@ -100,7 +99,10 @@ void renderSettingsTab()
     ImGui::Separator();
     
     ImGui::Text("Toggle GUI Key:");
-    
+
+
+    const char* currentKeyDisplay = getKeyName(capturedCustomKey); // DONT MOVE THIS LMFAO IT WILL BREAK EVERYTHING
+
     if (ImGui::Button(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 25))) {
         isCapturingKeybind = !isCapturingKeybind;
     }
