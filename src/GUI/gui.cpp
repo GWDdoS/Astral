@@ -69,6 +69,8 @@ void renderHacksTab()
     ImGui::Spacing();
     ImGui::Checkbox("No Death Effect", &noDeathEffect);
     ImGui::Spacing();
+    ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
+    ImGui::Spacing();
     ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
     ImGui::Spacing();
     ImGui::Checkbox("Frame Stepper", &framestepEnabled);

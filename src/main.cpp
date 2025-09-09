@@ -32,6 +32,8 @@ bool showGrid = false;
 bool currentGuiState = false;
 bool safeMode = false;
 bool noDeathEffect = false;
+bool noRespawnFlash = false;
+
 // Floats
 float seedValue = 1.0f;
 float tpsValue = 240.0f;

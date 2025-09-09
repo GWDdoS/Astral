@@ -22,6 +22,7 @@ extern bool showGrid;
 extern bool currentGuiState;
 extern bool safeMode;
 extern bool noDeathEffect;
+extern bool noRespawnFlash;
 
 //Floats
 extern float seedValue;
