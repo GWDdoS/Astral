@@ -8,7 +8,7 @@ class $modify(SafeLayer, PlayLayer) {
             return;
         }
         else {
-            PlayLayer::showNewBest(bool newReward, int orbs, int diamonds, bool demonKey, bool noRetry, bool noTitle)
+            PlayLayer::showNewBest(newReward, orbs, diamonds, demonKey, noRetry, noTitle);
         }
     }
     
