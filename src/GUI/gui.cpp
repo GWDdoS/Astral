@@ -135,55 +135,51 @@ void renderSettingsTab()
     }
     
     void renderMainGui()
+{
+    if (!ImGui::GetCurrentContext()) return;
+
+    auto& imguiCocos = ImGuiCocos::get();
+    if (&imguiCocos == nullptr) return;
+
+    currentGuiState = imguiCocos.isVisible();
+
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
+
+    if (currentGuiState != guiVisible) {
+        guiVisible = currentGuiState;
+    }
+
+    if (!tabNames || tabCount <= 0) return;
+
+    if (ImGui::Begin("Astral [BETA]", nullptr, window_flags)) 
     {
-        // Check if ImGui has made the gui
-        auto* imguiCocos = &ImGuiCocos::get();
-        if (imguiCocos == nullptr) {
-            return;
-        }
-        currentGuiState = imguiCocos->isVisible();
-        // windows flags, changes main context about the gui  | ImGuiWindowFlags_AlwaysAutoResize
-        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
-        
-        if (styleApplied) { 
-        }
-        
-        if (currentGuiState != guiVisible) {
-            guiVisible = currentGuiState;
-        }
-        
-        // nullprt, X calls certin flags/shit for making the gui. If you dont have these the WindowFlags wont be called. 
-        if (ImGui::Begin("Astral [BETA]", nullptr, window_flags)) {
-            
-        }
-        
-        ImGui::SetCursorPosY(70); // moves the thing
-        // if button pressed set the tabCont=?
-        for (int i = 0; i < tabCount; i++) { 
-            if (ImGui::Button(tabNames[i], ImVec2(120, 30))) {
+        ImGui::SetCursorPosY(70);
+
+        for (int i = 0; i < tabCount; i++) 
+        {
+            if (!tabNames[i]) continue;
+            if (ImGui::Button(tabNames[i], ImVec2(120, 30))) 
+            {
                 currentTab = i;
             }
             if (i < tabCount - 1) ImGui::SameLine();
         }
-        
-        
+
         float totalTabWidth = (120 * tabCount) + (ImGui::GetStyle().ItemSpacing.x * (tabCount - 1));
-        
-        
         ImGui::Separator();
         ImGui::Spacing();
-        // to switch the gui cahnge render 
-        switch (currentTab) {
-            case 0: renderBottingTab(); break;
-            case 1: renderHacksTab(); break;
-            case 2: renderAutoClickerTab(); break;
-            case 3: renderRenderTab(); break;
-            case 4: renderSettingsTab(); break;
-            case 5: renderCustomizationTab(); break;
-            case 6: renderTodoTab(); break;
+
+        switch (currentTab) 
+        {
+            case 0: if (renderBottingTab) renderBottingTab(); break;
+            case 1: if (renderHacksTab) renderHacksTab(); break;
+            case 2: if (renderAutoClickerTab) renderAutoClickerTab(); break;
+            case 3: if (renderRenderTab) renderRenderTab(); break;
+            case 4: if (renderSettingsTab) renderSettingsTab(); break;
+            case 5: if (renderCustomizationTab) renderCustomizationTab(); break;
+            case 6: if (renderTodoTab) renderTodoTab(); break;
         }
+
         ImGui::End();
-        
-        
-        
     }
+}
