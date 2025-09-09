@@ -20,6 +20,7 @@ extern bool isCapturingKeybind;
 extern bool showHitboxes;
 extern bool showGrid;
 extern bool currentGuiState;
+extern bool safeMode;
 
 //Floats
 extern float seedValue;

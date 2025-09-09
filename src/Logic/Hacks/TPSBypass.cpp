@@ -1,6 +1,6 @@
 // still needs rewrite dont get me wrong
 // this shit doesnt work
-#include "../../includes.hpp"
+#include "includes.hpp"
 
 using namespace geode::prelude;
 
