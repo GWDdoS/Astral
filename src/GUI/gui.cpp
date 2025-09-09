@@ -4,7 +4,6 @@ using namespace geode::prelude;
 // I like the vars being orginized
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
-bool currentGuiState = ImGuiCocos::get().isVisible();
 bool showHitboxes = false;
 bool showGrid = false;
 const int tabCount = 7; // you have to change this when u add a tag lmfao
@@ -136,6 +135,7 @@ void renderTodoTab()
     
     
 }
+bool currentGuiState = ImGuiCocos::get().isVisible(); // if i move it here iwll it work?
 void renderMainGui()
 {
     if (styleApplied) { 
