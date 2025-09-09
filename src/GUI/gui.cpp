@@ -43,10 +43,14 @@ void renderHacksTab()
 {
     ImGui::Text("Hack Features:");
     ImGui::Separator();
-    ImGui::Checkbox("Enable Noclip", &noclipEnabled);
-    ImGui::Checkbox("Enable Speedhack", &speedhackEnabled);
+    ImGui::Checkbox("Noclip", &noclipEnabled);
     ImGui::Spacing();
-    ImGui::Checkbox("Enable Trajectory", &trajectoryEnabled);
+    ImGui::Checkbox("Speedhack", &speedhackEnabled);
+    ImGui::Spacing();
+    ImGui::Checkbox("Safe Mode", &safeMode);
+    ImGui::Spacing();
+    ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
+    ImGui::Spacing();
     ImGui::Checkbox("Frame Stepper", &framestepEnabled);
 }
 
