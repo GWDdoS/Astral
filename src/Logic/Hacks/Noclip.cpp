@@ -6,25 +6,18 @@
 
 class $modify(NoclipPL, PlayLayer)
 {
-    void destroyPlayer(PlayerObject *player, GameObject *obstacle)
+    void destroyPlayer(PlayerObject* player, GameObject* obstacle)
     {
-        bool isPlayer1 = (player == m_player1);
-        bool isPlayer2 = (player == m_player2);
         bool shouldNoclip = false;
 
-        if (noclipEnabled)
         {
-            shouldNoclip = true;
-        }
-        else
-        {
-            if (isPlayer1 && noclipP1 && noclipEnabled)
+            if (noclipP1)
             {
-                shouldNoclip = true;
+                m_player1->shouldNoclip = true;
             }
-            else if (isPlayer2 && noclipP2 && noclipEnabled)
+            else if (noclipP2)
             {
-                shouldNoclip = true;
+                m_player2->shouldNoclip = true;
             }
         }
 
