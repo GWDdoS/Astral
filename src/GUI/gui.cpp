@@ -131,72 +131,47 @@ void renderSettingsTab()
         ImGui::BulletText("A list of todo"); 
         
         
-    
-    }
-    void renderMainGui()
-{
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
-    
-    if (ImGui::Begin("Astral [BETA]", nullptr, window_flags)) {
-        ImGui::Text("Hello World");
         
-        const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization", "Todo"};
-        for (int i = 0; i < 7; i++) { 
-            if (ImGui::Button(tabNames[i], ImVec2(120, 30))) {
-            }
-            if (i < 6) ImGui::SameLine();
-        }
     }
-    ImGui::End();
-}
-/*
     void renderMainGui()
     {
+        currentGuiState = ImGuiCocos::get().isVisible();
         
-        currentGuiState = ImGuiCocos::get().isVisible();  // if i move it here iwll it work?
-        
-        if (styleApplied) { 
-        }
-        // windows flags, changes main context about the gui  | ImGuiWindowFlags_AlwaysAutoResize
         ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
         
         if (currentGuiState != guiVisible) {
             guiVisible = currentGuiState;
         }
         
-        // nullprt, X calls certin flags/shit for making the gui. If you dont have these the WindowFlags wont be called. 
         if (ImGui::Begin("Astral [BETA]", nullptr, window_flags)) {
             
-        }
-        
-        ImGui::SetCursorPosY(70); // moves the thing
-        // if button pressed set the tabCont=?
-        for (int i = 0; i < tabCount; i++) { 
-            if (ImGui::Button(tabNames[i], ImVec2(120, 30))) {
-                currentTab = i;
+            ImGui::SetCursorPosY(70);
+            
+            // Define the tab names locally to avoid variable issues
+            const char* localTabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization", "Todo"};
+            const int localTabCount = 7;
+            
+            // Tab buttons
+            for (int i = 0; i < localTabCount; i++) { 
+                if (ImGui::Button(localTabNames[i], ImVec2(120, 30))) {
+                    currentTab = i;
+                }
+                if (i < localTabCount - 1) ImGui::SameLine();
             }
-            if (i < tabCount - 1) ImGui::SameLine();
-        }
-        
-        
-        float totalTabWidth = (120 * tabCount) + (ImGui::GetStyle().ItemSpacing.x * (tabCount - 1));
-        
-        
-        ImGui::Separator();
-        ImGui::Spacing();
-        // to switch the gui cahnge render 
-        switch (currentTab) {
-            case 0: renderBottingTab(); break;
-            case 1: renderHacksTab(); break;
-            case 2: renderAutoClickerTab(); break;
-            case 3: renderRenderTab(); break;
-            case 4: renderSettingsTab(); break;
-            case 5: renderCustomizationTab(); break;
-            case 6: renderTodoTab(); break;
+            
+            ImGui::Separator();
+            ImGui::Spacing();
+            
+            // Tab content
+            switch (currentTab) {
+                case 0: renderBottingTab(); break;
+                case 1: renderHacksTab(); break;
+                case 2: renderAutoClickerTab(); break;
+                case 3: renderRenderTab(); break;
+                case 4: renderSettingsTab(); break;
+                case 5: renderCustomizationTab(); break;
+                case 6: renderTodoTab(); break;
+            }
         }
         ImGui::End();
-
-
-        
     }
-        */
