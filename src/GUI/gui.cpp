@@ -60,6 +60,7 @@ void renderHacksTab()
     if (ImGui::BeginMenu("Noclip")) {
         ImGui::Checkbox("Player 1", &noclipP1);
         ImGui::Checkbox("Player 2", &noclipP2);
+        ImGui::EndMenu();
     }
     ImGui::Spacing();
     ImGui::Checkbox("Speedhack", &speedhackEnabled);
