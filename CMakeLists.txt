@@ -22,6 +22,8 @@ add_subdirectory($ENV{GEODE_SDK} ${CMAKE_CURRENT_BINARY_DIR}/geode)
 
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS src/*.cpp)
 
+target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src)
+
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 CPMAddPackage("gh:matcool/gd-imgui-cocos#653e533")

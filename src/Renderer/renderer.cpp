@@ -1,7 +1,7 @@
 /*
 #include "renderer.hpp"
-#include "../paths.h"
-#include "../vars.h"
+#include "paths.h"
+#include "vars.h"
 #include <Geode/Geode.hpp>
 #include <Geode/utils/web.hpp>
 

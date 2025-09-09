@@ -1,4 +1,4 @@
-#include "../includes.hpp"
+#include "includes.hpp"
 
 using namespace geode::prelude;
 // I like the vars being orginized
