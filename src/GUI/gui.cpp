@@ -23,6 +23,7 @@ void setupImGuiStyle()
     auto& style = ImGui::GetStyle();
     auto& io = ImGui::GetIO();
     auto* font = ImGui::GetIO().Fonts->AddFontFromFileTTF((Mod::get()->getResourcesDir() / ("font" + std::to_string(fontType) + ".ttf")).string().c_str(), 16.0f);
+    /*
     style.Alpha = 0.99f; // bg opacity  
     style.WindowRounding = 12.0f; // rounding between menus (it also says rounding dumbass)
     style.ChildRounding = 8.0f; 
@@ -34,7 +35,7 @@ void setupImGuiStyle()
     style.WindowPadding = ImVec2(15, 15); // Spaces between shit
     style.FramePadding = ImVec2(10, 6);
     style.ItemSpacing = ImVec2(12, 8);
-    
+    */
     styleApplied = true;
 }
 
@@ -126,7 +127,7 @@ void renderCustomizationTab()
     ImGui::Text("Accent Color:");
     ImGui::ColorEdit3("##accentcolor", themeColor);
 }
-void rendertodoListTab()
+void renderTodoTab()
 {
     ImGui::Separator();
     ImGui::BulletText("A list of todo"); 
@@ -172,7 +173,7 @@ void renderMainGui()
         case 3: renderRenderTab(); break;
         case 4: renderSettingsTab(); break;
         case 5: renderCustomizationTab(); break;
-        case 6: rendertodoListTab(); break;
+        case 6: renderTodoTab(); break;
     }
     ImGui::End();
 }
