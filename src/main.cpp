@@ -27,6 +27,9 @@ bool speedhackEnabled = false;
 bool speedhackAudio = false;
 bool isCapturingKeybind = false;
 cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt; 
+bool showHitboxes = false;
+bool showGrid = false;
+bool currentGuiState = false;
 
 // Floats
 float seedValue = 1.0f;
@@ -44,6 +47,7 @@ int fontList = 0;
 
 // Chars
 char macroName[128] = "Test";
+const char* currentKeyDisplay = nullptr;
 
 const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
 const int backgroundThemeNamesCount = sizeof(backgroundThemeNames) / sizeof(backgroundThemeNames[0]);
