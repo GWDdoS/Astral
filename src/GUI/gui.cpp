@@ -4,9 +4,6 @@ using namespace geode::prelude;
 // I like the vars being orginized
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
-bool showHitboxes = false;
-bool showGrid = false;
-bool currentGuiState = false;
 const int tabCount = 7; // you have to change this when u add a tag lmfao
 int currentTab = 0;
 float themeColor[3] = {0.0f,0.0f,0.0f};
@@ -117,66 +114,66 @@ void renderSettingsTab()
         }
     }
     
-    ImGui::Text("Current Key: %s", currentKeyDisplay);
-}
-
-void renderCustomizationTab()
-{
-    ImGui::Text("Customization Options:");
-    ImGui::Separator();
+    const char* currentKeyDisplay = getKeyName(capturedCustomKey);
+    ImGui::Text("Current Key: %s", currentKeyDisplay);}
     
-    ImGui::Text("Accent Color:");
-    ImGui::ColorEdit3("##accentcolor", themeColor);
-}
-void renderTodoTab()
-{
-    ImGui::Separator();
-    ImGui::BulletText("A list of todo"); 
-    
-    
-}
-void renderMainGui()
-{
-    bool currentGuiState = ImGuiCocos::get().isVisible(); // if i move it here iwll it work?
-
-    if (styleApplied) { 
+    void renderCustomizationTab()
+    {
+        ImGui::Text("Customization Options:");
+        ImGui::Separator();
+        
+        ImGui::Text("Accent Color:");
+        ImGui::ColorEdit3("##accentcolor", themeColor);
     }
-    // windows flags, changes main context about the gui  | ImGuiWindowFlags_AlwaysAutoResize
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
-    
-    if (currentGuiState != guiVisible) {
-        guiVisible = currentGuiState;
-    }
-    
-    // nullprt, X calls certin flags/shit for making the gui. If you dont have these the WindowFlags wont be called. 
-    if (ImGui::Begin("Astral [BETA]", nullptr, window_flags)) {
+    void renderTodoTab()
+    {
+        ImGui::Separator();
+        ImGui::BulletText("A list of todo"); 
+        
         
     }
-    
-    ImGui::SetCursorPosY(70); // moves the thing
-    // if button pressed set the tabCont=?
-    for (int i = 0; i < tabCount; i++) { 
-        if (ImGui::Button(tabNames[i], ImVec2(120, 30))) {
-            currentTab = i;
+    void renderMainGui()
+    {
+        currentGuiState = ImGuiCocos::get().isVisible();  // if i move it here iwll it work?
+        
+        if (styleApplied) { 
         }
-        if (i < tabCount - 1) ImGui::SameLine();
+        // windows flags, changes main context about the gui  | ImGuiWindowFlags_AlwaysAutoResize
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
+        
+        if (currentGuiState != guiVisible) {
+            guiVisible = currentGuiState;
+        }
+        
+        // nullprt, X calls certin flags/shit for making the gui. If you dont have these the WindowFlags wont be called. 
+        if (ImGui::Begin("Astral [BETA]", nullptr, window_flags)) {
+            
+        }
+        
+        ImGui::SetCursorPosY(70); // moves the thing
+        // if button pressed set the tabCont=?
+        for (int i = 0; i < tabCount; i++) { 
+            if (ImGui::Button(tabNames[i], ImVec2(120, 30))) {
+                currentTab = i;
+            }
+            if (i < tabCount - 1) ImGui::SameLine();
+        }
+        
+        
+        float totalTabWidth = (120 * tabCount) + (ImGui::GetStyle().ItemSpacing.x * (tabCount - 1));
+        
+        
+        ImGui::Separator();
+        ImGui::Spacing();
+        // to switch the gui cahnge render 
+        switch (currentTab) {
+            case 0: renderBottingTab(); break;
+            case 1: renderHacksTab(); break;
+            case 2: renderAutoClickerTab(); break;
+            case 3: renderRenderTab(); break;
+            case 4: renderSettingsTab(); break;
+            case 5: renderCustomizationTab(); break;
+            case 6: renderTodoTab(); break;
+        }
+        ImGui::End();
     }
-    
-    
-    float totalTabWidth = (120 * tabCount) + (ImGui::GetStyle().ItemSpacing.x * (tabCount - 1));
-    
-    
-    ImGui::Separator();
-    ImGui::Spacing();
-    // to switch the gui cahnge render 
-    switch (currentTab) {
-        case 0: renderBottingTab(); break;
-        case 1: renderHacksTab(); break;
-        case 2: renderAutoClickerTab(); break;
-        case 3: renderRenderTab(); break;
-        case 4: renderSettingsTab(); break;
-        case 5: renderCustomizationTab(); break;
-        case 6: renderTodoTab(); break;
-    }
-    ImGui::End();
-}
