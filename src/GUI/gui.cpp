@@ -34,8 +34,6 @@ void setupImGuiStyle()
     style.WindowPadding = ImVec2(15, 15); // Spaces between shit
     style.FramePadding = ImVec2(10, 6);
     style.ItemSpacing = ImVec2(12, 8);
-    style.AntiAliasedLines = true; // imgui said it changes lines 
-    style.AntiAliasedFill = true;
     
     styleApplied = true;
 }
