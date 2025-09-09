@@ -11,6 +11,7 @@ const int tabCount = 7; // you have to change this when u add a tag lmfao
 int currentTab = 0;
 float themeColor[3] = {0.0f,0.0f,0.0f};
 
+
 void applyBackgroundTheme()
 {
     auto &style = ImGui::GetStyle();
