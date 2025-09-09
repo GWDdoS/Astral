@@ -11,13 +11,13 @@ class $modify(NoclipPL, PlayLayer)
         bool shouldNoclip = false;
 
         {
-            if (player == m_player1 && noclipP1)
+            if (player == m_player1)
             {
-                shouldNoclip = true;
+                shouldNoclip = noclipP1;
             }
-            else if (player == m_player2 && noclipP2)
+            else if (player == m_player2)
             {
-                shouldNoclip = true;
+                shouldNoclip = noclipP2;
             }
         }
 
