@@ -35,7 +35,9 @@ void setupImGuiStyle()
     style.WindowPadding = ImVec2(15, 15); // Spaces between shit
     style.FramePadding = ImVec2(10, 6);
     style.ItemSpacing = ImVec2(12, 8);
-    */
+    style.AntiAliasedLines = true; // idk fully what these do, i looked up what they do and they fix lines or smt so idk maybe it will look cool
+    style.AntiAliasedFill = true;
+    
     styleApplied = true;
 }
 
@@ -101,10 +103,10 @@ void renderSettingsTab()
     ImGui::Separator();
     
     ImGui::Text("Toggle GUI Key:");
-
-
+    
+    
     const char* currentKeyDisplay = getKeyName(capturedCustomKey); // DONT MOVE THIS LMFAO IT WILL BREAK EVERYTHING
-
+    
     if (ImGui::Button(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 25))) {
         isCapturingKeybind = !isCapturingKeybind;
     }

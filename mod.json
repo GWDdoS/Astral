@@ -14,8 +14,7 @@
 	"resources": {
 		"files": [
 			"resources/*.ttf",
-			"resources/boykisser.png",
-			"resources/*"
+			"resources/boykisser.png"
 		]
 	},
 	"links": {
