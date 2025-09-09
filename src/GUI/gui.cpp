@@ -151,7 +151,8 @@ void renderSettingsTab()
 
     if (!tabNames || tabCount <= 0) return;
 
-    if (ImGui::Begin("Astral [BETA]", nullptr, window_flags)) 
+    bool open = ImGui::Begin("Astral [BETA]", nullptr, window_flags);
+    if (open)
     {
         ImGui::SetCursorPosY(70);
 
