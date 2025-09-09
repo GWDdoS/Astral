@@ -139,6 +139,13 @@ void renderSettingsTab()
     
     if (ImGui::Begin("Astral [BETA]", nullptr, window_flags)) {
         ImGui::Text("Hello World");
+        
+        const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization", "Todo"};
+        for (int i = 0; i < 7; i++) { 
+            if (ImGui::Button(tabNames[i], ImVec2(120, 30))) {
+            }
+            if (i < 6) ImGui::SameLine();
+        }
     }
     ImGui::End();
 }
