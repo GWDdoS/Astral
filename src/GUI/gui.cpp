@@ -135,10 +135,9 @@ void renderTodoTab()
     
     
 }
-bool currentGuiState = ImGuiCocos::get().isVisible(); // if i move it here iwll it work?
 void renderMainGui()
 {
-    currentGuiState = ImGuiCocos::get().isVisible();
+    bool currentGuiState = ImGuiCocos::get().isVisible(); // if i move it here iwll it work?
 
     if (styleApplied) { 
     }
