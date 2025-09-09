@@ -21,6 +21,7 @@ extern bool showHitboxes;
 extern bool showGrid;
 extern bool currentGuiState;
 extern bool safeMode;
+extern bool noDeathEffect;
 
 //Floats
 extern float seedValue;

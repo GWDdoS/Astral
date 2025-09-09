@@ -12,6 +12,7 @@
 #include <Geode/modify/GJBaseGameLayer.hpp>
 #include <cmath>
 #include <Geode/modify/PlayLayer.hpp>
+#include <Geode/modify/PlayerObject.hpp>
 #include <vector>
 #include <string>
 #include <cstring>
