@@ -25,6 +25,20 @@ void setupImGuiStyle()
         (Mod::get()->getResourcesDir() / ("font" + std::to_string(0) + ".ttf")).string().c_str(), 16.0f
     );
 
+    style.Alpha = 0.99f; // bg opacity  
+    style.WindowRounding = 12.0f; // rounding between menus (it also says rounding dumbass)
+    style.ChildRounding = 8.0f; 
+    style.FrameRounding = 8.0f;
+    style.PopupRounding = 8.0f;
+    style.ScrollbarRounding = 12.0f;
+    style.GrabRounding = 8.0f;
+    style.TabRounding = 6.0f;
+    style.WindowPadding = ImVec2(15, 15); // Spaces between shit
+    style.FramePadding = ImVec2(10, 6);
+    style.ItemSpacing = ImVec2(12, 8);
+    style.AntiAliasedLines = true; // idk fully what these do, i looked up what they do and they fix lines or smt so idk maybe it will look cool
+    style.AntiAliasedFill = true;
+
     styleApplied = true;
 }
 
