@@ -1,7 +1,8 @@
-name: Build Geode Mod
+name: Build Astral
 
 on:
   workflow_dispatch:
+  push:
 
 jobs:
   build:
