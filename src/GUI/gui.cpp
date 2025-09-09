@@ -9,8 +9,8 @@ const int tabCount = 6;
 
 int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
-bool styleApplied = false;
-bool guiVisible = false;
+// bool styleApplied = false;
+// bool guiVisible = false;
 
 void applyBackgroundTheme()
 {
