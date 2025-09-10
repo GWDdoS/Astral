@@ -11,6 +11,7 @@ int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
 // bool styleApplied = false;
 // bool guiVisible = false;
+#ifdef GEODE_IS_DESKTOP // i think this is how u do it
 
 void applyBackgroundTheme()
 {
@@ -125,7 +126,6 @@ void renderTodoTab()
     ImGui::BulletText("A list of todo");
 }
 
-#ifdef GEODE_IS_DESKTOP // i think this is how u do it
 void renderMainGui()
 {
     if (!ImGui::GetCurrentContext()) return;
