@@ -67,6 +67,8 @@ void renderHacksTab()
     ImGui::Spacing();
     ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
     ImGui::Spacing();
+    ImGui::InputFloat("Respawn Delay", &respawnDelay);
+    ImGui::Spacing();
     ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
     ImGui::Spacing();
     ImGui::Checkbox("Frame Stepper", &framestepEnabled);

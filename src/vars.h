@@ -33,6 +33,7 @@ extern float lockedDeltaValue;
 extern float currentPitch;
 extern float currentSpeedValue;
 extern float speedValue;
+extern float respawnDelay;
 
 //Ints
 extern int selectedKeybind;

@@ -41,6 +41,7 @@ float speedValue = 1.0f;
 float currentP
 = 1.0f;
 float currentSpeedValue = 1.0f;
+float respawnDelay = 1.0f;
 
 // Ints
 int backgroundTheme = 0;
