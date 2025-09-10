@@ -63,7 +63,7 @@ void renderHacksTab()
     if (speedhackMultiplier < 0.f) {
         speedhackMultiplier =1.f;
     }
-    ImGui::Sameline();
+    ImGui::SameLine();
     ImGui::Checkbox("Speedhack", &speedhackEnabled);
     ImGui::Spacing();
     ImGui::Checkbox("Safe Mode", &safeMode);
