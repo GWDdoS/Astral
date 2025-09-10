@@ -58,7 +58,7 @@ void renderHacksTab()
     if (ImGui::BeginMenu("")){
         ImGui::Checkbox("Player 1", &noclipP1);
         ImGui::Checkbox("Player 2", &noclipP2);
-        ImGui::Checkbox("Both", &noclipP2, &noclipP1);
+        ImGui::Checkbox("Both", &noclipBoth);
         ImGui::EndMenu();
     }    
     ImGui::Spacing();

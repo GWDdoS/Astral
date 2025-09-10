@@ -6,6 +6,7 @@ extern bool replaying;
 extern bool rendering;
 extern bool noclipP1;
 extern bool noclipP2;
+extern bool noclipBoth;
 extern bool noclipEnabled;
 // extern bool noclipEnabled;
 extern bool layoutEnabled;
