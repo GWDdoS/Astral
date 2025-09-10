@@ -10,7 +10,7 @@ class $modify(RespawnPlayLayer, PlayLayer) {
             this->stopAction(respawnSequence);
             auto& newSequence = CCSequence::create(
                 CCDelayTime::create(delay),
-                CCCallFunction::create(this, callfunc_selector(PlayLayer::delayedResetLevel)),
+                CCCallFunc::create(this, callfunc_selector(PlayLayer::delayedResetLevel)),
                 nullptr
             );
             newSequence->setTag(0x10);
