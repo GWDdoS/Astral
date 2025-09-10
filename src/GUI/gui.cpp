@@ -53,9 +53,9 @@ void renderBottingTab()
 
 void renderHacksTab()
 {
-    ImGui::Checkbox("Noclip", &noclipEnabled)
+    ImGui::Checkbox("Noclip", &noclipEnabled);
     ImGui::SameLine();
-    if {ImGui::BeginMenu("")
+    if (ImGui::BeginMenu("")){
         ImGui::Checkbox("Player 1", &noclipP1);
         ImGui::Checkbox("Player 2", &noclipP2);
         ImGui::Checkbox("Both", &noclipP2, #&noclipP1);
@@ -64,7 +64,7 @@ void renderHacksTab()
     ImGui::Spacing();
     ImGui::Checkbox("Speedhack", &speedhackEnabled);
     ImGui::SameLine();
-    ImGui::InputFloat(&speedhackMultiplier);
+    ImGui::InputFloat(""&speedhackMultiplier);
     if (speedhackMultiplier < 0.f) {
         speedhackMultiplier =1.f;
     }
