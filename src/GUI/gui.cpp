@@ -138,18 +138,28 @@ void renderMainGui()
 
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
 
-    bool open = ImGui::Begin("Astral [BETA]", nullptr, window_flags);
-    if (!open) return;
-
+    const char* title = "Astral [BETA]";
+    float windowWidth = ImGui::GetWindowSize().x;
+    float textWidth = ImGui::CalcTextSize(title).
+    float centerX = (windowWidth - textWidth) * 0.5f;
+    if (centerX > 0) {
+        ImGui::SetCursorPosX(centerX);
+    
+    x;
     ImGui::SetCursorPosY(70);
 
     for (int i = 0; i < tabCount; i++)
     {
         if (!tabNames[i]) continue;
-        if (ImGui::Button(tabNames[i], ImVec2(120, 30))) currentTab = i;
+        if (ImGui::Button(tabNames[i])) currentTab = i;
         if (i < tabCount - 1) ImGui::SameLine();
     }
-
+    ImGui::SetCursorPosY(20);
+    ImGui::Text(title);
+    ImGui::PopStyleColor();
+    ImGui::Spacing();
+    ImGui::Spacing();
+    ImGui::SetCursorPosY(70);
     ImGui::Separator();
     ImGui::Spacing();
 
