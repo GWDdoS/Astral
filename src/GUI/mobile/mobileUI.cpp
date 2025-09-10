@@ -9,7 +9,7 @@ bool Astral_GUI_Mobile_UI::setup() {
     this->setAnchorPoint({0.5, 0});
     this->runAction(CCFadeTo::create(0.5f, 100));
     this->setKeypadEnabled(true);
-    this->setTitle("Astral Bot:", "bigFont.fnt", 0.7f, -12.5f);
+    this->setTitle("Astral:", "bigFont.fnt", 0.7f, -12.5f);
     
     m_mainLayer->setLayoutOptions(AnchorLayoutOptions::create()->setAnchor(Anchor::Center));
     m_mainLayer->updateLayout();
@@ -39,8 +39,13 @@ bool Astral_GUI_Mobile_UI::setup() {
     leftMenu->setAnchorPoint(ccp(0.f, 0.5f));
     
     // tabs
-    createTabBtn("Bot", menu_selector(Astral_GUI_Mobile_UI::onSettings));
-    
+    createTabBtn("Botting", menu_selector(Astral_GUI_Mobile_UI::onSettings));
+    createTabBtn("Hacks", menu_selector(Astral_GUI_Mobile_UI::onSettings));
+    createTabBtn("AutoClicker", menu_selector(Astral_GUI_Mobile_UI::onSettings));
+    createTabBtn("Render", menu_selector(Astral_GUI_Mobile_UI::onSettings));
+    createTabBtn("Settings", menu_selector(Astral_GUI_Mobile_UI::onSettings));
+    createTabBtn("Customization", menu_selector(Astral_GUI_Mobile_UI::onSettings)); // idk if we really want this :skull: how custom can u get on mobile
+
     m_mainLayer->addChildAtPosition(bgRight, Anchor::Right, ccp(-HorizontalInset, 0));
     m_mainLayer->addChildAtPosition(rightMenu, Anchor::Right, ccp(-10, 0));
     m_mainLayer->addChildAtPosition(bgLeft, Anchor::Left, ccp(HorizontalInset + 101, 0));
