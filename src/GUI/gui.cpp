@@ -44,7 +44,6 @@ void setupImGuiStyle()
 
 void renderBottingTab()
 {
-    ImGui::Separator();
     if (ImGui::Button("Record Macro", ImVec2(150, 30))) {}
     ImGui::SameLine();
     if (ImGui::Button("Play Macro", ImVec2(150, 30))) {}
@@ -54,7 +53,6 @@ void renderBottingTab()
 
 void renderHacksTab()
 {
-    ImGui::Separator();
     if (ImGui::BeginMenu("Noclip")) {
         ImGui::Checkbox("Player 1", &noclipP1);
         ImGui::Checkbox("Player 2", &noclipP2);
@@ -78,7 +76,6 @@ void renderAutoClickerTab() {}
 
 void renderRenderTab()
 {
-    ImGui::Separator();
     ImGui::Checkbox("Show Layout", &layoutEnabled);
     if (ImGui::Button("Start Render", ImVec2(150, 30))) {}
     ImGui::SameLine();
@@ -90,8 +87,6 @@ void renderRenderTab()
 
 void renderSettingsTab()
 {
-    ImGui::Text("GUI Settings:");
-    ImGui::Separator();
     ImGui::Text("Toggle GUI Key:");
     
     static const char* currentKeyDisplay = getKeyName(capturedCustomKey);
@@ -110,15 +105,12 @@ void renderSettingsTab()
 
 void renderCustomizationTab()
 {
-    ImGui::Text("Customization Options:");
-    ImGui::Separator();
     ImGui::Text("Accent Color:");
     ImGui::ColorEdit3("##accentcolor", themeColor);
 }
 
 void renderTodoTab()
 {
-    ImGui::Separator();
     ImGui::BulletText("A current state of the mods development");
 }
 
