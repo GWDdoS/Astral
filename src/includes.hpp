@@ -18,5 +18,4 @@
 #include <cstring>
 #include <algorithm>
 #include "GUI/gui.hpp"
-#include "GUI/components/components.hpp"
 #include "GUI/mobile/mobileUI.hpp"
