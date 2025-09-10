@@ -125,6 +125,7 @@ void renderTodoTab()
     ImGui::BulletText("A list of todo");
 }
 
+#ifdef GEODE_IS_DESKTOP
 void renderMainGui()
 {
     if (!ImGui::GetCurrentContext()) return;
@@ -167,9 +168,12 @@ void renderMainGui()
 
     ImGui::End();
 }
+#endif
+#ifdef GEODE_IS_MOBILE
 // this should do the Mobile Cocos GUI
 class $modify(MenuLayer) {
     void onMoreGames(CCObject* target) {
         Astral_GUI_Mobile_UI::create()->show();
     }
 };
+#endif
