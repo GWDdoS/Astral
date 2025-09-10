@@ -1,5 +1,5 @@
 #pragma once
-
+#ifdef GEODE_IS_MOBILE
 #include <Geode/Geode.hpp>
 #include <Geode/ui/GeodeUI.hpp>
 #include <Geode/modify/PauseLayer.hpp>
@@ -22,3 +22,4 @@ class Astral_GUI_Mobile_UI: public geode::Popup<> {
     static Astral_GUI_Mobile_UI* create();
     static Astral_GUI_Mobile_UI* get();
 };
+#endif
