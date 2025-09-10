@@ -6,6 +6,7 @@ extern bool replaying;
 extern bool rendering;
 extern bool noclipP1;
 extern bool noclipP2;
+extern bool noclipEnabled;
 // extern bool noclipEnabled;
 extern bool layoutEnabled;
 extern bool oldphysEnabled;
@@ -38,7 +39,6 @@ extern float respawnDelay;
 //Ints
 extern int selectedKeybind;
 extern int selectedTheme;
-extern int noclipMode;
 extern int backgroundTheme;
 extern int inputMerge;
 extern const int backgroundThemeNamesCount;
