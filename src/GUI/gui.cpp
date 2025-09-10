@@ -4,7 +4,7 @@ using namespace geode::prelude;
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 
-const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
+const char* tabNames[] = {"Botting", "Hacks", "Autoclicker", "Render", "Settings", "Customization", "Mod Updates"};
 const int tabCount = 7;
 
 int currentTab = 0;
