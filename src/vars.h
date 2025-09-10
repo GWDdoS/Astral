@@ -28,7 +28,7 @@ extern bool noRespawnFlash;
 extern float seedValue;
 extern float tpsValue;
 extern float themeColor[3];
-extern float speedValue;
+extern float speedhackMultiplier;
 extern float lockedDeltaValue;
 extern float currentPitch;
 extern float currentSpeedValue;

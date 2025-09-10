@@ -59,6 +59,11 @@ void renderHacksTab()
         ImGui::EndMenu();
     }
     ImGui::Spacing();
+    ImGui::InputFloat("Speedhack Value", &speedhackMultiplier);
+    if (speedhackMultiplier < 0.f) {
+        speedhackMultiplier =1.f;
+    }
+    ImGui::Sameline();
     ImGui::Checkbox("Speedhack", &speedhackEnabled);
     ImGui::Spacing();
     ImGui::Checkbox("Safe Mode", &safeMode);
@@ -68,9 +73,9 @@ void renderHacksTab()
     ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
     ImGui::Spacing();
     ImGui::InputFloat("Respawn Delay", &respawnDelay);
-if (respawnDelay != 0.f && respawnDelay != 2.f) {
-    respawnDelay = (fabs(respawnDelay - 0.f) < fabs(respawnDelay - 2.f)) ? 0.f : 2.f;
-}
+    if (respawnDelay != 0.f && respawnDelay != 2.f) {
+        respawnDelay = (fabs(respawnDelay - 0.f) < fabs(respawnDelay - 2.f)) ? 0.f : 2.f;
+    }
     ImGui::Spacing();
     ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
     ImGui::Spacing();

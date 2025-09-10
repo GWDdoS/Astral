@@ -23,7 +23,7 @@
 
 # Special Thanks
 
-* Thank you Slideglide for helping us with this, also teaching us how to do not blow up this!
+* Thank you Slideglide and GMDPlutonic for helping us with this, also teaching us how to do not blow up this!
 * Thanks to Chagh (developer of TCBot) and Nat! (developer of Silicate) for giving us helpful tidbits on what to do and suggestions on how to do them.
 * Thanks to Snopphin and Absollute for just being here and talking.
-* Thank you GMP for helping start the project, and give use useful advice and help.
+* Thank you Wifty for giving advice about the project.

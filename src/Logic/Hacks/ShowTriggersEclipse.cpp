@@ -1,3 +1,4 @@
+/*
 #include <modules/config/config.hpp>
 #include <modules/gui/gui.hpp>
 #include <modules/gui/components/toggle.hpp>
@@ -68,6 +69,7 @@ namespace eclipse::hacks::Level {
              *     this->addToSection(this, obj);
              * }
              */
+            /*
             bool isTrigger = obj->m_objectType == GameObjectType::Modifier;
             bool idsCheck = obj->m_objectID == 3613 || obj->m_objectID == 3662;
             if (isTrigger && !idsCheck && config::get<bool>("level.showtriggers", false)) {
@@ -94,3 +96,4 @@ namespace eclipse::hacks::Level {
         }
     };
 }
+*/

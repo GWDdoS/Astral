@@ -4,7 +4,7 @@
 #include <modules/gui/components/float-toggle.hpp>
 #include <modules/hack/hack.hpp>
 #include <modules/utils/assembler.hpp>
-*/
+
 #include <Geode/modify/GJBaseGameLayer.hpp>
 #include <Geode/modify/PlayLayer.hpp>
 
@@ -433,3 +433,4 @@ namespace eclipse::hacks::Global {
         }
     };
 }
+*/
