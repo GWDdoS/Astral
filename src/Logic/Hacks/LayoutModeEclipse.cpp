@@ -46,7 +46,7 @@ namespace eclipse::hacks::Level {
             if (m_middleground) {
                 m_middleground->updateGroundColor({40, 125, 255}, true);
             }
-        }*/
+        }*//*
 
         void addObject(GameObject* obj) {
             if (s_objectFilter.contains(obj->m_objectID)) {
