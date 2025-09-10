@@ -128,45 +128,31 @@ void renderTodoTab()
 void renderMainGui()
 {
     if (!ImGui::GetCurrentContext()) return;
-    
     auto& imguiCocos = ImGuiCocos::get();
     guiVisible = imguiCocos.isVisible();
     if (tabCount <= 0) return;
-    
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
-    
-    if (!ImGui::Begin("Astral GUI", nullptr, window_flags)) {
+
+    ImGuiWindowFlags flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoRsize;
+    if (!ImGui::Begin("Astral [BETA]", nullptr, flags)) {
         ImGui::End();
         return;
     }
-    // doing math to find the middle sounds kinda dumb tbh
+    
+    float width = ImGui::GetContentRegionAvail().x;
     const char* title = "Astral [BETA]";
-    float windowWidth = ImGui::GetWindowSize().x;
-    float textWidth = ImGui::CalcTextSize(title).x; 
-    float centerX = (windowWidth - textWidth) * 0.5f; 
-    
-    if (centerX > 0) {
-        ImGui::SetCursorPosX(centerX);
-    } 
-    ImGui::SetCursorPosY(20); 
-    ImGui::Text("%s", title); 
-    
-    ImGui::SetCursorPosY(70);
-    
-    for (int i = 0; i < tabCount; i++)
-    {
+    ImGui::SetCursorPosX((width - ImGui::CalcTextSize(title).x) * 0.5f);
+    ImGui::Text("%s", title);
+    ImGui::Separator();
+
+    for (int i = 0; i < tabCount; i++) {
         if (!tabNames[i]) continue;
         if (ImGui::Button(tabNames[i])) currentTab = i;
         if (i < tabCount - 1) ImGui::SameLine();
     }
-    ImGui::Spacing();
-    ImGui::Spacing();
-    ImGui::SetCursorPosY(70);
-    ImGui::Separator();
-    ImGui::Spacing();
     
-    switch (currentTab)
-    {
+    ImGui::Separator();
+
+    switch (currentTab) {
         case 0: renderBottingTab(); break;
         case 1: renderHacksTab(); break;
         case 2: renderAutoClickerTab(); break;
@@ -174,8 +160,7 @@ void renderMainGui()
         case 4: renderSettingsTab(); break;
         case 5: renderCustomizationTab(); break;
         case 6: renderTodoTab(); break;
-        default: break;
     }
-    
+
     ImGui::End();
 }
