@@ -5,7 +5,7 @@ using namespace geode::prelude;
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 
 const char* tabNames[] = {"Botting", "Hacks", "AutoClicker", "Render", "Settings", "Customization"};
-const int tabCount = 6;
+const int tabCount = 7;
 
 int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
@@ -44,7 +44,6 @@ void setupImGuiStyle()
 
 void renderBottingTab()
 {
-    ImGui::Text("Botting Features:");
     ImGui::Separator();
     if (ImGui::Button("Record Macro", ImVec2(150, 30))) {}
     ImGui::SameLine();
@@ -55,7 +54,6 @@ void renderBottingTab()
 
 void renderHacksTab()
 {
-    ImGui::Text("Hack Features:");
     ImGui::Separator();
     if (ImGui::BeginMenu("Noclip")) {
         ImGui::Checkbox("Player 1", &noclipP1);
@@ -80,7 +78,6 @@ void renderAutoClickerTab() {}
 
 void renderRenderTab()
 {
-    ImGui::Text("Render Features:");
     ImGui::Separator();
     ImGui::Checkbox("Show Layout", &layoutEnabled);
     if (ImGui::Button("Start Render", ImVec2(150, 30))) {}
@@ -122,7 +119,7 @@ void renderCustomizationTab()
 void renderTodoTab()
 {
     ImGui::Separator();
-    ImGui::BulletText("A list of todo");
+    ImGui::BulletText("A current state of the mods development");
 }
 
 void renderMainGui()
@@ -131,7 +128,7 @@ void renderMainGui()
     auto& imguiCocos = ImGuiCocos::get();
     guiVisible = imguiCocos.isVisible();
     if (tabCount <= 0) return;
-
+    
     ImGuiWindowFlags flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
     if (!ImGui::Begin("Astral [BETA]", nullptr, flags)) {
         ImGui::End();
@@ -143,7 +140,7 @@ void renderMainGui()
     ImGui::SetCursorPosX((width - ImGui::CalcTextSize(title).x) * 0.5f);
     ImGui::Text("%s", title);
     ImGui::Separator();
-
+    
     for (int i = 0; i < tabCount; i++) {
         if (!tabNames[i]) continue;
         if (ImGui::Button(tabNames[i])) currentTab = i;
@@ -151,7 +148,7 @@ void renderMainGui()
     }
     
     ImGui::Separator();
-
+    
     switch (currentTab) {
         case 0: renderBottingTab(); break;
         case 1: renderHacksTab(); break;
@@ -161,6 +158,6 @@ void renderMainGui()
         case 5: renderCustomizationTab(); break;
         case 6: renderTodoTab(); break;
     }
-
+    
     ImGui::End();
 }
