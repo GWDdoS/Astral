@@ -132,7 +132,7 @@ void renderMainGui()
     guiVisible = imguiCocos.isVisible();
     if (tabCount <= 0) return;
 
-    ImGuiWindowFlags flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize;
+    ImGuiWindowFlags flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
     if (!ImGui::Begin("Astral [BETA]", nullptr, flags)) {
         ImGui::End();
         return;
