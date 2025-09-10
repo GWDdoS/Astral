@@ -7,18 +7,18 @@
 
 using namespace geode::prelude;
 
-class Core_GUI_Mobile_UI: public geode::Popup<> {
+class Astral_GUI_Mobile_UI: public geode::Popup<> {
     public:
-        virtual bool setup();
-        CCMenu* leftMenu;
-
-        void onClose(CCObject* sender);
-        void keyBackClicked();
-
-        void createTabBtn(const char* text, SEL_MenuHandler callback);
-
-        void onSettings(CCObject*);
-
-        static Core_GUI_Mobile_UI* create();
-        static Core_GUI_Mobile_UI* get();
+    virtual bool setup();
+    CCMenu* leftMenu;
+    
+    void onClose(CCObject* sender);
+    void keyBackClicked();
+    
+    void createTabBtn(const char* text, SEL_MenuHandler callback);
+    
+    void onSettings(CCObject*);
+    
+    static Astral_GUI_Mobile_UI* create();
+    static Astral_GUI_Mobile_UI* get();
 };
