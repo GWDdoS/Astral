@@ -1,5 +1,6 @@
 #include "mobileUI.hpp"
 
+#ifdef GEODE_IS_MOBILE
 Ref<Astral_GUI_Mobile_UI> ins;
 #define HorizontalInset 8
 #define VerticalInset 9
@@ -81,3 +82,4 @@ Astral_GUI_Mobile_UI* Astral_GUI_Mobile_UI::create() {
     CC_SAFE_DELETE(pRet);
     return nullptr;
 }
+#endif
