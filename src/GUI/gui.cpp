@@ -24,7 +24,7 @@ void setupImGuiStyle()
     auto* font = io.Fonts->AddFontFromFileTTF(
         (Mod::get()->getResourcesDir() / ("font" + std::to_string(0) + ".ttf")).string().c_str(), 16.0f
     );
-
+    
     style.Alpha = 0.99f; // bg opacity  
     style.WindowRounding = 12.0f; // rounding between menus (it also says rounding dumbass)
     style.ChildRounding = 8.0f; 
@@ -38,7 +38,7 @@ void setupImGuiStyle()
     style.ItemSpacing = ImVec2(12, 8);
     style.AntiAliasedLines = true; // idk fully what these do, i looked up what they do and they fix lines or smt so idk maybe it will look cool
     style.AntiAliasedFill = true;
-
+    
     styleApplied = true;
 }
 
@@ -96,17 +96,17 @@ void renderSettingsTab()
     ImGui::Text("GUI Settings:");
     ImGui::Separator();
     ImGui::Text("Toggle GUI Key:");
-
+    
     static const char* currentKeyDisplay = getKeyName(capturedCustomKey);
     if (ImGui::Button(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 25)))
-        isCapturingKeybind = !isCapturingKeybind;
-
+    isCapturingKeybind = !isCapturingKeybind;
+    
     if (isCapturingKeybind)
     {
         ImGui::SameLine();
         if (ImGui::Button("Cancel")) isCapturingKeybind = false;
     }
-
+    
     currentKeyDisplay = getKeyName(capturedCustomKey);
     ImGui::Text("Current Key: %s", currentKeyDisplay);
 }
@@ -128,41 +128,43 @@ void renderTodoTab()
 void renderMainGui()
 {
     if (!ImGui::GetCurrentContext()) return;
-
+    
     auto& imguiCocos = ImGuiCocos::get();
-    if (&imguiCocos == nullptr) return;
-
     guiVisible = imguiCocos.isVisible();
-
-    if (!tabNames || tabCount <= 0) return;
-
+    if (tabCount <= 0) return;
+    
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
-
+    
+    if (!ImGui::Begin("Astral GUI", nullptr, window_flags)) {
+        ImGui::End();
+        return;
+    }
+    // doing math to find the middle sounds kinda dumb tbh
     const char* title = "Astral [BETA]";
     float windowWidth = ImGui::GetWindowSize().x;
-    float textWidth = ImGui::CalcTextSize(title).
-    float centerX = (windowWidth - textWidth) * 0.5f;
+    float textWidth = ImGui::CalcTextSize(title).x; 
+    float centerX = (windowWidth - textWidth) * 0.5f; 
+    
     if (centerX > 0) {
         ImGui::SetCursorPosX(centerX);
+    } 
+    ImGui::SetCursorPosY(20); 
+    ImGui::Text("%s", title); 
     
-    x;
     ImGui::SetCursorPosY(70);
-
+    
     for (int i = 0; i < tabCount; i++)
     {
         if (!tabNames[i]) continue;
         if (ImGui::Button(tabNames[i])) currentTab = i;
         if (i < tabCount - 1) ImGui::SameLine();
     }
-    ImGui::SetCursorPosY(20);
-    ImGui::Text(title);
-    ImGui::PopStyleColor();
     ImGui::Spacing();
     ImGui::Spacing();
     ImGui::SetCursorPosY(70);
     ImGui::Separator();
     ImGui::Spacing();
-
+    
     switch (currentTab)
     {
         case 0: renderBottingTab(); break;
@@ -174,6 +176,6 @@ void renderMainGui()
         case 6: renderTodoTab(); break;
         default: break;
     }
-
+    
     ImGui::End();
 }
