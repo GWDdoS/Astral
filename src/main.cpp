@@ -55,9 +55,10 @@ const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
 const int backgroundThemeNamesCount = sizeof(backgroundThemeNames) / sizeof(backgroundThemeNames[0]);
 
 // default is alt, if geode is mac,set it to be tab. this should fix it
-cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt;
 #ifdef GEODE_IS_MACOS
     cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Tab;
+#else
+cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt;
 #endif
 
 
