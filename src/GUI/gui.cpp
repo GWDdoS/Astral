@@ -45,6 +45,10 @@ void setupImGuiStyle()
 
 void renderBottingTab()
 {
+    ImGui::InputFloat("TPS Value:", &tpsValue);
+    if (tpsValue < 0.f) {
+        tpsValue = 240.f;
+    }
     if (ImGui::Button("Record Macro", ImVec2(150, 30))) {}
     ImGui::SameLine();
     if (ImGui::Button("Play Macro", ImVec2(150, 30))) {}
@@ -66,7 +70,7 @@ void renderHacksTab()
     ImGui::SameLine();
     ImGui::InputFloat(" ", &speedhackMultiplier);
     if (speedhackMultiplier < 0.f) {
-        speedhackMultiplier =1.f;
+        speedhackMultiplier = 1.f;
     }
     ImGui::Spacing();
     ImGui::Checkbox("Safe Mode", &safeMode);
