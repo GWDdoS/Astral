@@ -64,10 +64,10 @@ const int backgroundThemeNamesCount = sizeof(backgroundThemeNames) / sizeof(back
 
 
 
-#ifdef GEODE_IS_WINDOWS
 // Ai is good for one thing, making a fucking massive list :skull:
 const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
     switch(keyCode) {
+        #ifdef GEODE_IS_WINDOWS
         case cocos2d::enumKeyCodes::KEY_Alt: return "Alt";
         case cocos2d::enumKeyCodes::KEY_F1: return "F1";
         case cocos2d::enumKeyCodes::KEY_F2: return "F2";
@@ -133,14 +133,8 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         case cocos2d::enumKeyCodes::KEY_Y: return "Y";
         case cocos2d::enumKeyCodes::KEY_Z: return "Z";
         case cocos2d::enumKeyCodes::KEY_ScrollLock: return "Scroll Lock";
-        
-        default: return "Unknown Key";
-    }
-}
-#endif
-#ifdef GEODE_IS_MACOS
-const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
-    switch(keyCode) {
+        #endif
+        #ifdef GEODE_IS_MACOS
         case cocos2d::enumKeyCodes::KEY_Alt: return "Option";
         case cocos2d::enumKeyCodes::KEY_F1: return "F1";
         case cocos2d::enumKeyCodes::KEY_F2: return "F2";
@@ -205,11 +199,11 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
         case cocos2d::enumKeyCodes::KEY_Y: return "Y";
         case cocos2d::enumKeyCodes::KEY_Z: return "Z";
         case cocos2d::enumKeyCodes::KEY_ScrollLock: return "Scroll Lock";
-        
+        #endif
         default: return "Unknown Key";
     }
 }
-#endif
+
 
 $on_mod(Loaded)
 {
