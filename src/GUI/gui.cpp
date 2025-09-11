@@ -145,7 +145,7 @@ void renderMainGui()
     ImGui::Separator();
     
     for (int i = 0; i < tabCount; i++) {
-    
+    }
     if (!tabNames || tabCount <= 0) return;
     
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
