@@ -11,6 +11,7 @@ int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
 // bool styleApplied = false;
 // bool guiVisible = false;
+#ifdef GEODE_IS_DESKTOP // i think this is how u do it
 
 void applyBackgroundTheme()
 {
@@ -38,7 +39,7 @@ void setupImGuiStyle()
     style.ItemSpacing = ImVec2(12, 8);
     style.AntiAliasedLines = true; // idk fully what these do, i looked up what they do and they fix lines or smt so idk maybe it will look cool
     style.AntiAliasedFill = true;
-    
+        
     styleApplied = true;
 }
 
@@ -98,6 +99,8 @@ void renderSettingsTab()
     if (ImGui::Button(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 25)))
     isCapturingKeybind = !isCapturingKeybind;
     
+    isCapturingKeybind = !isCapturingKeybind;
+    
     if (isCapturingKeybind)
     {
         ImGui::SameLine();
@@ -122,7 +125,10 @@ void renderTodoTab()
 void renderMainGui()
 {
     if (!ImGui::GetCurrentContext()) return;
+    
     auto& imguiCocos = ImGuiCocos::get();
+    if (&imguiCocos == nullptr) return;
+    
     guiVisible = imguiCocos.isVisible();
     if (tabCount <= 0) return;
     
@@ -139,13 +145,25 @@ void renderMainGui()
     ImGui::Separator();
     
     for (int i = 0; i < tabCount; i++) {
+    
+    if (!tabNames || tabCount <= 0) return;
+    
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
+    
+    bool open = ImGui::Begin("Astral [BETA]", nullptr, window_flags);
+    if (!open) return;
+    
+    ImGui::SetCursorPosY(70);
+    
+    for (int i = 0; i < tabCount; i++)
+    {
         if (!tabNames[i]) continue;
         if (ImGui::Button(tabNames[i])) currentTab = i;
         if (i < tabCount - 1) ImGui::SameLine();
     }
     
     ImGui::Separator();
-    
+        
     switch (currentTab) {
         case 0: renderBottingTab(); break;
         case 1: renderHacksTab(); break;
@@ -158,3 +176,12 @@ void renderMainGui()
     
     ImGui::End();
 }
+#endif
+#ifdef GEODE_IS_MOBILE
+// this should do the Mobile Cocos GUI
+class $modify(MenuLayer) {
+    void onMoreGames(CCObject* target) {
+        Astral_GUI_Mobile_UI::create()->show();
+    }
+};
+#endif
