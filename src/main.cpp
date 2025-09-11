@@ -54,6 +54,16 @@ const char* currentKeyDisplay = nullptr;
 const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
 const int backgroundThemeNamesCount = sizeof(backgroundThemeNames) / sizeof(backgroundThemeNames[0]);
 
+
+#ifdef GEODE_IS_MACOS
+    cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Tab;
+#endif
+#ifdef GEODE_IS_WINDOWS
+    cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt;
+#endif
+
+
+
 #ifdef GEODE_IS_WINDOWS
 // Ai is good for one thing, making a fucking massive list :skull:
 const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
@@ -200,12 +210,7 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
     }
 }
 #endif
-#ifdef GEODE_IS_MACOS
-    cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Tab;
-#endif
-#ifdef GEODE_IS_WINDOWS
-    cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt;
-#endif
+
 $on_mod(Loaded)
 {
     #ifndef GEODE_IS_MOBILE
