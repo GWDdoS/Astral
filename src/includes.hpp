@@ -20,3 +20,4 @@
 #include <algorithm>
 #include "GUI/gui.hpp"
 #include <Geode/modify/CCScheduler.hpp>
+#include "GUI/mobile/mobileUI.hpp"
