@@ -39,7 +39,7 @@ void setupImGuiStyle()
     style.ItemSpacing = ImVec2(12, 8);
     style.AntiAliasedLines = true; // idk fully what these do, i looked up what they do and they fix lines or smt so idk maybe it will look cool
     style.AntiAliasedFill = true;
-        
+    
     styleApplied = true;
 }
 
@@ -102,19 +102,19 @@ void renderSettingsTab()
 {
     ImGui::Text("Toggle GUI Key:");
     
-    static const char* currentKeyDisplay = getKeyName(capturedCustomKey);
-    if (ImGui::Button(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 25)))
-    isCapturingKeybind = !isCapturingKeybind;
-    
-    isCapturingKeybind = !isCapturingKeybind;
-    
+    const char* currentKeyDisplay = getKeyName(capturedCustomKey);
+    if (ImGui::Button(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 25))) {
+        isCapturingKeybind = true; 
+    }
+    // my dumbass had isCapturingKeybind = true; twice :rip:
     if (isCapturingKeybind)
     {
         ImGui::SameLine();
-        if (ImGui::Button("Cancel")) isCapturingKeybind = false;
+        if (ImGui::Button("Cancel")) {
+            isCapturingKeybind = false;
+        }
     }
     
-    currentKeyDisplay = getKeyName(capturedCustomKey);
     ImGui::Text("Current Key: %s", currentKeyDisplay);
 }
 
@@ -170,7 +170,7 @@ void renderMainGui()
     }
     
     ImGui::Separator();
-        
+    
     switch (currentTab) {
         case 0: renderBottingTab(); break;
         case 1: renderHacksTab(); break;
