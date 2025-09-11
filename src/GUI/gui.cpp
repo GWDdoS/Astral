@@ -54,13 +54,20 @@ void renderBottingTab()
 
 void renderHacksTab()
 {
-    if (ImGui::BeginMenu("Noclip")) {
+    ImGui::Checkbox("Noclip", &noclipEnabled);
+    ImGui::SameLine();
+    if (ImGui::BeginMenu("  ")){
         ImGui::Checkbox("Player 1", &noclipP1);
         ImGui::Checkbox("Player 2", &noclipP2);
         ImGui::EndMenu();
-    }
+    }    
     ImGui::Spacing();
     ImGui::Checkbox("Speedhack", &speedhackEnabled);
+    ImGui::SameLine();
+    ImGui::InputFloat(" ", &speedhackMultiplier);
+    if (speedhackMultiplier < 0.f) {
+        speedhackMultiplier =1.f;
+    }
     ImGui::Spacing();
     ImGui::Checkbox("Safe Mode", &safeMode);
     ImGui::Spacing();
@@ -69,9 +76,9 @@ void renderHacksTab()
     ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
     ImGui::Spacing();
     ImGui::InputFloat("Respawn Delay", &respawnDelay);
-if (respawnDelay != 0.f && respawnDelay != 2.f) {
-    respawnDelay = (fabs(respawnDelay - 0.f) < fabs(respawnDelay - 2.f)) ? 0.f : 2.f;
-}
+    if (respawnDelay != 0.f && respawnDelay != 2.f) {
+        respawnDelay = (fabs(respawnDelay - 0.f) < fabs(respawnDelay - 2.f)) ? 0.f : 2.f;
+    }
     ImGui::Spacing();
     ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
     ImGui::Spacing();
