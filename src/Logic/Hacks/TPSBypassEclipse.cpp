@@ -17,12 +17,7 @@ class $modify(TPSBypassHook, GJBaseGameLayer) {
         auto spt = 1.0 / tpsValue; // ticks PER second
         auto steps = std::round(fields->extraDelta / spt);
         auto newDelta = steps * spt;
-        
-        for (int i = 0; i < steps; i++) {
-        GJBaseGameLayer::update(spt); 
-        }
-        fields->extraDelta -= steps * spt;
-        
+        fields->extraDelta -= newDelta;
         
         GJBaseGameLayer::update(newDelta);
     }
