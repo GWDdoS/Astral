@@ -9,25 +9,14 @@ class $modify(TPSBypassGJBGLHook, GJBaseGameLayer) {
         double m_extraDelta = 0.0;
     };
 
-    float getCustomDelta(float dt, float tps) {
-        auto spt = 1.f / tps;
-        
-        auto totalDelta = dt + m_extraDelta;
-        auto timestep = std::min(m_gameState.m_timeWarp, 1.f) * spt;
-        auto steps = std::round(totalDelta / timestep);
-        auto newDelta = steps * timestep;
-        m_extraDelta = totalDelta - newDelta;
-        return static_cast<float>(newDelta);
-    }
-
-    float getModifiedDelta(float dt) {
-        return getCustomDelta(dt, tpsValue);
-    }
-
     void update(float dt) override {
+        if (tpsValue <= 0.f) {
+            GJBaseGameLayer::update(dt);
+            return;
+        }
+        
         auto fields = m_fields.self();
         fields->m_extraDelta += dt;
-
         auto timeWarp = std::min(m_gameState.m_timeWarp, 1.f);
         auto newTPS = tpsValue / timeWarp;
         auto spt = 1.0 / newTPS;
@@ -39,7 +28,8 @@ class $modify(TPSBypassGJBGLHook, GJBaseGameLayer) {
     }
 };
 
-// we should rewrite these at the least
+
+/* we should rewrite these at the least
 
 class $modify(TPSBypassPLHook, PlayLayer) {
     // fix percentage calculation also got this from eclipse who would have known
@@ -75,3 +65,4 @@ class $modify(TPSBypassPLHook, PlayLayer) {
         m_gameState.m_unkUint2 = oldTimestamp;
     }
 };
+*/
