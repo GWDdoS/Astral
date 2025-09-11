@@ -3,11 +3,14 @@
 // noclipEnabled = false;
 // noclipP1 = false;
 // noclipP2 = false;
+// noclipBoth = false;
 
 class $modify(NoclipPL, PlayLayer)
 {
     void destroyPlayer(PlayerObject* player, GameObject* obstacle)
     {
+        if (noclipEnabled)
+        {
         bool shouldNoclip = false;
 
         {
@@ -18,6 +21,11 @@ class $modify(NoclipPL, PlayLayer)
             else if (player == m_player2)
             {
                 shouldNoclip = noclipP2;
+            }
+            
+            if (noclipBoth)
+            {
+                shouldNoclip = noclipP1 && noclipP2;
             }
         }
 
@@ -35,36 +43,6 @@ class $modify(NoclipPL, PlayLayer)
     if (!shouldNoclip) {
         PlayLayer::destroyPlayer(player, obstacle);
     }
+    }
   }
 };
-
-/*
-if (ImGui::Combo("Noclip Mode", &noclipMode, "Off\0Both Players\0Player 1 Only\0Player 2 Only\0")){
-                        switch (noclipMode)
-                                {
-                            case 0: // Off
-                                noclipEnabled = false;
-                                noclipP1 = false;
-                                noclipP2 = false;
-                                break;
-
-                            case 1: // Both Players
-                                noclipEnabled = true;
-                                noclipP1 = true;
-                                noclipP2 = true;
-                                break;
-
-                            case 2: // Player 1 Only
-                                noclipEnabled = true;
-                                noclipP1 = true;
-                                noclipP2 = false;
-                                break;
-
-                            case 3: // Player 2 Only
-                                noclipEnabled = true;
-                                noclipP1 = false;
-                                noclipP2 = true;
-                            break;
-                        }
-                    }
-*/

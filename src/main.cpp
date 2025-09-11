@@ -12,6 +12,8 @@ Breuhh is also a boykisser and a list helper. (de3am told me to put this)
 // bools
 bool noclipP1 = false;
 bool noclipP2 = false;
+bool noclipBoth = false;
+bool noclipEnabled = false;
 // bool noclipEnabled = false;
 bool recording = false;
 bool replaying = false;
@@ -37,16 +39,12 @@ bool noRespawnFlash = false;
 // Floats
 float seedValue = 1.0f;
 float tpsValue = 240.0f;
-float speedValue = 1.0f;
-float currentP
-= 1.0f;
-float currentSpeedValue = 1.0f;
+float currentP = 1.0f;
 float respawnDelay = 1.0f;
 
 // Ints
 int backgroundTheme = 0;
 int inputMerge = 0;
-int noclipMode = 0;
 int fontType = 0;
 int fontList = 0;
 
