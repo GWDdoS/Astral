@@ -3,9 +3,9 @@
 // add lock delta
 bool tpsEnabled;
 bool framestepEnabled;
-tpsValue = 240.f;
-tpsEnabled = true;
-framestepEnabled = false;
+float tpsValue = 240.f;
+bool tpsEnabled = true;
+bool framestepEnabled = false;
 
 #include "../../includes.hpp"
 
