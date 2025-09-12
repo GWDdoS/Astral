@@ -209,7 +209,7 @@ const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
 
 $on_mod(Loaded)
 {
-    #ifndef GEODE_IS_MOBILE
+    //#ifndef GEODE_IS_MOBILE
     ImGuiCocos::get().setup([]
         {
             setupImGuiStyle();
@@ -218,7 +218,7 @@ $on_mod(Loaded)
             {
                 renderMainGui();
             });
-    #endif
+    //#endif
         }
         
         class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher){
