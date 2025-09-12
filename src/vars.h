@@ -27,6 +27,7 @@ extern bool noDeathEffect;
 extern bool noRespawnFlash;
 extern bool tpsEnabled;
 extern bool noShaders;
+extern bool noMirror;
 
 //Floats
 extern float seedValue;

@@ -35,6 +35,7 @@ bool noDeathEffect = false;
 bool noRespawnFlash = false;
 bool tpsEnabled = true;
 bool noShaders = false;
+bool noMirror = false;
 
 // Floats
 float seedValue = 1.0f;
