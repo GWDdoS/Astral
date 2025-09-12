@@ -3,7 +3,7 @@
 // add lock delta
 
 #include "../../includes.hpp"
-
+/*
 class $modify(TPSBypassGJBGLHook, GJBaseGameLayer) {
     struct Fields {
         double m_extraDelta = 0.0;
@@ -27,8 +27,25 @@ class $modify(TPSBypassGJBGLHook, GJBaseGameLayer) {
 
         GJBaseGameLayer::update(totalDelta);
     }
+};*/
+class $modify(TPSBypassGJBGLHook, GJBaseGameLayer) {
+    struct Fields {
+        double m_extraDelta = 0.0;
+    };
+    
+    void update(float dt) override {
+        if (tpsValue <= 0.f) {
+            tpsValue = 240.f;
+        }
+        
+        auto fields = m_fields.self();
+        
+        // Scale the delta time based on TPS ratio
+        float scaledDt = dt * (tpsValue / 240.f);
+        
+        GJBaseGameLayer::update(scaledDt);
+    }
 };
-
 
 /* we should rewrite these at the least
 
