@@ -196,7 +196,7 @@ void renderMainGui()
 }
 // #endif
 
-/** #ifdef GEODE_IS_MOBILE
+/* #ifdef GEODE_IS_MOBILE
 // this should do the Mobile Cocos GUI
 class $modify(MenuLayer) {
     void onMoreGames(CCObject* target) {
@@ -204,3 +204,4 @@ class $modify(MenuLayer) {
     }
 };
 #endif
+*/
