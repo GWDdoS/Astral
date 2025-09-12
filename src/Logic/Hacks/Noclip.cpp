@@ -16,7 +16,6 @@ class $modify(NoclipPlayLayer, PlayLayer) {
                 if (object == m_anticheatSpike) {
                     PlayLayer::destroyPlayer(player, object);
                 }
-                else {
                     return;
                 }
             }
