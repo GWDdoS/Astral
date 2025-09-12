@@ -4,7 +4,10 @@ using namespace geode::prelude;
 
 class $modify(NoShaderLayer, ShaderLayer) {
     void performCalculations() {
+        if (noShaders) {
+            m_state.m_usesShaders = false;
+            return;
+        }
         ShaderLayer::performCalculations();
-        m_state.m_usesShaders = !noShaders;
     }
 };
