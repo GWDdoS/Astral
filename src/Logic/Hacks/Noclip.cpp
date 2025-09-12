@@ -11,13 +11,12 @@ class $modify(NoclipPlayLayer, PlayLayer) {
             else if (player == m_player2) {
                 shouldNoclip = noclipP2;
             }
-
+            
             if (shouldNoclip) {
                 if (object == m_anticheatSpike) {
                     PlayLayer::destroyPlayer(player, object);
                 }
-                    return;
-                }
+                return;
             }
         }
     }
