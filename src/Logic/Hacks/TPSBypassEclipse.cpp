@@ -11,6 +11,7 @@ class $modify(TPSBypassGJBGLHook, GJBaseGameLayer) {
 
     void update(float dt) override {
         if (tpsValue <= 0.f) {
+            tpsValue = 240.f;
             GJBaseGameLayer::update(dt);
             return;
         }

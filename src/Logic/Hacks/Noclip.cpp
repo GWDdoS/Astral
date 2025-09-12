@@ -22,11 +22,6 @@ class $modify(NoclipPL, PlayLayer)
             {
                 shouldNoclip = noclipP2;
             }
-            
-            if (noclipBoth)
-            {
-                shouldNoclip = noclipP1 && noclipP2;
-            }
         }
 
         if (shouldNoclip)
