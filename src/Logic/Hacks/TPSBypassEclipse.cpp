@@ -2,8 +2,10 @@
 // eclipse would modify original memory patches or smt
 // add lock delta
 
-##include "includes.hpp"
-// link fps test
+extern bool tpsEnabled;
+extern float tpsValue; 
+extern bool framestepEnabled;
+
 class $modify(GJBaseGameLayer) {
     void update(float dt) override {
         if (!tpsEnabled) {
@@ -30,7 +32,7 @@ class $modify(GJBaseGameLayer) {
         GJBaseGameLayer::update(newDt);
     }
 
-    float getModifiedDelta(float dt) override {
+    float getModifiedDelta(float dt) {
         if (!tpsEnabled) return GJBaseGameLayer::getModifiedDelta(dt);
         if (tpsValue == 240.f) return GJBaseGameLayer::getModifiedDelta(dt);
         if (!PlayLayer::get()) return GJBaseGameLayer::getModifiedDelta(dt);
@@ -48,11 +50,11 @@ class $modify(GJBaseGameLayer) {
     }
 };
 
-class $modify(CCDirector) {
+class $modify(cocos2d::CCDirector) {
     void setAnimationInterval(double interval) override {
         if (tpsEnabled && PlayLayer::get()) {
             interval = 1.0 / tpsValue;
         }
-        CCDirector::setAnimationInterval(interval);
+        cocos2d::CCDirector::setAnimationInterval(interval);
     }
 };

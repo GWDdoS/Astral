@@ -21,3 +21,4 @@
 #include "GUI/gui.hpp"
 #include <Geode/modify/CCScheduler.hpp>
 #include "GUI/mobile/mobileUI.hpp"
+#include <Geode/modify/CCDirector.hpp>
