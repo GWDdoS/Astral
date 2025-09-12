@@ -2,10 +2,10 @@
 
 using namespace geode::prelude;
 
-class $modify(NoMirrorGJBGL, GJBaseGameLayer) {
+class $modify(InstantMirrorGJBGL, GJBaseGameLayer) {
     void toggleFlipped(bool p0, bool p1) {
-        if (noMirror) {
-            return;
+        if (instantMirror) {
+            GJBaseGameLayer::toggleFlipped(p0, true);
         }
         else {
             GJBaseGameLayer::toggleFlipped(p0, p1);

@@ -28,7 +28,7 @@ extern bool noRespawnFlash;
 extern bool tpsEnabled;
 extern bool noShaders;
 extern bool noMirror;
-
+extern bool instantMirror;
 //Floats
 extern float seedValue;
 extern float tpsValue;
