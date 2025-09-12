@@ -47,7 +47,7 @@ class $modify(TPSBypassGJBGLHook, GJBaseGameLayer) {
     }
 };
 
-/* we should rewrite these at the least
+/* we should rewrite these at the least */
 
 class $modify(TPSBypassPLHook, PlayLayer) {
     // fix percentage calculation also got this from eclipse who would have known
@@ -83,4 +83,3 @@ class $modify(TPSBypassPLHook, PlayLayer) {
         m_gameState.m_unkUint2 = oldTimestamp;
     }
 };
-*/
