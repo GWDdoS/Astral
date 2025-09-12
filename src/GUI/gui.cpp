@@ -11,7 +11,8 @@ int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
 // bool styleApplied = false;
 // bool guiVisible = false;
-#ifdef GEODE_IS_DESKTOP // i think this is how u do it
+// #ifdef GEODE_IS_DESKTOP // i think this is how u do it
+// yes this is how u do it - slideglide
 
 void applyBackgroundTheme()
 {
@@ -193,8 +194,9 @@ void renderMainGui()
     
     ImGui::End();
 }
-#endif
-#ifdef GEODE_IS_MOBILE
+// #endif
+
+/** #ifdef GEODE_IS_MOBILE
 // this should do the Mobile Cocos GUI
 class $modify(MenuLayer) {
     void onMoreGames(CCObject* target) {
