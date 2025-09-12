@@ -34,6 +34,7 @@ bool currentGuiState = false;
 bool safeMode = false;
 bool noDeathEffect = false;
 bool noRespawnFlash = false;
+bool tpsEnabled = true;
 
 // Floats
 float seedValue = 1.0f;

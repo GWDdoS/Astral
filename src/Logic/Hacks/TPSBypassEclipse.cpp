@@ -1,13 +1,8 @@
 // THIS NEEDS A MAJOR UPDATE IN THE FUTURE TO FIX FPS VALUES; NAT FPS FIX AND THE PLATFORM BASED MEM CALC FIX
 // eclipse would modify original memory patches or smt
 // add lock delta
-bool tpsEnabled;
-bool framestepEnabled;
-float tpsValue = 240.f;
-bool tpsEnabled = true;
-bool framestepEnabled = false;
 
-#include "../../includes.hpp"
+#include "includes.hpp"
 
 class $modify(GJBaseGameLayer) {
     void update(float dt) override {
@@ -37,7 +32,7 @@ class $modify(GJBaseGameLayer) {
         }
     }
 
-    float getModifiedDelta(float dt) override {
+    float getModifiedDelta(float dt) {
         if (!tpsEnabled) return GJBaseGameLayer::getModifiedDelta(dt);
         if (tpsValue == 240.f) return GJBaseGameLayer::getModifiedDelta(dt);
         if (!PlayLayer::get()) return GJBaseGameLayer::getModifiedDelta(dt);

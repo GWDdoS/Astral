@@ -25,6 +25,7 @@ extern bool currentGuiState;
 extern bool safeMode;
 extern bool noDeathEffect;
 extern bool noRespawnFlash;
+extern bool tpsEnabled;
 
 //Floats
 extern float seedValue;
