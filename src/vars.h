@@ -26,6 +26,7 @@ extern bool safeMode;
 extern bool noDeathEffect;
 extern bool noRespawnFlash;
 extern bool tpsEnabled;
+extern bool noShaders;
 
 //Floats
 extern float seedValue;

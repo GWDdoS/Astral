@@ -79,6 +79,8 @@ void renderHacksTab()
     ImGui::Spacing();
     ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
     ImGui::Spacing();
+    ImGui::Checkbox("No Shaders", &noShaders);
+    ImGui:Spacing();
     ImGui::InputFloat("Respawn Delay", &respawnDelay);
     if (respawnDelay != 0.f && respawnDelay != 2.f) {
         respawnDelay = (fabs(respawnDelay - 0.f) < fabs(respawnDelay - 2.f)) ? 0.f : 2.f;
