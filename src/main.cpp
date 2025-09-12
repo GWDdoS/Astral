@@ -12,9 +12,8 @@ Breuhh is also a boykisser and a list helper. (de3am told me to put this)
 // bools
 bool noclipP1 = false;
 bool noclipP2 = false;
-bool noclipBoth = false;
+bool shouldNoclip = false;
 bool noclipEnabled = false;
-// bool noclipEnabled = false;
 bool recording = false;
 bool replaying = false;
 bool rendering = false;
