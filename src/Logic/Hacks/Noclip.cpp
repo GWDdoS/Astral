@@ -19,5 +19,7 @@ class $modify(NoclipPlayLayer, PlayLayer) {
                 return;
             }
         }
+        
+        PlayLayer::destroyPlayer(player, object);
     }
 };
