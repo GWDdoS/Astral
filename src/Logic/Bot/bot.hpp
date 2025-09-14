@@ -5,16 +5,6 @@
 
 namespace Astral::Bot {
     
-    // MacroEvent struct definition
-    struct MacroEvent {
-        double timestamp;
-        bool isPress;
-        int button;
-        bool isPlayer1;
-        float playerPosX;
-        float playerPosY;
-    };
-    
     // Recording functions
     void StartRecording();
     void StopRecording();

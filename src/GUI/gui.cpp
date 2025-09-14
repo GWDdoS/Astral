@@ -118,38 +118,38 @@ void renderBottingTab()
     
     // Recording controls
     if (!Astral::Bot::isRecording && !Astral::Bot::isPlayingBack) {
-        if (ImGui::Button("Start Recording")) {
-            Astral::Bot::StartRecording();
-        }
-    } else if (Astral::Bot::isRecording) {
-        if (ImGui::Button("Stop Recording")) {
-            Astral::Bot::StopRecording();
-        }
+    if (ImGui::Button("Start Recording")) {
+        Astral::Bot::StartRecording();
     }
+} else if (Astral::Bot::isRecording) {
+    if (ImGui::Button("Stop Recording")) {
+        Astral::Bot::StopRecording();
+    }
+}
     
     ImGui::SameLine();
     
     // Playback controls
     if (!Astral::Bot::isPlayingBack && !Astral::Bot::isRecording) {
-        if (ImGui::Button("Start Playback")) {
-            Astral::Bot::StartPlayback();
-        }
-    } else if (Astral::Bot::isPlayingBack) {
-        if (ImGui::Button("Stop Playback")) {
-            Astral::Bot::StopPlayback();
-        }
+    if (ImGui::Button("Start Playback")) {
+        Astral::Bot::StartPlayback();
     }
+} else if (Astral::Bot::isPlayingBack) {
+    if (ImGui::Button("Stop Playback")) {
+        Astral::Bot::StopPlayback();
+    }
+}
     
     ImGui::Spacing();
     
     // Status display
     if (Astral::Bot::isRecording) {
-        ImGui::Text("Status: Recording...");
-    } else if (Astral::Bot::isPlayingBack) {
-        ImGui::Text("Status: Playing back...");
-    } else {
-        ImGui::Text("Status: Idle");
-    }
+    ImGui::Text("Status: Recording...");
+} else if (Astral::Bot::isPlayingBack) {
+    ImGui::Text("Status: Playing back...");
+} else {
+    ImGui::Text("Status: Idle");
+}
     
     ImGui::Spacing();
     ImGui::Text("Macro Settings:");
@@ -326,7 +326,7 @@ void renderMainGui()
     if (!ImGui::GetCurrentContext()) return;
     
     auto& imguiCocos = ImGuiCocos::get();
-    if (!imguiCocos) return;    
+    if (&imguiCocos == nullptr) return;
     guiVisible = imguiCocos.isVisible();
     if (!guiVisible) return;
     
