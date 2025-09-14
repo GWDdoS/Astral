@@ -1,4 +1,4 @@
-#include "vars.h"
+#include "../../vars.h"
 
 namespace Astral::Bot {
     void Record();
