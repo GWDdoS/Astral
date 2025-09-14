@@ -31,6 +31,4 @@ namespace Astral::Bot {
     // External variables that need to be accessible from GUI
     extern std::vector<MacroEvent> recordedMacro;
     extern std::vector<MacroEvent> playbackMacro;
-    extern bool isRecording;
-    extern bool isPlayingBack;
 }

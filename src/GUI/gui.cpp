@@ -16,32 +16,6 @@ bool guiVisible = false;
 bool isCapturingKeybind = false;
 cocos2d::enumKeyCodes capturedCustomKey = cocos2d::KEY_Tab;
 
-// Botting variables
-float tpsValue = 240.0f;
-bool isRecording = false;
-bool isPlaying = false;
-
-// Hacks variables
-bool noclipEnabled = false;
-bool noclipP1 = false;
-bool noclipP2 = false;
-bool speedhackEnabled = false;
-float speedhackMultiplier = 1.0f;
-bool safeMode = false;
-bool noDeathEffect = false;
-bool noRespawnFlash = false;
-bool noShaders = false;
-bool noMirror = false;
-bool instantMirror = false;
-float respawnDelay = 0.0f;
-bool trajectoryEnabled = false;
-bool framestepEnabled = false;
-
-// Render variables
-bool layoutEnabled = false;
-bool showHitboxes = false;
-bool showGrid = false;
-
 void applyBackgroundTheme()
 {
     auto& style = ImGui::GetStyle();
