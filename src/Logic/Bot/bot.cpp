@@ -220,4 +220,4 @@ class $modify(MacroGJBaseGameLayer, GJBaseGameLayer) {
         // Update macro playback
         Astral::Bot::Update();
     }
-}
+};
