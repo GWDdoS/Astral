@@ -9,8 +9,6 @@ const int tabCount = 7;
 
 int currentTab = 0;
 float themeColor[3] = {0.4f, 0.4f, 0.4f}; // Greyscale theme
-bool styleApplied = false;
-bool guiVisible = false;
 
 // Animation and visual effects variables
 static float animationTime = 0.0f;
