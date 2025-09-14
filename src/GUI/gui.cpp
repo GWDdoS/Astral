@@ -11,8 +11,6 @@ int currentTab = 0;
 float themeColor[3] = {0.4f, 0.4f, 0.4f}; // Greyscale theme
 
 // File-local variables (if only used in this file)
-bool styleApplied = false;
-bool guiVisible = false;
 
 #ifdef GEODE_IS_DESKTOP
 
