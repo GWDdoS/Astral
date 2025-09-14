@@ -1,244 +1,466 @@
 #include "includes.hpp"
 
-
 using namespace geode::prelude;
 
-/*
-de3am is a boykisser and a list helper
-Breuhh is also a boykisser and a list helper. (de3am told me to put this)
-*/
+const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 
-// The unholy list of vars
-// bools
-bool noclipP1 = false;
-bool noclipP2 = false;
-bool shouldNoclip = false;
-bool noclipEnabled = false;
-bool recording = false;
-bool replaying = false;
-bool rendering = false;
-bool trajectoryEnabled = false;
-bool layoutEnabled = false;
-bool oldphysEnabled = false;
-bool styleApplied = false;
-bool framestepEnabled = false;
-bool lockedDeltaEnabled = false;
-bool guiVisible = false;
-bool speedhackEnabled = false;
-bool speedhackAudio = false;
-bool isCapturingKeybind = false;
-bool showHitboxes = false;
-bool showGrid = false;
-bool currentGuiState = false;
-bool safeMode = false;
-bool noDeathEffect = false;
-bool noRespawnFlash = false;
-bool tpsEnabled = true;
-bool noShaders = false;
-bool noMirror = false;
-bool instantMirror = false;
+const char* tabNames[] = {"Botting", "Hacks", "Autoclicker", "Render", "Settings", "Customization", "Mod Updates"};
+const int tabCount = 7;
 
-// Floats
-float seedValue = 1.0f;
-float tpsValue = 240.0f;
-float currentP = 1.0f;
-float respawnDelay = 1.0f;
+int currentTab = 0;
+float themeColor[3] = {0.4f, 0.4f, 0.4f}; // Greyscale theme
+static bool styleApplied = false;
+static bool guiVisible = false;
 
-// Ints
-int backgroundTheme = 0;
-int inputMerge = 0;
-int fontType = 0;
-int fontList = 0;
+// Animation and visual effects variables
+static float animationTime = 0.0f;
+static std::vector<ImVec2> stars;
+static std::vector<float> starBrightness;
+static std::vector<float> starTwinkleSpeed;
+static const int NUM_STARS = 150;
+static bool starsInitialized = false;
+// TODO: Add logo texture loading later
+// static ImTextureID logoTexture = 0;
 
-// Chars
-char macroName[128] = "Test";
-const char* currentKeyDisplay = nullptr;
+#ifdef GEODE_IS_DESKTOP
 
-const char *backgroundThemeNames[] = {"Dark", "Light", "Medium"};
-const int backgroundThemeNamesCount = sizeof(backgroundThemeNames) / sizeof(backgroundThemeNames[0]);
+// Initialize starfield
+void initializeStarfield() {
+    if (starsInitialized) return;
+    
+    stars.clear();
+    starBrightness.clear();
+    starTwinkleSpeed.clear();
+    
+    // Generate random stars
+    for (int i = 0; i < NUM_STARS; i++) {
+        stars.push_back(ImVec2(
+            static_cast<float>(rand()) / RAND_MAX * 800.0f, // Random X position
+            static_cast<float>(rand()) / RAND_MAX * 600.0f  // Random Y position
+        ));
+        starBrightness.push_back(static_cast<float>(rand()) / RAND_MAX);
+        starTwinkleSpeed.push_back(0.5f + static_cast<float>(rand()) / RAND_MAX * 2.0f);
+    }
+    starsInitialized = true;
+}
 
-// default is alt, if geode is mac,set it to be tab. this should fix it
-#ifdef GEODE_IS_MACOS
-    cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Tab;
-#else
-cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt;
-#endif
-
-
-
-// Ai is good for one thing, making a fucking massive list :skull:
-const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
-    switch(keyCode) {
-        #ifdef GEODE_IS_WINDOWS
-        case cocos2d::enumKeyCodes::KEY_Alt: return "Alt";
-        case cocos2d::enumKeyCodes::KEY_F1: return "F1";
-        case cocos2d::enumKeyCodes::KEY_F2: return "F2";
-        case cocos2d::enumKeyCodes::KEY_F3: return "F3";
-        case cocos2d::enumKeyCodes::KEY_F4: return "F4";
-        case cocos2d::enumKeyCodes::KEY_F5: return "F5";
-        case cocos2d::enumKeyCodes::KEY_F6: return "F6";
-        case cocos2d::enumKeyCodes::KEY_F7: return "F7";
-        case cocos2d::enumKeyCodes::KEY_F8: return "F8";
-        case cocos2d::enumKeyCodes::KEY_F9: return "F9";
-        case cocos2d::enumKeyCodes::KEY_F10: return "F10";
-        case cocos2d::enumKeyCodes::KEY_F11: return "F11";
-        case cocos2d::enumKeyCodes::KEY_F12: return "F12";
-        case cocos2d::enumKeyCodes::KEY_Insert: return "Insert";
-        case cocos2d::enumKeyCodes::KEY_Home: return "Home";
-        case cocos2d::enumKeyCodes::KEY_End: return "End";
-        case cocos2d::enumKeyCodes::KEY_PageUp: return "Page Up";
-        case cocos2d::enumKeyCodes::KEY_PageDown: return "Page Down";
-        case cocos2d::enumKeyCodes::KEY_Delete: return "Delete";
-        case cocos2d::enumKeyCodes::KEY_Space: return "Space";
-        case cocos2d::enumKeyCodes::KEY_Enter: return "Enter";
-        case cocos2d::enumKeyCodes::KEY_Escape: return "Escape";
-        case cocos2d::enumKeyCodes::KEY_Tab: return "Tab";
-        case cocos2d::enumKeyCodes::KEY_Shift: return "Shift";
-        case cocos2d::enumKeyCodes::KEY_Control: return "Ctrl";
-        case cocos2d::enumKeyCodes::KEY_ArrowLeft: return "Left Arrow";
-        case cocos2d::enumKeyCodes::KEY_ArrowRight: return "Right Arrow";
-        case cocos2d::enumKeyCodes::KEY_ArrowUp: return "Up Arrow";
-        case cocos2d::enumKeyCodes::KEY_ArrowDown: return "Down Arrow";
+void updateStarfield(float deltaTime) {
+    animationTime += deltaTime;
+    
+    for (int i = 0; i < stars.size(); i++) {
+        // Update star twinkling
+        starBrightness[i] = 0.3f + 0.7f * (sin(animationTime * starTwinkleSpeed[i]) * 0.5f + 0.5f);
         
-        // Missing cases to add:
-        case cocos2d::enumKeyCodes::KEY_None: return "None";
-        case cocos2d::enumKeyCodes::KEY_Backspace: return "Backspace";
-        case cocos2d::enumKeyCodes::KEY_Pause: return "Pause";
-        case cocos2d::enumKeyCodes::KEY_CapsLock: return "Caps Lock";
-        case cocos2d::enumKeyCodes::KEY_Select: return "Select";
+        // Slowly move stars
+        stars[i].x += sin(animationTime * 0.1f + i) * 0.1f;
+        stars[i].y += cos(animationTime * 0.1f + i) * 0.1f;
         
-        // Letter keys (A-Z)
-        case cocos2d::enumKeyCodes::KEY_A: return "A";
-        case cocos2d::enumKeyCodes::KEY_B: return "B";
-        case cocos2d::enumKeyCodes::KEY_C: return "C";
-        case cocos2d::enumKeyCodes::KEY_D: return "D";
-        case cocos2d::enumKeyCodes::KEY_E: return "E";
-        case cocos2d::enumKeyCodes::KEY_F: return "F";
-        case cocos2d::enumKeyCodes::KEY_G: return "G";
-        case cocos2d::enumKeyCodes::KEY_H: return "H";
-        case cocos2d::enumKeyCodes::KEY_I: return "I";
-        case cocos2d::enumKeyCodes::KEY_J: return "J";
-        case cocos2d::enumKeyCodes::KEY_K: return "K";
-        case cocos2d::enumKeyCodes::KEY_L: return "L";
-        case cocos2d::enumKeyCodes::KEY_M: return "M";
-        case cocos2d::enumKeyCodes::KEY_N: return "N";
-        case cocos2d::enumKeyCodes::KEY_O: return "O";
-        case cocos2d::enumKeyCodes::KEY_P: return "P";
-        case cocos2d::enumKeyCodes::KEY_Q: return "Q";
-        case cocos2d::enumKeyCodes::KEY_R: return "R";
-        case cocos2d::enumKeyCodes::KEY_S: return "S";
-        case cocos2d::enumKeyCodes::KEY_T: return "T";
-        case cocos2d::enumKeyCodes::KEY_U: return "U";
-        case cocos2d::enumKeyCodes::KEY_V: return "V";
-        case cocos2d::enumKeyCodes::KEY_W: return "W";
-        case cocos2d::enumKeyCodes::KEY_X: return "X";
-        case cocos2d::enumKeyCodes::KEY_Y: return "Y";
-        case cocos2d::enumKeyCodes::KEY_Z: return "Z";
-        case cocos2d::enumKeyCodes::KEY_ScrollLock: return "Scroll Lock";
-        #endif
-        #ifdef GEODE_IS_MACOS
-        case cocos2d::enumKeyCodes::KEY_Alt: return "Option";
-        case cocos2d::enumKeyCodes::KEY_F1: return "F1";
-        case cocos2d::enumKeyCodes::KEY_F2: return "F2";
-        case cocos2d::enumKeyCodes::KEY_F3: return "F3";
-        case cocos2d::enumKeyCodes::KEY_F4: return "F4";
-        case cocos2d::enumKeyCodes::KEY_F5: return "F5";
-        case cocos2d::enumKeyCodes::KEY_F6: return "F6";
-        case cocos2d::enumKeyCodes::KEY_F7: return "F7";
-        case cocos2d::enumKeyCodes::KEY_F8: return "F8";
-        case cocos2d::enumKeyCodes::KEY_F9: return "F9";
-        case cocos2d::enumKeyCodes::KEY_F10: return "F10";
-        case cocos2d::enumKeyCodes::KEY_F11: return "F11";
-        case cocos2d::enumKeyCodes::KEY_F12: return "F12";
-        case cocos2d::enumKeyCodes::KEY_Insert: return "Insert";
-        case cocos2d::enumKeyCodes::KEY_Home: return "Home";
-        case cocos2d::enumKeyCodes::KEY_End: return "End";
-        case cocos2d::enumKeyCodes::KEY_PageUp: return "Page Up";
-        case cocos2d::enumKeyCodes::KEY_PageDown: return "Page Down";
-        case cocos2d::enumKeyCodes::KEY_Delete: return "Delete";
-        case cocos2d::enumKeyCodes::KEY_Space: return "Space";
-        case cocos2d::enumKeyCodes::KEY_Enter: return "Return";
-        case cocos2d::enumKeyCodes::KEY_Escape: return "Escape";
-        case cocos2d::enumKeyCodes::KEY_Tab: return "Tab";
-        case cocos2d::enumKeyCodes::KEY_Shift: return "Shift";
-        case cocos2d::enumKeyCodes::KEY_Control: return "Control";
-        case cocos2d::enumKeyCodes::KEY_ArrowLeft: return "←";
-        case cocos2d::enumKeyCodes::KEY_ArrowRight: return "→";
-        case cocos2d::enumKeyCodes::KEY_ArrowUp: return "↑";
-        case cocos2d::enumKeyCodes::KEY_ArrowDown: return "↓";
-        
-        case cocos2d::enumKeyCodes::KEY_None: return "None";
-        case cocos2d::enumKeyCodes::KEY_Backspace: return "Delete";
-        case cocos2d::enumKeyCodes::KEY_Pause: return "Pause";
-        case cocos2d::enumKeyCodes::KEY_CapsLock: return "Caps Lock";
-        case cocos2d::enumKeyCodes::KEY_Select: return "Select";
-        
-        // Letter keys (A-Z)
-        case cocos2d::enumKeyCodes::KEY_A: return "A";
-        case cocos2d::enumKeyCodes::KEY_B: return "B";
-        case cocos2d::enumKeyCodes::KEY_C: return "C";
-        case cocos2d::enumKeyCodes::KEY_D: return "D";
-        case cocos2d::enumKeyCodes::KEY_E: return "E";
-        case cocos2d::enumKeyCodes::KEY_F: return "F";
-        case cocos2d::enumKeyCodes::KEY_G: return "G";
-        case cocos2d::enumKeyCodes::KEY_H: return "H";
-        case cocos2d::enumKeyCodes::KEY_I: return "I";
-        case cocos2d::enumKeyCodes::KEY_J: return "J";
-        case cocos2d::enumKeyCodes::KEY_K: return "K";
-        case cocos2d::enumKeyCodes::KEY_L: return "L";
-        case cocos2d::enumKeyCodes::KEY_M: return "M";
-        case cocos2d::enumKeyCodes::KEY_N: return "N";
-        case cocos2d::enumKeyCodes::KEY_O: return "O";
-        case cocos2d::enumKeyCodes::KEY_P: return "P";
-        case cocos2d::enumKeyCodes::KEY_Q: return "Q";
-        case cocos2d::enumKeyCodes::KEY_R: return "R";
-        case cocos2d::enumKeyCodes::KEY_S: return "S";
-        case cocos2d::enumKeyCodes::KEY_T: return "T";
-        case cocos2d::enumKeyCodes::KEY_U: return "U";
-        case cocos2d::enumKeyCodes::KEY_V: return "V";
-        case cocos2d::enumKeyCodes::KEY_W: return "W";
-        case cocos2d::enumKeyCodes::KEY_X: return "X";
-        case cocos2d::enumKeyCodes::KEY_Y: return "Y";
-        case cocos2d::enumKeyCodes::KEY_Z: return "Z";
-        case cocos2d::enumKeyCodes::KEY_ScrollLock: return "Scroll Lock";
-        #endif
-        default: return "Unknown Key";
+        // Wrap stars around screen
+        if (stars[i].x > 800.0f) stars[i].x = 0.0f;
+        if (stars[i].x < 0.0f) stars[i].x = 800.0f;
+        if (stars[i].y > 600.0f) stars[i].y = 0.0f;
+        if (stars[i].y < 0.0f) stars[i].y = 600.0f;
     }
 }
 
+void drawStarfield(ImDrawList* drawList, ImVec2 windowPos, ImVec2 windowSize) {
+    // No background - just transparent/default ImGui background
+    
+    // Draw galaxy stars with varied sizes and glow
+    for (int i = 0; i < stars.size(); i++) {
+        ImVec2 starPos = ImVec2(windowPos.x + stars[i].x * windowSize.x / 800.0f, 
+                               windowPos.y + stars[i].y * windowSize.y / 600.0f);
+        
+        // Only draw stars within window bounds
+        if (starPos.x >= windowPos.x - 50 && starPos.x <= windowPos.x + windowSize.x + 50 &&
+            starPos.y >= windowPos.y - 50 && starPos.y <= windowPos.y + windowSize.y + 50) {
+            
+            float brightness = starBrightness[i];
+            float size = starSize[i];
+            float glowIntensity = starGlowIntensity[i];
+            
+            // Main star color - bright white/blue
+            ImU32 starColor = IM_COL32(
+                static_cast<int>(240 * brightness),
+                static_cast<int>(250 * brightness),
+                static_cast<int>(255 * brightness),
+                static_cast<int>(255 * brightness)
+            );
+            
+            // Draw main star
+            drawList->AddCircleFilled(starPos, size, starColor);
+            
+            // Add glow effects for larger/brighter stars
+            if (glowIntensity > 0.3f) {
+                // Inner glow
+                ImU32 innerGlowColor = IM_COL32(
+                    static_cast<int>(200 * glowIntensity),
+                    static_cast<int>(220 * glowIntensity),
+                    static_cast<int>(255 * glowIntensity),
+                    static_cast<int>(80 * glowIntensity)
+                );
+                drawList->AddCircleFilled(starPos, size * 2.0f, innerGlowColor);
+                
+                // Outer glow for very bright stars
+                if (glowIntensity > 0.6f) {
+                    ImU32 outerGlowColor = IM_COL32(
+                        static_cast<int>(150 * glowIntensity),
+                        static_cast<int>(180 * glowIntensity),
+                        static_cast<int>(255 * glowIntensity),
+                        static_cast<int>(40 * glowIntensity)
+                    );
+                    drawList->AddCircleFilled(starPos, size * 4.0f, outerGlowColor);
+                }
+                
+                // Star flare effect for the brightest stars
+                if (glowIntensity > 0.8f && size > 1.5f) {
+                    ImU32 flareColor = IM_COL32(
+                        static_cast<int>(255 * brightness),
+                        static_cast<int>(255 * brightness),
+                        static_cast<int>(255 * brightness),
+                        static_cast<int>(60 * brightness)
+                    );
+                    
+                    // Horizontal flare
+                    drawList->AddLine(
+                        ImVec2(starPos.x - size * 6, starPos.y),
+                        ImVec2(starPos.x + size * 6, starPos.y),
+                        flareColor, 1.0f
+                    );
+                    
+                    // Vertical flare
+                    drawList->AddLine(
+                        ImVec2(starPos.x, starPos.y - size * 6),
+                        ImVec2(starPos.x, starPos.y + size * 6),
+                        flareColor, 1.0f
+                    );
+                }
+            }
+        }
+    }
+}
 
-$on_mod(Loaded)
-{
-    #ifndef GEODE_IS_MOBILE
-    ImGuiCocos::get().setup([]
-        {
-            setupImGuiStyle();
-        })
-        .draw([]
-            {
-                renderMainGui();
-            });
-    #endif
+void setupImGuiStyle() {
+    auto& style = ImGui::GetStyle();
+    auto& io = ImGui::GetIO();
+    
+    // Load font
+    auto* font = io.Fonts->AddFontFromFileTTF(
+        (Mod::get()->getResourcesDir() / ("font" + std::to_string(0) + ".ttf")).string().c_str(), 16.0f
+    );
+    
+    // Greyscale dark theme
+    style.Alpha = 0.95f;
+    style.WindowRounding = 12.0f;
+    style.ChildRounding = 8.0f;
+    style.FrameRounding = 8.0f;
+    style.PopupRounding = 8.0f;
+    style.ScrollbarRounding = 12.0f;
+    style.GrabRounding = 8.0f;
+    style.TabRounding = 6.0f;
+    style.WindowPadding = ImVec2(15, 15);
+    style.FramePadding = ImVec2(10, 6);
+    style.ItemSpacing = ImVec2(12, 8);
+    style.AntiAliasedLines = true;
+    style.AntiAliasedFill = true;
+    
+    // Greyscale color scheme
+    ImVec4* colors = style.Colors;
+    colors[ImGuiCol_Text]                   = ImVec4(0.90f, 0.90f, 0.90f, 1.00f);
+    colors[ImGuiCol_TextDisabled]           = ImVec4(0.50f, 0.50f, 0.50f, 1.00f);
+    colors[ImGuiCol_WindowBg]               = ImVec4(0.10f, 0.12f, 0.15f, 0.94f);
+    colors[ImGuiCol_ChildBg]                = ImVec4(0.15f, 0.17f, 0.20f, 1.00f);
+    colors[ImGuiCol_PopupBg]                = ImVec4(0.12f, 0.14f, 0.17f, 0.94f);
+    colors[ImGuiCol_Border]                 = ImVec4(0.30f, 0.35f, 0.40f, 0.50f);
+    colors[ImGuiCol_BorderShadow]           = ImVec4(0.00f, 0.00f, 0.00f, 0.00f);
+    colors[ImGuiCol_FrameBg]                = ImVec4(0.20f, 0.22f, 0.25f, 0.54f);
+    colors[ImGuiCol_FrameBgHovered]         = ImVec4(0.30f, 0.32f, 0.35f, 0.40f);
+    colors[ImGuiCol_FrameBgActive]          = ImVec4(0.35f, 0.37f, 0.40f, 0.67f);
+    colors[ImGuiCol_TitleBg]                = ImVec4(0.08f, 0.10f, 0.13f, 1.00f);
+    colors[ImGuiCol_TitleBgActive]          = ImVec4(0.15f, 0.17f, 0.20f, 1.00f);
+    colors[ImGuiCol_TitleBgCollapsed]       = ImVec4(0.00f, 0.00f, 0.00f, 0.51f);
+    colors[ImGuiCol_MenuBarBg]              = ImVec4(0.14f, 0.16f, 0.19f, 1.00f);
+    colors[ImGuiCol_ScrollbarBg]            = ImVec4(0.12f, 0.14f, 0.17f, 0.53f);
+    colors[ImGuiCol_ScrollbarGrab]          = ImVec4(0.31f, 0.33f, 0.36f, 1.00f);
+    colors[ImGuiCol_ScrollbarGrabHovered]   = ImVec4(0.41f, 0.43f, 0.46f, 1.00f);
+    colors[ImGuiCol_ScrollbarGrabActive]    = ImVec4(0.51f, 0.53f, 0.56f, 1.00f);
+    colors[ImGuiCol_CheckMark]              = ImVec4(0.70f, 0.72f, 0.75f, 1.00f);
+    colors[ImGuiCol_SliderGrab]             = ImVec4(0.40f, 0.42f, 0.45f, 1.00f);
+    colors[ImGuiCol_SliderGrabActive]       = ImVec4(0.60f, 0.62f, 0.65f, 1.00f);
+    colors[ImGuiCol_Button]                 = ImVec4(0.25f, 0.27f, 0.30f, 0.40f);
+    colors[ImGuiCol_ButtonHovered]          = ImVec4(0.35f, 0.37f, 0.40f, 1.00f);
+    colors[ImGuiCol_ButtonActive]           = ImVec4(0.45f, 0.47f, 0.50f, 1.00f);
+    colors[ImGuiCol_Header]                 = ImVec4(0.30f, 0.32f, 0.35f, 0.31f);
+    colors[ImGuiCol_HeaderHovered]          = ImVec4(0.40f, 0.42f, 0.45f, 0.80f);
+    colors[ImGuiCol_HeaderActive]           = ImVec4(0.50f, 0.52f, 0.55f, 1.00f);
+    colors[ImGuiCol_Separator]              = ImVec4(0.43f, 0.45f, 0.48f, 0.50f);
+    colors[ImGuiCol_SeparatorHovered]       = ImVec4(0.53f, 0.55f, 0.58f, 0.78f);
+    colors[ImGuiCol_SeparatorActive]        = ImVec4(0.63f, 0.65f, 0.68f, 1.00f);
+    colors[ImGuiCol_ResizeGrip]             = ImVec4(0.40f, 0.42f, 0.45f, 0.25f);
+    colors[ImGuiCol_ResizeGripHovered]      = ImVec4(0.50f, 0.52f, 0.55f, 0.67f);
+    colors[ImGuiCol_ResizeGripActive]       = ImVec4(0.60f, 0.62f, 0.65f, 0.95f);
+    colors[ImGuiCol_Tab]                    = ImVec4(0.20f, 0.22f, 0.25f, 0.86f);
+    colors[ImGuiCol_TabHovered]             = ImVec4(0.40f, 0.42f, 0.45f, 0.80f);
+    colors[ImGuiCol_TabActive]              = ImVec4(0.35f, 0.37f, 0.40f, 1.00f);
+    colors[ImGuiCol_TabUnfocused]           = ImVec4(0.15f, 0.17f, 0.20f, 0.97f);
+    colors[ImGuiCol_TabUnfocusedActive]     = ImVec4(0.25f, 0.27f, 0.30f, 1.00f);
+    
+    styleApplied = true;
+    initializeStarfield();
+}
+
+// Enhanced button with animation
+bool animatedButton(const char* label, const ImVec2& size = ImVec2(0, 0)) {
+    ImVec2 pos = ImGui::GetCursorScreenPos();
+    bool clicked = ImGui::Button(label, size);
+    
+    if (ImGui::IsItemHovered()) {
+        ImDrawList* drawList = ImGui::GetWindowDrawList();
+        ImVec2 buttonSize = ImGui::GetItemRectSize();
+        
+        // Animated glow effect
+        float pulse = sin(animationTime * 3.0f) * 0.5f + 0.5f;
+        ImU32 glowColor = IM_COL32(150, 150, 150, static_cast<int>(50 * pulse));
+        
+        drawList->AddRect(
+            ImVec2(pos.x - 2, pos.y - 2),
+            ImVec2(pos.x + buttonSize.x + 2, pos.y + buttonSize.y + 2),
+            glowColor, 8.0f, 0, 2.0f
+        );
+    }
+    
+    return clicked;
+}
+
+void renderBottingTab() {
+    ImGui::InputFloat("TPS Value:", &tpsValue);
+    if (tpsValue < 0.f) {
+        tpsValue = 240.f;
+    }
+    
+    if (animatedButton("Record Macro", ImVec2(150, 30))) {}
+    ImGui::SameLine();
+    if (animatedButton("Play Macro", ImVec2(150, 30))) {}
+    
+    ImGui::Spacing();
+    ImGui::Text("Macro Settings:");
+    
+    // Animated separator
+    ImGui::Separator();
+    ImDrawList* drawList = ImGui::GetWindowDrawList();
+    ImVec2 pos = ImGui::GetCursorScreenPos();
+    float pulse = sin(animationTime * 2.0f) * 0.3f + 0.7f;
+    drawList->AddLine(
+        ImVec2(pos.x, pos.y - 10),
+        ImVec2(pos.x + ImGui::GetContentRegionAvail().x, pos.y - 10),
+        IM_COL32(100, 100, 100, static_cast<int>(255 * pulse)),
+        1.0f
+    );
+}
+
+void renderHacksTab() {
+    ImGui::Checkbox("Noclip", &noclipEnabled);
+    ImGui::SameLine();
+    if (ImGui::BeginMenu("  ")) {
+        ImGui::Checkbox("Player 1", &noclipP1);
+        ImGui::Checkbox("Player 2", &noclipP2);
+        ImGui::EndMenu();
+    }
+    
+    ImGui::Spacing();
+    ImGui::Checkbox("Speedhack", &speedhackEnabled);
+    ImGui::SameLine();
+    ImGui::InputFloat(" ", &speedhackMultiplier);
+    if (speedhackMultiplier < 0.f) {
+        speedhackMultiplier = 1.f;
+    }
+    
+    ImGui::Spacing();
+    ImGui::Checkbox("Safe Mode", &safeMode);
+    ImGui::Spacing();
+    ImGui::Checkbox("No Death Effect", &noDeathEffect);
+    ImGui::Spacing();
+    ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
+    ImGui::Spacing();
+    ImGui::Checkbox("No Shaders", &noShaders);
+    ImGui::Spacing();
+    ImGui::Checkbox("No Mirror", &noMirror);
+    ImGui::Spacing();
+    ImGui::Checkbox("Instant Mirror", &instantMirror);
+    ImGui::Spacing();
+    
+    ImGui::InputFloat("Respawn Delay", &respawnDelay);
+    if (respawnDelay != 0.f && respawnDelay != 2.f) {
+        respawnDelay = (fabs(respawnDelay - 0.f) < fabs(respawnDelay - 2.f)) ? 0.f : 2.f;
+    }
+    
+    ImGui::Spacing();
+    ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
+    ImGui::Spacing();
+    ImGui::Checkbox("Frame Stepper", &framestepEnabled);
+}
+
+void renderAutoClickerTab() {
+    ImGui::Text("Auto Clicker Settings");
+    ImGui::Separator();
+    
+    // Placeholder for autoclicker functionality
+    ImGui::TextDisabled("Coming Soon...");
+}
+
+void renderRenderTab() {
+    ImGui::Checkbox("Show Layout", &layoutEnabled);
+    
+    if (animatedButton("Start Render", ImVec2(150, 30))) {}
+    ImGui::SameLine();
+    if (animatedButton("Stop Render", ImVec2(150, 30))) {}
+    
+    ImGui::Spacing();
+    ImGui::Checkbox("Show Hitboxes", &showHitboxes);
+    ImGui::Checkbox("Show Grid", &showGrid);
+}
+
+void renderSettingsTab() {
+    ImGui::Text("Toggle GUI Key:");
+    
+    const char* currentKeyDisplay = getKeyName(capturedCustomKey);
+    if (animatedButton(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 25))) {
+        isCapturingKeybind = true;
+    }
+    
+    if (isCapturingKeybind) {
+        ImGui::SameLine();
+        if (animatedButton("Cancel")) {
+            isCapturingKeybind = false;
+        }
+    }
+    
+    ImGui::Text("Current Key: %s", currentKeyDisplay);
+}
+
+void renderCustomizationTab() {
+    ImGui::Text("Theme Color (Greyscale):");
+    ImGui::ColorEdit3("##accentcolor", themeColor);
+    
+    // Force greyscale
+    float avg = (themeColor[0] + themeColor[1] + themeColor[2]) / 3.0f;
+    themeColor[0] = themeColor[1] = themeColor[2] = avg;
+}
+
+void renderTodoTab() {
+    ImGui::BulletText("Enhanced UI with animated starfield background");
+    ImGui::BulletText("Greyscale theme implementation");
+    ImGui::BulletText("Logo integration in top-left corner");
+    ImGui::BulletText("Smooth animations and visual effects");
+    ImGui::BulletText("Improved button interactions");
+}
+
+void renderMainGui() {
+    if (!ImGui::GetCurrentContext()) return;
+    
+    auto& imguiCocos = ImGuiCocos::get();
+    guiVisible = imguiCocos.isVisible();
+    if (tabCount <= 0) return;
+    
+    // Update animations
+    static auto lastTime = std::chrono::high_resolution_clock::now();
+    auto currentTime = std::chrono::high_resolution_clock::now();
+    float deltaTime = std::chrono::duration<float>(currentTime - lastTime).count();
+    lastTime = currentTime;
+    
+    updateStarfield(deltaTime);
+    
+    // Main window setup
+    ImGuiWindowFlags flags = ImGuiWindowFlags_NoCollapse | 
+                            ImGuiWindowFlags_AlwaysAutoResize | 
+                            ImGuiWindowFlags_NoResize | 
+                            ImGuiWindowFlags_NoTitleBar;
+    
+    ImGui::SetNextWindowSize(ImVec2(600, 500), ImGuiCond_FirstUseEver);
+    
+    if (!ImGui::Begin("Astral [BETA]", nullptr, flags)) {
+        ImGui::End();
+        return;
+    }
+    
+    // Get window properties for background rendering
+    ImVec2 windowPos = ImGui::GetWindowPos();
+    ImVec2 windowSize = ImGui::GetWindowSize();
+    ImDrawList* drawList = ImGui::GetWindowDrawList();
+    
+    // Draw animated starfield background
+    drawStarfield(drawList, windowPos, windowSize);
+    
+    // Simple placeholder logo in top-left
+    ImVec2 logoPos = ImVec2(windowPos.x + 15, windowPos.y + 15);
+    drawList->AddCircleFilled(ImVec2(logoPos.x + 16, logoPos.y + 16), 16, IM_COL32(200, 200, 200, 255));
+    drawList->AddText(ImVec2(logoPos.x + 8, logoPos.y + 8), IM_COL32(50, 50, 50, 255), "A");
+    
+    // Title with offset to accommodate logo
+    ImGui::SetCursorPosX(60); // Offset for logo
+    ImGui::SetCursorPosY(25);
+    
+    const char* title = "Astral [BETA]";
+    ImGui::Text("%s", title);
+    
+    // Animated title underline
+    ImVec2 titlePos = ImGui::GetCursorScreenPos();
+    float titleWidth = ImGui::CalcTextSize(title).x;
+    float pulse = sin(animationTime * 1.5f) * 0.3f + 0.7f;
+    drawList->AddLine(
+        ImVec2(titlePos.x - 60, titlePos.y),
+        ImVec2(titlePos.x - 60 + titleWidth, titlePos.y),
+        IM_COL32(150, 150, 150, static_cast<int>(255 * pulse)),
+        2.0f
+    );
+    
+    ImGui::Separator();
+    ImGui::SetCursorPosY(70);
+    
+    // Tab buttons with enhanced styling
+    for (int i = 0; i < tabCount; i++) {
+        if (!tabNames[i]) continue;
+        
+        // Highlight current tab
+        if (i == currentTab) {
+            ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(0.45f, 0.47f, 0.50f, 1.0f));
+            ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(0.55f, 0.57f, 0.60f, 1.0f));
         }
         
-        class $modify(ImGuiKeybindHook, cocos2d::CCKeyboardDispatcher){
-            bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat)
-            {
-                if (isCapturingKeybind && isKeyDown && !isKeyRepeat) {
-                    if (key == cocos2d::enumKeyCodes::KEY_Escape) {
-                        isCapturingKeybind = false;
-                    } else {
-                        capturedCustomKey = key;
-                        isCapturingKeybind = false;
-                    }
-                    return true; 
-                }
-                
-                if (capturedCustomKey != cocos2d::enumKeyCodes::KEY_None && key == capturedCustomKey && isKeyDown) {
-                    ImGuiCocos::get().toggle();
-                    guiVisible = ImGuiCocos::get().isVisible();
-                }
-                
-                return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
-            }
-        };
+        if (animatedButton(tabNames[i])) {
+            currentTab = i;
+        }
+        
+        if (i == currentTab) {
+            ImGui::PopStyleColor(2);
+        }
+        
+        if (i < tabCount - 1) ImGui::SameLine();
+    }
+    
+    ImGui::Separator();
+    
+    // Render current tab content
+    switch (currentTab) {
+        case 0: renderBottingTab(); break;
+        case 1: renderHacksTab(); break;
+        case 2: renderAutoClickerTab(); break;
+        case 3: renderRenderTab(); break;
+        case 4: renderSettingsTab(); break;
+        case 5: renderCustomizationTab(); break;
+        case 6: renderTodoTab(); break;
+    }
+    
+    ImGui::End();
+}
+
+#endif
+
+#ifdef GEODE_IS_MOBILE
+// Mobile Cocos GUI
+class $modify(MenuLayer) {
+    void onMoreGames(CCObject* target) {
+        Astral_GUI_Mobile_UI::create()->show();
+    }
+};
+#endif
