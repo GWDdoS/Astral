@@ -9,20 +9,22 @@ const int tabCount = 7;
 
 int currentTab = 0;
 float themeColor[3] = {0.4f, 0.4f, 0.4f}; // Greyscale theme
+
+// File-local variables (if only used in this file)
 bool styleApplied = false;
 bool guiVisible = false;
 
-// Animation and visual effects variables
+#ifdef GEODE_IS_DESKTOP
+
+// Animation and visual effects variables - declared at file scope
 static float animationTime = 0.0f;
 static std::vector<ImVec2> stars;
 static std::vector<float> starBrightness;
 static std::vector<float> starTwinkleSpeed;
-static const int NUM_STARS = 150;
+static std::vector<float> starSize;
+static std::vector<float> starGlowIntensity;
+static const int NUM_STARS = 200;
 static bool starsInitialized = false;
-// TODO: Add logo texture loading later
-// static ImTextureID logoTexture = 0;
-
-#ifdef GEODE_IS_DESKTOP
 
 // Initialize starfield
 void initializeStarfield() {
@@ -31,15 +33,38 @@ void initializeStarfield() {
     stars.clear();
     starBrightness.clear();
     starTwinkleSpeed.clear();
+    starSize.clear();
+    starGlowIntensity.clear();
     
-    // Generate random stars
+    // Generate galaxy-like formation of stars
+    ImVec2 galaxyCenter = ImVec2(400.0f, 300.0f); // Center of galaxy
+    float galaxyWidth = 600.0f;
+    float galaxyHeight = 100.0f;
+    
     for (int i = 0; i < NUM_STARS; i++) {
-        stars.push_back(ImVec2(
-            static_cast<float>(rand()) / RAND_MAX * 800.0f, // Random X position
-            static_cast<float>(rand()) / RAND_MAX * 600.0f  // Random Y position
-        ));
-        starBrightness.push_back(static_cast<float>(rand()) / RAND_MAX);
-        starTwinkleSpeed.push_back(0.5f + static_cast<float>(rand()) / RAND_MAX * 2.0f);
+        // Create galaxy spiral/line formation
+        float t = static_cast<float>(i) / NUM_STARS;
+        float angle = t * 6.28f * 2.0f; // Two full rotations for spiral
+        float distance = t * 200.0f + (static_cast<float>(rand()) / RAND_MAX - 0.5f) * 50.0f;
+        
+        // Create galaxy arm position
+        float spiralX = galaxyCenter.x + cos(angle) * distance * 0.8f + (static_cast<float>(rand()) / RAND_MAX - 0.5f) * galaxyWidth * 0.3f;
+        float spiralY = galaxyCenter.y + sin(angle) * distance * 0.2f + (static_cast<float>(rand()) / RAND_MAX - 0.5f) * galaxyHeight;
+        
+        stars.push_back(ImVec2(spiralX, spiralY));
+        
+        // Varied brightness (denser areas are brighter)
+        float densityFactor = 1.0f - (distance / 200.0f); // Closer to center = brighter
+        starBrightness.push_back(0.2f + densityFactor * 0.6f + static_cast<float>(rand()) / RAND_MAX * 0.2f);
+        
+        // Slower, varied twinkle speeds
+        starTwinkleSpeed.push_back(0.1f + static_cast<float>(rand()) / RAND_MAX * 0.3f);
+        
+        // Different star sizes (bigger stars in center)
+        starSize.push_back(0.5f + densityFactor * 1.5f + static_cast<float>(rand()) / RAND_MAX * 1.0f);
+        
+        // Glow intensity based on size and brightness
+        starGlowIntensity.push_back(densityFactor * 0.8f + static_cast<float>(rand()) / RAND_MAX * 0.4f);
     }
     starsInitialized = true;
 }
@@ -47,19 +72,33 @@ void initializeStarfield() {
 void updateStarfield(float deltaTime) {
     animationTime += deltaTime;
     
-    for (int i = 0; i < stars.size(); i++) {
-        // Update star twinkling
+    for (size_t i = 0; i < stars.size(); i++) {
+        // Update star twinkling (much slower)
         starBrightness[i] = 0.3f + 0.7f * (sin(animationTime * starTwinkleSpeed[i]) * 0.5f + 0.5f);
         
-        // Slowly move stars
-        stars[i].x += sin(animationTime * 0.1f + i) * 0.1f;
-        stars[i].y += cos(animationTime * 0.1f + i) * 0.1f;
+        // Very slow galaxy rotation and drift
+        float rotationSpeed = 0.005f; // Much slower rotation
+        float centerX = 400.0f;
+        float centerY = 300.0f;
         
-        // Wrap stars around screen
-        if (stars[i].x > 800.0f) stars[i].x = 0.0f;
-        if (stars[i].x < 0.0f) stars[i].x = 800.0f;
-        if (stars[i].y > 600.0f) stars[i].y = 0.0f;
-        if (stars[i].y < 0.0f) stars[i].y = 600.0f;
+        // Rotate stars very slowly around galaxy center
+        float dx = stars[i].x - centerX;
+        float dy = stars[i].y - centerY;
+        float newAngle = atan2(dy, dx) + rotationSpeed * deltaTime;
+        float distance = sqrt(dx * dx + dy * dy);
+        
+        stars[i].x = centerX + cos(newAngle) * distance;
+        stars[i].y = centerY + sin(newAngle) * distance;
+        
+        // Add very subtle drift
+        stars[i].x += sin(animationTime * 0.01f + i) * 0.02f;
+        stars[i].y += cos(animationTime * 0.008f + i) * 0.02f;
+        
+        // Wrap stars around screen bounds
+        if (stars[i].x > 1000.0f) stars[i].x = -100.0f;
+        if (stars[i].x < -100.0f) stars[i].x = 1000.0f;
+        if (stars[i].y > 700.0f) stars[i].y = -100.0f;
+        if (stars[i].y < -100.0f) stars[i].y = 700.0f;
     }
 }
 
@@ -67,7 +106,7 @@ void drawStarfield(ImDrawList* drawList, ImVec2 windowPos, ImVec2 windowSize) {
     // No background - just transparent/default ImGui background
     
     // Draw galaxy stars with varied sizes and glow
-    for (int i = 0; i < stars.size(); i++) {
+    for (size_t i = 0; i < stars.size(); i++) {
         ImVec2 starPos = ImVec2(windowPos.x + stars[i].x * windowSize.x / 800.0f, 
                                windowPos.y + stars[i].y * windowSize.y / 600.0f);
         
@@ -181,7 +220,7 @@ void setupImGuiStyle() {
     colors[ImGuiCol_TitleBgCollapsed]       = ImVec4(0.00f, 0.00f, 0.00f, 0.51f);
     colors[ImGuiCol_MenuBarBg]              = ImVec4(0.14f, 0.16f, 0.19f, 1.00f);
     colors[ImGuiCol_ScrollbarBg]            = ImVec4(0.12f, 0.14f, 0.17f, 0.53f);
-    colors[ImGuiCol_ScrollbarGrab]          = ImVec4(0.31f, 0.33f, 0.36f, 1.00f);
+    colors[ImGuiCol_ScrollbarGrab]          = ImVec2(0.31f, 0.33f, 0.36f, 1.00f);
     colors[ImGuiCol_ScrollbarGrabHovered]   = ImVec4(0.41f, 0.43f, 0.46f, 1.00f);
     colors[ImGuiCol_ScrollbarGrabActive]    = ImVec4(0.51f, 0.53f, 0.56f, 1.00f);
     colors[ImGuiCol_CheckMark]              = ImVec4(0.70f, 0.72f, 0.75f, 1.00f);
