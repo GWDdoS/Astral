@@ -365,7 +365,7 @@ void renderMainGui() {
     ImVec2 logoPos = ImVec2(windowPos.x + 15, windowPos.y + 15);
     ImVec2 logoSize = ImVec2(32, 32);
     
-    if (logoTexture) {
+    if (logoTexture != 0) {
         drawList->AddImage(logoTexture, logoPos, ImVec2(logoPos.x + logoSize.x, logoPos.y + logoSize.y));
     } else {
         // Placeholder logo (simple geometric shape)
