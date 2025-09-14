@@ -19,8 +19,8 @@ namespace Astral::Bot {
     
     static std::vector<MacroEvent> recordedMacro;
     static std::vector<MacroEvent> playbackMacro;
-    static bool isRecording = false;
-    static bool isPlayingBack = false;
+    bool isRecording = false;
+    bool isPlayingBack = false;
     static std::chrono::high_resolution_clock::time_point recordStartTime;
     static std::chrono::high_resolution_clock::time_point playbackStartTime;
     static size_t playbackIndex = 0;
