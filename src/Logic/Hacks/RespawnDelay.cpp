@@ -3,8 +3,8 @@
 using namespace geode::prelude;
 
 class $modify(RespawnPlayLayer, PlayLayer) {
-    void destroyPlayer(PlayerObject* player, GameObject* obstacle) {
-        PlayLayer::destroyPlayer(player, obstacle);
+    void destroyPlayer(PlayerObject* player, GameObject* object) {
+        PlayLayer::destroyPlayer(player, object);
         auto delay = respawnDelay;
         if (auto respawnSequence = this->getActionByTag(0x10)) {
             this->stopAction(respawnSequence);
