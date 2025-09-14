@@ -1,4 +1,8 @@
 #pragma once
+#include <Geode/Geode.hpp>
+#include <imgui-cocos.hpp>
+
+using namespace geode::prelude;
 
 //Bools
 extern bool recording;
@@ -60,3 +64,13 @@ extern const char* currentKeyDisplay;
 
 // Other
 extern cocos2d::enumKeyCodes capturedCustomKey;
+
+
+
+
+
+// Botting Variables
+extern float tpsValue;
+extern bool isRecording;
+extern bool isPlaying;
+extern bool nocl
