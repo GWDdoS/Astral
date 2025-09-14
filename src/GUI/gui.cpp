@@ -11,9 +11,6 @@ const int tabCount = 7;
 // Global variables (these were missing)
 int currentTab = 0;
 float themeColor[3] = {0.0f, 0.5f, 1.0f}; // Default blue theme
-bool styleApplied = false;
-bool guiVisible = false;
-bool isCapturingKeybind = false;
 cocos2d::enumKeyCodes capturedCustomKey = cocos2d::KEY_Tab;
 
 void applyBackgroundTheme()
