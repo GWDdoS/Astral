@@ -19,7 +19,8 @@ static std::vector<float> starBrightness;
 static std::vector<float> starTwinkleSpeed;
 static const int NUM_STARS = 150;
 static bool starsInitialized = false;
-static ImTextureID logoTexture = nullptr;
+// TODO: Add logo texture loading later
+// static ImTextureID logoTexture = 0;
 
 #ifdef GEODE_IS_DESKTOP
 
@@ -327,8 +328,6 @@ void renderMainGui() {
     if (!ImGui::GetCurrentContext()) return;
     
     auto& imguiCocos = ImGuiCocos::get();
-    if (&imguiCocos == nullptr) return;
-    
     guiVisible = imguiCocos.isVisible();
     if (tabCount <= 0) return;
     
@@ -361,21 +360,7 @@ void renderMainGui() {
     // Draw animated starfield background
     drawStarfield(drawList, windowPos, windowSize);
     
-    // Logo in top-left (commented out until actual texture is loaded)
-    /*
-    ImVec2 logoPos = ImVec2(windowPos.x + 15, windowPos.y + 15);
-    ImVec2 logoSize = ImVec2(32, 32);
-    
-    if (logoTexture != 0) {
-        drawList->AddImage(logoTexture, logoPos, ImVec2(logoPos.x + logoSize.x, logoPos.y + logoSize.y));
-    } else {
-        // Placeholder logo (simple geometric shape)
-        drawList->AddCircleFilled(ImVec2(logoPos.x + 16, logoPos.y + 16), 16, IM_COL32(200, 200, 200, 255));
-        drawList->AddText(ImVec2(logoPos.x + 8, logoPos.y + 8), IM_COL32(50, 50, 50, 255), "A");
-    }
-    */
-    
-    // Placeholder logo for now
+    // Simple placeholder logo in top-left
     ImVec2 logoPos = ImVec2(windowPos.x + 15, windowPos.y + 15);
     drawList->AddCircleFilled(ImVec2(logoPos.x + 16, logoPos.y + 16), 16, IM_COL32(200, 200, 200, 255));
     drawList->AddText(ImVec2(logoPos.x + 8, logoPos.y + 8), IM_COL32(50, 50, 50, 255), "A");
