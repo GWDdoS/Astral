@@ -17,8 +17,11 @@ namespace Astral::Bot {
         float playerPosY;
     };
     
-    static std::vector<MacroEvent> recordedMacro;
-    static std::vector<MacroEvent> playbackMacro;
+    // Remove 'static' keyword to match the extern declarations in header
+    std::vector<MacroEvent> recordedMacro;
+    std::vector<MacroEvent> playbackMacro;
+    
+    // These can remain static as they're not declared in the header
     bool isRecording = false;
     bool isPlayingBack = false;
     static std::chrono::high_resolution_clock::time_point recordStartTime;

@@ -5,8 +5,15 @@
 
 namespace Astral::Bot {
     
-    // Forward declarations
-    struct MacroEvent;
+    // MacroEvent struct definition
+    struct MacroEvent {
+        double timestamp;
+        bool isPress;
+        int button;
+        bool isPlayer1;
+        float playerPosX;
+        float playerPosY;
+    };
     
     // Recording functions
     void StartRecording();
@@ -31,4 +38,8 @@ namespace Astral::Bot {
     // External variables that need to be accessible from GUI
     extern std::vector<MacroEvent> recordedMacro;
     extern std::vector<MacroEvent> playbackMacro;
+    
+    // External variables for state checking
+    extern bool isRecording;
+    extern bool isPlayingBack;
 }

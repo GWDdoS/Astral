@@ -64,12 +64,3 @@ extern const char* currentKeyDisplay;
 
 // Other
 extern cocos2d::enumKeyCodes capturedCustomKey;
-
-
-
-
-
-// Botting Variables
-extern float tpsValue;
-extern bool isRecording;
-extern bool isPlaying;
