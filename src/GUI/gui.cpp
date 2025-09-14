@@ -9,6 +9,8 @@ const int tabCount = 7;
 
 int currentTab = 0;
 float themeColor[3] = {0.4f, 0.4f, 0.4f}; // Greyscale theme
+static bool styleApplied = false;
+static bool guiVisible = false;
 
 // Animation and visual effects variables
 static float animationTime = 0.0f;
@@ -62,46 +64,77 @@ void updateStarfield(float deltaTime) {
 }
 
 void drawStarfield(ImDrawList* drawList, ImVec2 windowPos, ImVec2 windowSize) {
-    // Draw dark galaxy background
-    ImU32 bgColor1 = IM_COL32(5, 8, 15, 255);   // Very dark blue
-    ImU32 bgColor2 = IM_COL32(15, 15, 25, 255); // Slightly lighter
+    // No background - just transparent/default ImGui background
     
-    // Gradient background
-    drawList->AddRectFilledMultiColor(
-        windowPos,
-        ImVec2(windowPos.x + windowSize.x, windowPos.y + windowSize.y),
-        bgColor1, bgColor2, bgColor2, bgColor1
-    );
-    
-    // Draw twinkling stars
+    // Draw galaxy stars with varied sizes and glow
     for (int i = 0; i < stars.size(); i++) {
         ImVec2 starPos = ImVec2(windowPos.x + stars[i].x * windowSize.x / 800.0f, 
                                windowPos.y + stars[i].y * windowSize.y / 600.0f);
         
         // Only draw stars within window bounds
-        if (starPos.x >= windowPos.x && starPos.x <= windowPos.x + windowSize.x &&
-            starPos.y >= windowPos.y && starPos.y <= windowPos.y + windowSize.y) {
+        if (starPos.x >= windowPos.x - 50 && starPos.x <= windowPos.x + windowSize.x + 50 &&
+            starPos.y >= windowPos.y - 50 && starPos.y <= windowPos.y + windowSize.y + 50) {
             
             float brightness = starBrightness[i];
+            float size = starSize[i];
+            float glowIntensity = starGlowIntensity[i];
+            
+            // Main star color - bright white/blue
             ImU32 starColor = IM_COL32(
-                static_cast<int>(200 * brightness),
-                static_cast<int>(220 * brightness),
+                static_cast<int>(240 * brightness),
+                static_cast<int>(250 * brightness),
                 static_cast<int>(255 * brightness),
                 static_cast<int>(255 * brightness)
             );
             
-            // Draw star with slight glow effect
-            drawList->AddCircleFilled(starPos, 1.0f + brightness * 0.5f, starColor);
+            // Draw main star
+            drawList->AddCircleFilled(starPos, size, starColor);
             
-            // Add subtle glow for brighter stars
-            if (brightness > 0.7f) {
-                ImU32 glowColor = IM_COL32(
-                    static_cast<int>(100 * (brightness - 0.7f)),
-                    static_cast<int>(150 * (brightness - 0.7f)),
-                    static_cast<int>(200 * (brightness - 0.7f)),
-                    static_cast<int>(50 * (brightness - 0.7f))
+            // Add glow effects for larger/brighter stars
+            if (glowIntensity > 0.3f) {
+                // Inner glow
+                ImU32 innerGlowColor = IM_COL32(
+                    static_cast<int>(200 * glowIntensity),
+                    static_cast<int>(220 * glowIntensity),
+                    static_cast<int>(255 * glowIntensity),
+                    static_cast<int>(80 * glowIntensity)
                 );
-                drawList->AddCircleFilled(starPos, 3.0f, glowColor);
+                drawList->AddCircleFilled(starPos, size * 2.0f, innerGlowColor);
+                
+                // Outer glow for very bright stars
+                if (glowIntensity > 0.6f) {
+                    ImU32 outerGlowColor = IM_COL32(
+                        static_cast<int>(150 * glowIntensity),
+                        static_cast<int>(180 * glowIntensity),
+                        static_cast<int>(255 * glowIntensity),
+                        static_cast<int>(40 * glowIntensity)
+                    );
+                    drawList->AddCircleFilled(starPos, size * 4.0f, outerGlowColor);
+                }
+                
+                // Star flare effect for the brightest stars
+                if (glowIntensity > 0.8f && size > 1.5f) {
+                    ImU32 flareColor = IM_COL32(
+                        static_cast<int>(255 * brightness),
+                        static_cast<int>(255 * brightness),
+                        static_cast<int>(255 * brightness),
+                        static_cast<int>(60 * brightness)
+                    );
+                    
+                    // Horizontal flare
+                    drawList->AddLine(
+                        ImVec2(starPos.x - size * 6, starPos.y),
+                        ImVec2(starPos.x + size * 6, starPos.y),
+                        flareColor, 1.0f
+                    );
+                    
+                    // Vertical flare
+                    drawList->AddLine(
+                        ImVec2(starPos.x, starPos.y - size * 6),
+                        ImVec2(starPos.x, starPos.y + size * 6),
+                        flareColor, 1.0f
+                    );
+                }
             }
         }
     }
