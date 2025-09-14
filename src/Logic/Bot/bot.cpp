@@ -8,15 +8,6 @@ using namespace geode::prelude;
 
 namespace Astral::Bot {
     
-    struct MacroEvent {
-        double timestamp;
-        bool isPress;
-        int button;
-        bool isPlayer1;
-        float playerPosX;
-        float playerPosY;
-    };
-    
     // Remove 'static' keyword to match the extern declarations in header
     std::vector<MacroEvent> recordedMacro;
     std::vector<MacroEvent> playbackMacro;
