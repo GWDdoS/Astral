@@ -117,14 +117,12 @@ void renderBottingTab()
     ImGui::Spacing();
     
     // Recording controls
-    if (!isRecording && !isPlaying) {
-        if (ImGui::Button("Start Recording", ImVec2(150, 30))) {
-            isRecording = true;
+    if (!Astral::Bot::isRecording && !Astral::Bot::isPlayingBack) {
+        if (ImGui::Button("Start Recording")) {
             Astral::Bot::StartRecording();
         }
-    } else if (isRecording) {
-        if (ImGui::Button("Stop Recording", ImVec2(150, 30))) {
-            isRecording = false;
+    } else if (Astral::Bot::isRecording) {
+        if (ImGui::Button("Stop Recording")) {
             Astral::Bot::StopRecording();
         }
     }
@@ -132,14 +130,12 @@ void renderBottingTab()
     ImGui::SameLine();
     
     // Playback controls
-    if (!isPlaying && !isRecording) {
-        if (ImGui::Button("Play Macro", ImVec2(150, 30))) {
-            isPlaying = true;
+    if (!Astral::Bot::isPlayingBack && !Astral::Bot::isRecording) {
+        if (ImGui::Button("Start Playback")) {
             Astral::Bot::StartPlayback();
         }
-    } else if (isPlaying) {
-        if (ImGui::Button("Stop Playback", ImVec2(150, 30))) {
-            isPlaying = false;
+    } else if (Astral::Bot::isPlayingBack) {
+        if (ImGui::Button("Stop Playback")) {
             Astral::Bot::StopPlayback();
         }
     }
@@ -147,12 +143,12 @@ void renderBottingTab()
     ImGui::Spacing();
     
     // Status display
-    if (isRecording) {
-        ImGui::TextColored(ImVec4(1.0f, 0.0f, 0.0f, 1.0f), "● RECORDING");
-    } else if (isPlaying) {
-        ImGui::TextColored(ImVec4(0.0f, 1.0f, 0.0f, 1.0f), "▶ PLAYING");
+    if (Astral::Bot::isRecording) {
+        ImGui::Text("Status: Recording...");
+    } else if (Astral::Bot::isPlayingBack) {
+        ImGui::Text("Status: Playing back...");
     } else {
-        ImGui::TextColored(ImVec4(0.5f, 0.5f, 0.5f, 1.0f), "● IDLE");
+        ImGui::Text("Status: Idle");
     }
     
     ImGui::Spacing();
@@ -330,8 +326,7 @@ void renderMainGui()
     if (!ImGui::GetCurrentContext()) return;
     
     auto& imguiCocos = ImGuiCocos::get();
-    if (&imguiCocos == nullptr) return;
-    
+    if (!imguiCocos) return;    
     guiVisible = imguiCocos.isVisible();
     if (!guiVisible) return;
     
