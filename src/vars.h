@@ -73,4 +73,3 @@ extern cocos2d::enumKeyCodes capturedCustomKey;
 extern float tpsValue;
 extern bool isRecording;
 extern bool isPlaying;
-extern bool nocl
