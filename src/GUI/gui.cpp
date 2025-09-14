@@ -361,7 +361,8 @@ void renderMainGui() {
     // Draw animated starfield background
     drawStarfield(drawList, windowPos, windowSize);
     
-    // Logo in top-left (placeholder - you'd load actual texture)
+    // Logo in top-left (commented out until actual texture is loaded)
+    /*
     ImVec2 logoPos = ImVec2(windowPos.x + 15, windowPos.y + 15);
     ImVec2 logoSize = ImVec2(32, 32);
     
@@ -372,6 +373,12 @@ void renderMainGui() {
         drawList->AddCircleFilled(ImVec2(logoPos.x + 16, logoPos.y + 16), 16, IM_COL32(200, 200, 200, 255));
         drawList->AddText(ImVec2(logoPos.x + 8, logoPos.y + 8), IM_COL32(50, 50, 50, 255), "A");
     }
+    */
+    
+    // Placeholder logo for now
+    ImVec2 logoPos = ImVec2(windowPos.x + 15, windowPos.y + 15);
+    drawList->AddCircleFilled(ImVec2(logoPos.x + 16, logoPos.y + 16), 16, IM_COL32(200, 200, 200, 255));
+    drawList->AddText(ImVec2(logoPos.x + 8, logoPos.y + 8), IM_COL32(50, 50, 50, 255), "A");
     
     // Title with offset to accommodate logo
     ImGui::SetCursorPosX(60); // Offset for logo
