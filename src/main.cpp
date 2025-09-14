@@ -1,6 +1,3 @@
-bool styleApplied = false;
-bool guiVisible = false;
-
 #include "includes.hpp"
 
 
