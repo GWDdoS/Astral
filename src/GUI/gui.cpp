@@ -11,8 +11,8 @@ int currentTab = 0;
 float themeColor[3] = {0.4f, 0.4f, 0.4f}; // Greyscale theme
 
 // File-local variables (if only used in this file)
-bool styleApplied = false;
-bool guiVisible = false;
+static bool styleApplied = false;
+static bool guiVisible = false;
 
 #ifdef GEODE_IS_DESKTOP
 
@@ -220,7 +220,7 @@ void setupImGuiStyle() {
     colors[ImGuiCol_TitleBgCollapsed]       = ImVec4(0.00f, 0.00f, 0.00f, 0.51f);
     colors[ImGuiCol_MenuBarBg]              = ImVec4(0.14f, 0.16f, 0.19f, 1.00f);
     colors[ImGuiCol_ScrollbarBg]            = ImVec4(0.12f, 0.14f, 0.17f, 0.53f);
-    colors[ImGuiCol_ScrollbarGrab]          = ImVec2(0.31f, 0.33f, 0.36f, 1.00f);
+    colors[ImGuiCol_ScrollbarGrab]          = ImVec4(0.31f, 0.33f, 0.36f, 1.00f);
     colors[ImGuiCol_ScrollbarGrabHovered]   = ImVec4(0.41f, 0.43f, 0.46f, 1.00f);
     colors[ImGuiCol_ScrollbarGrabActive]    = ImVec4(0.51f, 0.53f, 0.56f, 1.00f);
     colors[ImGuiCol_CheckMark]              = ImVec4(0.70f, 0.72f, 0.75f, 1.00f);
