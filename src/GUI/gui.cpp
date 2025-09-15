@@ -101,8 +101,8 @@ void renderHacksTab()
 
 void renderAssists() 
 {
-    ImGui::ButtletText("More to come here soon")
-    ImGui::Text("Add_Autoclicker_Here")
+    ImGui::BulletText("More to come here soon");
+    ImGui::Text("Add_Autoclicker_Here");
 }
 
 void renderRenderTab()
