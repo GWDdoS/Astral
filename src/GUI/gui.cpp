@@ -4,14 +4,14 @@ using namespace geode::prelude;
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 
-const char* tabNames[] = {"Botting", "Hacks", "Autoclicker", "Render", "Settings", "Customization", "Mod Updates"};
-const int tabCount = 7;
+const char* tabNames[] = {"Botting", "Hacks", "Assists", "Render", "Settings", "Mod Updates"};
+const int tabCount = 6;
 
 int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
 // bool styleApplied = false;
 // bool guiVisible = false;
-// #ifdef GEODE_IS_DESKTOP // i think this is how u do it
+#ifdef GEODE_IS_DESKTOP // i think this is how u do it
 // yes this is how u do it - slideglide
 
 void applyBackgroundTheme()
@@ -46,57 +46,64 @@ void setupImGuiStyle()
 
 void renderBottingTab()
 {
-    ImGui::InputFloat("TPS Value:", &tpsValue);
-    if (tpsValue < 0.f) {
-        tpsValue = 240.f;
-    }
     if (ImGui::Button("Record Macro", ImVec2(150, 30))) {}
     ImGui::SameLine();
     if (ImGui::Button("Play Macro", ImVec2(150, 30))) {}
     ImGui::Spacing();
-    ImGui::Text("Macro Settings:");
+    ImGui::InputFloat("TPS Value:", &tpsValue);
+    if (tpsValue < 0.f) {
+        tpsValue = 240.f;
+    }
 }
 
 void renderHacksTab()
 {
+    ImGui::Columns(2, "HacksColumns", false);
+    ImGui::Text("Movement & Physics");
+    ImGui::Separator();
+    ImGui::SetNextItemWidth(60.0f);
     ImGui::Checkbox("Noclip", &noclipEnabled);
     ImGui::SameLine();
-    if (ImGui::BeginMenu("  ")){
+    if (ImGui::BeginMenu("Players")) {
         ImGui::Checkbox("Player 1", &noclipP1);
         ImGui::Checkbox("Player 2", &noclipP2);
         ImGui::EndMenu();
-    }    
-    ImGui::Spacing();
+    }
     ImGui::Checkbox("Speedhack", &speedhackEnabled);
     ImGui::SameLine();
-    ImGui::InputFloat(" ", &speedhackMultiplier);
+    ImGui::SetNextItemWidth(80.0f);
+    ImGui::InputFloat("##SpeedMultiplier", &speedhackMultiplier);
     if (speedhackMultiplier < 0.f) {
         speedhackMultiplier = 1.f;
     }
-    ImGui::Spacing();
-    ImGui::Checkbox("Safe Mode", &safeMode);
-    ImGui::Spacing();
-    ImGui::Checkbox("No Death Effect", &noDeathEffect);
-    ImGui::Spacing();
-    ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
-    ImGui::Spacing();
-    ImGui::Checkbox("No Shaders", &noShaders);
-    ImGui::Spacing();
-    ImGui::Checkbox("No Mirror", &noMirror);
-    ImGui::Spacing();
-    ImGui::Checkbox("Instant Mirror", &instantMirror);
-    ImGui::Spacing();
-    ImGui::InputFloat("Respawn Delay", &respawnDelay);
+    ImGui::Text("Respawn Time");
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(80.0f);
+    ImGui::InputFloat("##RespawnDelay", &respawnDelay);
     if (respawnDelay != 0.f && respawnDelay != 2.f) {
         respawnDelay = (fabs(respawnDelay - 0.f) < fabs(respawnDelay - 2.f)) ? 0.f : 2.f;
     }
+    ImGui::NextColumn();
+    ImGui::Text("Visual");
+    ImGui::Separator();
+    ImGui::Checkbox("Safe Mode", &safeMode);
+    ImGui::Checkbox("No Death Effect", &noDeathEffect);
+    ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
+    ImGui::Spacing();
+    ImGui::Checkbox("No Shaders", &noShaders);
+    ImGui::Checkbox("No Mirror", &noMirror);
+    ImGui::Checkbox("Instant Mirror", &instantMirror);
     ImGui::Spacing();
     ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
-    ImGui::Spacing();
     ImGui::Checkbox("Frame Stepper", &framestepEnabled);
+    ImGui::Columns(1);
 }
 
-void renderAutoClickerTab() {}
+void renderAssists() 
+{
+    ImGui::ButtletText("More to come here soon")
+    ImGui::Text("Add_Autoclicker_Here")
+}
 
 void renderRenderTab()
 {
@@ -127,10 +134,6 @@ void renderSettingsTab()
     }
     
     ImGui::Text("Current Key: %s", currentKeyDisplay);
-}
-
-void renderCustomizationTab()
-{
     ImGui::Text("Accent Color:");
     ImGui::ColorEdit3("##accentcolor", themeColor);
 }
@@ -185,18 +188,17 @@ void renderMainGui()
     switch (currentTab) {
         case 0: renderBottingTab(); break;
         case 1: renderHacksTab(); break;
-        case 2: renderAutoClickerTab(); break;
+        case 2: renderAssists(); break;
         case 3: renderRenderTab(); break;
         case 4: renderSettingsTab(); break;
-        case 5: renderCustomizationTab(); break;
-        case 6: renderTodoTab(); break;
+        case 5: renderTodoTab(); break;
     }
     
     ImGui::End();
 }
-// #endif
+#endif
 
-/* #ifdef GEODE_IS_MOBILE
+#ifdef GEODE_IS_MOBILE
 // this should do the Mobile Cocos GUI
 class $modify(MenuLayer) {
     void onMoreGames(CCObject* target) {
@@ -204,4 +206,3 @@ class $modify(MenuLayer) {
     }
 };
 #endif
-*/
