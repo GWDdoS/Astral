@@ -1,4 +1,4 @@
-#include "../../Incudes.hpp"
+#include "../../incudes.hpp"
 bool framestepEnabled = false;
 
 namespace Astral::Hacks::Global {
@@ -8,7 +8,7 @@ namespace Astral::Hacks::Global {
             config::setIfEmpty("global.tpsbypass", 240.f);
             
             auto tab = gui::MenuTab::find("tab.global");
-            tab->addFloatToggle("global.tpsbypass", 0.f, 100000.f, "%.2f TPS")
+            tab->addFloatToggle("global.tpsbypass", 0.f, -1.f, "%.2f TPS") // does this mean its infinte? idk i dont want it to be -1 
             ->handleKeybinds();
         }
         
