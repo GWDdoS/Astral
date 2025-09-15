@@ -1,57 +1,109 @@
-// THIS NEEDS A MAJOR UPDATE IN THE FUTURE TO FIX FPS VALUES; NAT FPS FIX AND THE PLATFORM BASED MEM CALC FIX
-// eclipse would modify original memory patches or smt
-// add lock delta
+#include "../../Incudes.hpp"
+bool framestepEnabled = false;
 
-#include "includes.hpp"
+namespace Astral::Hacks::Global {
+    class $hack(TPSBypass) {
+        public:
+        void init() override {
+            config::setIfEmpty("global.tpsbypass", 240.f);
+            
+            auto tab = gui::MenuTab::find("tab.global");
+            tab->addFloatToggle("global.tpsbypass", 0.f, 100000.f, "%.2f TPS")
+            ->handleKeybinds();
+        }
+        
+        [[nodiscard]] const char* getId() const override { return "TPS Bypass"; }
+        [[nodiscard]] int32_t getPriority() const override { return -15; }
+        
+        [[nodiscard]] bool isCheating() const override {
+            auto tpsToggle = config::get<bool>("global.tpsbypass.toggle", false);
+            auto tps = config::get<float>("global.tpsbypass", 240.f);
+            return tpsToggle && tps != 240.f;
+        }
+    };
+}
+
+REGISTER_HACK(TPSBypass)
 
 class $modify(GJBaseGameLayer) {
+    struct Fields {
+        double m_extraDelta = 0.0;
+    };
+    
     void update(float dt) override {
-
-        if (!tpsEnabled) return GJBaseGameLayer::update(dt);
-        if (tpsValue == 240.f) return GJBaseGameLayer::update(dt);
-        if (!PlayLayer::get()) return GJBaseGameLayer::update(dt);
+        if (!tpsEnabled || tpsValue == 240.f || !PlayLayer::get()) {
+            return GJBaseGameLayer::update(dt);
+        }
+        
+        if (framestepEnabled) {
+            return GJBaseGameLayer::update(1.f / tpsValue);
+        }
         
         float newDt = 1.f / tpsValue;
-
-        if (framestepEnabled) return GJBaseGameLayer::update(newDt);
-
-        float realDt = dt; 
-        int steps = static_cast<int>(realDt / newDt);
+        int steps = std::clamp(static_cast<int>(dt / newDt), 1, 4);
         
-        if (steps > 4) steps = 4;
-        if (steps < 1) steps = 1;
-
-        auto startTime = std::chrono::high_resolution_clock::now();
         for (int i = 0; i < steps; ++i) {
             GJBaseGameLayer::update(newDt);
-            
-            auto elapsed = std::chrono::high_resolution_clock::now() - startTime;
-            if (elapsed > std::chrono::milliseconds(16)) {
-                break;
-            }
         }
     }
-
+    
     float getModifiedDelta(float dt) {
-        if (!tpsEnabled) return GJBaseGameLayer::getModifiedDelta(dt);
-        if (tpsValue == 240.f) return GJBaseGameLayer::getModifiedDelta(dt);
-        if (!PlayLayer::get()) return GJBaseGameLayer::getModifiedDelta(dt);
-
-        float newDt = 1.f / tpsValue;
+        if (!tpsEnabled || tpsValue == 240.f || !PlayLayer::get()) {
+            return GJBaseGameLayer::getModifiedDelta(dt);
+        }
         
         if (m_resumeTimer > 0) {
             m_resumeTimer--;
             return 0.0f;
         }
-
-        float timeWarp = (m_gameState.m_timeWarp <= 1.0f) ? m_gameState.m_timeWarp : 1.0f;
         
-        float adjustedDt = dt + m_extraDelta;
+        float timeWarp = std::min(m_gameState.m_timeWarp, 1.f);
+        float newDt = 1.f / tpsValue;
+        
+        float adjustedDt = dt + m_fields->m_extraDelta;
         float steps = std::round(adjustedDt / (timeWarp * newDt));
         float finalDt = steps * timeWarp * newDt;
         
-        m_extraDelta = adjustedDt - finalDt;
-        
+        m_fields->m_extraDelta = adjustedDt - finalDt;
         return finalDt;
+    }
+};
+
+// def didnt take this from astral. idk what to do tbh
+class $modify(PlayLayer) {
+    void updateProgressbar() {
+        auto timestamp = m_level->m_timestamp;
+        auto currentProgress = m_gameState.m_currentProgress;
+        
+        if (timestamp > 0 && config::get<float>("global.tpsbypass", 240.f) != 240.f) {
+            auto progress = utils::getActualProgress(this);
+            m_gameState.m_currentProgress = timestamp * progress / 100.f;
+        }
+        
+        PlayLayer::updateProgressbar();
+        m_gameState.m_currentProgress = currentProgress;
+    }
+    
+    void destroyPlayer(PlayerObject* player, GameObject* object) override {
+        auto timestamp = m_level->m_timestamp;
+        auto currentProgress = m_gameState.m_currentProgress;
+        
+        if (timestamp > 0 && config::get<float>("global.tpsbypass", 240.f) != 240.f) {
+            auto progress = utils::getActualProgress(this);
+            m_gameState.m_currentProgress = timestamp * progress / 100.f;
+        }
+        
+        PlayLayer::destroyPlayer(player, object);
+        m_gameState.m_currentProgress = currentProgress;
+    }
+    
+    void levelComplete() {
+        auto oldTimestamp = m_gameState.m_unkUint2;
+        if (config::get<float>("global.tpsbypass", 240.f) != 240.f) {
+            auto ticks = static_cast<uint32_t>(std::round(m_gameState.m_levelTime * 240));
+            m_gameState.m_unkUint2 = ticks;
+        }
+        PlayLayer::levelComplete();
+        m_gameState.m_unkUint2 = oldTimestamp;
     }
 };
