@@ -1,9 +1,7 @@
 #include "../../includes.hpp"
 
 namespace Astral::Hacks::Global {
-    extern bool tpsEnabled;
-    extern float tpsValue;
-    extern bool framestepEnabled;
+
 
     class $modify(GJBaseGameLayer) {
         struct Fields {
