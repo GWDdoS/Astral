@@ -11,6 +11,20 @@ int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
 // bool styleApplied = false;
 // bool guiVisible = false;
+
+float getCurrentFrame() {
+    auto* playLayer = PlayLayer::get();
+    if (!playLayer) return 0.0f;
+    
+    // The game already tracks time in seconds
+    float currentTime = playLayer->m_gameState.m_levelTime;
+    
+    // Convert time to frames using current TPS
+    float currentFrame = currentTime * tpsValue; // Default 240 TPS
+    
+    return currentFrame;
+}
+
 #ifdef GEODE_IS_DESKTOP // i think this is how u do it
 // yes this is how u do it - slideglide
 
@@ -54,49 +68,65 @@ void renderBottingTab()
     if (tpsValue < 0.f) {
         tpsValue = 240.f;
     }
+    ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
+    ImGui::Checkbox("Frame Stepper", &framestepEnabled);
 }
 
 void renderHacksTab()
 {
-    ImGui::Columns(2, "HacksColumns", false);
-    ImGui::Text("Movement & Physics");
-    ImGui::Separator();
-    ImGui::SetNextItemWidth(60.0f);
-    ImGui::Checkbox("Noclip", &noclipEnabled);
-    ImGui::SameLine();
-    if (ImGui::BeginMenu("Players")) {
-        ImGui::Checkbox("Player 1", &noclipP1);
-        ImGui::Checkbox("Player 2", &noclipP2);
-        ImGui::EndMenu();
-    }
-    ImGui::Checkbox("Speedhack", &speedhackEnabled);
-    ImGui::SameLine();
-    ImGui::SetNextItemWidth(80.0f);
-    ImGui::InputFloat("##SpeedMultiplier", &speedhackMultiplier);
-    if (speedhackMultiplier < 0.f) {
-        speedhackMultiplier = 1.f;
-    }
-    ImGui::Text("Respawn Time");
-    ImGui::SameLine();
-    ImGui::SetNextItemWidth(80.0f);
-    ImGui::InputFloat("##RespawnDelay", &respawnDelay);
-    if (respawnDelay != 0.f && respawnDelay != 2.f) {
-        respawnDelay = (fabs(respawnDelay - 0.f) < fabs(respawnDelay - 2.f)) ? 0.f : 2.f;
-    }
-    ImGui::NextColumn();
-    ImGui::Text("Visual");
-    ImGui::Separator();
-    ImGui::Checkbox("Safe Mode", &safeMode);
-    ImGui::Checkbox("No Death Effect", &noDeathEffect);
-    ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
-    ImGui::Spacing();
-    ImGui::Checkbox("No Shaders", &noShaders);
-    ImGui::Checkbox("No Mirror", &noMirror);
-    ImGui::Checkbox("Instant Mirror", &instantMirror);
-    ImGui::Spacing();
-    ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
-    ImGui::Checkbox("Frame Stepper", &framestepEnabled);
-    ImGui::Columns(1);
+        ImGui::Columns(2, "HacksColumns", true);
+        ImGui::SetColumnWidth(0, 200.0f);
+        ImGui::SetColumnWidth(1, 200.0f);
+        
+        ImGui::Text("Movement & Physics");
+        ImGui::Separator();
+        
+        ImGui::Checkbox("Noclip", &noclipEnabled);
+        ImGui::SameLine();
+        
+        if (ImGui::Button("Players")) {
+            ImGui::OpenPopup("PlayersPopup");
+        }
+        
+        if (ImGui::BeginPopup("PlayersPopup")) {
+            ImGui::Checkbox("Player 1", &noclipP1);
+            ImGui::Checkbox("Player 2", &noclipP2);
+            ImGui::EndPopup();
+        }
+        
+        ImGui::Checkbox("Speedhack", &speedhackEnabled);
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(80.0f);
+        ImGui::InputFloat("##SpeedMultiplier", &speedhackMultiplier);
+        if (speedhackMultiplier < 0.f) {
+            speedhackMultiplier = 1.f;
+        }
+        
+        ImGui::Text("Respawn Time");
+        ImGui::SameLine();
+        ImGui::SetNextItemWidth(80.0f);
+        ImGui::InputFloat("##RespawnDelay", &respawnDelay);
+        if (respawnDelay != 0.f && respawnDelay != 2.f) {
+            respawnDelay = (fabs(respawnDelay - 0.f) < fabs(respawnDelay - 2.f)) ? 0.f : 2.f;
+        }
+        ImGui::Spacing();
+        ImGui::Checkbox("Safe Mode", &safeMode);
+        ImGui::NextColumn();
+        
+        ImGui::Text("Visual");
+        ImGui::Separator();
+        
+        
+        ImGui::Checkbox("No Death Effect", &noDeathEffect);
+        ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
+        
+        ImGui::Spacing();
+        
+        ImGui::Checkbox("No Shaders", &noShaders);
+        ImGui::Checkbox("No Mirror", &noMirror);
+        ImGui::Checkbox("Instant Mirror", &instantMirror);   
+        ImGui::Checkbox("Keep Waveform", &keepWaveEnabled);     
+        ImGui::Columns(1);
 }
 
 void renderAssists() 
@@ -193,6 +223,10 @@ void renderMainGui()
         case 4: renderSettingsTab(); break;
         case 5: renderTodoTab(); break;
     }
+    
+    ImGui::Separator();
+    float currentFrame = getCurrentFrame();
+    ImGui::Text("Frame: %.2f", currentFrame);
     
     ImGui::End();
 }

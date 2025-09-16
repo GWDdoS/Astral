@@ -30,6 +30,7 @@ extern bool noShaders;
 extern bool noMirror;
 extern bool instantMirror;
 extern bool framestepEnabled;
+extern bool keepWaveEnabled;
 
 //Floats
 extern float seedValue;
