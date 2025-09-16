@@ -2,8 +2,6 @@
 #include "../../includes.hpp"
 
 using namespace geode::prelude;
-bool keepWaeEnabled = false;
-
 class $modify (PlayerObject)
 {
     void fadeOutStreak2(float p0)

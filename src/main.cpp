@@ -37,6 +37,7 @@ bool tpsEnabled = true;
 bool noShaders = false;
 bool noMirror = false;
 bool instantMirror = false;
+bool keepWaveEnabled = false;
 
 // Floats
 float seedValue = 1.0f;
