@@ -73,13 +73,10 @@ void renderBottingTab()
 }
 
 void renderHacksTab()
-{
-        ImGui::Columns(2, "HacksColumns", true);
+{       // lets see if i can learn columns
+        ImGui::Columns(2, "HacksColumns", false); 
         ImGui::SetColumnWidth(0, 200.0f);
         ImGui::SetColumnWidth(1, 200.0f);
-        
-        ImGui::Text("Movement & Physics");
-        ImGui::Separator();
         
         ImGui::Checkbox("Noclip", &noclipEnabled);
         ImGui::SameLine();
@@ -112,10 +109,6 @@ void renderHacksTab()
         ImGui::Spacing();
         ImGui::Checkbox("Safe Mode", &safeMode);
         ImGui::NextColumn();
-        
-        ImGui::Text("Visual");
-        ImGui::Separator();
-        
         
         ImGui::Checkbox("No Death Effect", &noDeathEffect);
         ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
