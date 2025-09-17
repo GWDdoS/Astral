@@ -7,32 +7,18 @@ namespace Astral::Hacks::Global {
         struct Fields {
             double m_extraDelta = 0.0;
         };
-        void syncFPSWithTPS(float tpsValue, bool tpsEnabled) {
-            auto* gm = utils::get<GameManager>();
-            auto* director = utils::get<cocos2d::CCDirector>();
-            
-            if (!tpsEnabled || tpsValue == 240.f) {
-                bool fpsBypassEnabled = config::get<bool>("global.fpsbypass.toggle", false);
-                auto fpsBypassValue = config::get<float>("global.fpsbypass", gm->m_customFPSTarget);
-                float targetFPS = fpsBypassEnabled ? fpsBypassValue : 60.f;
-                
-                float frameTime = 1.f / targetFPS;
-                director->setAnimationInterval(frameTime);
-            } else {
-                // fps = tps
-                float targetFPS = tpsValue;
-                float frameTime = 1.f / targetFPS;
-                director->setAnimationInterval(frameTime);
-                gm->setGameVariable("0116", true);
-                gm->m_customFPSTarget = targetFPS;
-            }
-        }
-        class $modify(GJBaseGameLayer) {
-            struct Fields {
-                double m_extraDelta = 0.0;
-            };    
-            
-            
+        // pretty sure this is all i need
+        void syncFPSWithTPS(float tpsValue) {
+        auto* director = utils::get<cocos2d::CCDirector>();
+        float frameTime = 1.f / tpsValue;
+        director->setAnimationInterval(frameTime);
+    }
+    
+    class $modify(GJBaseGameLayer) {
+        struct Fields {
+            double m_extraDelta = 0.0;
+        };
+        
             void update(float dt) override 
                 if (!tpsEnabled || tpsValue == 240.f || !PlayLayer::get()) {
                     return GJBaseGameLayer::update(dt);
