@@ -8,6 +8,17 @@ namespace Astral::Hacks::Global {
             double m_extraDelta = 0.0;
         };
         
+        float calculateTargetFPS(float tps) {
+            return tps;
+        }
+        
+        void setFPSLimit(float targetFPS) {
+            if (targetFPS <= 0) return;
+            auto director = cocos2d::CCDirector::sharedDirector();
+            if (director) {
+                director->setAnimationInterval(1.0 / targetFPS);
+            }
+        }
         void update(float dt) override {
             if (!tpsEnabled || tpsValue == 240.f || !PlayLayer::get()) {
                 return GJBaseGameLayer::update(dt);
