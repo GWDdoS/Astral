@@ -24,6 +24,7 @@ namespace Astral::Hacks::Global {
         geode::Patch* m_patch = nullptr;
         
         bool setupAssemblyPatch() {
+            /*
             auto base = reinterpret_cast<uint8_t*>(geode::base::get());
             auto baseSize = getBaseSize(); // i have to fix this here.
             
@@ -114,13 +115,17 @@ namespace Astral::Hacks::Global {
             
             m_patch = patchResult.unwrap();
             return true;
+            */
+            
+            geode::log::info("TPS Bypass: Using basic hook-only implementation");
+            return false; 
         }
         // pretty much taken directly from Eclipse, i should fix this later
     public:
         bool init() {
             if (!setupAssemblyPatch()) {
-                geode::log::warn("TPS Bypass: Assembly patching failed, falling back to hooks");
-                return false;
+                geode::log::warn("TPS Bypass: Assembly patching disabled, using hook-only mode");
+                return true;
             }
             
             if (m_patch) {
@@ -141,9 +146,7 @@ namespace Astral::Hacks::Global {
         }
         
         void updateTPS(float newTPS) {
-            // This is where you calculate and set the expected ticks
-            // This will be called from your modified update() method
-            expectedTicks() = static_cast<TicksType>(newTPS == 240.f ? 1 : //smt here lol);
+            // expectedTicks() = static_cast<TicksType>(newTPS == 240.f ? 1 : //smt here lol);
         }
     };
     
@@ -170,7 +173,7 @@ namespace Astral::Hacks::Global {
             auto totalDelta = steps * spt;
             fields->m_extraDelta -= totalDelta;
             
-            expectedTicks() = steps;
+            // expectedTicks() = steps;
             
             GJBaseGameLayer::update(totalDelta);
         }
