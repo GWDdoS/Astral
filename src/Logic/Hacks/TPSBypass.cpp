@@ -1,7 +1,7 @@
 #include "../../includes.hpp"
 #include "../../builds/assembler.hpp"
-#include "sinaps.hpp" // idk its in eclipse, lets just see for now
-Also need to implement fps to keep speed the same
+// #include "sinaps.hpp" idk its in eclipse, lets just see for now NOTICE ITS NOT WORKING??? Removed for test
+// Also need to implement fps to keep speed the same
 namespace Astral::Hacks::Global {
     
     // Find what vars the platform uses. Funny they all different, i wouldnt have known.
