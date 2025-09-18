@@ -14,7 +14,7 @@ struct AutoClickerSettings {
 bool autoClickerEnabled = false;
 AutoClickerSettings autoClick_W;
 AutoClickerSettings autoClick_A;
-AutoClickerSettings autoClick_S;
+AutoClickerSettings autoClick_D;
 AutoClickerSettings autoClick_UP;
 AutoClickerSettings autoClick_LEFT;
 AutoClickerSettings autoClick_RIGHT;
@@ -27,7 +27,7 @@ class $modify(GJBaseGameLayer) {
             bool clicking = false;
             int framesClicked = 0;
         };
-        ClickerState w_state, a_state, s_state, up_state, left_state, right_state, space_state;
+        ClickerState w_state, a_state, d_state, up_state, left_state, right_state, space_state;
     };
     
     void handleAutoClick(AutoClickerSettings& settings, Fields::ClickerState& state, int buttonType, bool isPlayer1 = true) {
@@ -72,7 +72,7 @@ class $modify(GJBaseGameLayer) {
         // swift click
         handleAutoClick(autoClick_W, m_fields->w_state, static_cast<int>(PlayerButton::Jump));
         handleAutoClick(autoClick_A, m_fields->a_state, static_cast<int>(PlayerButton::Left));
-        handleAutoClick(autoClick_S, m_fields->s_state, static_cast<int>(PlayerButton::Down));
+        handleAutoClick(autoClick_D, m_fields->d_state, static_cast<int>(PlayerButton::Right));
         handleAutoClick(autoClick_UP, m_fields->up_state, static_cast<int>(PlayerButton::Jump));
         handleAutoClick(autoClick_LEFT, m_fields->left_state, static_cast<int>(PlayerButton::Left));
         handleAutoClick(autoClick_RIGHT, m_fields->right_state, static_cast<int>(PlayerButton::Right));
