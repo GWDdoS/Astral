@@ -129,116 +129,246 @@ void renderAssists()
     if (autoClickerEnabled) {
         ImGui::Separator();
         
-        auto renderButtonSettings = [](const char* buttonName, AutoClickerSettings& settings) {
-            if (ImGui::CollapsingHeader(buttonName)) {
-                ImGui::Indent();
-                
-                ImGui::Checkbox("Enable", &settings.enabled);
-                
-                if (settings.enabled) {
-                    ImGui::Text("Timing:");
-                    ImGui::SetNextItemWidth(100);
-                    ImGui::InputInt("Hold Frames", &settings.intervalHold);
-                    if (settings.intervalHold < 1) settings.intervalHold = 1;
-                    
-                    ImGui::SetNextItemWidth(100);
-                    ImGui::InputInt("Release Frames", &settings.intervalRelease);
-                    if (settings.intervalRelease < 1) settings.intervalRelease = 1;
-                    
-                    ImGui::Text("Advanced:");
-                    ImGui::SetNextItemWidth(80);
-                    ImGui::InputInt("Clicks/Frame", &settings.clicksPerFrame);
-                    if (settings.clicksPerFrame < 1) settings.clicksPerFrame = 1;
-                    if (settings.clicksPerFrame > 10) settings.clicksPerFrame = 10;
-                    
-                    ImGui::Checkbox("Swift Click", &settings.swiftClick);
-                    ImGui::SameLine();
-                    if (ImGui::Button("?")) {
-                        ImGui::SetTooltip("Instantly releases the same frame as the click");
-                    }
-                    
-                    ImGui::Checkbox("Limit Frames", &settings.limitFrames);
-                    if (settings.limitFrames) {
-                        ImGui::SameLine();
-                        ImGui::SetNextItemWidth(80);
-                        ImGui::InputInt("Max Frames", &settings.maxFrames);
-                        if (settings.maxFrames < 0) settings.maxFrames = 0;
-                    }
-                }
-                
-                ImGui::Unindent();
-            }
-        };
+        ImGui::Text("Player 1 Controls:");
         
-        renderButtonSettings("W Key", autoClick_W);
-        renderButtonSettings("A Key", autoClick_A);
-        renderButtonSettings("S Key", autoClick_S);
-        renderButtonSettings("UP Key", autoClick_UP);
-        renderButtonSettings("LEFT Key", autoClick_LEFT);
-        renderButtonSettings("RIGHT Key", autoClick_RIGHT);
-        renderButtonSettings("SPACE Key", autoClick_SPACE);
+        // W Key
+        if (ImGui::CollapsingHeader("W Key (Player 1 Jump)")) {
+            ImGui::Indent();
+            ImGui::Checkbox("Enable##W", &autoClick_W_enabled);
+            if (autoClick_W_enabled) {
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Hold Frames##W", &autoClick_W_intervalHold);
+                if (autoClick_W_intervalHold < 1) autoClick_W_intervalHold = 1;
+                
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Release Frames##W", &autoClick_W_intervalRelease);
+                if (autoClick_W_intervalRelease < 1) autoClick_W_intervalRelease = 1;
+                
+                ImGui::SetNextItemWidth(80);
+                ImGui::InputInt("Clicks/Frame##W", &autoClick_W_clicksPerFrame);
+                if (autoClick_W_clicksPerFrame < 1) autoClick_W_clicksPerFrame = 1;
+                if (autoClick_W_clicksPerFrame > 10) autoClick_W_clicksPerFrame = 10;
+                
+                ImGui::Checkbox("Swift Click##W", &autoClick_W_swiftClick);
+                ImGui::Checkbox("Limit Frames##W", &autoClick_W_limitFrames);
+                if (autoClick_W_limitFrames) {
+                    ImGui::SameLine();
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Max Frames##W", &autoClick_W_maxFrames);
+                    if (autoClick_W_maxFrames < 0) autoClick_W_maxFrames = 0;
+                }
+            }
+            ImGui::Unindent();
+        }
+        
+        // A Key
+        if (ImGui::CollapsingHeader("A Key (Player 1 Left)")) {
+            ImGui::Indent();
+            ImGui::Checkbox("Enable##A", &autoClick_A_enabled);
+            if (autoClick_A_enabled) {
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Hold Frames##A", &autoClick_A_intervalHold);
+                if (autoClick_A_intervalHold < 1) autoClick_A_intervalHold = 1;
+                
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Release Frames##A", &autoClick_A_intervalRelease);
+                if (autoClick_A_intervalRelease < 1) autoClick_A_intervalRelease = 1;
+                
+                ImGui::SetNextItemWidth(80);
+                ImGui::InputInt("Clicks/Frame##A", &autoClick_A_clicksPerFrame);
+                if (autoClick_A_clicksPerFrame < 1) autoClick_A_clicksPerFrame = 1;
+                if (autoClick_A_clicksPerFrame > 10) autoClick_A_clicksPerFrame = 10;
+                
+                ImGui::Checkbox("Swift Click##A", &autoClick_A_swiftClick);
+                ImGui::Checkbox("Limit Frames##A", &autoClick_A_limitFrames);
+                if (autoClick_A_limitFrames) {
+                    ImGui::SameLine();
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Max Frames##A", &autoClick_A_maxFrames);
+                    if (autoClick_A_maxFrames < 0) autoClick_A_maxFrames = 0;
+                }
+            }
+            ImGui::Unindent();
+        }
+        
+        // D Key
+        if (ImGui::CollapsingHeader("D Key (Player 1 Right)")) {
+            ImGui::Indent();
+            ImGui::Checkbox("Enable##D", &autoClick_D_enabled);
+            if (autoClick_D_enabled) {
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Hold Frames##D", &autoClick_D_intervalHold);
+                if (autoClick_D_intervalHold < 1) autoClick_D_intervalHold = 1;
+                
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Release Frames##D", &autoClick_D_intervalRelease);
+                if (autoClick_D_intervalRelease < 1) autoClick_D_intervalRelease = 1;
+                
+                ImGui::SetNextItemWidth(80);
+                ImGui::InputInt("Clicks/Frame##D", &autoClick_D_clicksPerFrame);
+                if (autoClick_D_clicksPerFrame < 1) autoClick_D_clicksPerFrame = 1;
+                if (autoClick_D_clicksPerFrame > 10) autoClick_D_clicksPerFrame = 10;
+                
+                ImGui::Checkbox("Swift Click##D", &autoClick_D_swiftClick);
+                ImGui::Checkbox("Limit Frames##D", &autoClick_D_limitFrames);
+                if (autoClick_D_limitFrames) {
+                    ImGui::SameLine();
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Max Frames##D", &autoClick_D_maxFrames);
+                    if (autoClick_D_maxFrames < 0) autoClick_D_maxFrames = 0;
+                }
+            }
+            ImGui::Unindent();
+        }
+        
+        // SPACE Key
+        if (ImGui::CollapsingHeader("SPACE Key (Player 1 Jump Alt)")) {
+            ImGui::Indent();
+            ImGui::Checkbox("Enable##SPACE", &autoClick_SPACE_enabled);
+            if (autoClick_SPACE_enabled) {
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Hold Frames##SPACE", &autoClick_SPACE_intervalHold);
+                if (autoClick_SPACE_intervalHold < 1) autoClick_SPACE_intervalHold = 1;
+                
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Release Frames##SPACE", &autoClick_SPACE_intervalRelease);
+                if (autoClick_SPACE_intervalRelease < 1) autoClick_SPACE_intervalRelease = 1;
+                
+                ImGui::SetNextItemWidth(80);
+                ImGui::InputInt("Clicks/Frame##SPACE", &autoClick_SPACE_clicksPerFrame);
+                if (autoClick_SPACE_clicksPerFrame < 1) autoClick_SPACE_clicksPerFrame = 1;
+                if (autoClick_SPACE_clicksPerFrame > 10) autoClick_SPACE_clicksPerFrame = 10;
+                
+                ImGui::Checkbox("Swift Click##SPACE", &autoClick_SPACE_swiftClick);
+                ImGui::Checkbox("Limit Frames##SPACE", &autoClick_SPACE_limitFrames);
+                if (autoClick_SPACE_limitFrames) {
+                    ImGui::SameLine();
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Max Frames##SPACE", &autoClick_SPACE_maxFrames);
+                    if (autoClick_SPACE_maxFrames < 0) autoClick_SPACE_maxFrames = 0;
+                }
+            }
+            ImGui::Unindent();
+        }
+        
+        ImGui::Separator();
+        ImGui::Text("Player 2 Controls:");
+        
+        // UP Key
+        if (ImGui::CollapsingHeader("UP Key (Player 2 Jump)")) {
+            ImGui::Indent();
+            ImGui::Checkbox("Enable##UP", &autoClick_UP_enabled);
+            if (autoClick_UP_enabled) {
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Hold Frames##UP", &autoClick_UP_intervalHold);
+                if (autoClick_UP_intervalHold < 1) autoClick_UP_intervalHold = 1;
+                
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Release Frames##UP", &autoClick_UP_intervalRelease);
+                if (autoClick_UP_intervalRelease < 1) autoClick_UP_intervalRelease = 1;
+                
+                ImGui::SetNextItemWidth(80);
+                ImGui::InputInt("Clicks/Frame##UP", &autoClick_UP_clicksPerFrame);
+                if (autoClick_UP_clicksPerFrame < 1) autoClick_UP_clicksPerFrame = 1;
+                if (autoClick_UP_clicksPerFrame > 10) autoClick_UP_clicksPerFrame = 10;
+                
+                ImGui::Checkbox("Swift Click##UP", &autoClick_UP_swiftClick);
+                ImGui::Checkbox("Limit Frames##UP", &autoClick_UP_limitFrames);
+                if (autoClick_UP_limitFrames) {
+                    ImGui::SameLine();
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Max Frames##UP", &autoClick_UP_maxFrames);
+                    if (autoClick_UP_maxFrames < 0) autoClick_UP_maxFrames = 0;
+                }
+            }
+            ImGui::Unindent();
+        }
+        
+        // LEFT Key
+        if (ImGui::CollapsingHeader("LEFT Key (Player 2 Left)")) {
+            ImGui::Indent();
+            ImGui::Checkbox("Enable##LEFT", &autoClick_LEFT_enabled);
+            if (autoClick_LEFT_enabled) {
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Hold Frames##LEFT", &autoClick_LEFT_intervalHold);
+                if (autoClick_LEFT_intervalHold < 1) autoClick_LEFT_intervalHold = 1;
+                
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Release Frames##LEFT", &autoClick_LEFT_intervalRelease);
+                if (autoClick_LEFT_intervalRelease < 1) autoClick_LEFT_intervalRelease = 1;
+                
+                ImGui::SetNextItemWidth(80);
+                ImGui::InputInt("Clicks/Frame##LEFT", &autoClick_LEFT_clicksPerFrame);
+                if (autoClick_LEFT_clicksPerFrame < 1) autoClick_LEFT_clicksPerFrame = 1;
+                if (autoClick_LEFT_clicksPerFrame > 10) autoClick_LEFT_clicksPerFrame = 10;
+                
+                ImGui::Checkbox("Swift Click##LEFT", &autoClick_LEFT_swiftClick);
+                ImGui::Checkbox("Limit Frames##LEFT", &autoClick_LEFT_limitFrames);
+                if (autoClick_LEFT_limitFrames) {
+                    ImGui::SameLine();
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Max Frames##LEFT", &autoClick_LEFT_maxFrames);
+                    if (autoClick_LEFT_maxFrames < 0) autoClick_LEFT_maxFrames = 0;
+                }
+            }
+            ImGui::Unindent();
+        }
+        
+        // RIGHT Key
+        if (ImGui::CollapsingHeader("RIGHT Key (Player 2 Right)")) {
+            ImGui::Indent();
+            ImGui::Checkbox("Enable##RIGHT", &autoClick_RIGHT_enabled);
+            if (autoClick_RIGHT_enabled) {
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Hold Frames##RIGHT", &autoClick_RIGHT_intervalHold);
+                if (autoClick_RIGHT_intervalHold < 1) autoClick_RIGHT_intervalHold = 1;
+                
+                ImGui::SetNextItemWidth(100);
+                ImGui::InputInt("Release Frames##RIGHT", &autoClick_RIGHT_intervalRelease);
+                if (autoClick_RIGHT_intervalRelease < 1) autoClick_RIGHT_intervalRelease = 1;
+                
+                ImGui::SetNextItemWidth(80);
+                ImGui::InputInt("Clicks/Frame##RIGHT", &autoClick_RIGHT_clicksPerFrame);
+                if (autoClick_RIGHT_clicksPerFrame < 1) autoClick_RIGHT_clicksPerFrame = 1;
+                if (autoClick_RIGHT_clicksPerFrame > 10) autoClick_RIGHT_clicksPerFrame = 10;
+                
+                ImGui::Checkbox("Swift Click##RIGHT", &autoClick_RIGHT_swiftClick);
+                ImGui::Checkbox("Limit Frames##RIGHT", &autoClick_RIGHT_limitFrames);
+                if (autoClick_RIGHT_limitFrames) {
+                    ImGui::SameLine();
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Max Frames##RIGHT", &autoClick_RIGHT_maxFrames);
+                    if (autoClick_RIGHT_maxFrames < 0) autoClick_RIGHT_maxFrames = 0;
+                }
+            }
+            ImGui::Unindent();
+        }
         
         ImGui::Separator();
         
-        if (ImGui::CollapsingHeader("Presets")) {
-            ImGui::Text("Apply preset to:");
-            static int presetTarget = 0;
-            const char* buttons[] = {"W", "A", "S", "UP", "LEFT", "RIGHT", "SPACE"};
-            ImGui::Combo("Target Button", &presetTarget, buttons, 7);
-            
-            ImGui::Spacing();
-            
-            if (ImGui::Button("Rapid Fire (1-1)")) {
-                AutoClickerSettings* target = nullptr;
-                switch(presetTarget) {
-                    case 0: target = &autoClick_W; break;
-                    case 1: target = &autoClick_A; break;
-                    case 2: target = &autoClick_S; break;
-                    case 3: target = &autoClick_UP; break;
-                    case 4: target = &autoClick_LEFT; break;
-                    case 5: target = &autoClick_RIGHT; break;
-                    case 6: target = &autoClick_SPACE; break;
-                }
-                if (target) {
-                    target->enabled = true;
-                    target->intervalHold = 1;
-                    target->intervalRelease = 1;
-                    target->clicksPerFrame = 1;
-                    target->swiftClick = true;
-                }
-            }
-            
-            ImGui::SameLine();
-            if (ImGui::Button("Slow Click (10-5)")) {
-                AutoClickerSettings* target = nullptr;
-                switch(presetTarget) {
-                    case 0: target = &autoClick_W; break;
-                    case 1: target = &autoClick_A; break;
-                    case 2: target = &autoClick_S; break;
-                    case 3: target = &autoClick_UP; break;
-                    case 4: target = &autoClick_LEFT; break;
-                    case 5: target = &autoClick_RIGHT; break;
-                    case 6: target = &autoClick_SPACE; break;
-                }
-                if (target) {
-                    target->enabled = true;
-                    target->intervalHold = 10;
-                    target->intervalRelease = 5;
-                    target->clicksPerFrame = 1;
-                    target->swiftClick = false;
-                }
-            }
-            
-            ImGui::SameLine();
-            if (ImGui::Button("Disable All")) {
-                autoClick_W.enabled = false;
-                autoClick_A.enabled = false;
-                autoClick_S.enabled = false;
-                autoClick_UP.enabled = false;
-                autoClick_LEFT.enabled = false;
-                autoClick_RIGHT.enabled = false;
-                autoClick_SPACE.enabled = false;
-            }
+        if (ImGui::Button("Disable All")) {
+            autoClick_W_enabled = false;
+            autoClick_A_enabled = false;
+            autoClick_D_enabled = false;
+            autoClick_UP_enabled = false;
+            autoClick_LEFT_enabled = false;
+            autoClick_RIGHT_enabled = false;
+            autoClick_SPACE_enabled = false;
+        }
+        
+        ImGui::SameLine();
+        if (ImGui::Button("Enable All Jump Keys")) {
+            autoClick_W_enabled = true;
+            autoClick_UP_enabled = true;
+            autoClick_SPACE_enabled = true;
+        }
+        
+        ImGui::SameLine();
+        if (ImGui::Button("Enable All Movement")) {
+            autoClick_A_enabled = true;
+            autoClick_D_enabled = true;
+            autoClick_LEFT_enabled = true;
+            autoClick_RIGHT_enabled = true;
         }
     }
     
