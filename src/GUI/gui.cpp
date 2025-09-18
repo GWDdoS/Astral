@@ -74,58 +74,176 @@ void renderBottingTab()
 
 void renderHacksTab()
 {       // lets see if i can learn columns
-        ImGui::Columns(2, "HacksColumns", false); 
-        ImGui::SetColumnWidth(0, 200.0f);
-        ImGui::SetColumnWidth(1, 200.0f);
-        
-        ImGui::Checkbox("Noclip", &noclipEnabled);
-        ImGui::SameLine();
-        
-        if (ImGui::Button("Players")) {
-            ImGui::OpenPopup("PlayersPopup");
-        }
-        
-        if (ImGui::BeginPopup("PlayersPopup")) {
-            ImGui::Checkbox("Player 1", &noclipP1);
-            ImGui::Checkbox("Player 2", &noclipP2);
-            ImGui::EndPopup();
-        }
-        
-        ImGui::Checkbox("Speedhack", &speedhackEnabled);
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(80.0f);
-        ImGui::InputFloat("##SpeedMultiplier", &speedhackMultiplier);
-        if (speedhackMultiplier < 0.f) {
-            speedhackMultiplier = 1.f;
-        }
-        
-        ImGui::Text("Respawn Time");
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(80.0f);
-        ImGui::InputFloat("##RespawnDelay", &respawnDelay);
-        if (respawnDelay != 0.f && respawnDelay != 2.f) {
-            respawnDelay = (fabs(respawnDelay - 0.f) < fabs(respawnDelay - 2.f)) ? 0.f : 2.f;
-        }
-        ImGui::Spacing();
-        ImGui::Checkbox("Safe Mode", &safeMode);
-        ImGui::NextColumn();
-        
-        ImGui::Checkbox("No Death Effect", &noDeathEffect);
-        ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
-        
-        ImGui::Spacing();
-        
-        ImGui::Checkbox("No Shaders", &noShaders);
-        ImGui::Checkbox("No Mirror", &noMirror);
-        ImGui::Checkbox("Instant Mirror", &instantMirror);   
-        ImGui::Checkbox("Keep Waveform", &keepWaveEnabled);     
-        ImGui::Columns(1);
+    ImGui::Columns(2, "HacksColumns", false); 
+    ImGui::SetColumnWidth(0, 200.0f);
+    ImGui::SetColumnWidth(1, 200.0f);
+    
+    ImGui::Checkbox("Noclip", &noclipEnabled);
+    ImGui::SameLine();
+    
+    if (ImGui::Button("Players")) {
+        ImGui::OpenPopup("PlayersPopup");
+    }
+    
+    if (ImGui::BeginPopup("PlayersPopup")) {
+        ImGui::Checkbox("Player 1", &noclipP1);
+        ImGui::Checkbox("Player 2", &noclipP2);
+        ImGui::EndPopup();
+    }
+    
+    ImGui::Checkbox("Speedhack", &speedhackEnabled);
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(80.0f);
+    ImGui::InputFloat("##SpeedMultiplier", &speedhackMultiplier);
+    if (speedhackMultiplier < 0.f) {
+        speedhackMultiplier = 1.f;
+    }
+    
+    ImGui::Text("Respawn Time");
+    ImGui::SameLine();
+    ImGui::SetNextItemWidth(80.0f);
+    ImGui::InputFloat("##RespawnDelay", &respawnDelay);
+    if (respawnDelay != 0.f && respawnDelay != 2.f) {
+        respawnDelay = (fabs(respawnDelay - 0.f) < fabs(respawnDelay - 2.f)) ? 0.f : 2.f;
+    }
+    ImGui::Spacing();
+    ImGui::Checkbox("Safe Mode", &safeMode);
+    ImGui::NextColumn();
+    
+    ImGui::Checkbox("No Death Effect", &noDeathEffect);
+    ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
+    
+    ImGui::Spacing();
+    
+    ImGui::Checkbox("No Shaders", &noShaders);
+    ImGui::Checkbox("No Mirror", &noMirror);
+    ImGui::Checkbox("Instant Mirror", &instantMirror);   
+    ImGui::Checkbox("Keep Waveform", &keepWaveEnabled);     
+    ImGui::Columns(1);
 }
 
 void renderAssists() 
 {
-    ImGui::BulletText("More to come here soon");
-    ImGui::Text("Add_Autoclicker_Here");
+    ImGui::Checkbox("Autoclicker Enable", &autoClickerEnabled);
+    
+    if (autoClickerEnabled) {
+        ImGui::Separator();
+        
+        auto renderButtonSettings = [](const char* buttonName, AutoClickerSettings& settings) {
+            if (ImGui::CollapsingHeader(buttonName)) {
+                ImGui::Indent();
+                
+                ImGui::Checkbox("Enable", &settings.enabled);
+                
+                if (settings.enabled) {
+                    ImGui::Text("Timing:");
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Hold Frames", &settings.intervalHold);
+                    if (settings.intervalHold < 1) settings.intervalHold = 1;
+                    
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Release Frames", &settings.intervalRelease);
+                    if (settings.intervalRelease < 1) settings.intervalRelease = 1;
+                    
+                    ImGui::Text("Advanced:");
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Clicks/Frame", &settings.clicksPerFrame);
+                    if (settings.clicksPerFrame < 1) settings.clicksPerFrame = 1;
+                    if (settings.clicksPerFrame > 10) settings.clicksPerFrame = 10;
+                    
+                    ImGui::Checkbox("Swift Click", &settings.swiftClick);
+                    ImGui::SameLine();
+                    if (ImGui::Button("?")) {
+                        ImGui::SetTooltip("Instantly releases the same frame as the click");
+                    }
+                    
+                    ImGui::Checkbox("Limit Frames", &settings.limitFrames);
+                    if (settings.limitFrames) {
+                        ImGui::SameLine();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Max Frames", &settings.maxFrames);
+                        if (settings.maxFrames < 0) settings.maxFrames = 0;
+                    }
+                }
+                
+                ImGui::Unindent();
+            }
+        };
+        
+        renderButtonSettings("W Key", autoClick_W);
+        renderButtonSettings("A Key", autoClick_A);
+        renderButtonSettings("S Key", autoClick_S);
+        renderButtonSettings("UP Key", autoClick_UP);
+        renderButtonSettings("LEFT Key", autoClick_LEFT);
+        renderButtonSettings("RIGHT Key", autoClick_RIGHT);
+        renderButtonSettings("SPACE Key", autoClick_SPACE);
+        
+        ImGui::Separator();
+        
+        if (ImGui::CollapsingHeader("Presets")) {
+            ImGui::Text("Apply preset to:");
+            static int presetTarget = 0;
+            const char* buttons[] = {"W", "A", "S", "UP", "LEFT", "RIGHT", "SPACE"};
+            ImGui::Combo("Target Button", &presetTarget, buttons, 7);
+            
+            ImGui::Spacing();
+            
+            if (ImGui::Button("Rapid Fire (1-1)")) {
+                AutoClickerSettings* target = nullptr;
+                switch(presetTarget) {
+                    case 0: target = &autoClick_W; break;
+                    case 1: target = &autoClick_A; break;
+                    case 2: target = &autoClick_S; break;
+                    case 3: target = &autoClick_UP; break;
+                    case 4: target = &autoClick_LEFT; break;
+                    case 5: target = &autoClick_RIGHT; break;
+                    case 6: target = &autoClick_SPACE; break;
+                }
+                if (target) {
+                    target->enabled = true;
+                    target->intervalHold = 1;
+                    target->intervalRelease = 1;
+                    target->clicksPerFrame = 1;
+                    target->swiftClick = true;
+                }
+            }
+            
+            ImGui::SameLine();
+            if (ImGui::Button("Slow Click (10-5)")) {
+                AutoClickerSettings* target = nullptr;
+                switch(presetTarget) {
+                    case 0: target = &autoClick_W; break;
+                    case 1: target = &autoClick_A; break;
+                    case 2: target = &autoClick_S; break;
+                    case 3: target = &autoClick_UP; break;
+                    case 4: target = &autoClick_LEFT; break;
+                    case 5: target = &autoClick_RIGHT; break;
+                    case 6: target = &autoClick_SPACE; break;
+                }
+                if (target) {
+                    target->enabled = true;
+                    target->intervalHold = 10;
+                    target->intervalRelease = 5;
+                    target->clicksPerFrame = 1;
+                    target->swiftClick = false;
+                }
+            }
+            
+            ImGui::SameLine();
+            if (ImGui::Button("Disable All")) {
+                autoClick_W.enabled = false;
+                autoClick_A.enabled = false;
+                autoClick_S.enabled = false;
+                autoClick_UP.enabled = false;
+                autoClick_LEFT.enabled = false;
+                autoClick_RIGHT.enabled = false;
+                autoClick_SPACE.enabled = false;
+            }
+        }
+    }
+    
+    ImGui::Separator();
+    ImGui::BulletText("More assists coming soon!");
 }
 
 void renderRenderTab()
