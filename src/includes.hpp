@@ -23,3 +23,5 @@
 #include "GUI/mobile/mobileUI.hpp"
 #include <Geode/modify/CCDirector.hpp>
 #include <Geode/modify/ShaderLayer.hpp>
+#include <Geode/modify/EditLevelLayer.hpp>
+#include <Geode/modify/LevelInfoLayer.hpp>

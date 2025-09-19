@@ -31,6 +31,7 @@ extern bool noMirror;
 extern bool instantMirror;
 extern bool framestepEnabled;
 extern bool keepWaveEnabled;
+extern bool autoSafeMode;
 
 //Floats
 extern float seedValue;
