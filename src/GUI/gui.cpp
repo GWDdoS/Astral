@@ -4,8 +4,8 @@ using namespace geode::prelude;
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 
-const char* tabNames[] = {"Botting", "Hacks", "Assists", "Render", "Settings", "Mod Updates"};
-const int tabCount = 6;
+const char* tabNames[] = {"Botting", "Hacks", "Assists", "Render", "Settings"};
+const int tabCount = 5;
 
 int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
@@ -16,13 +16,8 @@ float getCurrentFrame() {
     auto* playLayer = PlayLayer::get();
     if (!playLayer) return 0.0f;
     
-    // The game already tracks time in seconds
-    float currentTime = playLayer->m_gameState.m_levelTime;
-    
-    // Convert time to frames using current TPS
-    float currentFrame = currentTime * tpsValue; // Default 240 TPS
-    
-    return currentFrame;
+    frameCount++;
+    return (float)frameCount;
 }
 
 #ifdef GEODE_IS_DESKTOP // i think this is how u do it
@@ -118,7 +113,7 @@ void renderHacksTab()
     ImGui::Checkbox("No Shaders", &noShaders);
     ImGui::Checkbox("No Mirror", &noMirror);
     ImGui::Checkbox("Instant Mirror", &instantMirror);   
-    ImGui::Checkbox("Keep Waveform", &keepWaveEnabled);     
+    ImGui::Checkbox("Keep Wave On", &keepWaveEnabled);     
     ImGui::Columns(1);
 }
 
@@ -409,11 +404,6 @@ void renderSettingsTab()
     ImGui::ColorEdit3("##accentcolor", themeColor);
 }
 
-void renderTodoTab()
-{
-    ImGui::BulletText("A current state of the mods development");
-}
-
 void renderMainGui()
 {
     if (!ImGui::GetCurrentContext()) return;
@@ -462,7 +452,6 @@ void renderMainGui()
         case 2: renderAssists(); break;
         case 3: renderRenderTab(); break;
         case 4: renderSettingsTab(); break;
-        case 5: renderTodoTab(); break;
     }
     
     ImGui::Separator();
