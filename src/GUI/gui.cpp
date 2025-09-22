@@ -11,18 +11,27 @@ int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
 float frameCount = 0.0f;
 bool initialized = false;
+static float lastProgress = 0.0f;
 
 float getCurrentFrame() {
     auto* playLayer = PlayLayer::get();
     if (!playLayer) {
         frameCount = 0.0f;
         initialized = false;
+        lastProgress = 0.0f;
         return 0.0f;
     }
-    // should only run if the game is NOT paused or reset etc. 
+    
+    float currentProgress = playLayer->m_gameState.m_currentProgress;
+    // fix should detect if the player frame changes BACKWARDS! aka, should reset if the player dies or resets.
+    if (initialized && currentProgress < lastProgress - 0.01f) {
+        frameCount = 0.0f;
+        initialized = false;
+    }
+    
     if (!playLayer->m_hasCompletedLevel && 
         !playLayer->m_isPaused && 
-        playLayer->m_gameState.m_currentProgress > 0.0f) {
+        currentProgress > 0.0f) {
         
         if (!initialized) {
             frameCount = 0.0f;
@@ -34,6 +43,8 @@ float getCurrentFrame() {
         frameCount = 0.0f;
         initialized = true;
     }
+    
+    lastProgress = currentProgress;
     
     return frameCount;
 }
