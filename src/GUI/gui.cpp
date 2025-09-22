@@ -11,6 +11,7 @@ int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
 float frameCount = 0.0f;
 bool initialized = false;
+
 float getCurrentFrame() {
     auto* playLayer = PlayLayer::get();
     if (!playLayer) {
@@ -18,12 +19,20 @@ float getCurrentFrame() {
         initialized = false;
         return 0.0f;
     }
-    
-    if (!initialized) {
+    // should only run if the game is NOT paused or reset etc. 
+    if (!playLayer->m_hasCompletedLevel && 
+        !playLayer->m_isPaused && 
+        playLayer->m_gameState.m_currentProgress > 0.0f) {
+        
+        if (!initialized) {
+            frameCount = 0.0f;
+            initialized = true;
+        } else {
+            frameCount += 1.0f;
+        }
+    } else if (!initialized) {
         frameCount = 0.0f;
         initialized = true;
-    } else {
-        frameCount += 1.0f;
     }
     
     return frameCount;
