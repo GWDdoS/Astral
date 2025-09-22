@@ -7,7 +7,7 @@ bool autoSafeMode = false;
 
 void updateAutoSafe() {
     if (autoSafeMode) {
-        bool shouldBeSafe = noclipEnabled || autoclickerEnabled;
+        bool shouldBeSafe = noclipEnabled || autoClickerEnabled;
         
         if (shouldBeSafe && !safeMode) {
             safeMode = true;
@@ -51,4 +51,4 @@ class $modify(SafeLayer, PlayLayer) {
             }
         }
     };
-}
+};

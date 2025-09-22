@@ -16,10 +16,13 @@ float getCurrentFrame() {
     auto* playLayer = PlayLayer::get();
     if (!playLayer) return 0.0f;
     
-    frameCount++;
-    return (float)frameCount;
+    
+    float currentTime = playLayer->m_gameState.m_levelTime;
+    
+    float currentFrame = currentTime * tpsValue;
+    
+    return currentFrame;
 }
-
 #ifdef GEODE_IS_DESKTOP // i think this is how u do it
 // yes this is how u do it - slideglide
 
