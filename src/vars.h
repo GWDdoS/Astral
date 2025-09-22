@@ -32,6 +32,7 @@ extern bool instantMirror;
 extern bool framestepEnabled;
 extern bool keepWaveEnabled;
 extern bool autoSafeMode;
+extern bool initialized;
 
 //Floats
 extern float seedValue;
@@ -43,6 +44,7 @@ extern float currentPitch;
 extern float currentSpeedValue;
 extern float speedValue;
 extern float respawnDelay;
+extern float frameCount;
 
 //Ints
 extern int selectedKeybind;
@@ -129,3 +131,4 @@ extern int autoClick_SPACE_clicksPerFrame;
 extern bool autoClick_SPACE_swiftClick;
 extern bool autoClick_SPACE_limitFrames;
 extern int autoClick_SPACE_maxFrames;
+

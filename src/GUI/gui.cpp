@@ -9,19 +9,24 @@ const int tabCount = 5;
 
 int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
-// bool styleApplied = false;
-// bool guiVisible = false;
-
+float frameCount = 0.0f;
+bool initialized = false;
 float getCurrentFrame() {
     auto* playLayer = PlayLayer::get();
-    if (!playLayer) return 0.0f;
+    if (!playLayer) {
+        frameCount = 0.0f;
+        initialized = false;
+        return 0.0f;
+    }
     
+    if (!initialized) {
+        frameCount = 0.0f;
+        initialized = true;
+    } else {
+        frameCount += 1.0f;
+    }
     
-    float currentTime = playLayer->m_gameState.m_levelTime;
-    
-    float currentFrame = currentTime * tpsValue;
-    
-    return currentFrame;
+    return frameCount;
 }
 #ifdef GEODE_IS_DESKTOP // i think this is how u do it
 // yes this is how u do it - slideglide
