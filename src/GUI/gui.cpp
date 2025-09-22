@@ -101,8 +101,10 @@ void renderHacksTab()
     ImGui::SameLine();
     ImGui::SetNextItemWidth(80.0f);
     ImGui::InputFloat("##RespawnDelay", &respawnDelay);
-    if (respawnDelay != 0.f && respawnDelay != 2.f) {
-        respawnDelay = (fabs(respawnDelay - 0.f) < fabs(respawnDelay - 2.f)) ? 0.f : 2.f;
+    if (respawnDelay < 0.f) {
+        respawnDelay = 1.f;
+    } else if (respawnDelay > 2.f){
+        respawnDelay = 1.f;
     }
     ImGui::Spacing();
     ImGui::Checkbox("Safe Mode", &safeMode);
