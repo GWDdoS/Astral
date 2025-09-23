@@ -33,6 +33,7 @@ extern bool framestepEnabled;
 extern bool keepWaveEnabled;
 extern bool autoSafeMode;
 extern bool initialized;
+extern bool forceSafeMode;
 
 //Floats
 extern float seedValue;
