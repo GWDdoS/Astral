@@ -37,7 +37,7 @@ bool noShaders = false;
 bool noMirror = false;
 bool instantMirror = false;
 bool keepWaveEnabled = false;
-
+bool accuratePercentage = false;
 // Floats
 float tpsValue = 240.0f;
 float currentP = 1.0f;
@@ -48,6 +48,7 @@ int backgroundTheme = 0;
 int inputMerge = 0;
 int fontType = 0;
 int fontList = 0;
+int decimalPlaces = 4;
 
 // Chars
 char macroName[128] = "Test";

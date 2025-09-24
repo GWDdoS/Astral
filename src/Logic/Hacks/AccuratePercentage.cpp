@@ -1,9 +1,8 @@
 #include "../../includes.hpp"
 // someone asked for me to showcase wiht this one time so here it is
-bool accuratePercentage = false;
-int decimalPlaces = 4;
+
 // i was told this would work? bro idk ill just remove this tbh
-/*it didnt work
+/*
 class $modify(PlayLayer) {
     float customGetProgress() {
         try {

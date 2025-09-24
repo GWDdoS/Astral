@@ -508,7 +508,6 @@ float getCurrentFrame() {
         
         bool open = ImGui::Begin("Astral [BETA]", nullptr, window_flags);
         if (!open) return;
-        ImGui::End();
         ImGui::SetCursorPosY(70);
         
         for (int i = 0; i < tabCount; i++)
