@@ -5,11 +5,11 @@ static bool shouldStep = false;
 
 class $modify(FrameStepperHook, GJBaseGameLayer) {
     void update(float dt) override {
-=        if (!framestepEnabled) {
+        if (!framestepEnabled) {
             return GJBaseGameLayer::update(dt);
         }
 
-=        bool canUse = false;
+        bool canUse = false;
         if (auto playLayer = PlayLayer::get()) {
             canUse = !playLayer->m_isPaused && !playLayer->m_hasCompletedLevel && 
                     playLayer->m_started && !playLayer->m_player1->m_isDead;
@@ -22,7 +22,7 @@ class $modify(FrameStepperHook, GJBaseGameLayer) {
             return GJBaseGameLayer::update(dt);
         }
 
-=        if (shouldStep) {
+        if (shouldStep) {
             shouldStep = false; // so u dont just keep stepping
             dt = 1.f / tpsValue;  
         } else {
