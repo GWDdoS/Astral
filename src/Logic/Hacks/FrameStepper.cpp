@@ -24,7 +24,7 @@ class $modify(FrameStepperHook, GJBaseGameLayer) {
 
         if (shouldStep) {
             shouldStep = false; // so u dont just keep stepping
-            dt = 1.f / tpsValue;  
+            dt = 1.f / tpsValue;
         } else {
             dt = 0.f; // idk i was told this would fix it
         }

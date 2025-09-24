@@ -1,308 +1,130 @@
 #include "../../includes.hpp"
-// Autoclicker variables
+
 bool autoClickerEnabled = false;
+// i have no clue what this does but let the ai cook for a sec lol
+#define DEFINE_KEY_SETTINGS(KEY) \
+bool autoClick_##KEY##_enabled = false; \
+int autoClick_##KEY##_intervalHold = 1; \
+int autoClick_##KEY##_intervalRelease = 1; \
+int autoClick_##KEY##_clicksPerFrame = 1; \
+bool autoClick_##KEY##_swiftClick = false; \
+bool autoClick_##KEY##_limitFrames = false; \
+int autoClick_##KEY##_maxFrames = 0; \
+bool autoClick_##KEY##_blackOrbModeEnabled = false; \
+int autoClick_##KEY##_blackOrb_clickCount = 1; \
+int autoClick_##KEY##_blackOrb_holdFrames = 1;
 
-// W Key
-bool autoClick_W_enabled = false;
-int autoClick_W_intervalHold = 1;
-int autoClick_W_intervalRelease = 1;
-int autoClick_W_clicksPerFrame = 1;
-bool autoClick_W_swiftClick = false;
-bool autoClick_W_limitFrames = false;
-int autoClick_W_maxFrames = 0;
+DEFINE_KEY_SETTINGS(W)
+DEFINE_KEY_SETTINGS(A)
+DEFINE_KEY_SETTINGS(D)
+DEFINE_KEY_SETTINGS(UP)
+DEFINE_KEY_SETTINGS(LEFT)
+DEFINE_KEY_SETTINGS(RIGHT)
+DEFINE_KEY_SETTINGS(SPACE)
 
-// A Key
-bool autoClick_A_enabled = false;
-int autoClick_A_intervalHold = 1;
-int autoClick_A_intervalRelease = 1;
-int autoClick_A_clicksPerFrame = 1;
-bool autoClick_A_swiftClick = false;
-bool autoClick_A_limitFrames = false;
-int autoClick_A_maxFrames = 0;
-
-// D Key
-bool autoClick_D_enabled = false;
-int autoClick_D_intervalHold = 1;
-int autoClick_D_intervalRelease = 1;
-int autoClick_D_clicksPerFrame = 1;
-bool autoClick_D_swiftClick = false;
-bool autoClick_D_limitFrames = false;
-int autoClick_D_maxFrames = 0;
-
-// UP Key
-bool autoClick_UP_enabled = false;
-int autoClick_UP_intervalHold = 1;
-int autoClick_UP_intervalRelease = 1;
-int autoClick_UP_clicksPerFrame = 1;
-bool autoClick_UP_swiftClick = false;
-bool autoClick_UP_limitFrames = false;
-int autoClick_UP_maxFrames = 0;
-
-// LEFT Key
-bool autoClick_LEFT_enabled = false;
-int autoClick_LEFT_intervalHold = 1;
-int autoClick_LEFT_intervalRelease = 1;
-int autoClick_LEFT_clicksPerFrame = 1;
-bool autoClick_LEFT_swiftClick = false;
-bool autoClick_LEFT_limitFrames = false;
-int autoClick_LEFT_maxFrames = 0;
-
-// RIGHT Key
-bool autoClick_RIGHT_enabled = false;
-int autoClick_RIGHT_intervalHold = 1;
-int autoClick_RIGHT_intervalRelease = 1;
-int autoClick_RIGHT_clicksPerFrame = 1;
-bool autoClick_RIGHT_swiftClick = false;
-bool autoClick_RIGHT_limitFrames = false;
-int autoClick_RIGHT_maxFrames = 0;
-
-// SPACE Key
-bool autoClick_SPACE_enabled = false;
-int autoClick_SPACE_intervalHold = 1;
-int autoClick_SPACE_intervalRelease = 1;
-int autoClick_SPACE_clicksPerFrame = 1;
-bool autoClick_SPACE_swiftClick = false;
-bool autoClick_SPACE_limitFrames = false;
-int autoClick_SPACE_maxFrames = 0;
 #ifdef GEODE_IS_DESKTOP
 class $modify(GJBaseGameLayer) {
     struct Fields {
-        // W Key state
-        int w_timer = 0;
-        bool w_clicking = false;
-        int w_framesClicked = 0;
-        
-        // A Key state
-        int a_timer = 0;
-        bool a_clicking = false;
-        int a_framesClicked = 0;
-        
-        // D Key state
-        int d_timer = 0;
-        bool d_clicking = false;
-        int d_framesClicked = 0;
-        
-        // UP Key state
-        int up_timer = 0;
-        bool up_clicking = false;
-        int up_framesClicked = 0;
-        
-        // LEFT Key state
-        int left_timer = 0;
-        bool left_clicking = false;
-        int left_framesClicked = 0;
-        
-        // RIGHT Key state
-        int right_timer = 0;
-        bool right_clicking = false;
-        int right_framesClicked = 0;
-        
-        // SPACE Key state
-        int space_timer = 0;
-        bool space_clicking = false;
-        int space_framesClicked = 0;
+        struct KeyState {
+            int timer = 0;
+            bool clicking = false;
+            int framesClicked = 0;
+            int orbFrame = 0;
+        };
+        KeyState keyW, keyA, keyD, keyUP, keyLEFT, keyRIGHT, keySPACE;
     };
-    
-    void update(float dt) {
-        GJBaseGameLayer::update(dt);  // Call original update first
-        
-        if (!autoClickerEnabled || !PlayLayer::get()) return;
-        
-        // W Key autoclicker
-        if (autoClick_W_enabled) {
-            if (autoClick_W_limitFrames && m_fields->w_framesClicked >= autoClick_W_maxFrames && autoClick_W_maxFrames > 0) {
-                // Do nothing
+
+    void processKey(Fields::KeyState& state,
+                    bool enabled, bool limitFrames, int maxFrames,
+                    int intervalHold, int intervalRelease,
+                    int clicksPerFrame, bool swiftClick,
+                    bool blackOrbEnabled, int orbClickCount, int orbHoldFrames,
+                    PlayerButton button, bool isPlayer1)
+    {
+        if (!enabled) return;
+        if (limitFrames && state.framesClicked >= maxFrames && maxFrames > 0) return;
+
+        if (blackOrbEnabled) {
+            if (state.orbFrame < orbClickCount) {
+                this->handleButton(true, static_cast<int>(button), isPlayer1);
+                state.orbFrame++;
+            } else if (state.orbFrame < orbClickCount + orbHoldFrames) {
+                this->handleButton(true, static_cast<int>(button), isPlayer1);
+                state.orbFrame++;
             } else {
-                m_fields->w_timer++;
-                bool shouldToggle = false;
-                if (!m_fields->w_clicking && m_fields->w_timer >= autoClick_W_intervalHold) {
-                    shouldToggle = true;
-                } else if (m_fields->w_clicking && m_fields->w_timer >= autoClick_W_intervalRelease) {
-                    shouldToggle = true;
-                }
-                if (shouldToggle) {
-                    m_fields->w_clicking = !m_fields->w_clicking;
-                    for (int i = 0; i < autoClick_W_clicksPerFrame; i++) {
-                        this->handleButton(m_fields->w_clicking, static_cast<int>(PlayerButton::Jump), true);
-                        if (autoClick_W_swiftClick && m_fields->w_clicking) {
-                            this->handleButton(false, static_cast<int>(PlayerButton::Jump), true);
-                        }
-                    }
-                    m_fields->w_timer = 0;
-                    if (autoClick_W_limitFrames) {
-                        m_fields->w_framesClicked++;
-                    }
-                }
+                this->handleButton(false, static_cast<int>(button), isPlayer1);
+                state.orbFrame = 0;
+                state.framesClicked++;
             }
+            return;
         }
-        
-        // A Key autoclicker (Player 1 Left)
-        if (autoClick_A_enabled) {
-            if (autoClick_A_limitFrames && m_fields->a_framesClicked >= autoClick_A_maxFrames && autoClick_A_maxFrames > 0) {
-                // Do nothing
-            } else {
-                m_fields->a_timer++;
-                bool shouldToggle = false;
-                if (!m_fields->a_clicking && m_fields->a_timer >= autoClick_A_intervalHold) {
-                    shouldToggle = true;
-                } else if (m_fields->a_clicking && m_fields->a_timer >= autoClick_A_intervalRelease) {
-                    shouldToggle = true;
-                }
-                if (shouldToggle) {
-                    m_fields->a_clicking = !m_fields->a_clicking;
-                    for (int i = 0; i < autoClick_A_clicksPerFrame; i++) {
-                        this->handleButton(m_fields->a_clicking, static_cast<int>(PlayerButton::Left), true); // Player 1 Left
-                        if (autoClick_A_swiftClick && m_fields->a_clicking) {
-                            this->handleButton(false, static_cast<int>(PlayerButton::Left), true);
-                        }
-                    }
-                    m_fields->a_timer = 0;
-                    if (autoClick_A_limitFrames) {
-                        m_fields->a_framesClicked++;
-                    }
-                }
-            }
+
+        state.timer++;
+        bool shouldToggle = false;
+        if (!state.clicking && state.timer >= intervalHold) {
+            shouldToggle = true;
+        } else if (state.clicking && state.timer >= intervalRelease) {
+            shouldToggle = true;
         }
-        
-        // D Key autoclicker (Player 1 Right)
-        if (autoClick_D_enabled) {
-            if (autoClick_D_limitFrames && m_fields->d_framesClicked >= autoClick_D_maxFrames && autoClick_D_maxFrames > 0) {
-                // Do nothing
-            } else {
-                m_fields->d_timer++;
-                bool shouldToggle = false;
-                if (!m_fields->d_clicking && m_fields->d_timer >= autoClick_D_intervalHold) {
-                    shouldToggle = true;
-                } else if (m_fields->d_clicking && m_fields->d_timer >= autoClick_D_intervalRelease) {
-                    shouldToggle = true;
-                }
-                if (shouldToggle) {
-                    m_fields->d_clicking = !m_fields->d_clicking;
-                    for (int i = 0; i < autoClick_D_clicksPerFrame; i++) {
-                        this->handleButton(m_fields->d_clicking, static_cast<int>(PlayerButton::Right), true); // Player 1 Right
-                        if (autoClick_D_swiftClick && m_fields->d_clicking) {
-                            this->handleButton(false, static_cast<int>(PlayerButton::Right), true);
-                        }
-                    }
-                    m_fields->d_timer = 0;
-                    if (autoClick_D_limitFrames) {
-                        m_fields->d_framesClicked++;
-                    }
+
+        if (shouldToggle) {
+            state.clicking = !state.clicking;
+            for (int i = 0; i < clicksPerFrame; i++) {
+                this->handleButton(state.clicking, static_cast<int>(button), isPlayer1);
+                if (swiftClick && state.clicking) {
+                    this->handleButton(false, static_cast<int>(button), isPlayer1);
                 }
             }
-        }
-        
-        // UP Key autoclicker
-        if (autoClick_UP_enabled) {
-            if (autoClick_UP_limitFrames && m_fields->up_framesClicked >= autoClick_UP_maxFrames && autoClick_UP_maxFrames > 0) {
-                // Do nothing
-            } else {
-                m_fields->up_timer++;
-                bool shouldToggle = false;
-                if (!m_fields->up_clicking && m_fields->up_timer >= autoClick_UP_intervalHold) {
-                    shouldToggle = true;
-                } else if (m_fields->up_clicking && m_fields->up_timer >= autoClick_UP_intervalRelease) {
-                    shouldToggle = true;
-                }
-                if (shouldToggle) {
-                    m_fields->up_clicking = !m_fields->up_clicking;
-                    for (int i = 0; i < autoClick_UP_clicksPerFrame; i++) {
-                        this->handleButton(m_fields->up_clicking, static_cast<int>(PlayerButton::Jump), false);
-                        if (autoClick_UP_swiftClick && m_fields->up_clicking) {
-                            this->handleButton(false, static_cast<int>(PlayerButton::Jump), false);
-                        }
-                    }
-                    m_fields->up_timer = 0;
-                    if (autoClick_UP_limitFrames) {
-                        m_fields->up_framesClicked++;
-                    }
-                }
-            }
-        }
-        
-        // LEFT Key autoclicker
-        if (autoClick_LEFT_enabled) {
-            if (autoClick_LEFT_limitFrames && m_fields->left_framesClicked >= autoClick_LEFT_maxFrames && autoClick_LEFT_maxFrames > 0) {
-                // Do nothing
-            } else {
-                m_fields->left_timer++;
-                bool shouldToggle = false;
-                if (!m_fields->left_clicking && m_fields->left_timer >= autoClick_LEFT_intervalHold) {
-                    shouldToggle = true;
-                } else if (m_fields->left_clicking && m_fields->left_timer >= autoClick_LEFT_intervalRelease) {
-                    shouldToggle = true;
-                }
-                if (shouldToggle) {
-                    m_fields->left_clicking = !m_fields->left_clicking;
-                    for (int i = 0; i < autoClick_LEFT_clicksPerFrame; i++) {
-                        this->handleButton(m_fields->left_clicking, static_cast<int>(PlayerButton::Left), false);
-                        if (autoClick_LEFT_swiftClick && m_fields->left_clicking) {
-                            this->handleButton(false, static_cast<int>(PlayerButton::Left), false);
-                        }
-                    }
-                    m_fields->left_timer = 0;
-                    if (autoClick_LEFT_limitFrames) {
-                        m_fields->left_framesClicked++;
-                    }
-                }
-            }
-        }
-        
-        // RIGHT Key autoclicker
-        if (autoClick_RIGHT_enabled) {
-            if (autoClick_RIGHT_limitFrames && m_fields->right_framesClicked >= autoClick_RIGHT_maxFrames && autoClick_RIGHT_maxFrames > 0) {
-                // Do nothing
-            } else {
-                m_fields->right_timer++;
-                bool shouldToggle = false;
-                if (!m_fields->right_clicking && m_fields->right_timer >= autoClick_RIGHT_intervalHold) {
-                    shouldToggle = true;
-                } else if (m_fields->right_clicking && m_fields->right_timer >= autoClick_RIGHT_intervalRelease) {
-                    shouldToggle = true;
-                }
-                if (shouldToggle) {
-                    m_fields->right_clicking = !m_fields->right_clicking;
-                    for (int i = 0; i < autoClick_RIGHT_clicksPerFrame; i++) {
-                        this->handleButton(m_fields->right_clicking, static_cast<int>(PlayerButton::Right), false);
-                        if (autoClick_RIGHT_swiftClick && m_fields->right_clicking) {
-                            this->handleButton(false, static_cast<int>(PlayerButton::Right), false);
-                        }
-                    }
-                    m_fields->right_timer = 0;
-                    if (autoClick_RIGHT_limitFrames) {
-                        m_fields->right_framesClicked++;
-                    }
-                }
-            }
-        }
-        
-        // SPACE Key autoclicker
-        if (autoClick_SPACE_enabled) {
-            if (autoClick_SPACE_limitFrames && m_fields->space_framesClicked >= autoClick_SPACE_maxFrames && autoClick_SPACE_maxFrames > 0) {
-                // Do nothing
-            } else {
-                m_fields->space_timer++;
-                bool shouldToggle = false;
-                if (!m_fields->space_clicking && m_fields->space_timer >= autoClick_SPACE_intervalHold) {
-                    shouldToggle = true;
-                } else if (m_fields->space_clicking && m_fields->space_timer >= autoClick_SPACE_intervalRelease) {
-                    shouldToggle = true;
-                }
-                if (shouldToggle) {
-                    m_fields->space_clicking = !m_fields->space_clicking;
-                    for (int i = 0; i < autoClick_SPACE_clicksPerFrame; i++) {
-                        this->handleButton(m_fields->space_clicking, static_cast<int>(PlayerButton::Jump), true);
-                        if (autoClick_SPACE_swiftClick && m_fields->space_clicking) {
-                            this->handleButton(false, static_cast<int>(PlayerButton::Jump), true);
-                        }
-                    }
-                    m_fields->space_timer = 0;
-                    if (autoClick_SPACE_limitFrames) {
-                        m_fields->space_framesClicked++;
-                    }
-                }
-            }
+            state.timer = 0;
+            if (limitFrames) state.framesClicked++;
         }
     }
+
+    void update(float dt) {
+        GJBaseGameLayer::update(dt);
+        if (!autoClickerEnabled || !PlayLayer::get()) return;
+
+        processKey(m_fields->keyW, autoClick_W_enabled, autoClick_W_limitFrames, autoClick_W_maxFrames,
+                   autoClick_W_intervalHold, autoClick_W_intervalRelease, autoClick_W_clicksPerFrame,
+                   autoClick_W_swiftClick, autoClick_W_blackOrbModeEnabled,
+                   autoClick_W_blackOrb_clickCount, autoClick_W_blackOrb_holdFrames,
+                   PlayerButton::Jump, true);
+
+        processKey(m_fields->keyA, autoClick_A_enabled, autoClick_A_limitFrames, autoClick_A_maxFrames,
+                   autoClick_A_intervalHold, autoClick_A_intervalRelease, autoClick_A_clicksPerFrame,
+                   autoClick_A_swiftClick, autoClick_A_blackOrbModeEnabled,
+                   autoClick_A_blackOrb_clickCount, autoClick_A_blackOrb_holdFrames,
+                   PlayerButton::Left, true);
+
+        processKey(m_fields->keyD, autoClick_D_enabled, autoClick_D_limitFrames, autoClick_D_maxFrames,
+                   autoClick_D_intervalHold, autoClick_D_intervalRelease, autoClick_D_clicksPerFrame,
+                   autoClick_D_swiftClick, autoClick_D_blackOrbModeEnabled,
+                   autoClick_D_blackOrb_clickCount, autoClick_D_blackOrb_holdFrames,
+                   PlayerButton::Right, true);
+
+        processKey(m_fields->keyUP, autoClick_UP_enabled, autoClick_UP_limitFrames, autoClick_UP_maxFrames,
+                   autoClick_UP_intervalHold, autoClick_UP_intervalRelease, autoClick_UP_clicksPerFrame,
+                   autoClick_UP_swiftClick, autoClick_UP_blackOrbModeEnabled,
+                   autoClick_UP_blackOrb_clickCount, autoClick_UP_blackOrb_holdFrames,
+                   PlayerButton::Jump, false);
+
+        processKey(m_fields->keyLEFT, autoClick_LEFT_enabled, autoClick_LEFT_limitFrames, autoClick_LEFT_maxFrames,
+                   autoClick_LEFT_intervalHold, autoClick_LEFT_intervalRelease, autoClick_LEFT_clicksPerFrame,
+                   autoClick_LEFT_swiftClick, autoClick_LEFT_blackOrbModeEnabled,
+                   autoClick_LEFT_blackOrb_clickCount, autoClick_LEFT_blackOrb_holdFrames,
+                   PlayerButton::Left, false);
+
+        processKey(m_fields->keyRIGHT, autoClick_RIGHT_enabled, autoClick_RIGHT_limitFrames, autoClick_RIGHT_maxFrames,
+                   autoClick_RIGHT_intervalHold, autoClick_RIGHT_intervalRelease, autoClick_RIGHT_clicksPerFrame,
+                   autoClick_RIGHT_swiftClick, autoClick_RIGHT_blackOrbModeEnabled,
+                   autoClick_RIGHT_blackOrb_clickCount, autoClick_RIGHT_blackOrb_holdFrames,
+                   PlayerButton::Right, false);
+
+        processKey(m_fields->keySPACE, autoClick_SPACE_enabled, autoClick_SPACE_limitFrames, autoClick_SPACE_maxFrames,
+                   autoClick_SPACE_intervalHold, autoClick_SPACE_intervalRelease, autoClick_SPACE_clicksPerFrame,
+                   autoClick_SPACE_swiftClick, autoClick_SPACE_blackOrbModeEnabled,
+                   autoClick_SPACE_blackOrb_clickCount, autoClick_SPACE_blackOrb_holdFrames,
+                   PlayerButton::Jump, true);
+    }
 };
-# endif
+#endif
