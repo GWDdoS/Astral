@@ -29,12 +29,10 @@ extern bool tpsEnabled;
 extern bool noShaders;
 extern bool noMirror;
 extern bool instantMirror;
-extern bool framestepEnabled;
 extern bool keepWaveEnabled;
 extern bool autoSafeMode;
 extern bool initialized;
 extern bool forceSafeMode;
-extern bool framestepEnabled;
 
 //Floats
 extern float seedValue;

@@ -21,7 +21,6 @@ bool trajectoryEnabled = false;
 bool layoutEnabled = false;
 bool oldphysEnabled = false;
 bool styleApplied = false;
-bool framestepEnabled = false;
 bool lockedDeltaEnabled = false;
 bool guiVisible = false;
 bool speedhackEnabled = false;
