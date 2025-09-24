@@ -10,12 +10,7 @@ void updateAutoSafe() {
         bool shouldBeSafe = noclipEnabled || autoClickerEnabled;
         
         if (shouldBeSafe) {
-            safeMode = true;
             forceSafeMode = true;
-        }
-        else if (!shouldBeSafe && safeMode) {
-            safeMode = false;
-            forceSafeMode = false;
         }
     }
 }

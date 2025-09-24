@@ -13,7 +13,7 @@ class $modify(SafeLayer, PlayLayer) {
     }
     
     void levelComplete() {
-        if (safeMode) {
+        if (safeMode || forceSafeMode) {
             bool testMode = m_isTestMode;
             m_isTestMode = true;
             PlayLayer::levelComplete();
@@ -27,7 +27,7 @@ class $modify(SafeLayer, PlayLayer) {
 
 class $modify(GJGameLevel) {
     void savePercentage(int p0, bool p1, int p2, int p3, bool p4) {
-        if (safeMode) {
+        if (safeMode || forceSafeMode) {
             return;
         }
         else {
