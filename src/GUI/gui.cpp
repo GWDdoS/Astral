@@ -4,7 +4,7 @@ using namespace geode::prelude;
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 
-const char* tabNames[] = {"Botting", "Hacks", "Assists", "Autoclicker" "Render", "Settings"};
+const char* tabNames[] = {"Botting", "Hacks", "Assists", "Autoclicker", "Render", "Settings"};
 const int tabCount = 6;
 
 int currentTab = 0;
@@ -13,7 +13,6 @@ float frameCount = 0.0f;
 bool initialized = false;
 static float lastLevelTime = 0.0f;
 static float lastProgress = 0.0f;
-
 
 float getCurrentFrame() {
     auto* playLayer = PlayLayer::get();
@@ -34,7 +33,6 @@ float getCurrentFrame() {
         lastLevelTime = 0.0f;
     }
     
-    // check if level is actually playing
     if (!playLayer->m_hasCompletedLevel && 
         !playLayer->m_isPaused && 
         currentProgress > 0.0f) {
@@ -56,14 +54,12 @@ float getCurrentFrame() {
             initialized = true;
         }
         
-        // Update last progress for next frame
         lastProgress = currentProgress;
         
         return frameCount;
     }
     
-    #ifdef GEODE_IS_DESKTOP // i think this is how u do it
-    // yes this is how u do it - slideglide
+#ifdef GEODE_IS_DESKTOP
     
     void applyBackgroundTheme()
     {
@@ -78,18 +74,18 @@ float getCurrentFrame() {
             (Mod::get()->getResourcesDir() / ("font" + std::to_string(0) + ".ttf")).string().c_str(), 16.0f
         );
         
-        style.Alpha = 0.99f; // bg opacity  
-        style.WindowRounding = 12.0f; // rounding between menus (it also says rounding dumbass)
+        style.Alpha = 0.99f; 
+        style.WindowRounding = 12.0f;
         style.ChildRounding = 8.0f; 
         style.FrameRounding = 8.0f;
         style.PopupRounding = 8.0f;
         style.ScrollbarRounding = 12.0f;
         style.GrabRounding = 8.0f;
         style.TabRounding = 6.0f;
-        style.WindowPadding = ImVec2(15, 15); // Spaces between shit
+        style.WindowPadding = ImVec2(15, 15);
         style.FramePadding = ImVec2(10, 6);
         style.ItemSpacing = ImVec2(12, 8);
-        style.AntiAliasedLines = true; // idk fully what these do, i looked up what they do and they fix lines or smt so idk maybe it will look cool
+        style.AntiAliasedLines = true;
         style.AntiAliasedFill = true;
         
         styleApplied = true;
@@ -97,7 +93,6 @@ float getCurrentFrame() {
     
     void renderBottingTab()
     {
-        // this should make a text box.
         static std::string macroName = "";
         static char macroBuffer[256] = "";
         
@@ -129,7 +124,7 @@ float getCurrentFrame() {
     }
     
     void renderHacksTab()
-    {       // lets see if i can learn columns
+    {
         ImGui::Columns(2, "HacksColumns", false); 
         ImGui::SetColumnWidth(0, 200.0f);
         ImGui::SetColumnWidth(1, 200.0f);
@@ -193,10 +188,12 @@ float getCurrentFrame() {
         ImGui::SameLine();
         ImGui::InputFloat("##Seed", &seedValue);
     }
+    
     void renderAssists()
     {
         
     }
+    
     void renderAutoclicker() 
     {
         ImGui::Checkbox("Autoclicker Enable", &autoClickerEnabled);
@@ -464,7 +461,7 @@ float getCurrentFrame() {
         if (ImGui::Button(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 25))) {
             isCapturingKeybind = true; 
         }
-        // my dumbass had isCapturingKeybind = true; twice :rip:
+        
         if (isCapturingKeybind)
         {
             ImGui::SameLine();
@@ -500,14 +497,11 @@ float getCurrentFrame() {
         ImGui::Text("%s", title);
         ImGui::Separator();
         
-        for (int i = 0; i < tabCount; i++) {
+        if (!tabNames || tabCount <= 0) {
+            ImGui::End();
+            return;
         }
-        if (!tabNames || tabCount <= 0) return;
         
-        ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
-        
-        bool open = ImGui::Begin("Astral [BETA]", nullptr, window_flags);
-        if (!open) return;
         ImGui::SetCursorPosY(70);
         
         for (int i = 0; i < tabCount; i++)
@@ -534,13 +528,13 @@ float getCurrentFrame() {
         
         ImGui::End();
     }
-    #endif
-    
-    #ifdef GEODE_IS_MOBILE
-    // this should do the Mobile Cocos GUI
+
+#endif
+
+#ifdef GEODE_IS_MOBILE
     class $modify(MenuLayer) {
         void onMoreGames(CCObject* target) {
             Astral_GUI_Mobile_UI::create()->show();
         }
     };
-    #endif
+#endif
