@@ -95,18 +95,32 @@ float getCurrentFrame() {
     }
     
     void renderBottingTab()
-    {
-        if (ImGui::Button("Record Macro", ImVec2(150, 30))) {}
-        ImGui::SameLine();
-        if (ImGui::Button("Play Macro", ImVec2(150, 30))) {}
-        ImGui::Spacing();
-        ImGui::InputFloat("TPS Value:", &tpsValue);
-        if (tpsValue < 0.f) {
-            tpsValue = 240.f;
-        }
-        ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
-        ImGui::Checkbox("Frame Stepper", &framestepEnabled);
+{
+    // this should make a text box.
+    static std::string macroName = "";
+    static char macroBuffer[256] = "";
+    
+    ImGui::Text("Macro Name:");
+    if (ImGui::InputText("##MacroName", macroBuffer, sizeof(macroBuffer))) {
+        macroName = std::string(macroBuffer);
     }
+    
+    ImGui::Spacing();
+    
+    if (ImGui::Button("Record Macro", ImVec2(150, 30))) {
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Play Macro", ImVec2(150, 30))) {
+    }
+    
+    ImGui::Spacing();
+    ImGui::InputFloat("TPS Value:", &tpsValue);
+    if (tpsValue < 0.f) {
+        tpsValue = 240.f;
+    }
+    ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
+    ImGui::Checkbox("Frame Stepper", &framestepEnabled);
+}
     
     void renderHacksTab()
     {       // lets see if i can learn columns

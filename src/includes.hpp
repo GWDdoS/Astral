@@ -25,3 +25,4 @@
 #include <Geode/modify/ShaderLayer.hpp>
 #include <Geode/modify/EditLevelLayer.hpp>
 #include <Geode/modify/LevelInfoLayer.hpp>
+#include <Geode/modify/UILayer.hpp>
