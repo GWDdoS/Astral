@@ -1,19 +1,20 @@
 #include "../../includes.hpp"
 
 bool framestepEnabled = false;
+static bool shouldStep = false;
 
-class $modify(GJBaseGameLayer) {
+class $modify(FrameStepperHook, GJBaseGameLayer) {
     void update(float dt) override {
-        if (!framestepEnabled) {
+=        if (!framestepEnabled) {
             return GJBaseGameLayer::update(dt);
         }
 
-        bool canUse = false;
-        if (auto playLayer = utils::get<PlayLayer>()) {
+=        bool canUse = false;
+        if (auto playLayer = PlayLayer::get()) {
             canUse = !playLayer->m_isPaused && !playLayer->m_hasCompletedLevel && 
                     playLayer->m_started && !playLayer->m_player1->m_isDead;
         }
-        else if (auto editor = utils::get<LevelEditorLayer>()) {
+        else if (auto editor = LevelEditorLayer::get()) {
             canUse = editor->m_playbackMode == PlaybackMode::Playing;
         }
 
@@ -21,15 +22,23 @@ class $modify(GJBaseGameLayer) {
             return GJBaseGameLayer::update(dt);
         }
 
-        dt = 1.f / 240.f;
+=        if (shouldStep) {
+            shouldStep = false; // so u dont just keep stepping
+            dt = 1.f / tpsValue;  
+        } else {
+            dt = 0.f; // idk i was told this would fix it
+        }
+        
         GJBaseGameLayer::update(dt);
     }
 };
-// stop this from gui code lol
+// main.cpp copy
 class $modify(FrameStepperKeyHook, cocos2d::CCKeyboardDispatcher) {
     bool dispatchKeyboardMSG(cocos2d::enumKeyCodes key, bool isKeyDown, bool isKeyRepeat) {
-        if (framestepEnabled && key == cocos2d::enumKeyCodes::KEY_F && isKeyDown && !isKeyRepeat) {
-            return true;
+        if (key == cocos2d::enumKeyCodes::KEY_F && isKeyDown && !isKeyRepeat) {
+            framestepEnabled = true;
+            shouldStep = true;
+            return true; 
         }
         
         return cocos2d::CCKeyboardDispatcher::dispatchKeyboardMSG(key, isKeyDown, isKeyRepeat);
