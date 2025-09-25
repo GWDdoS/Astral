@@ -4,6 +4,9 @@ bool framestepEnabled = false;
 static bool shouldStep = false;
 
 class $modify(FrameStepperHook, GJBaseGameLayer) {
+    static void onModify(auto& self) {
+    FIRST_PRIORITY("cocos2d::CCScheduler::update"); // according to AI, this is becuase gd engine clamps the delta, so if i run it before it locks, it will work
+    }
     void update(float dt) override {
         if (!framestepEnabled) {
             return GJBaseGameLayer::update(dt);
@@ -14,10 +17,6 @@ class $modify(FrameStepperHook, GJBaseGameLayer) {
             canUse = !playLayer->m_isPaused && !playLayer->m_hasCompletedLevel && 
                     playLayer->m_started && !playLayer->m_player1->m_isDead;
         }
-        else if (auto editor = LevelEditorLayer::get()) {
-            canUse = editor->m_playbackMode == PlaybackMode::Playing;
-        }
-
         if (!canUse) {
             return GJBaseGameLayer::update(dt);
         }

@@ -38,7 +38,6 @@ extern bool accuratePercentage;
 extern bool autoClickerEnabled;
 
 // Floats
-extern float seedValue;
 extern float tpsValue;
 extern float themeColor[3];
 extern float speedhackMultiplier;
@@ -58,6 +57,7 @@ extern int fontList;
 extern int fontType;
 extern int currentTab;
 extern int decimalPlaces;
+extern int seedValue;
 
 // IDK
 extern constexpr int backgroundThemeNamesCount = 0;
@@ -81,7 +81,10 @@ extern int  autoClick_##NAME##_intervalRelease; \
 extern int  autoClick_##NAME##_clicksPerFrame; \
 extern bool autoClick_##NAME##_swiftClick; \
 extern bool autoClick_##NAME##_limitFrames; \
-extern int  autoClick_##NAME##_maxFrames;
+extern int  autoClick_##NAME##_maxFrames; \
+extern bool autoClick_##NAME##_blackOrbModeEnabled; \
+extern int  autoClick_##NAME##_blackOrb_clickCount; \
+extern int  autoClick_##NAME##_blackOrb_holdFrames;
 
 DECL_AUTOKEY(W)
 DECL_AUTOKEY(A)

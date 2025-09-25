@@ -1,8 +1,6 @@
 #include "../../includes.hpp"
 // someone asked for me to showcase wiht this one time so here it is
 
-// i was told this would work? bro idk ill just remove this tbh
-/*
 class $modify(PlayLayer) {
     float customGetProgress() {
         try {
@@ -35,4 +33,3 @@ class $modify(PlayLayer) {
         }
     }
 };
-*/
