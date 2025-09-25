@@ -1,5 +1,5 @@
 #include "../../includes.hpp"
-#ifdef GEODE_IS_DESKTOP
+
 class $modify(GJBaseGameLayer) {
     struct Fields {
         // W Key state
@@ -240,4 +240,3 @@ class $modify(GJBaseGameLayer) {
         }
     }
 };
-#endif
