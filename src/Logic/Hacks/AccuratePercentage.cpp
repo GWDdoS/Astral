@@ -3,6 +3,7 @@
 bool accuratePercentage = false;
 int decimalPlaces = 4;
 // i was told this would work? bro idk ill just remove this tbh
+/*it didnt work
 class $modify(PlayLayer) {
     float customGetProgress() {
         try {
@@ -35,3 +36,4 @@ class $modify(PlayLayer) {
         }
     }
 };
+*/
