@@ -190,7 +190,7 @@ float getCurrentFrame() {
         ImGui::Separator();
         ImGui::Checkbox("Seed Hack", &seedHackEnabled);
         ImGui::SameLine();
-        ImGui::InputFloat("##Seed", seedValue);
+        ImGui::InputFloat("##Seed", &seedValue);
     }
     void renderAssists()
     {
