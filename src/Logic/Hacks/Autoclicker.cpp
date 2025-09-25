@@ -44,7 +44,6 @@ class $modify(GJBaseGameLayer) {
         PlayerButton button, bool isPlayer1)
         {
             if (!enabled) {
-                // If disabled and we were holding, release the key
                 if (state.clicking) {
                     this->handleButton(false, static_cast<int>(button), isPlayer1);
                     state.clicking = false;
@@ -53,7 +52,6 @@ class $modify(GJBaseGameLayer) {
                 return;
             }
             
-            // Initialize state on first run
             if (!state.initialized) {
                 state.timer = 0;
                 state.clicking = false;
@@ -62,7 +60,6 @@ class $modify(GJBaseGameLayer) {
                 state.initialized = true;
             }
             
-            // Check frame limit
             if (limitFrames && state.framesClicked >= maxFrames && maxFrames > 0) {
                 if (state.clicking) {
                     this->handleButton(false, static_cast<int>(button), isPlayer1);
