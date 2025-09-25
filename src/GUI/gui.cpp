@@ -3,7 +3,6 @@
 using namespace geode::prelude;
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
-
 const char* tabNames[] = {"Botting", "Hacks", "Assists", "Autoclicker", "Render", "Settings"};
 const int tabCount = 6;
 
@@ -13,7 +12,6 @@ float frameCount = 0.0f;
 bool initialized = false;
 static float lastLevelTime = 0.0f;
 static float lastProgress = 0.0f;
-
 float getCurrentFrame() {
     auto* playLayer = PlayLayer::get();
     if (!playLayer) {
@@ -32,33 +30,15 @@ float getCurrentFrame() {
         initialized = false;
         lastLevelTime = 0.0f;
     }
-    
     if (!playLayer->m_hasCompletedLevel && 
         !playLayer->m_isPaused && 
         currentProgress > 0.0f) {
-            
-            if (!initialized) {
-                frameCount = 0.0f;
-                lastLevelTime = currentTime;
-                initialized = true;
-            } else {
-                float deltaTime = currentTime - lastLevelTime;
-                float deltaFrames = deltaTime * tpsValue;
-                
-                frameCount += deltaFrames;
-                lastLevelTime = currentTime;
-            }
-        } else if (!initialized) {
-            frameCount = 0.0f;
-            lastLevelTime = currentTime;
             initialized = true;
         }
-        
         lastProgress = currentProgress;
         
         return frameCount;
     }
-    
     #ifdef GEODE_IS_DESKTOP
     
     void applyBackgroundTheme()
@@ -73,7 +53,6 @@ float getCurrentFrame() {
         auto* font = io.Fonts->AddFontFromFileTTF(
             (Mod::get()->getResourcesDir() / ("font" + std::to_string(0) + ".ttf")).string().c_str(), 16.0f
         );
-        
         style.Alpha = 0.99f; 
         style.WindowRounding = 12.0f;
         style.ChildRounding = 8.0f; 
@@ -90,7 +69,6 @@ float getCurrentFrame() {
         
         styleApplied = true;
     }
-    
     void renderBottingTab()
     {
         static std::string macroName = "";
@@ -186,207 +164,348 @@ float getCurrentFrame() {
         ImGui::Separator();
         ImGui::Checkbox("Seed Hack", &seedHackEnabled);
         ImGui::SameLine();
-        ImGui::InputInt("##Seed", &seedValue);
+        ImGui::InputFloat("##Seed", &seedValue);
     }
-    
     void renderAssists()
     {
         
     }
-    
-    struct AutoKeyGUI {
-        const char* label;    // Display name in the header
-        const char* id;       // Unique ImGui suffix (##ID)
-        bool* enabled;
-        int* hold;
-        int* release;
-        int* clicks;
-        bool* swift;
-        bool* limitFrames;
-        int* maxFrames;
-    };
-    // lets see what it came up with. I dont want to use smt ik wont work
-    struct AutoKeyGUI {
-        const char* label;
-        const char* id;
-        bool* enabled;
-        int* hold;
-        int* release;
-        int* clicks;
-        bool* swift;
-        bool* limitFrames;
-        int* maxFrames;
-        bool* blackOrbMode;
-        int* blackOrbClicks;
-        int* blackOrbHold;
-    };
-    /*
-    static void RenderKeySettings(const AutoKeyGUI& k) {
-        if (ImGui::CollapsingHeader(k.label)) {
-            ImGui::Indent();
-            ImGui::Checkbox(fmt::format("Enable{}", k.id).c_str(), k.enabled);
+    void renderAutoclicker() 
+    {
+        ImGui::Checkbox("Autoclicker Enable", &autoClickerEnabled);
+        /*
+        if (autoClickerEnabled) {
+            ImGui::Separator();
             
-            if (*k.enabled) {
-                // Hold Frames with special case for infinite hold (0)
-                ImGui::SetNextItemWidth(100);
-                ImGui::InputInt(fmt::format("Hold Frames{}", k.id).c_str(), k.hold);
-                if (*k.hold < 0) *k.hold = 0;
-                
-                // Show helpful text for hold mode
-                if (*k.hold == 0) {
-                    ImGui::SameLine();
-                    ImGui::TextColored(ImVec4(0.5f, 1.0f, 0.5f, 1.0f), "(Infinite Hold)");
-                }
-                
-                // Only show release frames if not in infinite hold mode
-                if (*k.hold > 0) {
+            ImGui::Text("Player 1 Controls:");
+            
+            // W Key
+            if (ImGui::CollapsingHeader("W Key (Player 1 Jump)")) {
+                ImGui::Indent();
+                ImGui::Checkbox("Enable##W", &autoClick_W_enabled);
+                if (autoClick_W_enabled) {
                     ImGui::SetNextItemWidth(100);
-                    ImGui::InputInt(fmt::format("Release Frames{}", k.id).c_str(), k.release);
-                    *k.release = std::max(1, *k.release);
-                }
-                
-                ImGui::SetNextItemWidth(80);
-                ImGui::InputInt(fmt::format("Clicks/Frame{}", k.id).c_str(), k.clicks);
-                *k.clicks = std::clamp(*k.clicks, 1, 10);
-                
-                ImGui::Checkbox(fmt::format("Swift Click{}", k.id).c_str(), k.swift);
-                ImGui::Checkbox(fmt::format("Limit Frames{}", k.id).c_str(), k.limitFrames);
-                
-                if (*k.limitFrames) {
-                    ImGui::SameLine();
-                    ImGui::SetNextItemWidth(80);
-                    ImGui::InputInt(fmt::format("Max Frames{}", k.id).c_str(), k.maxFrames);
-                    *k.maxFrames = std::max(0, *k.maxFrames);
-                }
-                
-                // Black orb mode settings
-                ImGui::Separator();
-                ImGui::Checkbox(fmt::format("Black Orb Mode{}", k.id).c_str(), k.blackOrbMode);
-                
-                if (*k.blackOrbMode) {
-                    ImGui::SetNextItemWidth(80);
-                    ImGui::InputInt(fmt::format("Orb Clicks{}", k.id).c_str(), k.blackOrbClicks);
-                    *k.blackOrbClicks = std::max(1, *k.blackOrbClicks);
+                    ImGui::InputInt("Hold Frames##W", &autoClick_W_intervalHold);
+                    if (autoClick_W_intervalHold < 1) autoClick_W_intervalHold = 1;
+                    
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Release Frames##W", &autoClick_W_intervalRelease);
+                    if (autoClick_W_intervalRelease < 1) autoClick_W_intervalRelease = 1;
                     
                     ImGui::SetNextItemWidth(80);
-                    ImGui::InputInt(fmt::format("Orb Hold Frames{}", k.id).c_str(), k.blackOrbHold);
-                    *k.blackOrbHold = std::max(1, *k.blackOrbHold);
+                    ImGui::InputInt("Clicks/Frame##W", &autoClick_W_clicksPerFrame);
+                    if (autoClick_W_clicksPerFrame < 1) autoClick_W_clicksPerFrame = 1;
+                    if (autoClick_W_clicksPerFrame > 10) autoClick_W_clicksPerFrame = 10;
+                    
+                    ImGui::Checkbox("Swift Click##W", &autoClick_W_swiftClick);
+                    ImGui::Checkbox("Limit Frames##W", &autoClick_W_limitFrames);
+                    if (autoClick_W_limitFrames) {
+                        ImGui::SameLine();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Max Frames##W", &autoClick_W_maxFrames);
+                        if (autoClick_W_maxFrames < 0) autoClick_W_maxFrames = 0;
+                    }
                 }
+                ImGui::Unindent();
             }
-            ImGui::Unindent();
+            
+            // A Key
+            if (ImGui::CollapsingHeader("A Key (Player 1 Left)")) {
+                ImGui::Indent();
+                ImGui::Checkbox("Enable##A", &autoClick_A_enabled);
+                if (autoClick_A_enabled) {
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Hold Frames##A", &autoClick_A_intervalHold);
+                    if (autoClick_A_intervalHold < 1) autoClick_A_intervalHold = 1;
+                    
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Release Frames##A", &autoClick_A_intervalRelease);
+                    if (autoClick_A_intervalRelease < 1) autoClick_A_intervalRelease = 1;
+                    
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Clicks/Frame##A", &autoClick_A_clicksPerFrame);
+                    if (autoClick_A_clicksPerFrame < 1) autoClick_A_clicksPerFrame = 1;
+                    if (autoClick_A_clicksPerFrame > 10) autoClick_A_clicksPerFrame = 10;
+                    
+                    ImGui::Checkbox("Swift Click##A", &autoClick_A_swiftClick);
+                    ImGui::Checkbox("Limit Frames##A", &autoClick_A_limitFrames);
+                    if (autoClick_A_limitFrames) {
+                        ImGui::SameLine();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Max Frames##A", &autoClick_A_maxFrames);
+                        if (autoClick_A_maxFrames < 0) autoClick_A_maxFrames = 0;
+                    }
+                }
+                ImGui::Unindent();
+            }
+            
+            // D Key
+            if (ImGui::CollapsingHeader("D Key (Player 1 Right)")) {
+                ImGui::Indent();
+                ImGui::Checkbox("Enable##D", &autoClick_D_enabled);
+                if (autoClick_D_enabled) {
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Hold Frames##D", &autoClick_D_intervalHold);
+                    if (autoClick_D_intervalHold < 1) autoClick_D_intervalHold = 1;
+                    
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Release Frames##D", &autoClick_D_intervalRelease);
+                    if (autoClick_D_intervalRelease < 1) autoClick_D_intervalRelease = 1;
+                    
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Clicks/Frame##D", &autoClick_D_clicksPerFrame);
+                    if (autoClick_D_clicksPerFrame < 1) autoClick_D_clicksPerFrame = 1;
+                    if (autoClick_D_clicksPerFrame > 10) autoClick_D_clicksPerFrame = 10;
+                    
+                    ImGui::Checkbox("Swift Click##D", &autoClick_D_swiftClick);
+                    ImGui::Checkbox("Limit Frames##D", &autoClick_D_limitFrames);
+                    if (autoClick_D_limitFrames) {
+                        ImGui::SameLine();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Max Frames##D", &autoClick_D_maxFrames);
+                        if (autoClick_D_maxFrames < 0) autoClick_D_maxFrames = 0;
+                    }
+                }
+                ImGui::Unindent();
+            }
+            
+            // SPACE Key
+            if (ImGui::CollapsingHeader("SPACE Key (Player 1 Jump Alt)")) {
+                ImGui::Indent();
+                ImGui::Checkbox("Enable##SPACE", &autoClick_SPACE_enabled);
+                if (autoClick_SPACE_enabled) {
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Hold Frames##SPACE", &autoClick_SPACE_intervalHold);
+                    if (autoClick_SPACE_intervalHold < 1) autoClick_SPACE_intervalHold = 1;
+                    
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Release Frames##SPACE", &autoClick_SPACE_intervalRelease);
+                    if (autoClick_SPACE_intervalRelease < 1) autoClick_SPACE_intervalRelease = 1;
+                    
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Clicks/Frame##SPACE", &autoClick_SPACE_clicksPerFrame);
+                    if (autoClick_SPACE_clicksPerFrame < 1) autoClick_SPACE_clicksPerFrame = 1;
+                    if (autoClick_SPACE_clicksPerFrame > 10) autoClick_SPACE_clicksPerFrame = 10;
+                    
+                    ImGui::Checkbox("Swift Click##SPACE", &autoClick_SPACE_swiftClick);
+                    ImGui::Checkbox("Limit Frames##SPACE", &autoClick_SPACE_limitFrames);
+                    if (autoClick_SPACE_limitFrames) {
+                        ImGui::SameLine();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Max Frames##SPACE", &autoClick_SPACE_maxFrames);
+                        if (autoClick_SPACE_maxFrames < 0) autoClick_SPACE_maxFrames = 0;
+                    }
+                }
+                ImGui::Unindent();
+            }
+            
+            ImGui::Separator();
+            ImGui::Text("Player 2 Controls:");
+            
+            // UP Key
+            if (ImGui::CollapsingHeader("UP Key (Player 2 Jump)")) {
+                ImGui::Indent();
+                ImGui::Checkbox("Enable##UP", &autoClick_UP_enabled);
+                if (autoClick_UP_enabled) {
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Hold Frames##UP", &autoClick_UP_intervalHold);
+                    if (autoClick_UP_intervalHold < 1) autoClick_UP_intervalHold = 1;
+                    
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Release Frames##UP", &autoClick_UP_intervalRelease);
+                    if (autoClick_UP_intervalRelease < 1) autoClick_UP_intervalRelease = 1;
+                    
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Clicks/Frame##UP", &autoClick_UP_clicksPerFrame);
+                    if (autoClick_UP_clicksPerFrame < 1) autoClick_UP_clicksPerFrame = 1;
+                    if (autoClick_UP_clicksPerFrame > 10) autoClick_UP_clicksPerFrame = 10;
+                    
+                    ImGui::Checkbox("Swift Click##UP", &autoClick_UP_swiftClick);
+                    ImGui::Checkbox("Limit Frames##UP", &autoClick_UP_limitFrames);
+                    if (autoClick_UP_limitFrames) {
+                        ImGui::SameLine();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Max Frames##UP", &autoClick_UP_maxFrames);
+                        if (autoClick_UP_maxFrames < 0) autoClick_UP_maxFrames = 0;
+                    }
+                }
+                ImGui::Unindent();
+            }
+            
+            // LEFT Key
+            if (ImGui::CollapsingHeader("LEFT Key (Player 2 Left)")) {
+                ImGui::Indent();
+                ImGui::Checkbox("Enable##LEFT", &autoClick_LEFT_enabled);
+                if (autoClick_LEFT_enabled) {
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Hold Frames##LEFT", &autoClick_LEFT_intervalHold);
+                    if (autoClick_LEFT_intervalHold < 1) autoClick_LEFT_intervalHold = 1;
+                    
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Release Frames##LEFT", &autoClick_LEFT_intervalRelease);
+                    if (autoClick_LEFT_intervalRelease < 1) autoClick_LEFT_intervalRelease = 1;
+                    
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Clicks/Frame##LEFT", &autoClick_LEFT_clicksPerFrame);
+                    if (autoClick_LEFT_clicksPerFrame < 1) autoClick_LEFT_clicksPerFrame = 1;
+                    if (autoClick_LEFT_clicksPerFrame > 10) autoClick_LEFT_clicksPerFrame = 10;
+                    
+                    ImGui::Checkbox("Swift Click##LEFT", &autoClick_LEFT_swiftClick);
+                    ImGui::Checkbox("Limit Frames##LEFT", &autoClick_LEFT_limitFrames);
+                    if (autoClick_LEFT_limitFrames) {
+                        ImGui::SameLine();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Max Frames##LEFT", &autoClick_LEFT_maxFrames);
+                        if (autoClick_LEFT_maxFrames < 0) autoClick_LEFT_maxFrames = 0;
+                    }
+                }
+                ImGui::Unindent();
+            }
+            
+            // RIGHT Key
+            if (ImGui::CollapsingHeader("RIGHT Key (Player 2 Right)")) {
+                ImGui::Indent();
+                ImGui::Checkbox("Enable##RIGHT", &autoClick_RIGHT_enabled);
+                if (autoClick_RIGHT_enabled) {
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Hold Frames##RIGHT", &autoClick_RIGHT_intervalHold);
+                    if (autoClick_RIGHT_intervalHold < 1) autoClick_RIGHT_intervalHold = 1;
+                    
+                    ImGui::SetNextItemWidth(100);
+                    ImGui::InputInt("Release Frames##RIGHT", &autoClick_RIGHT_intervalRelease);
+                    if (autoClick_RIGHT_intervalRelease < 1) autoClick_RIGHT_intervalRelease = 1;
+                    
+                    ImGui::SetNextItemWidth(80);
+                    ImGui::InputInt("Clicks/Frame##RIGHT", &autoClick_RIGHT_clicksPerFrame);
+                    if (autoClick_RIGHT_clicksPerFrame < 1) autoClick_RIGHT_clicksPerFrame = 1;
+                    if (autoClick_RIGHT_clicksPerFrame > 10) autoClick_RIGHT_clicksPerFrame = 10;
+                    
+                    ImGui::Checkbox("Swift Click##RIGHT", &autoClick_RIGHT_swiftClick);
+                    ImGui::Checkbox("Limit Frames##RIGHT", &autoClick_RIGHT_limitFrames);
+                    if (autoClick_RIGHT_limitFrames) {
+                        ImGui::SameLine();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Max Frames##RIGHT", &autoClick_RIGHT_maxFrames);
+                        if (autoClick_RIGHT_maxFrames < 0) autoClick_RIGHT_maxFrames = 0;
+                    }
+                }
+                ImGui::Unindent();
+            }
+            
+            ImGui::Separator();
+            
+            if (ImGui::Button("Disable All")) {
+                autoClick_W_enabled = false;
+                autoClick_A_enabled = false;
+                autoClick_D_enabled = false;
+                autoClick_UP_enabled = false;
+                autoClick_LEFT_enabled = false;
+                autoClick_RIGHT_enabled = false;
+                autoClick_SPACE_enabled = false;
+            }
+            
+            ImGui::SameLine();
+            if (ImGui::Button("Enable All Jump Keys")) {
+                autoClick_W_enabled = true;
+                autoClick_UP_enabled = true;
+                autoClick_SPACE_enabled = true;
+            }
+            
+            ImGui::SameLine();
+            if (ImGui::Button("Enable All Movement")) {
+                autoClick_A_enabled = true;
+                autoClick_D_enabled = true;
+                autoClick_LEFT_enabled = true;
+                autoClick_RIGHT_enabled = true;
+            }
         }
+    */
+        }
+    void renderRenderTab()
+    {
+        if (ImGui::Button("Start Render", ImVec2(150, 30))) {}
+        ImGui::SameLine();
+        if (ImGui::Button("Stop Render", ImVec2(150, 30))) {}
+        ImGui::Spacing();
     }
     
-    void renderAutoclicker() {
-        ImGui::Checkbox("Autoclicker Enable", &autoClickerEnabled);
-        if (!autoClickerEnabled) return;
+    void renderSettingsTab()
+    {
+        ImGui::Text("Toggle GUI Key:");
+        
+        const char* currentKeyDisplay = getKeyName(capturedCustomKey);
+        if (ImGui::Button(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 25))) {
+            isCapturingKeybind = true; 
+        }
+        if (isCapturingKeybind)
+        {
+            ImGui::SameLine();
+            if (ImGui::Button("Cancel")) {
+                isCapturingKeybind = false;
+            }
+        }
+        
+        ImGui::Text("Current Key: %s", currentKeyDisplay);
+        ImGui::Text("Accent Color:");
+        ImGui::ColorEdit3("##accentcolor", themeColor);
+    }
+    
+    void renderMainGui()
+    {
+        if (!ImGui::GetCurrentContext()) return;
+        
+        auto& imguiCocos = ImGuiCocos::get();
+        if (&imguiCocos == nullptr) return;
+        
+        guiVisible = imguiCocos.isVisible();
+        if (tabCount <= 0) return;
+        
+        ImGuiWindowFlags flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
+        if (!ImGui::Begin("Astral [BETA]", nullptr, flags)) {
+            ImGui::End();
+            return;
+        }
+        
+        float width = ImGui::GetContentRegionAvail().x;
+        const char* title = "Astral [BETA]";
+        ImGui::SetCursorPosX((width - ImGui::CalcTextSize(title).x) * 0.5f);
+        ImGui::Text("%s", title);
+        ImGui::Separator();
+        if (!tabNames || tabCount <= 0) {
+            ImGui::End();
+            return;
+        }
+        ImGui::SetCursorPosY(70);
+        
+        for (int i = 0; i < tabCount; i++)
+        {
+            if (!tabNames[i]) continue;
+            if (ImGui::Button(tabNames[i])) currentTab = i;
+            if (i < tabCount - 1) ImGui::SameLine();
+        }
         
         ImGui::Separator();
         
-        // Add helpful text about hold mode
-        ImGui::TextColored(ImVec4(0.7f, 0.7f, 1.0f, 1.0f), "Tip: Set Hold Frames to 0 for infinite hold mode");
-        ImGui::Spacing();
-        
-        ImGui::Text("Player 1 Controls:");
-        
-        AutoKeyGUI player1Keys[] = {
-            {"W Key (Player 1 Jump)", "##W", &autoClick_W_enabled, &autoClick_W_intervalHold,
-                &autoClick_W_intervalRelease, &autoClick_W_clicksPerFrame,
-                &autoClick_W_swiftClick, &autoClick_W_limitFrames, &autoClick_W_maxFrames,
-                &autoClick_W_blackOrbModeEnabled, &autoClick_W_blackOrb_clickCount, &autoClick_W_blackOrb_holdFrames,}
+        switch (currentTab) {
+            case 0: renderBottingTab(); break;
+            case 1: renderHacksTab(); break;
+            case 2: renderAssists(); break;
+            case 3: renderAutoclicker(); break;
+            case 4: renderRenderTab(); break;
+            case 5: renderSettingsTab(); break; 
         }
-    }        
-    */            
-                void renderRenderTab()
-                {
-                    if (ImGui::Button("Start Render", ImVec2(150, 30))) {}
-                    ImGui::SameLine();
-                    if (ImGui::Button("Stop Render", ImVec2(150, 30))) {}
-                    ImGui::Spacing();
-                }
-                
-                void renderSettingsTab()
-                {
-                    ImGui::Text("Toggle GUI Key:");
-                    
-                    const char* currentKeyDisplay = getKeyName(capturedCustomKey);
-                    if (ImGui::Button(isCapturingKeybind ? "Press any key..." : currentKeyDisplay, ImVec2(120, 25))) {
-                        isCapturingKeybind = true; 
-                    }
-                    
-                    if (isCapturingKeybind)
-                    {
-                        ImGui::SameLine();
-                        if (ImGui::Button("Cancel")) {
-                            isCapturingKeybind = false;
-                        }
-                    }
-                    
-                    ImGui::Text("Current Key: %s", currentKeyDisplay);
-                    ImGui::Text("Accent Color:");
-                    ImGui::ColorEdit3("##accentcolor", themeColor);
-                }
-                
-                void renderMainGui()
-                {
-                    if (!ImGui::GetCurrentContext()) return;
-                    
-                    auto& imguiCocos = ImGuiCocos::get();
-                    if (&imguiCocos == nullptr) return;
-                    
-                    guiVisible = imguiCocos.isVisible();
-                    if (tabCount <= 0) return;
-                    
-                    ImGuiWindowFlags flags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar;
-                    if (!ImGui::Begin("Astral [BETA v1]", nullptr, flags)) {
-                        ImGui::End();
-                        return;
-                    }
-                    
-                    float width = ImGui::GetContentRegionAvail().x;
-                    const char* title = "Astral [BETA v1]";
-                    ImGui::SetCursorPosX((width - ImGui::CalcTextSize(title).x) * 0.5f);
-                    ImGui::Text("%s", title);
-                    ImGui::Separator();
-                    
-                    if (!tabNames || tabCount <= 0) {
-                        ImGui::End();
-                        return;
-                    }
-                    
-                    ImGui::SetCursorPosY(70);
-                    
-                    for (int i = 0; i < tabCount; i++)
-                    {
-                        if (!tabNames[i]) continue;
-                        if (ImGui::Button(tabNames[i])) currentTab = i;
-                        if (i < tabCount - 1) ImGui::SameLine();
-                    }
-                    
-                    ImGui::Separator();
-                    
-                    switch (currentTab) {
-                        case 0: renderBottingTab(); break;
-                        case 1: renderHacksTab(); break;
-                        case 2: renderAssists(); break;
-                        case 3: renderAutoclicker(); break;
-                        case 4: renderRenderTab(); break;
-                        case 5: renderSettingsTab(); break; 
-                    }
-                    
-                    ImGui::Separator();
-                    float currentFrame = getCurrentFrame();
-                    ImGui::Text("Frame: %.2f", currentFrame);
-                    
-                    ImGui::End();
-                }
-                
-                #endif
-                
-                #ifdef GEODE_IS_MOBILE
-                class $modify(MenuLayer) {
-                    void onMoreGames(CCObject* target) {
-                        Astral_GUI_Mobile_UI::create()->show();
-                    }
-                };
-                #endif
+        
+        ImGui::Separator();
+        float currentFrame = getCurrentFrame();
+        ImGui::Text("Frame: %.2f", currentFrame);
+        
+        ImGui::End();
+    }
+    #endif
+    #ifdef GEODE_IS_MOBILE
+    class $modify(MenuLayer) {
+        void onMoreGames(CCObject* target) {
+            Astral_GUI_Mobile_UI::create()->show();
+        }
+    };
+    #endif
