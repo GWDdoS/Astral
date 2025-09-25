@@ -1,6 +1,5 @@
 #include "../../includes.hpp"
-// todo, add mem patches for <240 tps. 
-// idk if these fixes work but here we are
+
 class $modify(TPSBypassGJBGLHook, GJBaseGameLayer) {
     struct Fields {
         double m_extraDelta = 0.0;
@@ -29,7 +28,7 @@ class $modify(TPSBypassGJBGLHook, GJBaseGameLayer) {
         GJBaseGameLayer::update(static_cast<float>(totalDelta));
     }
 
-    float getModifiedDelta(float dt) override {
+    float getModifiedDelta(float dt) {
         if (!tpsEnabled || tpsValue == 240.f) {
             return GJBaseGameLayer::getModifiedDelta(dt);
         }
@@ -66,7 +65,7 @@ void updateTPSSettings() {
 }
 
 class $modify(TPSBypassPLHook, PlayLayer) {
-    void updateProgressbar() override {
+    void updateProgressbar() {
         auto timestamp = m_level->m_timestamp;
         auto currentProgress = m_gameState.m_currentProgress;
         
@@ -92,7 +91,7 @@ class $modify(TPSBypassPLHook, PlayLayer) {
         m_gameState.m_currentProgress = currentProgress;
     }
 
-    void levelComplete() override {
+    void levelComplete() {
         auto oldTimestamp = m_gameState.m_unkUint2;
         
         if (tpsEnabled && tpsValue != 240.f) {
