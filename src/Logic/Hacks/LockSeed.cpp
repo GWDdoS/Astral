@@ -4,7 +4,7 @@ using namespace geode::prelude;
 bool seedHackEnabled = false;
 int seedValue = 1;
 
-class $hook(GameToolbox) {
+class $modify(GameToolbox) {
     float fast_rand_0_1() {
         if (!seedHackEnabled)
             return GameToolbox::fast_rand_0_1();   // keeps old seed if enabled
