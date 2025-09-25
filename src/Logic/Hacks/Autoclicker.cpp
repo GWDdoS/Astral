@@ -1,5 +1,70 @@
 #include "../../includes.hpp"
+// Autoclicker variables
+bool autoClickerEnabled = false;
 
+// W Key
+bool autoClick_W_enabled = false;
+int autoClick_W_intervalHold = 1;
+int autoClick_W_intervalRelease = 1;
+int autoClick_W_clicksPerFrame = 1;
+bool autoClick_W_swiftClick = false;
+bool autoClick_W_limitFrames = false;
+int autoClick_W_maxFrames = 0;
+
+// A Key
+bool autoClick_A_enabled = false;
+int autoClick_A_intervalHold = 1;
+int autoClick_A_intervalRelease = 1;
+int autoClick_A_clicksPerFrame = 1;
+bool autoClick_A_swiftClick = false;
+bool autoClick_A_limitFrames = false;
+int autoClick_A_maxFrames = 0;
+
+// D Key
+bool autoClick_D_enabled = false;
+int autoClick_D_intervalHold = 1;
+int autoClick_D_intervalRelease = 1;
+int autoClick_D_clicksPerFrame = 1;
+bool autoClick_D_swiftClick = false;
+bool autoClick_D_limitFrames = false;
+int autoClick_D_maxFrames = 0;
+
+// UP Key
+bool autoClick_UP_enabled = false;
+int autoClick_UP_intervalHold = 1;
+int autoClick_UP_intervalRelease = 1;
+int autoClick_UP_clicksPerFrame = 1;
+bool autoClick_UP_swiftClick = false;
+bool autoClick_UP_limitFrames = false;
+int autoClick_UP_maxFrames = 0;
+
+// LEFT Key
+bool autoClick_LEFT_enabled = false;
+int autoClick_LEFT_intervalHold = 1;
+int autoClick_LEFT_intervalRelease = 1;
+int autoClick_LEFT_clicksPerFrame = 1;
+bool autoClick_LEFT_swiftClick = false;
+bool autoClick_LEFT_limitFrames = false;
+int autoClick_LEFT_maxFrames = 0;
+
+// RIGHT Key
+bool autoClick_RIGHT_enabled = false;
+int autoClick_RIGHT_intervalHold = 1;
+int autoClick_RIGHT_intervalRelease = 1;
+int autoClick_RIGHT_clicksPerFrame = 1;
+bool autoClick_RIGHT_swiftClick = false;
+bool autoClick_RIGHT_limitFrames = false;
+int autoClick_RIGHT_maxFrames = 0;
+
+// SPACE Key
+bool autoClick_SPACE_enabled = false;
+int autoClick_SPACE_intervalHold = 1;
+int autoClick_SPACE_intervalRelease = 1;
+int autoClick_SPACE_clicksPerFrame = 1;
+bool autoClick_SPACE_swiftClick = false;
+bool autoClick_SPACE_limitFrames = false;
+int autoClick_SPACE_maxFrames = 0;
+#ifdef GEODE_IS_DESKTOP
 class $modify(GJBaseGameLayer) {
     struct Fields {
         // W Key state
@@ -240,3 +305,4 @@ class $modify(GJBaseGameLayer) {
         }
     }
 };
+# endif
