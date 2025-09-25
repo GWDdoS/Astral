@@ -5,7 +5,7 @@ bool unlockEverything = false;
 class $modify(GameLevelManager) {
     GJGameLevel* getMainLevel(int levelID, bool dontGetLevelString) {
         auto level = GameLevelManager::getMainLevel(levelID, dontGetLevelString);
-        if (unlockAllEnabled && level->m_requiredCoins > 0) {
+        if (unlockEverything && level->m_requiredCoins > 0) {
             level->m_requiredCoins = 0;
         }
         return level;
@@ -15,12 +15,12 @@ class $modify(GameLevelManager) {
 class $modify(GameManager) {
     bool isColorUnlocked(int key, UnlockType type) {
         if (GameManager::isColorUnlocked(key, type)) return true;
-        return unlockAllEnabled;
+        return unlockEverything;
     }
 
     bool isIconUnlocked(int key, IconType type) {
         if (GameManager::isIconUnlocked(key, type)) return true;
-        return unlockAllEnabled;
+        return unlockEverything;
     }
 };
 // pracitce music sync
@@ -28,7 +28,7 @@ class $modify(GameStatsManager) {
     bool isItemUnlocked(UnlockType type, int key) {
         if (GameStatsManager::isItemUnlocked(type, key)) return true;
         
-        if (unlockAllEnabled) {
+        if (unlockEverything) {
             if (type == UnlockType::GJItem && ((key >= 16 && key <= 20))) {
                 return true;
             }
