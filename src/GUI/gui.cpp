@@ -173,7 +173,7 @@ float getCurrentFrame() {
     void renderAutoclicker() 
     {
         ImGui::Checkbox("Autoclicker Enable", &autoClickerEnabled);
-        /*
+        
         if (autoClickerEnabled) {
             ImGui::Separator();
             
@@ -186,7 +186,8 @@ float getCurrentFrame() {
                 if (autoClick_W_enabled) {
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Hold Frames##W", &autoClick_W_intervalHold);
-                    if (autoClick_W_intervalHold < 1) autoClick_W_intervalHold = 1;
+                    if (autoClick_W_intervalHold < 0) autoClick_W_intervalHold = 0;
+                    ImGui::SameLine(); ImGui::Text("(0 = infinite hold)");
                     
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Release Frames##W", &autoClick_W_intervalRelease);
@@ -195,7 +196,6 @@ float getCurrentFrame() {
                     ImGui::SetNextItemWidth(80);
                     ImGui::InputInt("Clicks/Frame##W", &autoClick_W_clicksPerFrame);
                     if (autoClick_W_clicksPerFrame < 1) autoClick_W_clicksPerFrame = 1;
-                    if (autoClick_W_clicksPerFrame > 10) autoClick_W_clicksPerFrame = 10;
                     
                     ImGui::Checkbox("Swift Click##W", &autoClick_W_swiftClick);
                     ImGui::Checkbox("Limit Frames##W", &autoClick_W_limitFrames);
@@ -204,6 +204,20 @@ float getCurrentFrame() {
                         ImGui::SetNextItemWidth(80);
                         ImGui::InputInt("Max Frames##W", &autoClick_W_maxFrames);
                         if (autoClick_W_maxFrames < 0) autoClick_W_maxFrames = 0;
+                    }
+                    
+                    ImGui::Separator();
+                    ImGui::Checkbox("Black Orb Mode##W", &autoClick_W_blackOrbModeEnabled);
+                    if (autoClick_W_blackOrbModeEnabled) {
+                        ImGui::Indent();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Click Count##W", &autoClick_W_blackOrb_clickCount);
+                        if (autoClick_W_blackOrb_clickCount < 1) autoClick_W_blackOrb_clickCount = 1;
+                        
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Hold Frames##W_BlackOrb", &autoClick_W_blackOrb_holdFrames);
+                        if (autoClick_W_blackOrb_holdFrames < 1) autoClick_W_blackOrb_holdFrames = 1;
+                        ImGui::Unindent();
                     }
                 }
                 ImGui::Unindent();
@@ -216,7 +230,8 @@ float getCurrentFrame() {
                 if (autoClick_A_enabled) {
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Hold Frames##A", &autoClick_A_intervalHold);
-                    if (autoClick_A_intervalHold < 1) autoClick_A_intervalHold = 1;
+                    if (autoClick_A_intervalHold < 0) autoClick_A_intervalHold = 0;
+                    ImGui::SameLine(); ImGui::Text("(0 = infinite hold)");
                     
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Release Frames##A", &autoClick_A_intervalRelease);
@@ -225,7 +240,6 @@ float getCurrentFrame() {
                     ImGui::SetNextItemWidth(80);
                     ImGui::InputInt("Clicks/Frame##A", &autoClick_A_clicksPerFrame);
                     if (autoClick_A_clicksPerFrame < 1) autoClick_A_clicksPerFrame = 1;
-                    if (autoClick_A_clicksPerFrame > 10) autoClick_A_clicksPerFrame = 10;
                     
                     ImGui::Checkbox("Swift Click##A", &autoClick_A_swiftClick);
                     ImGui::Checkbox("Limit Frames##A", &autoClick_A_limitFrames);
@@ -234,6 +248,20 @@ float getCurrentFrame() {
                         ImGui::SetNextItemWidth(80);
                         ImGui::InputInt("Max Frames##A", &autoClick_A_maxFrames);
                         if (autoClick_A_maxFrames < 0) autoClick_A_maxFrames = 0;
+                    }
+                    
+                    ImGui::Separator();
+                    ImGui::Checkbox("Black Orb Mode##A", &autoClick_A_blackOrbModeEnabled);
+                    if (autoClick_A_blackOrbModeEnabled) {
+                        ImGui::Indent();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Click Count##A", &autoClick_A_blackOrb_clickCount);
+                        if (autoClick_A_blackOrb_clickCount < 1) autoClick_A_blackOrb_clickCount = 1;
+                        
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Hold Frames##A_BlackOrb", &autoClick_A_blackOrb_holdFrames);
+                        if (autoClick_A_blackOrb_holdFrames < 1) autoClick_A_blackOrb_holdFrames = 1;
+                        ImGui::Unindent();
                     }
                 }
                 ImGui::Unindent();
@@ -246,7 +274,8 @@ float getCurrentFrame() {
                 if (autoClick_D_enabled) {
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Hold Frames##D", &autoClick_D_intervalHold);
-                    if (autoClick_D_intervalHold < 1) autoClick_D_intervalHold = 1;
+                    if (autoClick_D_intervalHold < 0) autoClick_D_intervalHold = 0;
+                    ImGui::SameLine(); ImGui::Text("(0 = infinite hold)");
                     
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Release Frames##D", &autoClick_D_intervalRelease);
@@ -255,7 +284,6 @@ float getCurrentFrame() {
                     ImGui::SetNextItemWidth(80);
                     ImGui::InputInt("Clicks/Frame##D", &autoClick_D_clicksPerFrame);
                     if (autoClick_D_clicksPerFrame < 1) autoClick_D_clicksPerFrame = 1;
-                    if (autoClick_D_clicksPerFrame > 10) autoClick_D_clicksPerFrame = 10;
                     
                     ImGui::Checkbox("Swift Click##D", &autoClick_D_swiftClick);
                     ImGui::Checkbox("Limit Frames##D", &autoClick_D_limitFrames);
@@ -264,6 +292,20 @@ float getCurrentFrame() {
                         ImGui::SetNextItemWidth(80);
                         ImGui::InputInt("Max Frames##D", &autoClick_D_maxFrames);
                         if (autoClick_D_maxFrames < 0) autoClick_D_maxFrames = 0;
+                    }
+                    
+                    ImGui::Separator();
+                    ImGui::Checkbox("Black Orb Mode##D", &autoClick_D_blackOrbModeEnabled);
+                    if (autoClick_D_blackOrbModeEnabled) {
+                        ImGui::Indent();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Click Count##D", &autoClick_D_blackOrb_clickCount);
+                        if (autoClick_D_blackOrb_clickCount < 1) autoClick_D_blackOrb_clickCount = 1;
+                        
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Hold Frames##D_BlackOrb", &autoClick_D_blackOrb_holdFrames);
+                        if (autoClick_D_blackOrb_holdFrames < 1) autoClick_D_blackOrb_holdFrames = 1;
+                        ImGui::Unindent();
                     }
                 }
                 ImGui::Unindent();
@@ -276,7 +318,8 @@ float getCurrentFrame() {
                 if (autoClick_SPACE_enabled) {
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Hold Frames##SPACE", &autoClick_SPACE_intervalHold);
-                    if (autoClick_SPACE_intervalHold < 1) autoClick_SPACE_intervalHold = 1;
+                    if (autoClick_SPACE_intervalHold < 0) autoClick_SPACE_intervalHold = 0;
+                    ImGui::SameLine(); ImGui::Text("(0 = infinite hold)");
                     
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Release Frames##SPACE", &autoClick_SPACE_intervalRelease);
@@ -285,7 +328,6 @@ float getCurrentFrame() {
                     ImGui::SetNextItemWidth(80);
                     ImGui::InputInt("Clicks/Frame##SPACE", &autoClick_SPACE_clicksPerFrame);
                     if (autoClick_SPACE_clicksPerFrame < 1) autoClick_SPACE_clicksPerFrame = 1;
-                    if (autoClick_SPACE_clicksPerFrame > 10) autoClick_SPACE_clicksPerFrame = 10;
                     
                     ImGui::Checkbox("Swift Click##SPACE", &autoClick_SPACE_swiftClick);
                     ImGui::Checkbox("Limit Frames##SPACE", &autoClick_SPACE_limitFrames);
@@ -294,6 +336,20 @@ float getCurrentFrame() {
                         ImGui::SetNextItemWidth(80);
                         ImGui::InputInt("Max Frames##SPACE", &autoClick_SPACE_maxFrames);
                         if (autoClick_SPACE_maxFrames < 0) autoClick_SPACE_maxFrames = 0;
+                    }
+                    
+                    ImGui::Separator();
+                    ImGui::Checkbox("Black Orb Mode##SPACE", &autoClick_SPACE_blackOrbModeEnabled);
+                    if (autoClick_SPACE_blackOrbModeEnabled) {
+                        ImGui::Indent();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Click Count##SPACE", &autoClick_SPACE_blackOrb_clickCount);
+                        if (autoClick_SPACE_blackOrb_clickCount < 1) autoClick_SPACE_blackOrb_clickCount = 1;
+                        
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Hold Frames##SPACE_BlackOrb", &autoClick_SPACE_blackOrb_holdFrames);
+                        if (autoClick_SPACE_blackOrb_holdFrames < 1) autoClick_SPACE_blackOrb_holdFrames = 1;
+                        ImGui::Unindent();
                     }
                 }
                 ImGui::Unindent();
@@ -309,7 +365,8 @@ float getCurrentFrame() {
                 if (autoClick_UP_enabled) {
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Hold Frames##UP", &autoClick_UP_intervalHold);
-                    if (autoClick_UP_intervalHold < 1) autoClick_UP_intervalHold = 1;
+                    if (autoClick_UP_intervalHold < 0) autoClick_UP_intervalHold = 0;
+                    ImGui::SameLine(); ImGui::Text("(0 = infinite hold)");
                     
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Release Frames##UP", &autoClick_UP_intervalRelease);
@@ -318,7 +375,6 @@ float getCurrentFrame() {
                     ImGui::SetNextItemWidth(80);
                     ImGui::InputInt("Clicks/Frame##UP", &autoClick_UP_clicksPerFrame);
                     if (autoClick_UP_clicksPerFrame < 1) autoClick_UP_clicksPerFrame = 1;
-                    if (autoClick_UP_clicksPerFrame > 10) autoClick_UP_clicksPerFrame = 10;
                     
                     ImGui::Checkbox("Swift Click##UP", &autoClick_UP_swiftClick);
                     ImGui::Checkbox("Limit Frames##UP", &autoClick_UP_limitFrames);
@@ -327,6 +383,20 @@ float getCurrentFrame() {
                         ImGui::SetNextItemWidth(80);
                         ImGui::InputInt("Max Frames##UP", &autoClick_UP_maxFrames);
                         if (autoClick_UP_maxFrames < 0) autoClick_UP_maxFrames = 0;
+                    }
+                    
+                    ImGui::Separator();
+                    ImGui::Checkbox("Black Orb Mode##UP", &autoClick_UP_blackOrbModeEnabled);
+                    if (autoClick_UP_blackOrbModeEnabled) {
+                        ImGui::Indent();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Click Count##UP", &autoClick_UP_blackOrb_clickCount);
+                        if (autoClick_UP_blackOrb_clickCount < 1) autoClick_UP_blackOrb_clickCount = 1;
+                        
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Hold Frames##UP_BlackOrb", &autoClick_UP_blackOrb_holdFrames);
+                        if (autoClick_UP_blackOrb_holdFrames < 1) autoClick_UP_blackOrb_holdFrames = 1;
+                        ImGui::Unindent();
                     }
                 }
                 ImGui::Unindent();
@@ -339,7 +409,8 @@ float getCurrentFrame() {
                 if (autoClick_LEFT_enabled) {
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Hold Frames##LEFT", &autoClick_LEFT_intervalHold);
-                    if (autoClick_LEFT_intervalHold < 1) autoClick_LEFT_intervalHold = 1;
+                    if (autoClick_LEFT_intervalHold < 0) autoClick_LEFT_intervalHold = 0;
+                    ImGui::SameLine(); ImGui::Text("(0 = infinite hold)");
                     
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Release Frames##LEFT", &autoClick_LEFT_intervalRelease);
@@ -348,7 +419,6 @@ float getCurrentFrame() {
                     ImGui::SetNextItemWidth(80);
                     ImGui::InputInt("Clicks/Frame##LEFT", &autoClick_LEFT_clicksPerFrame);
                     if (autoClick_LEFT_clicksPerFrame < 1) autoClick_LEFT_clicksPerFrame = 1;
-                    if (autoClick_LEFT_clicksPerFrame > 10) autoClick_LEFT_clicksPerFrame = 10;
                     
                     ImGui::Checkbox("Swift Click##LEFT", &autoClick_LEFT_swiftClick);
                     ImGui::Checkbox("Limit Frames##LEFT", &autoClick_LEFT_limitFrames);
@@ -357,6 +427,20 @@ float getCurrentFrame() {
                         ImGui::SetNextItemWidth(80);
                         ImGui::InputInt("Max Frames##LEFT", &autoClick_LEFT_maxFrames);
                         if (autoClick_LEFT_maxFrames < 0) autoClick_LEFT_maxFrames = 0;
+                    }
+                    
+                    ImGui::Separator();
+                    ImGui::Checkbox("Black Orb Mode##LEFT", &autoClick_LEFT_blackOrbModeEnabled);
+                    if (autoClick_LEFT_blackOrbModeEnabled) {
+                        ImGui::Indent();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Click Count##LEFT", &autoClick_LEFT_blackOrb_clickCount);
+                        if (autoClick_LEFT_blackOrb_clickCount < 1) autoClick_LEFT_blackOrb_clickCount = 1;
+                        
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Hold Frames##LEFT_BlackOrb", &autoClick_LEFT_blackOrb_holdFrames);
+                        if (autoClick_LEFT_blackOrb_holdFrames < 1) autoClick_LEFT_blackOrb_holdFrames = 1;
+                        ImGui::Unindent();
                     }
                 }
                 ImGui::Unindent();
@@ -369,7 +453,8 @@ float getCurrentFrame() {
                 if (autoClick_RIGHT_enabled) {
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Hold Frames##RIGHT", &autoClick_RIGHT_intervalHold);
-                    if (autoClick_RIGHT_intervalHold < 1) autoClick_RIGHT_intervalHold = 1;
+                    if (autoClick_RIGHT_intervalHold < 0) autoClick_RIGHT_intervalHold = 0;
+                    ImGui::SameLine(); ImGui::Text("(0 = infinite hold)");
                     
                     ImGui::SetNextItemWidth(100);
                     ImGui::InputInt("Release Frames##RIGHT", &autoClick_RIGHT_intervalRelease);
@@ -378,7 +463,6 @@ float getCurrentFrame() {
                     ImGui::SetNextItemWidth(80);
                     ImGui::InputInt("Clicks/Frame##RIGHT", &autoClick_RIGHT_clicksPerFrame);
                     if (autoClick_RIGHT_clicksPerFrame < 1) autoClick_RIGHT_clicksPerFrame = 1;
-                    if (autoClick_RIGHT_clicksPerFrame > 10) autoClick_RIGHT_clicksPerFrame = 10;
                     
                     ImGui::Checkbox("Swift Click##RIGHT", &autoClick_RIGHT_swiftClick);
                     ImGui::Checkbox("Limit Frames##RIGHT", &autoClick_RIGHT_limitFrames);
@@ -387,6 +471,20 @@ float getCurrentFrame() {
                         ImGui::SetNextItemWidth(80);
                         ImGui::InputInt("Max Frames##RIGHT", &autoClick_RIGHT_maxFrames);
                         if (autoClick_RIGHT_maxFrames < 0) autoClick_RIGHT_maxFrames = 0;
+                    }
+                    
+                    ImGui::Separator();
+                    ImGui::Checkbox("Black Orb Mode##RIGHT", &autoClick_RIGHT_blackOrbModeEnabled);
+                    if (autoClick_RIGHT_blackOrbModeEnabled) {
+                        ImGui::Indent();
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Click Count##RIGHT", &autoClick_RIGHT_blackOrb_clickCount);
+                        if (autoClick_RIGHT_blackOrb_clickCount < 1) autoClick_RIGHT_blackOrb_clickCount = 1;
+                        
+                        ImGui::SetNextItemWidth(80);
+                        ImGui::InputInt("Hold Frames##RIGHT_BlackOrb", &autoClick_RIGHT_blackOrb_holdFrames);
+                        if (autoClick_RIGHT_blackOrb_holdFrames < 1) autoClick_RIGHT_blackOrb_holdFrames = 1;
+                        ImGui::Unindent();
                     }
                 }
                 ImGui::Unindent();
@@ -419,8 +517,7 @@ float getCurrentFrame() {
                 autoClick_RIGHT_enabled = true;
             }
         }
-    */
-        }
+    }
     void renderRenderTab()
     {
         if (ImGui::Button("Start Render", ImVec2(150, 30))) {}

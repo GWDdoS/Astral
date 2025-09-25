@@ -3,8 +3,10 @@ using namespace geode::prelude;
 
 bool seedHackEnabled = false;
 int seedValue = 1;
-
 class $modify(GameToolbox) {
+    #ifdef GEODE_IS_WINDOWS 
+    // windows code here
+    #else
     float fast_rand_0_1() {
         if (!seedHackEnabled)
             return GameToolbox::fast_rand_0_1();   // keeps old seed if enabled
@@ -14,4 +16,5 @@ class $modify(GameToolbox) {
         int newSeed = (214013 * seed) + 2531011;
         return ((newSeed >> 16) & 0x7FFF) / 32767.f;
     }
+    #endif
 };
