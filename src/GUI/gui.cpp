@@ -4,7 +4,6 @@ using namespace geode::prelude;
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 const char* tabNames[] = {"Botting", "Hacks", "Assists", "Autoclicker", "Render", "Settings"};
-const int tabCount = 6;
 
 int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
