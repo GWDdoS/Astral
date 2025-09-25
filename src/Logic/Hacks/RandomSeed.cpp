@@ -1,7 +1,5 @@
 #include "../../includes.hpp"
 // for random ofc, but tbh i have no clue how needed this is lol. copied from eclipse for now
-bool seedHackEnabled = false;
-float seedValue = 1.0f;
 
 class $modify(GameToolbox) {
     float fast_rand_0_1() {

@@ -13,6 +13,8 @@ float frameCount = 0.0f;
 bool initialized = false;
 static float lastLevelTime = 0.0f;
 static float lastProgress = 0.0f;
+bool seedHackEnabled = false;
+float seedValue = 1.0f;
 
 float getCurrentFrame() {
     auto* playLayer = PlayLayer::get();
