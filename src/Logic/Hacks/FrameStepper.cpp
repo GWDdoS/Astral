@@ -5,7 +5,6 @@ static bool shouldStep = false;
 
 class $modify(FrameStepperHook, GJBaseGameLayer) {
     static void onModify(auto& self) {
-    FIRST_PRIORITY("cocos2d::CCScheduler::update"); // according to AI, this is becuase gd engine clamps the delta, so if i run it before it locks, it will work
     }
     void update(float dt) override {
         if (!framestepEnabled) {
