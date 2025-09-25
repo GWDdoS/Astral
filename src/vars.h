@@ -60,8 +60,8 @@ extern int decimalPlaces;
 extern int seedValue;
 
 // IDK
-extern constexpr int backgroundThemeNamesCount = 0;
-extern constexpr int tabCount = 0;
+extern constexpr int backgroundThemeNamesCount;
+extern constexpr int tabCount;
 
 // Chars
 extern char macroName[128];
