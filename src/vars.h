@@ -8,7 +8,6 @@ extern bool noclipP1;
 extern bool noclipP2;
 extern bool shouldNoclip;
 extern bool noclipEnabled;
-// extern bool noclipEnabled;
 extern bool layoutEnabled;
 extern bool oldphysEnabled;
 extern bool trajectoryEnabled;
@@ -33,7 +32,8 @@ extern bool keepWaveEnabled;
 extern bool autoSafeMode;
 extern bool initialized;
 extern bool forceSafeMode;
-
+extern bool unlockEverything;
+extern bool seedHackEnabled;
 //Floats
 extern float seedValue;
 extern float tpsValue;
@@ -45,7 +45,7 @@ extern float currentSpeedValue;
 extern float speedValue;
 extern float respawnDelay;
 extern float frameCount;
-
+extern bool accuratePercentage;
 //Ints
 extern int selectedKeybind;
 extern int selectedTheme;
@@ -56,6 +56,7 @@ extern int fontList;
 extern int fontType;
 extern int currentTab;
 extern const int tabCount;
+extern int decimalPlaces;
 
 //Chars
 extern char macroName[128];

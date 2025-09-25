@@ -4,8 +4,8 @@ using namespace geode::prelude;
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);
 
-const char* tabNames[] = {"Botting", "Hacks", "Assists", "Render", "Settings"};
-const int tabCount = 5;
+const char* tabNames[] = {"Botting", "Hacks", "Assists", "Autoclicker" "Render", "Settings"};
+const int tabCount = 6;
 
 int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
@@ -37,30 +37,30 @@ float getCurrentFrame() {
     if (!playLayer->m_hasCompletedLevel && 
         !playLayer->m_isPaused && 
         currentProgress > 0.0f) {
-        
-        if (!initialized) {
+            
+            if (!initialized) {
+                frameCount = 0.0f;
+                lastLevelTime = currentTime;
+                initialized = true;
+            } else {
+                float deltaTime = currentTime - lastLevelTime;
+                float deltaFrames = deltaTime * tpsValue;
+                
+                frameCount += deltaFrames;
+                lastLevelTime = currentTime;
+            }
+        } else if (!initialized) {
             frameCount = 0.0f;
             lastLevelTime = currentTime;
             initialized = true;
-        } else {
-            float deltaTime = currentTime - lastLevelTime;
-            float deltaFrames = deltaTime * tpsValue;
-            
-            frameCount += deltaFrames;
-            lastLevelTime = currentTime;
         }
-    } else if (!initialized) {
-        frameCount = 0.0f;
-        lastLevelTime = currentTime;
-        initialized = true;
+        
+        // Update last progress for next frame
+        lastProgress = currentProgress;
+        
+        return frameCount;
     }
     
-    // Update last progress for next frame
-    lastProgress = currentProgress;
-    
-    return frameCount;
-}
-
     #ifdef GEODE_IS_DESKTOP // i think this is how u do it
     // yes this is how u do it - slideglide
     
@@ -95,32 +95,37 @@ float getCurrentFrame() {
     }
     
     void renderBottingTab()
-{
-    // this should make a text box.
-    static std::string macroName = "";
-    static char macroBuffer[256] = "";
-    
-    ImGui::Text("Macro Name:");
-    if (ImGui::InputText("##MacroName", macroBuffer, sizeof(macroBuffer))) {
-        macroName = std::string(macroBuffer);
+    {
+        // this should make a text box.
+        static std::string macroName = "";
+        static char macroBuffer[256] = "";
+        
+        ImGui::Text("Macro Name:");
+        if (ImGui::InputText("##MacroName", macroBuffer, sizeof(macroBuffer))) {
+            macroName = std::string(macroBuffer);
+        }
+        
+        ImGui::Spacing();
+        
+        if (ImGui::Button("Record Macro", ImVec2(150, 30))) {
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Play Macro", ImVec2(150, 30))) {
+        }
+        
+        ImGui::Spacing();
+        ImGui::InputFloat("TPS Value:", &tpsValue);
+        if (tpsValue < 0.f) {
+            tpsValue = 240.f;
+        }
+        ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
+        ImGui::Spacing();
+        ImGui::Checkbox("Frame Stepper", &framestepEnabled);
+        ImGui::Spacing();
+        ImGui::Checkbox("Show Layout", &layoutEnabled);
+        ImGui::Spacing();
+        ImGui::Checkbox("Show Hitboxes", &showHitboxes);
     }
-    
-    ImGui::Spacing();
-    
-    if (ImGui::Button("Record Macro", ImVec2(150, 30))) {
-    }
-    ImGui::SameLine();
-    if (ImGui::Button("Play Macro", ImVec2(150, 30))) {
-    }
-    
-    ImGui::Spacing();
-    ImGui::InputFloat("TPS Value:", &tpsValue);
-    if (tpsValue < 0.f) {
-        tpsValue = 240.f;
-    }
-    ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
-    ImGui::Checkbox("Frame Stepper", &framestepEnabled);
-}
     
     void renderHacksTab()
     {       // lets see if i can learn columns
@@ -172,9 +177,26 @@ float getCurrentFrame() {
         ImGui::Checkbox("Instant Mirror", &instantMirror);   
         ImGui::Checkbox("Keep Wave On", &keepWaveEnabled);     
         ImGui::Columns(1);
+        ImGui::Separator();
+        ImGui::Checkbox("Unlock Everything" &unlockEverything);
+        ImGui::Checkbox("Accurate Percentage" &accuratePercentage);
+        ImGui::SameLine():
+        ImGui::InputInt("##DecimalPlaces", &decimalPlaces);
+        if (decimalPlaces < 0) {
+            decimalPlaces = 1;
+        } else if (decimalPlaces > 20){
+            decimalPlaces = 1;
+        }
+        ImGui::Separator();
+        ImGui::Checkbox("Seed Hack" &seedHackEnabled);
+        ImGui::SameLine():
+        ImGui::InputFloat("##Seed", &seedValue)
     }
-    
-    void renderAssists() 
+    void renderAssists()
+    {
+        
+    }
+    void renderAutoclicker() 
     {
         ImGui::Checkbox("Autoclicker Enable", &autoClickerEnabled);
         
@@ -423,20 +445,14 @@ float getCurrentFrame() {
                 autoClick_RIGHT_enabled = true;
             }
         }
-        
-        ImGui::Separator();
-        ImGui::BulletText("More assists coming soon!");
     }
     
     void renderRenderTab()
     {
-        ImGui::Checkbox("Show Layout", &layoutEnabled);
         if (ImGui::Button("Start Render", ImVec2(150, 30))) {}
         ImGui::SameLine();
         if (ImGui::Button("Stop Render", ImVec2(150, 30))) {}
         ImGui::Spacing();
-        ImGui::Checkbox("Show Hitboxes", &showHitboxes);
-        ImGui::Checkbox("Show Grid", &showGrid);
     }
     
     void renderSettingsTab()
@@ -507,8 +523,9 @@ float getCurrentFrame() {
             case 0: renderBottingTab(); break;
             case 1: renderHacksTab(); break;
             case 2: renderAssists(); break;
-            case 3: renderRenderTab(); break;
-            case 4: renderSettingsTab(); break;
+            case 3: renderAutoclickerTab(); break;
+            case 4: renderRenderTab(); break;
+            case 5: renderSettingsTab(); break; 
         }
         
         ImGui::Separator();

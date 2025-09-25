@@ -26,3 +26,7 @@
 #include <Geode/modify/EditLevelLayer.hpp>
 #include <Geode/modify/LevelInfoLayer.hpp>
 #include <Geode/modify/UILayer.hpp>
+#include <Geode/modify/GameLevelManager.hpp>
+#include <Geode/modify/GameStatsManager.hpp>
+#include <Geode/modify/GameManager.hpp>
+#include <Geode/modify/GameToolbox.hpp>
