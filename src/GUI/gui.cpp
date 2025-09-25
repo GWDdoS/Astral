@@ -178,9 +178,9 @@ float getCurrentFrame() {
         ImGui::Checkbox("Keep Wave On", &keepWaveEnabled);     
         ImGui::Columns(1);
         ImGui::Separator();
-        ImGui::Checkbox("Unlock Everything" &unlockEverything);
-        ImGui::Checkbox("Accurate Percentage" &accuratePercentage);
-        ImGui::SameLine():
+        ImGui::Checkbox("Unlock Everything", &unlockEverything);
+        ImGui::Checkbox("Accurate Percentage", &accuratePercentage);
+        ImGui::SameLine();
         ImGui::InputInt("##DecimalPlaces", &decimalPlaces);
         if (decimalPlaces < 0) {
             decimalPlaces = 1;
@@ -188,9 +188,9 @@ float getCurrentFrame() {
             decimalPlaces = 1;
         }
         ImGui::Separator();
-        ImGui::Checkbox("Seed Hack" &seedHackEnabled);
-        ImGui::SameLine():
-        ImGui::InputFloat("##Seed", &seedValue)
+        ImGui::Checkbox("Seed Hack", &seedHackEnabled);
+        ImGui::SameLine();
+        ImGui::InputFloat("##Seed", &seedValue);
     }
     void renderAssists()
     {
@@ -523,7 +523,7 @@ float getCurrentFrame() {
             case 0: renderBottingTab(); break;
             case 1: renderHacksTab(); break;
             case 2: renderAssists(); break;
-            case 3: renderAutoclickerTab(); break;
+            case 3: renderAutoclicker(); break;
             case 4: renderRenderTab(); break;
             case 5: renderSettingsTab(); break; 
         }
