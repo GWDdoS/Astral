@@ -1,5 +1,6 @@
 #include "../../includes.hpp"
 // someone asked for me to showcase wiht this one time so here it is
+using namespace geode::prelude;
 
 class $modify(PlayLayer) {
     float customGetProgress() {
