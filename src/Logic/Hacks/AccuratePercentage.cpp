@@ -3,27 +3,22 @@
 
 class $modify(PlayLayer) {
     float customGetProgress() {
-        try {
-            return utils::getActualProgress(this);
-        } catch (...) {
-            if (m_player1 && m_levelLength > 0) {
-                float percent = (m_player1->getPositionX() / m_levelLength) * 100.0f;
-                if (percent > 100.0f) percent = 100.0f;
-                if (percent < 0.0f) percent = 0.0f;
-                return percent;
-            }
-            return this->getCurrentPercent();
+        if (m_player1 && m_levelLength > 0) {
+            float percent = (m_player1->getPositionX() / m_levelLength) * 100.0f;
+            percent = std::clamp(percent, 0.0f, 100.0f);
+            return percent;
         }
+        return this->getCurrentPercent();
     }
-    
+
     void updateProgressbar() {
         PlayLayer::updateProgressbar();
-        
+
         if (!accuratePercentage || !m_percentageLabel) return;
-        
+
         float percent = customGetProgress();
         m_percentageLabel->setString(fmt::format("{:.{}f}%", percent, decimalPlaces).c_str());
-        
+
         if (m_progressFill && m_progressBar) {
             m_progressFill->setTextureRect({
                 0, 0,
