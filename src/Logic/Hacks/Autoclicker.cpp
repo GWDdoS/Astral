@@ -1,3 +1,5 @@
+#include "../../includes.hpp"
+
 class $modify(GJBaseGameLayer) {
     struct Fields {
         // W Key state
