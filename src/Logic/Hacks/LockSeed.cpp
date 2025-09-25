@@ -3,7 +3,7 @@
 bool seedHackEnabled = false;
 int seedValue = 1;
 
-$hook(GameToolbox) {
+class $hook(GameToolbox) {
     float fast_rand_0_1() {
         if (!seedHackEnabled)
             return GameToolbox::fast_rand_0_1();   // keeps old seed if enabled
