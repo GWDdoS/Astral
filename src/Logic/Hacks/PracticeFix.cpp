@@ -34,7 +34,7 @@ private:
     utils::FixPlayerCheckpoint m_checkpointPlayer1;
     utils::FixPlayerCheckpoint m_checkpointPlayer2;
     utils::FixPlayLayerCheckpoint m_checkpointPlayLayer;
-    float m_tpsValue = tpsVaule;
+    float m_tpsValue = tpsValue;
     float m_frameCount = frameCount;
 };
 
