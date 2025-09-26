@@ -1,4 +1,5 @@
-#include "../../includes.hpp"
+#include "includes.hpp"
+
 
 using namespace geode::prelude;
 
@@ -33,8 +34,8 @@ private:
     utils::FixPlayerCheckpoint m_checkpointPlayer1;
     utils::FixPlayerCheckpoint m_checkpointPlayer2;
     utils::FixPlayLayerCheckpoint m_checkpointPlayLayer;
-    float m_tpsValue = 0.0f;
-    float m_frameCount = 0.0f;
+    float m_tpsValue = tpsVaule;
+    float m_frameCount = frameCount;
 };
 
 class $modify(FixPlayLayer, PlayLayer) {
