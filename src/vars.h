@@ -36,7 +36,7 @@ extern bool unlockEverything;
 extern bool seedHackEnabled;
 extern bool accuratePercentage;
 extern bool autoClickerEnabled;
-extern bool bool fpsEnabled;
+extern bool fpsEnabled;
 
 // Floats
 extern float tpsValue;
