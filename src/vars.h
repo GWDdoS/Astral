@@ -36,6 +36,7 @@ extern bool unlockEverything;
 extern bool seedHackEnabled;
 extern bool accuratePercentage;
 extern bool autoClickerEnabled;
+extern bool bool fpsEnabled;
 
 // Floats
 extern float tpsValue;
@@ -47,6 +48,7 @@ extern float currentSpeedValue;
 extern float speedValue;
 extern float respawnDelay;
 extern float frameCount;
+extern float fpsValue;
 
 // Ints
 extern int selectedKeybind;
