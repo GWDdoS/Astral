@@ -7,12 +7,9 @@ void updateFPS() {
     auto* gm = GameManager::sharedState();
     auto* director = cocos2d::CCDirector::sharedDirector();
     
-    if (fpsEnabled) {
-        gm->setGameVariable("0116", true);
-        gm->m_customFPSTarget = fpsValue;
-        director->setAnimationInterval(1.f / fpsValue);
-    } else {
-        gm->setGameVariable("0116", false);
-        director->setAnimationInterval(1.f / 60.f);
-    }
+    gm->setGameVariable("0116", fpsEnabled);
+    gm->m_customFPSTarget = fpsValue;
+    
+    float targetFPS = fpsEnabled ? fpsValue : 60.f;
+    director->setAnimationInterval(1.f / targetFPS);
 }
