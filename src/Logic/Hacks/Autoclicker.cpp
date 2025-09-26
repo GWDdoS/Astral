@@ -84,6 +84,7 @@ class $modify(GJBaseGameLayer) {
             Frame 3: Wait for Y frames (should be hold number)
             Frame 4: Click X time + Start holding (cycle repeats)
             */
+           /*
             if (blackOrbEnabled) {
                 if (state.orbFrame == 0) {
                     // Frame 1: Click X times AND start holding
@@ -116,7 +117,7 @@ class $modify(GJBaseGameLayer) {
                 }
                 return;
             }
-            
+            */
             state.timer++;
             bool shouldToggle = false;
             
