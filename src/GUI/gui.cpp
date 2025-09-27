@@ -564,8 +564,7 @@ float themeColor[3] = {0.0f, 0.0f, 0.0f};
         }
         
         ImGui::Separator();
-        float frameCount;
-        ImGui::Text("Frame: %.2f", currentFrame);
+        ImGui::Text("Frame: %.2f", frameCount);
         
         ImGui::End();
     }
