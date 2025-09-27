@@ -3,10 +3,6 @@
 
 using namespace geode::prelude;
 
-// Global variables - declare these somewhere in your main bot code
-float tpsValue = 1.0f;
-float frameCount = 0.0f;
-
 class CheckpointData {
 public:
     CheckpointData() = default;
