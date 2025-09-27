@@ -102,7 +102,7 @@ class FixPlayerCheckpoint {
         m_isCollidingWithSlope = player->m_isCollidingWithSlope;
         m_isBallRotating = player->m_isBallRotating;
         m_unk669 = player->m_unk669;
-        m_currentSlope3 = player->m_currentSlope3;
+        // m_currentSlope3 = player->m_currentSlope3;
         m_currentSlope = player->m_currentSlope;
         unk_584 = player->unk_584;
         m_collidingWithSlopeId = player->m_collidingWithSlopeId;
@@ -236,7 +236,7 @@ class FixPlayerCheckpoint {
         m_isSecondPlayer = player->m_isSecondPlayer;
         m_unkA99 = player->m_unkA99;
         m_isBeingSpawnedByDualPortal = player->m_isBeingSpawnedByDualPortal;
-        m_unkAAC = player->m_unkAAC;
+        // m_unkAAC = player->m_unkAAC;
         m_unkAngle1 = player->m_unkAngle1;
         m_yVelocityRelated3 = player->m_yVelocityRelated3;
         m_defaultMiniIcon = player->m_defaultMiniIcon;
@@ -302,7 +302,7 @@ class FixPlayerCheckpoint {
         
         #ifndef GEODE_IS_ANDROID
         m_rotateObjectsRelated = player->m_rotateObjectsRelated;
-        m_maybeRotatedObjectsMap = player->m_maybeRotatedObjectsMap;
+        // m_maybeRotatedObjectsMap = player->m_maybeRotatedObjectsMap;
         m_ringRelatedSet = player->m_ringRelatedSet;
         m_touchedRings = player->m_touchedRings;
         m_jumpPadRelated = player->m_jumpPadRelated;
@@ -315,7 +315,8 @@ class FixPlayerCheckpoint {
     }
     
     void apply(PlayerObject* player) {
-        if (!utils::get<PlayLayer>()->m_isPracticeMode) return;
+            auto playLayer = PlayLayer::get();
+            if (!playLayer || !playLayer->m_isPracticeMode) return;
         
         player->m_wasTeleported = m_wasTeleported;
         player->m_fixGravityBug = m_fixGravityBug;
@@ -353,7 +354,7 @@ class FixPlayerCheckpoint {
         player->m_isCollidingWithSlope = m_isCollidingWithSlope;
         player->m_isBallRotating = m_isBallRotating;
         player->m_unk669 = m_unk669;
-        player->m_currentSlope3 = m_currentSlope3;
+        // player->m_currentSlope3 = m_currentSlope3;
         player->m_currentSlope = m_currentSlope;
         player->unk_584 = unk_584;
         player->m_collidingWithSlopeId = m_collidingWithSlopeId;
@@ -487,7 +488,7 @@ class FixPlayerCheckpoint {
         player->m_isSecondPlayer = m_isSecondPlayer;
         player->m_unkA99 = m_unkA99;
         player->m_isBeingSpawnedByDualPortal = m_isBeingSpawnedByDualPortal;
-        player->m_unkAAC = m_unkAAC;
+        // player->m_unkAAC = m_unkAAC;
         player->m_unkAngle1 = m_unkAngle1;
         player->m_yVelocityRelated3 = m_yVelocityRelated3;
         player->m_defaultMiniIcon = m_defaultMiniIcon;
@@ -555,7 +556,7 @@ class FixPlayerCheckpoint {
         
         #ifndef GEODE_IS_ANDROID
         player->m_rotateObjectsRelated = m_rotateObjectsRelated;
-        player->m_maybeRotatedObjectsMap = m_maybeRotatedObjectsMap;
+        // player->m_maybeRotatedObjectsMap = m_maybeRotatedObjectsMap;
         player->m_ringRelatedSet = m_ringRelatedSet;
         player->m_touchedRings = m_touchedRings;
         player->m_jumpPadRelated = m_jumpPadRelated;
