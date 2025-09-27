@@ -11,10 +11,10 @@ public:
     CheckpointData() = default;
 
     CheckpointData(PlayerObject* player1, PlayerObject* player2, PlayLayer* playLayer) {
-        m_checkpointPlayLayer = eclipse::utils::FixPlayLayerCheckpoint(playLayer);
-        m_checkpointPlayer1 = eclipse::utils::FixPlayerCheckpoint(player1);
+        m_checkpointPlayLayer = astral::utils::FixPlayLayerCheckpoint(playLayer);
+        m_checkpointPlayer1 = astral::utils::FixPlayerCheckpoint(player1);
         if (player2)
-            m_checkpointPlayer2 = eclipse::utils::FixPlayerCheckpoint(player2);
+            m_checkpointPlayer2 = astral::utils::FixPlayerCheckpoint(player2);
         
         // Store TPS and frame count from global variables
         m_tpsValue = tpsValue;
@@ -33,9 +33,9 @@ public:
     }
 
 private:
-    eclipse::utils::FixPlayerCheckpoint m_checkpointPlayer1;
-    eclipse::utils::FixPlayerCheckpoint m_checkpointPlayer2;
-    eclipse::utils::FixPlayLayerCheckpoint m_checkpointPlayLayer;
+    astral::utils::FixPlayerCheckpoint m_checkpointPlayer1;
+    astral::utils::FixPlayerCheckpoint m_checkpointPlayer2;
+    astral::utils::FixPlayLayerCheckpoint m_checkpointPlayLayer;
     float m_tpsValue = 0.0f;
     float m_frameCount = 0.0f;
 };
