@@ -39,7 +39,6 @@ bool instantMirror = false;
 bool keepWaveEnabled = false;
 bool accuratePercentage = false;
 // Floats
-float tpsValue = 240.0f;
 float currentP = 1.0f;
 float respawnDelay = 1.0f;
 

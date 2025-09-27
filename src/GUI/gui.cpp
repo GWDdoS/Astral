@@ -12,7 +12,7 @@ float frameCount = 0.0f;
 bool initialized = false;
 static float lastLevelTime = 0.0f;
 static float lastProgress = 0.0f;
-
+float tpsValue = 240.0f;
 
 float getCurrentFrame() {
     auto* playLayer = PlayLayer::get();
@@ -27,15 +27,17 @@ float getCurrentFrame() {
     float currentTime = playLayer->m_gameState.m_levelTime;
     float currentProgress = playLayer->m_gameState.m_currentProgress;
     
+    // Reset if we've gone backwards (level restart or checkpoint load)
     if (initialized && (currentProgress < lastProgress - 0.01f || currentTime < lastLevelTime - 0.01f)) {
         frameCount = 0.0f;
         initialized = false;
-        lastLevelTime = 0.0f;
     }
     
+    // Only count frames when actively playing
     if (!playLayer->m_hasCompletedLevel && 
         !playLayer->m_isPaused && 
-        currentProgress > 0.0f) {
+        playLayer->m_gameState.m_currentProgress > 0.0f &&
+        !playLayer->m_isDead) {  // Don't count when dead
         
         if (!initialized) {
             initialized = true;
@@ -50,10 +52,32 @@ float getCurrentFrame() {
     
     return frameCount;
 }
-class $modify(PlayLayer) {
+
+class $modify(FrameCounterPlayLayer, PlayLayer) {
     void update(float dt) {
         PlayLayer::update(dt);
         getCurrentFrame();
+
+    }
+    
+    void resetLevel() {
+        // Reset frame counter when level is reset
+        frameCount = 0.0f;
+        initialized = false;
+        lastLevelTime = 0.0f;
+        lastProgress = 0.0f;
+        
+        PlayLayer::resetLevel();
+    }
+    
+    void loadFromCheckpoint(CheckpointObject* checkpoint) {
+        PlayLayer::loadFromCheckpoint(checkpoint);
+        
+        // Frame count will be restored by the practice fix
+        // but we need to update our tracking variables
+        lastProgress = m_gameState.m_currentProgress;
+        lastLevelTime = m_gameState.m_levelTime;
+        initialized = true;
     }
 };
 

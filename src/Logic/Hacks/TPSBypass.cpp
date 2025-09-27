@@ -7,14 +7,7 @@ namespace Astral::Hacks::Global {
         struct Fields {
             double m_extraDelta = 0.0;
         };
-        
-        // Sync FPS with TPS function
-        void syncFPSWithTPS(float tpsValue) {
-            auto* director = cocos2d::CCDirector::sharedDirector();
-            float frameTime = 1.f / tpsValue;
-            director->setAnimationInterval(frameTime);
-        }
-        
+
         void update(float dt) override { 
             if (!tpsEnabled || tpsValue == 240.f || !PlayLayer::get()) {
                 return GJBaseGameLayer::update(dt);
