@@ -1,5 +1,4 @@
 #pragma once
-#include "modules/utils/SingletonCache.hpp"
 #include <Geode/binding/PlayerObject.hpp>
 
 using namespace geode::prelude;
