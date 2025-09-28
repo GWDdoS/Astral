@@ -37,7 +37,8 @@ float getCurrentFrame() {
     if (!playLayer->m_hasCompletedLevel && 
         !playLayer->m_isPaused && 
         playLayer->m_gameState.m_currentProgress > 0.0f &&
-        !playLayer->m_isDead) {  // Don't count when dead
+        !m_player1->m_isDead &&
+        !m_player2->m_isDead) {  // Don't count when dead
         
         if (!initialized) {
             initialized = true;
