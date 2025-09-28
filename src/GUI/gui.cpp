@@ -37,8 +37,8 @@ float getCurrentFrame() {
     if (!playLayer->m_hasCompletedLevel && 
         !playLayer->m_isPaused && 
         playLayer->m_gameState.m_currentProgress > 0.0f &&
-        !m_player1->m_isDead &&
-        !m_player2->m_isDead) {  // Don't count when dead
+        !playLayer->m_player1->m_isDead &&
+        (!playLayer->m_gameState.m_isDualMode || !playLayer->m_player2->m_isDead)) {  // Don't count when dead
         
         if (!initialized) {
             initialized = true;
