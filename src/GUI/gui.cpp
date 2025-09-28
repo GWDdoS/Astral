@@ -23,64 +23,41 @@ float getCurrentFrame() {
         lastProgress = 0.0f;
         return 0.0f;
     }
-    
     float currentTime = playLayer->m_gameState.m_levelTime;
     float currentProgress = playLayer->m_gameState.m_currentProgress;
-    
-    // Reset if we've gone backwards (level restart or checkpoint load)
+
     if (initialized && (currentProgress < lastProgress - 0.01f || currentTime < lastLevelTime - 0.01f)) {
         frameCount = 0.0f;
         initialized = false;
+        lastLevelTime = 0.0f;
     }
-    
-    // Only count frames when actively playing
+
+    // check if level is actually playing
     if (!playLayer->m_hasCompletedLevel && 
         !playLayer->m_isPaused && 
-        playLayer->m_gameState.m_currentProgress > 0.0f &&
-        !playLayer->m_player1->m_isDead &&
-        (!playLayer->m_gameState.m_isDualMode || !playLayer->m_player2->m_isDead)) {  // Don't count when dead
-        
-        if (!initialized) {
-            initialized = true;
+        currentProgress > 0.0f) {
+            if (!initialized) {
+                frameCount = 0.0f;
+                lastLevelTime = currentTime;
+                initialized = true;
+            } else {
+                float deltaTime = currentTime - lastLevelTime;
+                float deltaFrames = deltaTime * tpsValue;
+
+                frameCount += deltaFrames;
+                lastLevelTime = currentTime;
+            }
+        } else if (!initialized) {
             frameCount = 0.0f;
+            lastLevelTime = currentTime;
+            initialized = true;
         }
-        
-        frameCount += 1.0f;
-    }
-    
-    lastProgress = currentProgress;
-    lastLevelTime = currentTime;
-    
-    return frameCount;
-}
 
-class $modify(FrameCounterPlayLayer, PlayLayer) {
-    void update(float dt) {
-        PlayLayer::update(dt);
-        getCurrentFrame();
+        // Update last progress for next frame
+        lastProgress = currentProgress;
 
+        return frameCount;
     }
-    
-    void resetLevel() {
-        // Reset frame counter when level is reset
-        frameCount = 0.0f;
-        initialized = false;
-        lastLevelTime = 0.0f;
-        lastProgress = 0.0f;
-        
-        PlayLayer::resetLevel();
-    }
-    
-    void loadFromCheckpoint(CheckpointObject* checkpoint) {
-        PlayLayer::loadFromCheckpoint(checkpoint);
-        
-        // Frame count will be restored by the practice fix
-        // but we need to update our tracking variables
-        lastProgress = m_gameState.m_currentProgress;
-        lastLevelTime = m_gameState.m_levelTime;
-        initialized = true;
-    }
-};
 
     #ifdef GEODE_IS_DESKTOP
     
