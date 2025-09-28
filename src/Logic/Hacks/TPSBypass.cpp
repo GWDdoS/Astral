@@ -7,7 +7,14 @@ namespace Astral::Hacks::Global {
         struct Fields {
             double m_extraDelta = 0.0;
         };
-
+        
+        // Sync FPS with TPS function
+        void syncFPSWithTPS(float tpsValue) {
+            auto* director = cocos2d::CCDirector::sharedDirector();
+            float frameTime = 1.f / tpsValue;
+            director->setAnimationInterval(frameTime);
+        }
+        
         void update(float dt) override { 
             if (!tpsEnabled || tpsValue == 240.f || !PlayLayer::get()) {
                 return GJBaseGameLayer::update(dt);
@@ -24,7 +31,6 @@ namespace Astral::Hacks::Global {
                 GJBaseGameLayer::update(newDt);
             }
         }
-        
         float getModifiedDelta(float dt) {
             if (!tpsEnabled || tpsValue == 240.f || !PlayLayer::get()) {
                 return GJBaseGameLayer::getModifiedDelta(dt);
@@ -60,7 +66,7 @@ namespace Astral::Hacks::Global {
             PlayLayer::updateProgressbar();
             m_gameState.m_currentProgress = currentProgress;
         }
-        
+
         void destroyPlayer(PlayerObject* player, GameObject* object) override {
             auto timestamp = m_level->m_timestamp;
             auto currentProgress = m_gameState.m_currentProgress;
@@ -73,7 +79,7 @@ namespace Astral::Hacks::Global {
             PlayLayer::destroyPlayer(player, object);
             m_gameState.m_currentProgress = currentProgress;
         }
-        
+
         void levelComplete() {
             auto oldTimestamp = m_gameState.m_unkUint2;
             if (tpsValue != 240.f && tpsEnabled) {
@@ -82,6 +88,8 @@ namespace Astral::Hacks::Global {
             }
             PlayLayer::levelComplete();
             m_gameState.m_unkUint2 = oldTimestamp;
+
+
         }
     };
 }
