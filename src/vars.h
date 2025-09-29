@@ -37,6 +37,7 @@ extern bool seedHackEnabled;
 extern bool accuratePercentage;
 extern bool autoClickerEnabled;
 extern bool fpsEnabled;
+extern bool ghostTrail;
 
 // Floats
 extern float tpsValue;

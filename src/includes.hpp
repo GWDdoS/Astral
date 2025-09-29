@@ -30,3 +30,4 @@
 #include <Geode/modify/GameStatsManager.hpp>
 #include <Geode/modify/GameManager.hpp>
 #include <Geode/modify/GameToolbox.hpp>
+#include <Geode/modify/GhostTrailEffect.hpp>
