@@ -2,11 +2,15 @@
 
 using namespace geode::prelude;
 
-class $modify(NoGhostTrailHook, GhostTrailEffect) {
-    void draw() {
+class $modify(NoGhostTrailHook, PlayerObject) {
+    void toggleGhostEffect(GhostType p0) {
         if (ghostTrail) {
-            return;
+            p0 = GhostType::Disabled;
+            PlayerObject::toggleGhostEffect(p0);
         }
-        GhostTrailEffect::draw();
+        else {
+            p0 = GhostType::Enabled;
+            PlayerObject::toggleGhostEffect(p0);
+        }
     }
 };
