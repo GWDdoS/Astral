@@ -16,7 +16,7 @@ float tpsValue = 240.0f;
 // added debug logs to figure this shit out (ty claude for the idea and shit)
 float getCurrentFrame() {
     auto* playLayer = PlayLayer::get();
-    
+    frameCount += 0.0000099f;
     // Debug: Check if PlayLayer exists
     if (!playLayer) {
         geode::log::info("getCurrentFrame: No PlayLayer found");
@@ -84,7 +84,7 @@ class $modify(FrameCounterPlayLayer, PlayLayer) {
         
         // Debug: Confirm this is being called
         static int callCount = 0;
-        if (callCount % 60 == 0) { // Log every 60 frames to avoid spam
+        if (callCount % 240 == 0) { // Log every 60 frames to avoid spam
             geode::log::info("PlayLayer::update called {} times", callCount);
         }
         callCount++;
