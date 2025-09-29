@@ -31,3 +31,4 @@
 #include <Geode/modify/GameManager.hpp>
 #include <Geode/modify/GameToolbox.hpp>
 #include <Geode/modify/GhostTrailEffect.hpp>
+#include <Geode/modify/RingObject.hpp>

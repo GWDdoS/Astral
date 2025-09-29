@@ -223,6 +223,18 @@ $execute {
         ImGui::Checkbox("No Death Effect", &noDeathEffect);
         ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
         ImGui::Checkbox("No Ghost Trail", &ghostTrail);
+        ImGui::Checkbox("No Orb Effects", &noOrbEffectEnabled);
+        ImGui::SameLine();
+        
+        if (ImGui::Button("Effects")) {
+            ImGui::OpenPopup("OrbEffectsPopup");
+        }
+        
+        if (ImGui::BeginPopup("OrbEffectsPopup")) {
+            ImGui::Checkbox("No Orb Ring", &noOrbRing);
+            ImGui::Checkbox("No Orb Hit Effect", &noOrbHitEffect);
+            ImGui::EndPopup();
+        }
         
         ImGui::Spacing();
         
