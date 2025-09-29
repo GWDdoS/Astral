@@ -16,7 +16,7 @@ float tpsValue = 240.0f;
 // added debug logs to figure this shit out (ty claude for the idea and shit)
 float getCurrentFrame() {
     auto* playLayer = PlayLayer::get();
-    float frameCount ++ 0.0000099f;
+    float frameCount += 0.0000099f;
     // Debug: Check if PlayLayer exists
     if (!playLayer) {
         geode::log::info("getCurrentFrame: No PlayLayer found");
