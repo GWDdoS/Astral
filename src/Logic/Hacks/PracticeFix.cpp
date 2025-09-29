@@ -64,6 +64,8 @@ class $modify(FixPlayLayer, PlayLayer) {
             m_fields->m_checkpoints.clear();
 
         PlayLayer::resetLevel();
+        geode::log::info("resetLevel called via checkpoints");
+
     }
 
     void loadFromCheckpoint(CheckpointObject* checkpoint) {
@@ -78,6 +80,7 @@ class $modify(FixPlayLayer, PlayLayer) {
         }
 
         PlayLayer::loadFromCheckpoint(checkpoint);
+        geode::log::info("loadFromCheckpoint called from restart");
     }
 
     CheckpointObject* createCheckpoint() {
@@ -91,6 +94,7 @@ class $modify(FixPlayLayer, PlayLayer) {
         }
 
         return checkpoint;
+        geode::log::info("checkpoint created?");
     }
 
     void removeCheckpoint(bool first) {
@@ -106,6 +110,7 @@ class $modify(FixPlayLayer, PlayLayer) {
         }
 
         PlayLayer::removeCheckpoint(first);
+        geode::log::info("checkpoint removed?");
     }
 
     #ifdef GEODE_IS_DESKTOP
