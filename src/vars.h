@@ -95,3 +95,5 @@ DECL_AUTOKEY(UP)
 DECL_AUTOKEY(LEFT)
 DECL_AUTOKEY(RIGHT)
 DECL_AUTOKEY(SPACE)
+extern float lastLevelTime;
+extern float lastProgress;
