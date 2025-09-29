@@ -12,7 +12,7 @@ class $modify(NoOrbRingHook, RingObject) {
 };
 
 class $modify(NoOrbHitEffectHook, PlayerObject) {
-    void ringJump(RingObject *p0, bool p1) {
+    void ringJump(RingObject* p0, bool p1) {
         if (noOrbEffectEnabled && noOrbHitEffect) {
             bool orig = m_maybeReducedEffects;
             m_maybeReducedEffects = true;

@@ -222,7 +222,9 @@ $execute {
         
         ImGui::Checkbox("No Death Effect", &noDeathEffect);
         ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
-        ImGui::Checkbox("No Ghost Trail", &ghostTrail);
+        if (ImGui::Checkbox("No Ghost Trail", &ghostTrail)) {
+            updateGhostTrail();
+        }
         ImGui::Checkbox("No Orb Effects", &noOrbEffectEnabled);
         ImGui::SameLine();
         
