@@ -2,7 +2,7 @@
 
 using namespace geode::prelude;
 
-class $modify(PlayerObject) {
+class $modify(NoDeathEffectHook, PlayerObject) {
     void playDeathEffect() {
         if (noDeathEffect) {
             return;

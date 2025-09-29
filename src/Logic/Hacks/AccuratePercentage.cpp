@@ -2,7 +2,7 @@
 // someone asked for me to showcase wiht this one time so here it is
 using namespace geode::prelude;
 
-class $modify(PlayLayer) {
+class $modify(AccuratePercentagePLHook, PlayLayer) {
     float customGetProgress() {
         if (m_player1 && m_levelLength > 0) {
             float percent = (m_player1->getPositionX() / m_levelLength) * 100.0f;

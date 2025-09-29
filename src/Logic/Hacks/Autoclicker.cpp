@@ -24,7 +24,7 @@ DEFINE_KEY_SETTINGS(RIGHT)
 DEFINE_KEY_SETTINGS(SPACE)
 
 #ifdef GEODE_IS_DESKTOP
-class $modify(GJBaseGameLayer) {
+class $modify(AutoClickerGJBGLHook, GJBaseGameLayer) {
     struct Fields {
         struct KeyState {
             int timer = 0;

@@ -2,7 +2,7 @@
 
 using namespace geode::prelude;
 
-class $modify(SafeLayer, PlayLayer) {
+class $modify(SafeModePLHook, PlayLayer) {
     void showNewBest(bool newReward, int orbs, int diamonds, bool demonKey, bool noRetry, bool noTitle) {
         if (safeMode) {
             return;
@@ -25,7 +25,7 @@ class $modify(SafeLayer, PlayLayer) {
     }
 };
 
-class $modify(GJGameLevel) {
+class $modify(SafeModeGJGLHook, GJGameLevel) {
     void savePercentage(int p0, bool p1, int p2, int p3, bool p4) {
         if (safeMode || forceSafeMode) {
             return;

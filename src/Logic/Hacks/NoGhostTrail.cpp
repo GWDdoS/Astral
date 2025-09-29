@@ -2,7 +2,7 @@
 
 using namespace geode::prelude;
 
-class $modify(PlayerObjectHook, PlayerObject) {
+class $modify(PlayerObjectNGTHook, PlayerObject) {
     struct Fields {
         GhostType m_ghostType = GhostType::Disabled;
     };
@@ -22,7 +22,7 @@ void updateGhostTrail() {
     }
 
     if (playLayer->m_player1) {
-        auto p1 = static_cast<PlayerObjectHook*>(playLayer->m_player1);
+        auto p1 = static_cast<PlayerObjectNGTHook*>(playLayer->m_player1);
         if (ghostTrail) {
             p1->toggleGhostEffect(GhostType::Disabled);
         } else {
@@ -31,7 +31,7 @@ void updateGhostTrail() {
     }
 
     if (playLayer->m_player2) {
-        auto p2 = static_cast<PlayerObjectHook*>(playLayer->m_player2);
+        auto p2 = static_cast<PlayerObjectNGTHook*>(playLayer->m_player2);
         if (ghostTrail) {
             p2->toggleGhostEffect(GhostType::Disabled);
         } else {
