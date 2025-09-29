@@ -38,6 +38,8 @@ bool noMirror = false;
 bool instantMirror = false;
 bool keepWaveEnabled = false;
 bool accuratePercentage = false;
+bool ghostTrail = false;
+
 // Floats
 float currentP = 1.0f;
 float respawnDelay = 1.0f;

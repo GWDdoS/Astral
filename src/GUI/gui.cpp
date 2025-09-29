@@ -163,6 +163,7 @@ float getCurrentFrame() {
         
         ImGui::Checkbox("No Death Effect", &noDeathEffect);
         ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
+        ImGui::Checkbox("No Ghost Trail", &ghostTrail);
         
         ImGui::Spacing();
         
