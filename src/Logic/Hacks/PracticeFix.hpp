@@ -3,9 +3,7 @@
 
 using namespace geode::prelude;
 
-// Global variables to store TPS and frame count
-extern float tpsValue;
-extern float frameCount;
+
 namespace astral::utils{
 class FixPlayLayerCheckpoint {
     public:

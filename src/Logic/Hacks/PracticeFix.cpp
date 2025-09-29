@@ -16,6 +16,11 @@ public:
         // Store TPS and frame count from global variables
         m_tpsValue = tpsValue;
         m_frameCount = frameCount;
+        
+        // IMPORTANT: Also save the frame counting state variables
+        m_initialized = initialized;
+        m_lastLevelTime = lastLevelTime;
+        m_lastProgress = lastProgress;
     }
 
     void apply(PlayerObject* player1, PlayerObject* player2, PlayLayer* playLayer) {
@@ -27,14 +32,26 @@ public:
         // Restore TPS and frame count to global variables
         tpsValue = m_tpsValue;
         frameCount = m_frameCount;
+        
+        // IMPORTANT: Also restore the frame counting state variables
+        initialized = m_initialized;
+        lastLevelTime = m_lastLevelTime;
+        lastProgress = m_lastProgress;
     }
 
 private:
     astral::utils::FixPlayerCheckpoint m_checkpointPlayer1;
     astral::utils::FixPlayerCheckpoint m_checkpointPlayer2;
     astral::utils::FixPlayLayerCheckpoint m_checkpointPlayLayer;
+    
+    // Checkpoint values
     float m_tpsValue = 0.0f;
     float m_frameCount = 0.0f;
+    
+    // IMPORTANT: Also save the frame counting state
+    bool m_initialized = false;
+    float m_lastLevelTime = 0.0f;
+    float m_lastProgress = 0.0f;
 };
 
 class $modify(FixPlayLayer, PlayLayer) {
