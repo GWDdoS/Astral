@@ -8,7 +8,6 @@ const int tabCount = 6;
 
 int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
-float frameCount = 0.0f;
 bool initialized = false;
 static float lastLevelTime = 0.0f;
 static float lastProgress = 0.0f;
