@@ -39,6 +39,9 @@ bool instantMirror = false;
 bool keepWaveEnabled = false;
 bool accuratePercentage = false;
 bool ghostTrail = false;
+bool noOrbEffectEnabled = false;
+bool noOrbRing = false;
+bool noOrbHitEffect = false;
 
 // Floats
 float currentP = 1.0f;

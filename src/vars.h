@@ -38,6 +38,9 @@ extern bool accuratePercentage;
 extern bool autoClickerEnabled;
 extern bool fpsEnabled;
 extern bool ghostTrail;
+extern bool noOrbEffectEnabled;
+extern bool noOrbRing;
+extern bool noOrbHitEffect;
 
 // Floats
 extern float tpsValue;
