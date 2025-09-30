@@ -205,7 +205,7 @@ class $modify(AstralFrameCounter, PlayLayer) {
         }
         
         ImGui::Spacing();
-        
+        ImGui::Checkbox("No Dash Fire", &noDashFire);
         ImGui::Checkbox("No Shaders", &noShaders);
         ImGui::Checkbox("No Mirror", &noMirror);
         ImGui::Checkbox("Instant Mirror", &instantMirror);   

@@ -43,6 +43,7 @@ bool noOrbEffectEnabled = false;
 bool noOrbRing = false;
 bool noOrbHitEffect = false;
 bool noDashBoom = false;
+bool noDashFire = false;
 
 // Floats
 float currentP = 1.0f;

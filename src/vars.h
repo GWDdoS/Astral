@@ -42,6 +42,7 @@ extern bool noOrbEffectEnabled;
 extern bool noOrbRing;
 extern bool noOrbHitEffect;
 extern bool noDashBoom;
+extern bool noDashFire;
 
 // Floats
 extern float tpsValue;
