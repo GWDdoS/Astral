@@ -1,7 +1,7 @@
 #include "../../includes.hpp"
 #include "../../builds/assembler.hpp"
 #include <bit>
-
+#include <sinap>
 #ifdef GEODE_IS_ANDROID
 #include <dlfcn.h>
 #endif
