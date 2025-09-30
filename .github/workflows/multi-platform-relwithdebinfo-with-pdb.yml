@@ -1,4 +1,4 @@
-name: Build Astral
+name: Build Astral (RelWithDebInfo with .PDB)
 
 on:
   workflow_dispatch:
