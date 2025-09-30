@@ -42,6 +42,7 @@ bool ghostTrail = false;
 bool noOrbEffectEnabled = false;
 bool noOrbRing = false;
 bool noOrbHitEffect = false;
+bool noDashBoom = false;
 
 // Floats
 float currentP = 1.0f;

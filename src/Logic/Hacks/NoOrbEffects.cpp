@@ -23,3 +23,29 @@ class $modify(NoOrbHitEffectHook, PlayerObject) {
         PlayerObject::ringJump(p0, p1);
     }
 };
+
+class $modify(NoDashBoomHook, PlayerObject) {
+    void startDashing(DashRingObject* ring) {
+        PlayerObject::startDashing(ring);
+        
+        auto playLayer = PlayLayer::get();
+        if (!playLayer) return;
+        
+        auto batchLayer = playLayer->getChildByIDRecursive("batch-layer");
+        if (!batchLayer) {
+            return;
+        }
+        
+        auto dashBoomSprite = getChildBySpriteFrameName(batchLayer, "playerDash2_boom2_001.png");
+        auto oldVisible = dashBoomSprite->isVisible();
+        
+        if (noDashBoom) {
+            if (dashBoomSprite) {
+                dashBoomSprite->setVisible(false);
+            }
+            else {
+                dashBoomSprite->setVisible(oldVisible);
+            }
+        }
+    }
+};

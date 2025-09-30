@@ -235,6 +235,7 @@ $execute {
         if (ImGui::BeginPopup("OrbEffectsPopup")) {
             ImGui::Checkbox("No Orb Ring", &noOrbRing);
             ImGui::Checkbox("No Orb Hit Effect", &noOrbHitEffect);
+            ImGui::Checkbox("No Dash Boom", &noDashBoom);
             ImGui::EndPopup();
         }
         

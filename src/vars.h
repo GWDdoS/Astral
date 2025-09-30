@@ -41,6 +41,7 @@ extern bool ghostTrail;
 extern bool noOrbEffectEnabled;
 extern bool noOrbRing;
 extern bool noOrbHitEffect;
+extern bool noDashBoom;
 
 // Floats
 extern float tpsValue;
