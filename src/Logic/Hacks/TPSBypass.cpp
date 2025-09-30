@@ -1,6 +1,7 @@
 #include "../../includes.hpp"
 #include "../../builds/assembler.hpp"
 #include <bit>
+
 #ifdef GEODE_IS_ANDROID
 #include <dlfcn.h>
 #endif
@@ -11,14 +12,10 @@ namespace Astral::Hacks::Global {
     
     // Platform-specific tick type
     using TicksType =
-        #ifdef GEODE_IS_WINDOWS
+        #if defined(GEODE_IS_WINDOWS) || defined(GEODE_IS_ANDROID64)
         uint32_t
-        #elif defined(GEODE_IS_ANDROID64)
-        uint32_t
-        #elif defined(GEODE_IS_ANDROID32)
-        float
         #else
-        float
+        float  // Android32, iOS, macOS
         #endif
         ;
 
@@ -71,7 +68,8 @@ namespace Astral::Hacks::Global {
 
         bool setupPatches() {
             auto base = reinterpret_cast<uint8_t*>(geode::base::get());
-            auto baseSize = utils::getBaseSize();
+            // Use a large enough size to search - typically games are < 100MB of code
+            size_t baseSize = 0x10000000; // 256MB should be more than enough
 
             intptr_t addr = -1;
             std::vector<uint8_t> bytes;
