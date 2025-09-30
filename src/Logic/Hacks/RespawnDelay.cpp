@@ -2,7 +2,7 @@
 
 using namespace geode::prelude;
 
-class $modify(RespawnPlayLayer, PlayLayer) {
+class $modify(RespawnDelayPLHook, PlayLayer) {
     void destroyPlayer(PlayerObject* player, GameObject* object) {
         PlayLayer::destroyPlayer(player, object);
         auto delay = respawnDelay;

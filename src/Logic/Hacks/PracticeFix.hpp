@@ -4,7 +4,7 @@
 using namespace geode::prelude;
 
 
-namespace astral::utils{
+namespace astral::utils {
 class FixPlayLayerCheckpoint {
     public:
     FixPlayLayerCheckpoint() = default;

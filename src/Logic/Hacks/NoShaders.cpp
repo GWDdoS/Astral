@@ -2,7 +2,7 @@
 
 using namespace geode::prelude;
 
-class $modify(NoShaderLayer, ShaderLayer) {
+class $modify(NoShadersHook, ShaderLayer) {
     void performCalculations() {
         if (noShaders) {
             m_state.m_usesShaders = false;

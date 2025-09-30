@@ -2,7 +2,7 @@
 
 using namespace geode::prelude;
 
-class $modify(NoclipPlayLayer, PlayLayer) {
+class $modify(NoclipHook, PlayLayer) {
     void destroyPlayer(PlayerObject* player, GameObject* object) {
         if (noclipEnabled) {
             if (player == m_player1) {

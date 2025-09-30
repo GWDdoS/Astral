@@ -187,7 +187,9 @@ class $modify(AstralFrameCounter, PlayLayer) {
         
         ImGui::Checkbox("No Death Effect", &noDeathEffect);
         ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
-        ImGui::Checkbox("No Ghost Trail", &ghostTrail);
+        if (ImGui::Checkbox("No Ghost Trail", &ghostTrail)) {
+            updateGhostTrail();
+        }
         ImGui::Checkbox("No Orb Effects", &noOrbEffectEnabled);
         ImGui::SameLine();
         
@@ -198,6 +200,7 @@ class $modify(AstralFrameCounter, PlayLayer) {
         if (ImGui::BeginPopup("OrbEffectsPopup")) {
             ImGui::Checkbox("No Orb Ring", &noOrbRing);
             ImGui::Checkbox("No Orb Hit Effect", &noOrbHitEffect);
+            ImGui::Checkbox("No Dash Boom", &noDashBoom);
             ImGui::EndPopup();
         }
         
