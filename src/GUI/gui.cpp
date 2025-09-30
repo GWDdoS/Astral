@@ -16,10 +16,8 @@ float tpsValue = 240.0f;
 // added debug logs to figure this shit out (ty claude for the idea and shit)
 float getCurrentFrame() {
     auto* playLayer = PlayLayer::get();
-    frameCount += 0.0000099f;
-    // Debug: Check if PlayLayer exists
+    
     if (!playLayer) {
-        geode::log::info("getCurrentFrame: No PlayLayer found");
         frameCount = 0.0f;
         initialized = false;
         lastLevelTime = 0.0f;
@@ -30,18 +28,7 @@ float getCurrentFrame() {
     float currentTime = playLayer->m_gameState.m_levelTime;
     float currentProgress = playLayer->m_gameState.m_currentProgress;
 
-    // Debug: Log current state
-    geode::log::info("Frame Counter State:");
-    geode::log::info("  currentProgress: {}", currentProgress);
-    geode::log::info("  currentTime: {}", currentTime);
-    geode::log::info("  isPaused: {}", playLayer->m_isPaused);
-    geode::log::info("  hasCompleted: {}", playLayer->m_hasCompletedLevel);
-    geode::log::info("  tpsValue: {}", tpsValue);
-    geode::log::info("  frameCount: {}", frameCount);
-    geode::log::info("  initialized: {}", initialized);
-
     if (initialized && (currentProgress < lastProgress - 0.01f || currentTime < lastLevelTime - 0.01f)) {
-        geode::log::info("  -> RESET DETECTED");
         frameCount = 0.0f;
         initialized = false;
         lastLevelTime = 0.0f;
@@ -51,9 +38,7 @@ float getCurrentFrame() {
     if (!playLayer->m_hasCompletedLevel && 
         !playLayer->m_isPaused && 
         currentProgress > 0.0f) {
-            
             if (!initialized) {
-                geode::log::info("  -> INITIALIZING frame counter");
                 frameCount = 0.0f;
                 lastLevelTime = currentTime;
                 initialized = true;
@@ -61,13 +46,10 @@ float getCurrentFrame() {
                 float deltaTime = currentTime - lastLevelTime;
                 float deltaFrames = deltaTime * tpsValue;
 
-                geode::log::info("  -> COUNTING: deltaTime={}, deltaFrames={}", deltaTime, deltaFrames);
-                
                 frameCount += deltaFrames;
                 lastLevelTime = currentTime;
             }
         } else if (!initialized) {
-            geode::log::info("  -> Not playing yet, waiting...");
             frameCount = 0.0f;
             lastLevelTime = currentTime;
             initialized = true;
@@ -77,46 +59,29 @@ float getCurrentFrame() {
         return frameCount;
 }
 
-// Make sure you have this PlayLayer hook in gui.cpp:
-class $modify(FrameCounterPlayLayer, PlayLayer) {
+
+class $modify(AstralFrameCounter, PlayLayer) {
     void update(float dt) {
         PlayLayer::update(dt);
-        
-        // Debug: Confirm this is being called
-        static int callCount = 0;
-        if (callCount % 240 == 0) { // Log every 60 frames to avoid spam
-            geode::log::info("PlayLayer::update called {} times", callCount);
-        }
-        callCount++;
-        
         getCurrentFrame();
     }
     
     void resetLevel() {
-        geode::log::info("resetLevel called - clearing frame counter");
         frameCount = 0.0f;
         initialized = false;
         lastLevelTime = 0.0f;
         lastProgress = 0.0f;
         PlayLayer::resetLevel();
     }
-};
-
-// Also add this to verify globals are accessible:
-void testGlobalVariables() {
-    geode::log::info("Testing global variables:");
-    geode::log::info("  frameCount address: {}", (void*)&frameCount);
-    geode::log::info("  tpsValue address: {}", (void*)&tpsValue);
-    geode::log::info("  initialized address: {}", (void*)&initialized);
     
-    frameCount = 123.45f;
-    geode::log::info("  Set frameCount to 123.45, now reads as: {}", frameCount);
-}
-
-// Call this somewhere when your mod loads:
-$execute {
-    testGlobalVariables();
-}
+    void onQuit() {
+        frameCount = 0.0f;
+        initialized = false;
+        lastLevelTime = 0.0f;
+        lastProgress = 0.0f;
+        PlayLayer::onQuit();
+    }
+};
 
     #ifdef GEODE_IS_DESKTOP
     
