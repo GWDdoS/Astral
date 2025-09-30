@@ -1,5 +1,5 @@
 #include "../../includes.hpp"
-
+/*
 bool fpsEnabled = true;
 float fpsValue = tpsValue;
 
@@ -13,3 +13,4 @@ void updateFPS() {
     float targetFPS = fpsEnabled ? fpsValue : 60.f;
     director->setAnimationInterval(1.f / targetFPS);
 }
+    */
