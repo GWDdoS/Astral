@@ -10,7 +10,6 @@ static int selectedMacroIndex = 0;
 static bool needsRefresh = true;
 static size_t lastMacroCount = 0;
 static float macroCheckTimer = 0.0f;
-static const float MACRO_CHECK_INTERVAL = 1.0f;
 int currentTab = 0;
 float themeColor[3] = {0.0f, 0.0f, 0.0f};
 float frameCount = 0.0f;
@@ -94,30 +93,29 @@ float getCurrentFrame() {
         if (!playLayer || !playLayer->m_level) {
             availableMacros.push_back("No level loaded");
             selectedMacroIndex = 0;
-            lastMacroCount = 0;
             return;
         }
         
         std::string levelname = playLayer->m_level->m_levelName;
         std::filesystem::path macrosPath = Mod::get()->getSettingValue<std::filesystem::path>("autosaves_folder");
         
-        // Create file system
+        // Create directory if it doesn't exist
         if (!std::filesystem::exists(macrosPath)) {
             std::filesystem::create_directories(macrosPath);
         }
         
-        size_t currentCount = 0;
-        
+        // Scan for macro files matching the current level
         try {
             for (const auto& entry : std::filesystem::directory_iterator(macrosPath)) {
                 if (entry.is_regular_file()) {
                     std::string filename = entry.path().filename().string();
                     std::string prefix = "autosave_" + levelname + "_";
                     
+                    // Check if file matches our naming pattern
                     if (filename.find(prefix) == 0) {
+                        // Extract just the macro number/name
                         std::string macroName = filename.substr(prefix.length());
                         availableMacros.push_back(macroName);
-                        currentCount++;
                     }
                 }
             }
@@ -125,21 +123,22 @@ float getCurrentFrame() {
             availableMacros.push_back("Error reading macros");
         }
         
-        =        availableMacros.push_back("+ Create New");
+        // Add option to create new macro
+        availableMacros.push_back("+ Create New");
         
         if (availableMacros.empty()) {
             availableMacros.push_back("No macros found");
         }
         
-        =        if (selectedMacroIndex >= availableMacros.size()) {
+        // Clamp selected index
+        if (selectedMacroIndex >= availableMacros.size()) {
             selectedMacroIndex = 0;
         }
         
-        lastMacroCount = currentCount;
         needsRefresh = false;
     }
     
-    // Check for file UPDATES (so u can drag shit in and stuff)
+    // Helper function to check if macro files have changed
     bool checkForMacroChanges() {
         auto* playLayer = PlayLayer::get();
         if (!playLayer || !playLayer->m_level) {
@@ -170,8 +169,10 @@ float getCurrentFrame() {
             return false;
         }
         
+        // If count changed, we need to refresh
         return currentCount != lastMacroCount;
     }
+    
     #ifdef GEODE_IS_DESKTOP
     
     void applyBackgroundTheme()
@@ -202,30 +203,18 @@ float getCurrentFrame() {
         
         styleApplied = true;
     }
+    
     void renderBottingTab()
     {
         static std::string macroName = "";
         static char macroBuffer[256] = "";
         
-        // Increment timer
-        macroCheckTimer += ImGui::GetIO().DeltaTime;
-        
-        // Check for external file changes periodically
-        if (macroCheckTimer >= MACRO_CHECK_INTERVAL) {
-            macroCheckTimer = 0.0f;
-            if (checkForMacroChanges()) {
-                needsRefresh = true;
-            }
-        }
-        
-        // Auto-refresh macro list when needed
         if (needsRefresh) {
             refreshMacroList();
         }
         
         ImGui::Text("Select Macro:");
         
-        // Dropdown for macro selection
         if (availableMacros.empty()) {
             refreshMacroList();
         }
@@ -237,12 +226,10 @@ float getCurrentFrame() {
                 if (ImGui::Selectable(availableMacros[i].c_str(), isSelected)) {
                     selectedMacroIndex = i;
                     
-                    // If "Create New" is selected, clear the macro name field
                     if (availableMacros[i] == "+ Create New") {
                         macroBuffer[0] = '\0';
                         macroName = "";
                     } else {
-                        // Set the macro name to the selected macro
                         strncpy(macroBuffer, availableMacros[i].c_str(), sizeof(macroBuffer) - 1);
                         macroBuffer[sizeof(macroBuffer) - 1] = '\0';
                         macroName = availableMacros[i];
@@ -257,7 +244,6 @@ float getCurrentFrame() {
         
         ImGui::Spacing();
         
-        // Macro name input (for creating new or renaming)
         ImGui::Text("Macro Name:");
         if (ImGui::InputText("##MacroName", macroBuffer, sizeof(macroBuffer))) {
             macroName = std::string(macroBuffer);
@@ -265,7 +251,6 @@ float getCurrentFrame() {
         
         ImGui::Spacing();
         
-        // Action buttons
         if (ImGui::Button("Record", ImVec2(110, 30))) {
             auto* playLayer = PlayLayer::get();
             if (playLayer && playLayer->m_level) {
@@ -286,25 +271,19 @@ float getCurrentFrame() {
                         std::filesystem::create_directories(macrosPath);
                     }
                     
-                    // Your record macro logic here
-                    // Use macroFilePath as the file path
                     
-                    // Refresh the list after creating
                     needsRefresh = true;
                 } catch (const std::filesystem::filesystem_error& e) {
-                    // Handle error
                 }
             }
         }
         ImGui::SameLine();
         
         if (ImGui::Button("Append", ImVec2(110, 30))) {
-            // Your append to macro logic here
         }
         ImGui::SameLine();
         
         if (ImGui::Button("Play", ImVec2(110, 30))) {
-            // Your play macro logic here
         }
         
         ImGui::Spacing();
@@ -326,7 +305,6 @@ float getCurrentFrame() {
                             needsRefresh = true;
                         }
                     } catch (const std::filesystem::filesystem_error& e) {
-                        // Handle error
                     }
                 }
             }
@@ -346,59 +324,13 @@ float getCurrentFrame() {
         ImGui::Checkbox("Show Layout", &layoutEnabled);
         ImGui::Spacing();
         ImGui::Checkbox("Show Hitboxes", &showHitboxes);
-        ImGui::Checkbox("Noclip", &noclipEnabled);
-        ImGui::SameLine();
-        
-        if (ImGui::Button("Players")) {
-            ImGui::OpenPopup("PlayersPopup");
-        }
-        
-        if (ImGui::BeginPopup("PlayersPopup")) {
-            ImGui::Checkbox("Player 1", &noclipP1);
-            ImGui::Checkbox("Player 2", &noclipP2);
-            ImGui::EndPopup();
-        }
-        
-        ImGui::Checkbox("Speedhack", &speedhackEnabled);
-        ImGui::SameLine();
-        ImGui::SetNextItemWidth(80.0f);
-        ImGui::InputFloat("##SpeedMultiplier", &speedhackMultiplier);
-        if (speedhackMultiplier < 0.f) {
-            speedhackMultiplier = 1.f;
-        }   
-        ImGui::Separator();
-        ImGui::Checkbox("Seed Hack", &seedHackEnabled);
-        ImGui::SameLine();
-        ImGui::InputInt("##Seed", &seedValue);
-    }
-    
-    std::filesystem::path getMacroPath(const std::string& macroName) {
-        auto* playLayer = PlayLayer::get();
-        if (!playLayer || !playLayer->m_level) {
-            return std::filesystem::path();
-        }
-        
-        std::string levelname = playLayer->m_level->m_levelName;
-        std::filesystem::path macrosPath = Mod::get()->getSettingValue<std::filesystem::path>("autosaves_folder");
-        return macrosPath / fmt::format("autosave_{}_{}", levelname, macroName);
-    }
-    
-    class $modify(MacroRefreshHook, PlayLayer) {
-        bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
-            if (!PlayLayer::init(level, useReplay, dontCreateObjects)) {
-                return false;
-            }
-            needsRefresh = true; 
-            return true;
-        }
-    };
-    
+    }    
     void renderHacksTab()
     {
         ImGui::Columns(2, "HacksColumns", false); 
         ImGui::SetColumnWidth(0, 200.0f);
         ImGui::SetColumnWidth(1, 200.0f);
-    
+        
         ImGui::Text("Respawn Time");
         ImGui::SameLine();
         ImGui::SetNextItemWidth(80.0f);
@@ -448,7 +380,7 @@ float getCurrentFrame() {
         } else if (decimalPlaces > 20){
             decimalPlaces = 1;
         }
-
+        
     }
     void renderAssists()
     {
@@ -889,3 +821,23 @@ float getCurrentFrame() {
         }
     };
     #endif
+    std::filesystem::path getMacroPath(const std::string& macroName) {
+        auto* playLayer = PlayLayer::get();
+        if (!playLayer || !playLayer->m_level) {
+            return std::filesystem::path();
+        }
+        
+        std::string levelname = playLayer->m_level->m_levelName;
+        std::filesystem::path macrosPath = Mod::get()->getSettingValue<std::filesystem::path>("autosaves_folder");
+        return macrosPath / fmt::format("autosave_{}_{}", levelname, macroName);
+    }
+    
+    class $modify(MacroRefreshHook, PlayLayer) {
+        bool init(GJGameLevel* level, bool useReplay, bool dontCreateObjects) {
+            if (!PlayLayer::init(level, useReplay, dontCreateObjects)) {
+                return false;
+            }
+            needsRefresh = true;
+            return true;
+        }
+    };
