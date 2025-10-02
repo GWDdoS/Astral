@@ -119,7 +119,7 @@ float getCurrentFrame() {
         static std::string macroName = "";
         static char macroBuffer[256] = "";
         
-        if (needsRefresh) {
+        /*if (needsRefresh) {
             refreshMacroList();
         }
         
@@ -129,10 +129,9 @@ float getCurrentFrame() {
             refreshMacroList();
         }
         
-<<<<<<< Updated upstream
         ImGui::SetNextItemWidth(200);
         if (ImGui::BeginCombo("##MacroSelect", availableMacros[selectedMacroIndex].c_str())) {
-            for (int i = 0; i < availableMacros.size(); i++) {
+            for (int i = 0; i < availableMacros.size(); i++) {-
                 bool isSelected = (selectedMacroIndex == i);
                 if (ImGui::Selectable(availableMacros[i].c_str(), isSelected)) {
                     selectedMacroIndex = i;
@@ -157,11 +156,8 @@ float getCurrentFrame() {
             ImGui::EndCombo();
         }
         
-=======
-
->>>>>>> Stashed changes
         ImGui::Spacing();
-        
+        */
         ImGui::Text("Macro Name:");
         if (ImGui::InputText("##MacroName", macroBuffer, sizeof(macroBuffer))) {
             macroName = std::string(macroBuffer);
@@ -216,7 +212,6 @@ float getCurrentFrame() {
             Mod::get()->setSavedValue("speed-hack-multiplier", speedhackMultiplier);
         }
         ImGui::Spacing();
-<<<<<<< Updated upstream
         if (ImGui::Checkbox("Seedhack", &seedHackEnabled)) {
             Mod::get()->setSavedValue("seed-hack-enabled", seedHackEnabled);
         }
@@ -236,35 +231,6 @@ float getCurrentFrame() {
         if (ImGui::Checkbox("Show Hitboxes", &showHitboxes)) {
             Mod::get()->setSavedValue("show-hitboxes", showHitboxes);
         }
-=======
-        ImGui::Checkbox("Show Hitboxes", &showHitboxes);
-        ImGui::Spacing();
-        if (ImGui::Checkbox("Noclip", &noclipEnabled)) {
-            Mod::get()->setSavedValue("noclip-enabled", noclipEnabled);
-        }
-        ImGui::SameLine();
-        if (ImGui::Button("Players")) {
-            ImGui::OpenPopup("NoclipPlayersPopup");
-        }
-        if (ImGui::BeginPopup("NoclipPlayersPopup")) {
-            if (ImGui::Checkbox("Player 1", &noclipP1)) {
-                Mod::get()->setSavedValue("noclip-p1", noclipP1);
-            }
-            if (ImGui::Checkbox("Player 2", &noclipP2)) {
-                Mod::get()->setSavedValue("noclip-p2", noclipP2);
-            }
-            ImGui::EndPopup();
-        }
-        ImGui::Checkbox("Speedhack Enabled", &speedhackEnabled);
-        ImGui::SameLine();
-        ImGui::InputFloat("Speedhack", &speedhackMultiplier);
-        if (speedhackMultiplier <= 0.f) {
-            speedhackMultiplier = 1.0f;
-        }
-        ImGui::Checkbox("Seed Hack Enabled", &seedHackEnabled);
-        ImGui::SameLine();
-        ImGui::InputFloat("Seed", &seedValue);
->>>>>>> Stashed changes
     }    
     void renderHacksTab()
     {
