@@ -55,6 +55,7 @@ extern float speedValue;
 extern float respawnDelay;
 extern float frameCount;
 extern float fpsValue;
+extern float seedValue;
 
 // Ints
 extern int selectedKeybind;
@@ -65,7 +66,6 @@ extern int fontList;
 extern int fontType;
 extern int currentTab;
 extern int decimalPlaces;
-extern int seedValue;
 
 // IDK
 extern const int backgroundThemeNamesCount;

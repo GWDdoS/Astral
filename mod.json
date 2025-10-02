@@ -40,6 +40,12 @@
 					}
 				]
 			}
+		},
+		"autosaves_folder": {
+			"type": "folder",
+			"name": "Autosaves Folder Path",
+			"description": "The path of the folder for autosaves",
+			"default": "{mod_save_dir}/autosaves"
 		}
 	},
 	"dependencies": {

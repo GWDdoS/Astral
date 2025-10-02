@@ -30,7 +30,7 @@ class $modify(NoDashBoomHook, PlayerObject) {
         auto dashBoomSprite = getChildBySpriteFrameName(m_gameLayer->m_objectLayer, "playerDash2_boom2_001.png");
         auto oldVisible = dashBoomSprite->isVisible();
         
-        if (noDashBoom) {
+        if (noOrbEffectEnabled && noDashBoom) {
             if (dashBoomSprite) {
                 dashBoomSprite->setVisible(false);
             }

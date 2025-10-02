@@ -230,7 +230,7 @@ float getCurrentFrame() {
                         macroBuffer[0] = '\0';
                         macroName = "";
                     } else {
-                        strncpy(macroBuffer, availableMacros[i].c_str(), sizeof(macroBuffer) - 1);
+                        strncpy_s(macroBuffer, availableMacros[i].c_str(), sizeof(macroBuffer) - 1);
                         macroBuffer[sizeof(macroBuffer) - 1] = '\0';
                         macroName = availableMacros[i];
                     }
@@ -317,13 +317,56 @@ float getCurrentFrame() {
         if (tpsValue < 0.f) {
             tpsValue = 240.f;
         }
-        ImGui::Checkbox("Show Trajectory", &trajectoryEnabled);
+        if (ImGui::Checkbox("Show Trajectory", &trajectoryEnabled)) {
+            Mod::get()->setSavedValue("trajectory-enabled", trajectoryEnabled);
+        }
         ImGui::Spacing();
-        ImGui::Checkbox("Frame Stepper", &framestepEnabled);
+        if (ImGui::Checkbox("Noclip", &noclipEnabled)) {
+            Mod::get()->setSavedValue("noclip-enabled", noclipEnabled);
+        }
+        ImGui::SameLine();
+        if (ImGui::Button("Players")) {
+            ImGui::OpenPopup("NoclipPlayersPopup");
+        }
+        if (ImGui::BeginPopup("NoclipPlayersPopup")) {
+            if (ImGui::Checkbox("Player 1", &noclipP1)) {
+                Mod::get()->setSavedValue("noclip-p1", noclipP1);
+            }
+            if (ImGui::Checkbox("Player 2", &noclipP2)) {
+                Mod::get()->setSavedValue("noclip-p2", noclipP2);
+            }
+            ImGui::EndPopup();
+        }
         ImGui::Spacing();
-        ImGui::Checkbox("Show Layout", &layoutEnabled);
+        if (ImGui::Checkbox("Speedhack", &speedhackEnabled)) {
+            Mod::get()->setSavedValue("speedhack-enabled", speedhackEnabled);
+        }
+        ImGui::SameLine();
+        if (ImGui::InputFloat("Multiplier", &speedhackMultiplier)) {
+            if (speedhackMultiplier <= 0.f) {
+                speedhackMultiplier = 1.0f;
+            }
+            Mod::get()->setSavedValue("speed-hack-multiplier", speedhackMultiplier);
+        }
         ImGui::Spacing();
-        ImGui::Checkbox("Show Hitboxes", &showHitboxes);
+        if (ImGui::Checkbox("Seedhack", &seedHackEnabled)) {
+            Mod::get()->setSavedValue("seed-hack-enabled", seedHackEnabled);
+        }
+        ImGui::SameLine();
+        if (ImGui::InputFloat("Seed", &seedValue)) {
+            Mod::get()->setSavedValue("seed-value", seedValue);
+        }
+        if (ImGui::Checkbox("Frame Stepper", &framestepEnabled)) {
+            Mod::get()->setSavedValue("frame-stepper-enabled", framestepEnabled);
+        }
+        ImGui::Spacing();
+        if (ImGui::Checkbox("Show Layout", &layoutEnabled)) {
+            Mod::get()->setSavedValue("layout-mode-enabled", layoutEnabled);
+        }
+        ImGui::Spacing();
+        if (ImGui::Checkbox("Show Hitboxes", &showHitboxes)) {
+            Mod::get()->setSavedValue("show-hitboxes", showHitboxes);
+        }
     }    
     void renderHacksTab()
     {
@@ -334,22 +377,33 @@ float getCurrentFrame() {
         ImGui::Text("Respawn Time");
         ImGui::SameLine();
         ImGui::SetNextItemWidth(80.0f);
-        ImGui::InputFloat("##RespawnDelay", &respawnDelay);
-        if (respawnDelay < 0.f) {
-            respawnDelay = 1.f;
-        } else if (respawnDelay > 2.f){
-            respawnDelay = 1.f;
+        if (ImGui::InputFloat("##RespawnDelay", &respawnDelay)) {
+            if (respawnDelay < 0.f) {
+                respawnDelay = 1.f;
+            } else if (respawnDelay > 2.f){
+                respawnDelay = 1.f;
+            }
+            Mod::get()->setSavedValue<float>("respawn-delay", respawnDelay);
         }
         ImGui::Spacing();
-        ImGui::Checkbox("Safe Mode", &safeMode);
+        if (ImGui::Checkbox("Safe Mode", &safeMode)) {
+            Mod::get()->setSavedValue("safe-mode", safeMode);
+        }
         ImGui::NextColumn();
         
-        ImGui::Checkbox("No Death Effect", &noDeathEffect);
-        ImGui::Checkbox("No Respawn Flash", &noRespawnFlash);
+        if (ImGui::Checkbox("No Death Effect", &noDeathEffect)) {
+            Mod::get()->setSavedValue("no-death-effect", noDeathEffect);
+        }
+        if (ImGui::Checkbox("No Respawn Flash", &noRespawnFlash)) {
+            Mod::get()->setSavedValue("no-respawn-flash", noRespawnFlash);
+        }
         if (ImGui::Checkbox("No Ghost Trail", &ghostTrail)) {
             updateGhostTrail();
+            Mod::get()->setSavedValue("ghost-trail", ghostTrail);
         }
-        ImGui::Checkbox("No Orb Effects", &noOrbEffectEnabled);
+        if (ImGui::Checkbox("No Orb Effects", &noOrbEffectEnabled)) {
+            Mod::get()->setSavedValue("no-orb-effects", noOrbEffectEnabled);
+        }
         ImGui::SameLine();
         
         if (ImGui::Button("Effects")) {
@@ -357,22 +411,42 @@ float getCurrentFrame() {
         }
         
         if (ImGui::BeginPopup("OrbEffectsPopup")) {
-            ImGui::Checkbox("No Orb Ring", &noOrbRing);
-            ImGui::Checkbox("No Orb Hit Effect", &noOrbHitEffect);
-            ImGui::Checkbox("No Dash Boom", &noDashBoom);
+            if (ImGui::Checkbox("No Orb Ring", &noOrbRing)) {
+                Mod::get()->setSavedValue("no-orb-ring", noOrbRing);
+            }
+            if (ImGui::Checkbox("No Orb Hit Effect", &noOrbHitEffect)) {
+                Mod::get()->setSavedValue("no-orb-hit-effect", noOrbHitEffect);
+            }
+            if (ImGui::Checkbox("No Dash Boom", &noDashBoom)) {
+                Mod::get()->setSavedValue("no-dash-boom", noDashBoom);
+            }
             ImGui::EndPopup();
         }
         
         ImGui::Spacing();
-        ImGui::Checkbox("No Dash Fire", &noDashFire);
-        ImGui::Checkbox("No Shaders", &noShaders);
-        ImGui::Checkbox("No Mirror", &noMirror);
-        ImGui::Checkbox("Instant Mirror", &instantMirror);   
-        ImGui::Checkbox("Keep Wave On", &keepWaveEnabled);     
+        if (ImGui::Checkbox("No Dash Fire", &noDashFire)) {
+            Mod::get()->setSavedValue("no-dash-fire", noDashFire);
+        }
+        if (ImGui::Checkbox("No Shaders", &noShaders)) {
+            Mod::get()->setSavedValue("no-shaders", noShaders);
+        }
+        if (ImGui::Checkbox("No Mirror", &noMirror)) {
+            Mod::get()->setSavedValue("no-mirror", noMirror);
+        }
+        if (ImGui::Checkbox("Instant Mirror", &instantMirror)) {
+            Mod::get()->setSavedValue("instant-mirror", instantMirror);
+        }
+        if (ImGui::Checkbox("Keep Wave On", &keepWaveEnabled)) {
+            Mod::get()->setSavedValue("keep-wave-on", keepWaveEnabled);
+        }
         ImGui::Columns(1);
         ImGui::Separator();
-        ImGui::Checkbox("Unlock Everything", &unlockEverything);
-        ImGui::Checkbox("Accurate Percentage", &accuratePercentage);
+        if (ImGui::Checkbox("Unlock Everything", &unlockEverything)) {
+            Mod::get()->setSavedValue("unlock-everything", unlockEverything);
+        }
+        if (ImGui::Checkbox("Accurate Percentage", &accuratePercentage)) {
+            Mod::get()->setSavedValue("accurate-percentage", accuratePercentage);
+        }
         ImGui::SameLine();
         ImGui::InputInt("##DecimalPlaces", &decimalPlaces);
         if (decimalPlaces < 0) {

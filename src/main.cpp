@@ -10,8 +10,8 @@ Breuhh is also a boykisser and a list helper. (de3am told me to put this)
 
 // The unholy list of vars
 // bools
-bool noclipP1 = false;
-bool noclipP2 = false;
+bool noclipP1 = true;
+bool noclipP2 = true;
 bool shouldNoclip = false;
 bool noclipEnabled = false;
 bool recording = false;
@@ -71,6 +71,41 @@ cocos2d::enumKeyCodes capturedCustomKey = cocos2d::enumKeyCodes::KEY_Alt;
 #endif
 
 
+void loadSettings() {
+    auto* mod = Mod::get();
+    // Bools
+    safeMode = mod->getSavedValue<bool>("safe-mode", false);
+    noDeathEffect = mod->getSavedValue<bool>("no-death-effect", false);
+    noRespawnFlash = mod->getSavedValue<bool>("no-respawn-flash", false);
+    ghostTrail = mod->getSavedValue<bool>("ghost-trail", false);
+    noOrbEffectEnabled = mod->getSavedValue<bool>("no-orb-effects", false);
+    noOrbRing = mod->getSavedValue<bool>("no-orb-ring", false);
+    noOrbHitEffect = mod->getSavedValue<bool>("no-orb-hit-effect", false);
+    noDashBoom = mod->getSavedValue<bool>("no-dash-boom", false);
+    noDashFire = mod->getSavedValue<bool>("no-dash-fire", false);
+    noShaders = mod->getSavedValue<bool>("no-shaders", false);
+    noMirror = mod->getSavedValue<bool>("no-mirror", false);
+    instantMirror = mod->getSavedValue<bool>("instant-mirror", false);
+    keepWaveEnabled = mod->getSavedValue<bool>("keep-wave-on", false);
+    noclipP1 = mod->getSavedValue<bool>("noclip-p1", true);
+    noclipP2 = mod->getSavedValue<bool>("noclip-p2", true);
+    tpsEnabled = mod->getSavedValue<bool>("tps-enabled", true);
+    accuratePercentage = mod->getSavedValue<bool>("accurate-percentage", false);
+    speedhackEnabled = mod->getSavedValue<bool>("speedhack-enabled", false);
+    layoutEnabled = mod->getSavedValue<bool>("layout-mode-enabled", false);
+    showHitboxes = mod->getSavedValue<bool>("show-hitboxes", false);
+    unlockEverything = mod->getSavedValue<bool>("unlock-everything", false);
+    trajectoryEnabled = mod->getSavedValue<bool>("trajectory-enabled", false);
+    framestepEnabled = mod->getSavedValue<bool>("frame-stepper-enabled", false);
+    noclipEnabled = mod->getSavedValue<bool>("noclip-enabled", false);
+    seedHackEnabled = mod->getSavedValue<bool>("seed-hack-enabled", false);
+
+    // Floats
+    currentP = mod->getSavedValue<float>("currentp", 1.0f);
+    respawnDelay = mod->getSavedValue<float>("respawn-delay", 1.0f);
+    speedhackMultiplier = mod->getSavedValue<float>("speed-hack-multiplier", 1.0f);
+    seedValue = mod->getSavedValue<float>("seed-value", 1.0f);
+}
 
 // Ai is good for one thing, making a fucking massive list :skull:
 const char* getKeyName(cocos2d::enumKeyCodes keyCode) {
@@ -219,6 +254,7 @@ $on_mod(Loaded)
     ImGuiCocos::get().setup([]
         {
             setupImGuiStyle();
+            loadSettings();
         })
         .draw([]
             {
