@@ -230,7 +230,11 @@ float getCurrentFrame() {
                         macroBuffer[0] = '\0';
                         macroName = "";
                     } else {
+                        #ifndef GEODE_IS_MACOS 
                         strncpy_s(macroBuffer, availableMacros[i].c_str(), sizeof(macroBuffer) - 1);
+                        #elif GEODE_IS_MACOS
+                        strncpy(macroBuffer, availableMacros[i].c_str(), sizeof(macroBuffer) - 1);
+                        #endif
                         macroBuffer[sizeof(macroBuffer) - 1] = '\0';
                         macroName = availableMacros[i];
                     }
