@@ -8,7 +8,7 @@
 	},
 	"id": "astral.bot",
 	"name": "Astral",
-	"version": "1.0.0-alpha.4",
+	"version": "1.0.0-alpha.5",
 	"developers": ["Astral Team", "GWDdoS", "Argxment", "LoliGD", "slideglide"],
 	"description": "Astral: A multi-platform bot made for botting hard GD levels such as the ILL and the SLL.",
 	"resources": {
@@ -41,12 +41,6 @@
 				]
 			}
 		},
-		"autosaves_folder": {
-			"type": "folder",
-			"name": "Autosaves Folder Path",
-			"description": "The path of the folder for autosaves",
-			"default": "{mod_save_dir}/autosaves"
-		}
 	},
 	"dependencies": {
         "geode.node-ids": {

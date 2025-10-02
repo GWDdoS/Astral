@@ -2,7 +2,11 @@
 using namespace geode::prelude;
 
 bool seedHackEnabled = false;
+<<<<<<< Updated upstream:src/Logic/Hacks/LockSeed.cpp
 float seedValue = 1.0f;
+=======
+float seedValue = 1;
+>>>>>>> Stashed changes:src/Logic/Hacks/SeedHack.cpp
 class $modify(GameToolbox) {
     #ifdef GEODE_IS_WINDOWS 
     // windows code here
