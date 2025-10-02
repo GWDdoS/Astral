@@ -356,6 +356,7 @@ float getCurrentFrame() {
         if (ImGui::InputFloat("Seed", &seedValue)) {
             Mod::get()->setSavedValue("seed-value", seedValue);
         }
+        ImGui::Spacing();
         if (ImGui::Checkbox("Frame Stepper", &framestepEnabled)) {
             Mod::get()->setSavedValue("frame-stepper-enabled", framestepEnabled);
         }
