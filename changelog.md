@@ -1,3 +1,18 @@
+# 1.0.0-alpha.5
+- Made basic Betatester UI.
+- Added Frame Counter.
+    - Frame Counter Works!
+    - Broke Frame counter.
+- Added Practice Fix.
+    - Added Frame Count saving.
+    - Added FPS Value saving.
+- Added many new hacks.
+- Worked on .ast format.
+- Worked on Bot recording and Replay.
+- Added the start of the Autoclicker.
+- Reworked File System.
+- More miscellaneous stuff.
+
 # 1.0.0-alpha.4
 - Removed old ImGui settings.
 - Fixed Cmake files and Imgui Install.
