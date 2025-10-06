@@ -29,7 +29,7 @@
 			"description": "The path of the FFmpeg executable (ffmpeg.exe), required for renderer",
 			"platforms": ["win"],
 			"default": {
-				"win": "{gd_dir}/Astral/ffmpeg/ffmpeg.exe"
+				"win": "{gd_dir}/astral/ffmpeg/ffmpeg.exe"
 			},
 			"control": {
 				"dialog": "open",
