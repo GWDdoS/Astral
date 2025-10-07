@@ -1,5 +1,5 @@
 #include "includes.hpp"
-
+#include <Geode/utils/file.hpp> // geode::Result<>watchFile(std::filesystem::pathconst&file)
 using namespace geode::prelude;
 
 const char* getKeyName(cocos2d::enumKeyCodes keyCode);

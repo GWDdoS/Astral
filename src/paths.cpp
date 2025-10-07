@@ -19,3 +19,11 @@ std::filesystem::path MacrosDir() {
 std::filesystem::path CustomDir() {
     return AstralPath() / "customtest";
 }
+std::filesystem::path LogsDir() {
+    return AstralPath() / "logs";
+}
+std::ofstream file(MacrosDir() / "test.ast");
+    if (!file.is_open()) {
+        log::error("Failed to write render file");
+        return;
+    }

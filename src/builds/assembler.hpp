@@ -2,6 +2,7 @@
 #include <array>
 #include <cstdint>
 #include <vector>
+#include <stdexcept>
 
 namespace Astral::Assembler {
     namespace x86_64 {
@@ -76,9 +77,9 @@ namespace Astral::Assembler {
         constexpr std::array<uint8_t, 5> movss(XmmRegister dst, Register64 src) {
             uint8_t rex = 0x40;
             if (static_cast<uint8_t>(dst) >= 8)
-                rex |= 0x04; // REX.R bit for destination register extension
+                rex |= 0x04;
             if (static_cast<uint8_t>(src) >= 8)
-                rex |= 0x01; // REX.B bit for source register extension
+                rex |= 0x01;
 
             uint8_t modrm = (static_cast<uint8_t>(dst) & 0x7) << 3;
             modrm |= (static_cast<uint8_t>(src) & 0x7);
@@ -104,8 +105,13 @@ namespace Astral::Assembler {
             }
 
             Builder& jmp(int32_t offset, bool relative = false) {
-                // If relative is true, offset is the absolute address, and we calculate the relative jump.
-                if (relative) offset -= m_baseAddress + m_bytes.size() + 5; // 5 is the size of the jmp instruction
+                if (relative) {
+                    int64_t relOffset = static_cast<int64_t>(offset) - static_cast<int64_t>(m_baseAddress + m_bytes.size() + 5);
+                    if (relOffset < INT32_MIN || relOffset > INT32_MAX) {
+                        throw std::runtime_error("Jump offset out of range");
+                    }
+                    offset = static_cast<int32_t>(relOffset);
+                }
                 auto bytes = x86_64::jmp(offset);
                 m_bytes.insert(m_bytes.end(), bytes.begin(), bytes.end());
                 return *this;
@@ -212,8 +218,6 @@ namespace Astral::Assembler {
         constexpr int operator&(FloatRegister dst, int rhs) { return static_cast<int>(dst) & rhs; }
         constexpr int operator|(int lhs, FloatRegister dst) { return lhs | static_cast<int>(dst); }
 
-        /// @brief Form PC Relative Address:
-        /// Adds an immediate that is shifted left by 12 bits to the PC value.
         constexpr std::array<uint8_t, 4> adrp(Register dst, uint64_t addr) {
             uint32_t page = static_cast<uint32_t>(addr >> 12);
             uint32_t immlo = page & 0x3;
@@ -228,8 +232,6 @@ namespace Astral::Assembler {
             };
         }
 
-        /// @brief Add
-        /// Adds an immediate value to a register and stores the result in a destination register.
         constexpr std::array<uint8_t, 4> add(Register dst, Register src, uint64_t imm) {
             uint8_t rn = src & 0b11111;
             uint8_t sf = is_w(dst) ? 0 : 1;
@@ -237,15 +239,12 @@ namespace Astral::Assembler {
             uint16_t imm12;
 
             if (imm <= 0xFFF) {
-                // number fits in 12 bits
                 imm12 = static_cast<uint16_t>(imm);
                 sh = 0;
             } else if ((imm & 0xFFF) == 0 && (imm >> 12) <= 0xFFF) {
-                // number can be represented as a 12-bit immediate with a shift
                 imm12 = static_cast<uint16_t>(imm >> 12);
                 sh = 1;
             } else {
-                // number doesn't fit, idk just use the lower 12 bits for now
                 imm12 = static_cast<uint16_t>(imm & 0xFFF);
                 sh = 0;
             }
@@ -258,8 +257,6 @@ namespace Astral::Assembler {
             };
         }
 
-        /// @brief Move with Zero:
-        /// Move a 16-bit immediate value to a register, with a left shift.
         constexpr std::array<uint8_t, 4> movz(Register dst, uint16_t imm, uint8_t shift = 0) {
             uint8_t sf = is_w(dst) ? 0 : 1;
             uint8_t hw = shift / 16;
@@ -267,13 +264,11 @@ namespace Astral::Assembler {
             return {
                 static_cast<uint8_t>(((imm & 0b111) << 5) | (dst & 0b11111)),
                 static_cast<uint8_t>(imm >> 3),
-                static_cast<uint8_t>(0b10000000 | (hw << 5) | imm >> 11),
+                static_cast<uint8_t>(0b10000000 | (hw << 5) | (imm >> 11)),
                 static_cast<uint8_t>((sf << 7) | 0b1010010)
             };
         }
 
-        /// @brief Move wide with keep:
-        /// Move a 16-bit immediate value to a register, with a left shift, keeping the rest of the register.
         constexpr std::array<uint8_t, 4> movk(Register dst, uint16_t imm, uint8_t shift = 0) {
             uint8_t sf = is_w(dst) ? 0 : 1;
             uint8_t hw = shift / 16;
@@ -281,24 +276,18 @@ namespace Astral::Assembler {
             return {
                 static_cast<uint8_t>(((imm & 0b111) << 5) | (dst & 0b11111)),
                 static_cast<uint8_t>(imm >> 3),
-                static_cast<uint8_t>(0b10000000 | (hw << 5) | imm >> 11),
+                static_cast<uint8_t>(0b10000000 | (hw << 5) | (imm >> 11)),
                 static_cast<uint8_t>((sf << 7) | 0b1110010)
             };
         }
 
-        /// @brief Load SIMD&FP Register with Immediate Offset:
-        /// LDR <St>, [<Xn|SP>{, #<pimm>}] - 32-bit variant
-        /// LDR <Dt>, [<Xn|SP>{, #<pimm>}] - 64-bit variant
         constexpr std::array<uint8_t, 4> ldr(FloatRegister rt, Register rn, uint16_t imm = 0) {
-            uint8_t size, opc;
-            uint8_t scale;
+            uint8_t size, opc, scale;
             if (is_d(rt)) {
-                // Double precision (D register) - 64-bit
                 size = 0b11;
                 opc = 0b01;
                 scale = 3;
             } else {
-                // Single precision (S register) - 32-bit
                 size = 0b10;
                 opc = 0b01;
                 scale = 2;
@@ -316,20 +305,14 @@ namespace Astral::Assembler {
             };
         }
 
-        /// @brief Load General Purpose Register with Immediate Offset:
-        /// LDR <Wt>, [<Xn|SP>{, #<pimm>}] - 32-bit variant
-        /// LDR <Xt>, [<Xn|SP>{, #<pimm>}] - 64-bit variant
         constexpr std::array<uint8_t, 4> ldr(Register rt, Register rn, uint16_t imm = 0) {
-            uint8_t size, opc;
-            uint8_t scale;
+            uint8_t size, opc, scale;
 
             if (is_w(rt)) {
-                // 32-bit W register
                 size = 0b10;
                 opc = 0b00;
                 scale = 2;
             } else {
-                // 64-bit X register
                 size = 0b11;
                 opc = 0b00;
                 scale = 3;
@@ -347,8 +330,6 @@ namespace Astral::Assembler {
             };
         }
 
-        /// @brief Branch with Immediate:
-        /// Branch to a relative address, with a signed 26-bit immediate value.
         constexpr std::array<uint8_t, 4> b(int32_t offset) {
             int32_t word_offset = offset >> 2;
             uint32_t imm26 = static_cast<uint32_t>(word_offset) & 0x3FFFFFF;
@@ -362,66 +343,40 @@ namespace Astral::Assembler {
             };
         }
 
-        /// @brief No Operation:
-        /// Instruction that does nothing, used for padding.
         constexpr std::array<uint8_t, 4> nop() {
             return {0x1F, 0x20, 0x03, 0xD5};
         }
 
-        /// @brief Helper function to move a float to a register as an immediate value. Generates 2 instructions.
-        [[nodiscard]] inline std::array<uint8_t, 8> mov_float(Register dst, float imm) {
-            auto bytes = reinterpret_cast<uint8_t*>(&imm);
-            auto instr1 = movz(dst, *reinterpret_cast<uint16_t*>(bytes));
-            auto instr2 = movk(dst, *reinterpret_cast<uint16_t*>(bytes + 2), 16);
-            return {
-                instr1[0], instr1[1], instr1[2], instr1[3],
-                instr2[0], instr2[1], instr2[2], instr2[3]
-            };
-        }
-
-        /// @brief Helper function to move a double value to a register as an immediate value. Generates 3 instructions.
-        [[nodiscard]] inline std::array<uint8_t, 12> mov_double(Register dst, double imm) {
-            uint64_t bits = *reinterpret_cast<uint64_t*>(&imm);
-            auto instr1 = movz(dst, static_cast<uint16_t>(bits >> 16), 16);
-            auto instr2 = movk(dst, static_cast<uint16_t>(bits >> 32), 32);
-            auto instr3 = movk(dst, static_cast<uint16_t>(bits >> 48), 48);
-            return {
-                instr1[0], instr1[1], instr1[2], instr1[3],
-                instr2[0], instr2[1], instr2[2], instr2[3],
-                instr3[0], instr3[1], instr3[2], instr3[3]
-            };
-        }
-
         class Builder {
         public:
-            constexpr Builder() = default;
-            explicit constexpr Builder(uintptr_t baseAddress) : m_baseAddress(baseAddress) {}
+            Builder() = default;
+            explicit Builder(uintptr_t baseAddress) : m_baseAddress(baseAddress) {}
 
-            constexpr Builder& adrp(Register dst, uint64_t addr) {
+            Builder& adrp(Register dst, uint64_t addr) {
                 auto bytes = arm64::adrp(dst, addr);
                 m_bytes.insert(m_bytes.end(), bytes.begin(), bytes.end());
                 return *this;
             }
 
-            constexpr Builder& add(Register dst, Register src, uint64_t imm) {
+            Builder& add(Register dst, Register src, uint64_t imm) {
                 auto bytes = arm64::add(dst, src, imm);
                 m_bytes.insert(m_bytes.end(), bytes.begin(), bytes.end());
                 return *this;
             }
 
-            constexpr Builder& movz(Register dst, uint16_t imm, uint8_t shift = 0) {
+            Builder& movz(Register dst, uint16_t imm, uint8_t shift = 0) {
                 auto bytes = arm64::movz(dst, imm, shift);
                 m_bytes.insert(m_bytes.end(), bytes.begin(), bytes.end());
                 return *this;
             }
 
-            constexpr Builder& movk(Register dst, uint16_t imm, uint8_t shift = 0) {
+            Builder& movk(Register dst, uint16_t imm, uint8_t shift = 0) {
                 auto bytes = arm64::movk(dst, imm, shift);
                 m_bytes.insert(m_bytes.end(), bytes.begin(), bytes.end());
                 return *this;
             }
 
-            constexpr Builder& mov(Register dst, uint64_t imm) {
+            Builder& mov(Register dst, uint64_t imm) {
                 auto bytes = arm64::movz(dst, static_cast<uint16_t>(imm & 0xFFFF));
                 m_bytes.insert(m_bytes.end(), bytes.begin(), bytes.end());
                 if (imm > 0xFFFF) {
@@ -439,27 +394,32 @@ namespace Astral::Assembler {
                 return *this;
             }
 
-            constexpr Builder& ldr(FloatRegister rt, Register rn, uint16_t imm = 0) {
+            Builder& ldr(FloatRegister rt, Register rn, uint16_t imm = 0) {
                 auto bytes = arm64::ldr(rt, rn, imm);
                 m_bytes.insert(m_bytes.end(), bytes.begin(), bytes.end());
                 return *this;
             }
 
-            constexpr Builder& ldr(Register rt, Register rn, uint16_t imm = 0) {
+            Builder& ldr(Register rt, Register rn, uint16_t imm = 0) {
                 auto bytes = arm64::ldr(rt, rn, imm);
                 m_bytes.insert(m_bytes.end(), bytes.begin(), bytes.end());
                 return *this;
             }
 
-            constexpr Builder& b(int32_t offset, bool relative = false) {
-                // If relative is true, offset is the absolute address, and we calculate the relative jump.
-                if (relative) offset -= m_baseAddress + m_bytes.size() + 4;
+            Builder& b(int32_t offset, bool relative = false) {
+                if (relative) {
+                    int64_t relOffset = static_cast<int64_t>(offset) - static_cast<int64_t>(m_baseAddress + m_bytes.size());
+                    if (relOffset < -0x8000000 || relOffset > 0x7FFFFFF) {
+                        throw std::runtime_error("Branch offset out of range");
+                    }
+                    offset = static_cast<int32_t>(relOffset);
+                }
                 auto bytes = arm64::b(offset);
                 m_bytes.insert(m_bytes.end(), bytes.begin(), bytes.end());
                 return *this;
             }
 
-            constexpr Builder& nop(size_t count = 1) {
+            Builder& nop(size_t count = 1) {
                 for (size_t i = 0; i < count; ++i) {
                     auto bytes = arm64::nop();
                     m_bytes.insert(m_bytes.end(), bytes.begin(), bytes.end());
@@ -467,26 +427,16 @@ namespace Astral::Assembler {
                 return *this;
             }
 
-            /// @brief Adds NOP instructions to make the total size of bytes equal to `byteCount`.
-            constexpr Builder& pad_nops(size_t byteCount) {
+            Builder& pad_nops(size_t byteCount) {
                 size_t currentSize = m_bytes.size();
                 if (currentSize < byteCount) {
-                    size_t nopsToAdd = (byteCount - currentSize + 3) / 4; // Each NOP is 4 bytes
+                    size_t nopsToAdd = (byteCount - currentSize + 3) / 4;
                     this->nop(nopsToAdd);
                 }
                 return *this;
             }
 
-            constexpr std::vector<uint8_t> build() { return std::move(m_bytes); }
-
-            template <size_t N>
-            consteval std::array<uint8_t, N> build_array() {
-                if (m_bytes.size() != N) throw std::runtime_error("Size mismatch!");
-
-                std::array<uint8_t, N> result{};
-                std::copy(m_bytes.begin(), m_bytes.end(), result.begin());
-                return result;
-            }
+            std::vector<uint8_t> build() { return std::move(m_bytes); }
 
         private:
             uintptr_t m_baseAddress = 0;
@@ -502,18 +452,14 @@ namespace Astral::Assembler {
             r12 = 12, sp = 13, lr = 14, pc  = 15
         };
 
-        /// @brief NOP instruction for Thumb-2 (ARMv7). 2 bytes.
         constexpr std::array<uint8_t, 2> nop_t() {
             return {0x00, 0xBF};
         }
 
-        /// @brief NOP instruction for ARMv7. 4 bytes.
         constexpr std::array<uint8_t, 4> nop() {
             return {0x00, 0x00, 0xA0, 0xE3};
         }
 
-        /// @brief MOV immediate (Thumb-2, 32-bit instruction)
-        /// MOVW <Rd>, #<imm16> - Move 16-bit immediate to register
         constexpr std::array<uint8_t, 4> movw(Register rd, uint16_t imm16) {
             uint8_t rd_bits = static_cast<uint8_t>(rd) & 0xF;
             uint8_t imm4 = (imm16 >> 12) & 0xF;
@@ -529,8 +475,6 @@ namespace Astral::Assembler {
             };
         }
 
-        /// @brief MOVT (Move Top) - Move 16-bit immediate to top half of register (Thumb-2, 32-bit instruction)
-        /// MOVT <Rd>, #<imm16> - Move immediate to bits [31:16], keeping bits [15:0]
         constexpr std::array<uint8_t, 4> movt(Register rd, uint16_t imm16) {
             uint8_t rd_bits = static_cast<uint8_t>(rd) & 0xF;
             uint8_t imm4 = (imm16 >> 12) & 0xF;
@@ -546,8 +490,6 @@ namespace Astral::Assembler {
             };
         }
 
-        /// @brief LDR immediate (Thumb, 16-bit instruction)
-        /// LDR <Rt>, [<Rn>] - Load register from memory
         constexpr std::array<uint8_t, 2> ldr(Register rt, Register rn) {
             uint8_t rt_bits = static_cast<uint8_t>(rt) & 0x7;
             uint8_t rn_bits = static_cast<uint8_t>(rn) & 0x7;

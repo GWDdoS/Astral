@@ -10,6 +10,10 @@ constexpr float MIN_TPS = 0.f;
 
 namespace Astral::Hacks::Global {
     
+    // Configuration variables (you'll need to connect these to your config system)
+    static bool tpsEnabled = true;
+
+    
     // Platform-specific tick type
     using TicksType =
         #if defined(GEODE_IS_WINDOWS) || defined(GEODE_IS_ANDROID64)
@@ -29,33 +33,39 @@ namespace Astral::Hacks::Global {
         
         static void forceDisable() {
             tpsEnabled = false;
-            // Add safeguard to prevent re-enabling if something goes wrong
         }
 
-        // Pattern matching helper - simple implementation
+        // Improved pattern matching helper
         static intptr_t findPattern(const uint8_t* data, size_t dataSize, const char* pattern) {
             std::vector<int> patternBytes;
             std::vector<bool> mask;
             
-            // Parse pattern (e.g., "FF 90 ? ? ? ? ^ F3 0F 10")
+            // Parse pattern (e.g., "FF 90 ? ? ? ? F3 0F 10")
             std::istringstream iss(pattern);
             std::string byte;
             while (iss >> byte) {
-                if (byte == "^") continue; // Skip position marker
+                if (byte == "^") continue; // Skip position marker, but don't add to pattern
                 if (byte == "?") {
                     patternBytes.push_back(0);
                     mask.push_back(false);
                 } else {
-                    patternBytes.push_back(std::stoi(byte, nullptr, 16));
-                    mask.push_back(true);
+                    try {
+                        patternBytes.push_back(std::stoi(byte, nullptr, 16));
+                        mask.push_back(true);
+                    } catch (...) {
+                        geode::log::error("Invalid pattern byte: {}", byte);
+                        return -1;
+                    }
                 }
             }
+            
+            if (patternBytes.empty()) return -1;
             
             // Search for pattern
             for (size_t i = 0; i <= dataSize - patternBytes.size(); i++) {
                 bool found = true;
                 for (size_t j = 0; j < patternBytes.size(); j++) {
-                    if (mask[j] && data[i + j] != patternBytes[j]) {
+                    if (mask[j] && data[i + j] != static_cast<uint8_t>(patternBytes[j])) {
                         found = false;
                         break;
                     }
@@ -67,25 +77,27 @@ namespace Astral::Hacks::Global {
         }
 
         bool setupPatches() {
-            auto base = reinterpret_cast<uint8_t*>(geode::base::get());
-            // Use a large enough size to search - typically games are < 100MB of code
-            size_t baseSize = 0x10000000; // 256MB should be more than enough
+            auto base = reinterpret_cast<uintptr_t>(geode::base::get());
+            auto basePtr = reinterpret_cast<uint8_t*>(base);
+            // Use a reasonable size to search
+            size_t baseSize = 0x10000000; // 256MB
 
-            intptr_t addr = -1;
+            intptr_t offset = -1;
             std::vector<uint8_t> bytes;
 
             #ifdef GEODE_IS_WINDOWS
             {
                 using namespace Astral::Assembler::x86_64;
                 // 2.2074: 0x232294
-                // Pattern: FF 90 ? ? ? ? ^ F3 0F 10 8E ? ? ? ? F3 44 0F 10
-                addr = findPattern(base, baseSize, "FF 90 ? ? ? ? F3 0F 10 8E");
+                // Pattern: FF 90 ? ? ? ? F3 0F 10 8E
+                offset = findPattern(basePtr, baseSize, "FF 90 ? ? ? ? F3 0F 10 8E");
                 
-                if (addr != -1) {
+                if (offset != -1) {
+                    uintptr_t addr = base + offset;
                     bytes = Builder(addr)
                         .movabs(Register64::rax, std::bit_cast<uint64_t>(&g_expectedTicks))
                         .mov(Register32::r11d, Register64::rax)
-                        .jmp(addr + 0x43, true)
+                        .jmp(static_cast<int32_t>(addr + 0x43), true)
                         .nop(4)
                         .build();
                 }
@@ -95,13 +107,14 @@ namespace Astral::Hacks::Global {
                 using namespace Astral::Assembler::arm64;
                 // 2.2074: 0x200C30 (iOS) / 0x119454 (macOS)
                 // Pattern: 00 19 20 1E 02 10 22 1E
-                addr = findPattern(base, baseSize, "00 19 20 1E 02 10 22 1E");
+                offset = findPattern(basePtr, baseSize, "00 19 20 1E 02 10 22 1E");
                 
-                if (addr != -1) {
+                if (offset != -1) {
+                    uintptr_t addr = base + offset;
                     bytes = Builder(addr)
                         .mov(Register::x9, std::bit_cast<uint64_t>(&g_expectedTicks))
                         .ldr(FloatRegister::s0, Register::x9)
-                        .nop(20 / 4) // 20 bytes = 5 instructions
+                        .nop(5) // 20 bytes = 5 instructions
                         .build();
                 }
             }
@@ -109,14 +122,15 @@ namespace Astral::Hacks::Global {
             {
                 using namespace Astral::Assembler::x86_64;
                 // 2.2074: 0x14233E
-                // Pattern: 0F 28 C5 F3 0F 5D 83 ? ? ? ? F3 0F 5E D8
-                addr = findPattern(base, baseSize, "0F 28 C5 F3 0F 5D 83");
+                // Pattern: 0F 28 C5 F3 0F 5D 83
+                offset = findPattern(basePtr, baseSize, "0F 28 C5 F3 0F 5D 83");
                 
-                if (addr != -1) {
+                if (offset != -1) {
+                    uintptr_t addr = base + offset;
                     bytes = Builder(addr)
                         .movabs(Register64::rax, std::bit_cast<uint64_t>(&g_expectedTicks))
                         .movss(XmmRegister::xmm0, Register64::rax)
-                        .jmp(addr + 0x36, true)
+                        .jmp(static_cast<int32_t>(addr + 0x36), true)
                         .nop(3)
                         .build();
                 }
@@ -128,15 +142,19 @@ namespace Astral::Hacks::Global {
                 // Pattern: 0B 19 2B 1E 0F 10 62 1E 00 10 2E 1E
                 auto func = dlsym(RTLD_DEFAULT, "_ZN15GJBaseGameLayer6updateEf");
                 if (func) {
-                    addr = findPattern(static_cast<const uint8_t*>(func), 0x500, "0B 19 2B 1E 0F 10 62 1E 00 10 2E 1E");
+                    auto funcPtr = static_cast<const uint8_t*>(func);
+                    offset = findPattern(funcPtr, 0x500, "0B 19 2B 1E 0F 10 62 1E 00 10 2E 1E");
                     
-                    if (addr != -1) {
-                        addr += reinterpret_cast<intptr_t>(func) - reinterpret_cast<intptr_t>(base);
+                    if (offset != -1) {
+                        uintptr_t addr = reinterpret_cast<uintptr_t>(funcPtr) + offset;
                         bytes = Builder(addr)
                             .mov(Register::x9, std::bit_cast<uint64_t>(&g_expectedTicks))
                             .ldr(Register::w0, Register::x9)
-                            .b(addr + 0x2c, true)
+                            .b(static_cast<int32_t>(addr + 0x2c), true)
                             .build();
+                        
+                        // Adjust offset for patching
+                        offset = addr - base;
                     }
                 }
             }
@@ -144,39 +162,47 @@ namespace Astral::Hacks::Global {
             {
                 using namespace Astral::Assembler::armv7;
                 // 2.2074: 0x4841BC (google) / 0x483F0C (amazon)
-                // Pattern: B7 EE C7 7A 27 EE 06 7B ^ F7 EE C7 7B 17 EE 90 0A
+                // Pattern: B7 EE C7 7A 27 EE 06 7B F7 EE C7 7B 17 EE 90 0A
                 auto func = dlsym(RTLD_DEFAULT, "_ZN15GJBaseGameLayer6updateEf");
                 if (func) {
-                    addr = findPattern(static_cast<const uint8_t*>(func), 0x500, "B7 EE C7 7A 27 EE 06 7B F7 EE C7 7B 17 EE 90 0A");
+                    auto funcPtr = static_cast<const uint8_t*>(func);
+                    offset = findPattern(funcPtr, 0x500, "B7 EE C7 7A 27 EE 06 7B F7 EE C7 7B 17 EE 90 0A");
                     
-                    if (addr != -1) {
-                        addr += reinterpret_cast<intptr_t>(func) - reinterpret_cast<intptr_t>(base);
+                    if (offset != -1) {
+                        uintptr_t addr = reinterpret_cast<uintptr_t>(funcPtr) + offset;
                         bytes = Builder(addr)
                             .mov(Register::r1, std::bit_cast<uint32_t>(&g_expectedTicks))
                             .ldr_t(Register::r0, Register::r1)
                             .nop_t()
                             .build();
+                        
+                        // Adjust offset for patching
+                        offset = addr - base;
                     }
                 }
             }
             #endif
 
-            if (addr == -1 || bytes.empty()) {
+            if (offset == -1 || bytes.empty()) {
                 geode::log::error("TPS Bypass: Failed to find patch address");
                 return false;
             }
 
-            auto patchRes = geode::Mod::get()->patch(reinterpret_cast<void*>(addr + base), bytes);
+            // Apply patch using absolute address
+            auto patchAddr = reinterpret_cast<void*>(base + offset);
+            auto patchRes = geode::Mod::get()->patch(patchAddr, bytes);
             if (!patchRes) {
                 geode::log::error("TPS Bypass: Failed to apply patch: {}", patchRes.unwrapErr());
                 return false;
             }
 
             m_mainPatch = patchRes.unwrap();
-            geode::log::info("TPS Bypass: Patch applied at offset 0x{:X}", addr);
+            geode::log::info("TPS Bypass: Patch applied at offset 0x{:X}", offset);
             
             // Start disabled
-            m_mainPatch->disable();
+            if (m_mainPatch) {
+                m_mainPatch->disable();
+            }
             return true;
         }
 
@@ -186,9 +212,6 @@ namespace Astral::Hacks::Global {
                 forceDisable();
                 return;
             }
-
-            // Setup callbacks for enabling/disabling
-            // You'll need to implement your config system's callback mechanism
         }
 
         void updateState() {
@@ -203,8 +226,10 @@ namespace Astral::Hacks::Global {
 
         static void syncFPSWithTPS(float tpsValue) {
             auto* director = cocos2d::CCDirector::sharedDirector();
-            float frameTime = 1.f / tpsValue;
-            director->setAnimationInterval(frameTime);
+            if (director && tpsValue > 0.f) {
+                float frameTime = 1.f / tpsValue;
+                director->setAnimationInterval(frameTime);
+            }
         }
     };
 
@@ -328,7 +353,7 @@ namespace Astral::Hacks::Global {
         }
     };
 
-    // Initialization function to be called from your main initialization
+    // Public API functions
     void initTPSBypass() {
         if (!s_tpsBypass) {
             s_tpsBypass = new TPSBypass();
@@ -336,18 +361,26 @@ namespace Astral::Hacks::Global {
         }
     }
 
-    // Update function to sync FPS with TPS when value changes
     void updateTPSBypass() {
         if (s_tpsBypass) {
             s_tpsBypass->updateState();
+            TPSBypass::syncFPSWithTPS(240.0f);
             
-            // Sync FPS with TPS if enabled
-            if (tpsEnabled) {
-                TPSBypass::syncFPSWithTPS(tpsValue);
-            } else {
-                // Reset to default 60 FPS
-                TPSBypass::syncFPSWithTPS(60.f);
-            }
         }
+    }
+
+    // Setters for configuration (connect these to your config system)
+    void setTPSEnabled(bool enabled) {
+        tpsEnabled = enabled;
+        updateTPSBypass();
+    }
+
+    void setTPSValue(float value) {
+        tpsValue = value;
+        updateTPSBypass();
+    }
+
+    void setFramestepEnabled(bool enabled) {
+        framestepEnabled = enabled;
     }
 }
