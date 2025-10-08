@@ -1,7 +1,5 @@
 /*
 #include "Label.hpp"
-
-#include <modules/labels/variables.hpp>
 #include "LabelContainer.hpp"
 
 namespace eclipse::hacks::Labels {

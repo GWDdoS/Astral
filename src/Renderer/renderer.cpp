@@ -7,7 +7,7 @@
 using namespace geode::prelude;
 
 void Astral::Renderer::InstallFFmpeg() {
-    std::filesystem::path FFmpegPath = AstralPath() / "ffmpeg" / "ffmpeg.exe";
+    std::filesystem::path FFmpegPath = AstralPath() / "Ffmpeg" / "ffmpeg.exe";
     web::WebRequest()
         .get("https://github.com/GMDPLUTONIC/test/releases/download/hii/ffmpeg.exe")
         .listen([FFmpegPath](auto res) {
