@@ -33,14 +33,14 @@ SeedChange
 RecordedDeath
 Frame: 4 // so the player dies on frame X(this case frame 4) and the bot knows to key playing after. This will reset the frame count but it shouldnt matter. Note the reset in frames, but different inputs
 Frame   FloatKey   BoolHold FrameEnd ClickMultipler
-1       001000     0010000           0,0,10,0,0,0// making this only a certain key IS VERY IMPORTANT hence the need for smt besides a number here to prevent float overlfow.
-2       010000     0100000           // the code above will make the input happen 10 times in 1 frame
-3       111000     1110000
+1       001000     001000           0,0,10,0,0,0// making this only a certain key IS VERY IMPORTANT hence the need for smt besides a number here to prevent float overlfow.
+2       010000     010000           // the code above will make the input happen 10 times in 1 frame
+3       111000     111000
 LoopFramesAfter:1000{ // replaces the old, loop 1 frame X times, with the better loop X, Y times
-4 111000 1110000}
+4 111000 111000}
 LoopFramesAfter for 100:          // repeats a set structure of inputs (so multiple times of inputs) for X(In this case 100, or 200 frames) frames. Here its a simple hold 1 frame wait 1 frame Hold again.
-1005    111000     1110000
-1006    000000     0000000
+1005    111000     111000
+1006    000000     000000
 // I want to make a program that will automatically detect repeates like this and merge them to be like the thing above, or detects repeats in inputs per frame and merges it into the structure above on like 36 and 64.
 
 Final Example // what the macro will actually be in the txt (uncompressed)
@@ -56,19 +56,19 @@ GWDdoS
 1
 111000
 1
-1 100000 1000000
-2 010000 0100000
-3 110000 0000000
+1 100000 100000
+2 010000 010000
+3 110000 000000
 Tps:360
 Seed:5
 4 Death
-1 001000 0010000 0,0,10,0,0,0
-2 010000 0100000
-3 111000 1110000
+1 001000 001000 0,0,10,0,0,0
+2 010000 010000
+3 111000 111000
 LoopFramesAfter:1000{
-4 111000 1110000}
+4 111000 111000}
 LoopFramesAfter:100{
-1005 111000 1110000
-1006 000000 0000000}
+1005 111000 111000
+1006 000000 000000}
 
 // the macro will end on frame 1106, where the last input would be recorded on 1106.
