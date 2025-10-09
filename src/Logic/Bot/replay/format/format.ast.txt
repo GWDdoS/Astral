@@ -18,11 +18,11 @@ Int MacroTypeVersion: 1
 
 // where the inputs will actually go. Spacing just for readability
 Frame   FloatKey   BoolHold
-1       100000     1000000
+1       100000     100000
 // frame one, key 1(W) clicks and holds
-2       010000     0100000
+2       010000     010000
 // frame two, key 2(A) starts and key 1 ends
-3       110000     0000000
+3       110000     000000
 // frame three, key 1 and 2 start and dont hold
 TPSChange
 360
